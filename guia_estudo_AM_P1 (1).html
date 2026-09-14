@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aprendizado de Máquina — Guia de estudo para a P1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3F5F8;
+    --ink:#14213D;
+    --ink-soft:#3E4A63;
+    --navy:#1D3F8C;
+    --mustard:#E0A526;
+    --mint:#2C8C6A;
+    --coral:#D2553E;
+    --line:#D5DAE3;
+    --white:#FFFFFF;
+    --mono:'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+  a{color:var(--navy)}
+  code,pre{font-family:var(--mono);font-size:.86em}
+  pre{background:#0E1B33;color:#E8EDF5;padding:14px 16px;border-radius:6px;overflow:auto;line-height:1.5;margin:10px 0 0}
+  pre .c{color:#8FA3C7}
+  pre .k{color:#F5C86A}
+  pre .s{color:#9BD8B4}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--ink);color:#DDE3EE;padding:28px 22px}
+  nav h1{font-size:15px;font-weight:600;margin:0 0 4px;color:#fff;letter-spacing:.01em}
+  nav .sub{font-size:12.5px;color:#9AA7C2;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav li{margin:0}
+  nav a{display:block;color:#C9D2E3;text-decoration:none;font-size:13.5px;padding:7px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.07);color:#fff;outline:none}
+  nav a.on{border-left-color:var(--mustard);color:#fff;background:rgba(255,255,255,.06)}
+  nav .grp{font-size:11.5px;color:#7F8CA8;margin:16px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12px;color:#9AA7C2;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  main{padding:0 0 80px}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-size:34px;line-height:1.15;margin:0 0 12px;font-weight:600;max-width:24ch}
+  .hero p{max-width:66ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px}
+  .hero .facts div{font-size:13.5px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-size:22px;color:var(--ink);font-weight:600}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1100px}
+  section h2{font-size:26px;font-weight:600;margin:0 0 6px}
+  section h3{font-size:18px;font-weight:600;margin:28px 0 8px;color:var(--navy)}
+  section h4{font-size:15px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--mustard);background:#FBF4E2;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why b{display:block;margin-bottom:2px}
+  .prova{border-left:4px solid var(--coral);background:#FBEAE6;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova b{display:block;margin-bottom:2px;color:var(--coral)}
+  .code{border-left:4px solid var(--mint);background:#E6F4EE;padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0}
+  .code b{display:block;margin-bottom:2px;color:var(--mint)}
+  .note{font-size:14px;color:var(--ink-soft);max-width:72ch}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 10px;max-width:820px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--navy)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:12px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15px;max-width:72ch}
+  .ex{background:#F7F8FB;border:1px dashed #B7C0D0;border-radius:6px;padding:12px 16px;max-width:820px;margin:12px 0;font-size:15px}
+  .ex b{display:block;margin-bottom:4px}
+
+  table{border-collapse:collapse;width:100%;max-width:820px;margin:10px 0 6px;font-size:14.5px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#E9EDF4;font-weight:600}
+  td code{background:#EEF1F6;padding:1px 5px;border-radius:3px;color:var(--ink)}
+
+  ul.tight{margin:6px 0 10px;padding-left:20px}
+  ul.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 0}
+
+  /* study order */
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:820px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:20px;color:var(--mustard);font-weight:500;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft)}
+
+  /* mind map */
+  .map{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto}
+  .map svg{width:100%;height:auto;min-width:760px;display:block}
+  .map text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+  .map .root{font-size:15px;font-weight:600;fill:#fff}
+  .map .b1{font-weight:600;fill:var(--ink)}
+  .map line{stroke:#B7C0D0;stroke-width:1.4}
+
+  /* flashcards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--mustard);font-size:18px}
+  .card[open] summary::after{content:"–"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink-soft)}
+  details.snip{margin:10px 0}
+  details.snip summary{cursor:pointer;font-weight:500;color:var(--mint)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14px;background:var(--navy);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 20px}
+    .two{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Aprendizado de Máquina</h1>
+  <div class="sub">Guia de estudo · P1 · EEP</div>
+  <ol>
+    <li><a href="#mapa">Mapa mental geral</a></li>
+    <li><a href="#ordem">Ordem de estudo</a></li>
+    <li class="grp">Módulos</li>
+    <li><a href="#m1">1 · Introdução ao AM e KDD</a></li>
+    <li><a href="#m2">2 · Dados e atributos</a></li>
+    <li><a href="#m3">3 · Exploração de dados</a></li>
+    <li><a href="#m4">4 · Pré-processamento</a></li>
+    <li><a href="#m5">5 · Redução de dimensionalidade (PCA)</a></li>
+    <li><a href="#m6">6 · Classificação e KNN</a></li>
+    <li><a href="#m7">7 · Extra: regras de associação</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#codigo">Python: colinha de funções</a></li>
+    <li><a href="#formulas">Fórmulas que caem</a></li>
+    <li><a href="#quiz">Auto-teste (flashcards)</a></li>
+    <li><a href="#ementa">O que da ementa NÃO cai</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--mustard)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--coral)"></span>Provável na prova</div>
+    <div><span style="background:var(--mint)"></span>Código Python</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <h2>Do dado bruto ao classificador: tudo que a P1 cobra, em ordem.</h2>
+  <p>Este guia foi montado a partir das aulas teóricas 2, 3, 4, 5 e 6, dos notebooks das aulas 2, 3, 5, 6 e 7 e das suas anotações. O fio condutor do curso até aqui é um pipeline: <b>entender os dados → explorar → limpar e transformar → reduzir dimensões → classificar</b>. Cada módulo abaixo é uma etapa desse pipeline.</p>
+  <div class="facts">
+    <div><b>6</b>módulos de conteúdo</div>
+    <div><b>5</b>notebooks com código cobrado</div>
+    <div><b>2</b>datasets recorrentes: cardekho e iris</div>
+    <div><b>1</b>algoritmo classificador visto: KNN</div>
+  </div>
+</div>
+
+<section id="mapa">
+  <h2>Mapa mental geral</h2>
+  <p class="note">Leia da esquerda para a direita: é a ordem em que um cientista de dados usa cada ferramenta.</p>
+  <div class="map">
+  <svg viewBox="0 0 1000 560" role="img" aria-label="Mapa mental da matéria">
+    <!-- root -->
+    <rect x="20" y="245" width="150" height="70" rx="8" fill="#1D3F8C"/>
+    <text class="root" x="95" y="274" text-anchor="middle">Aprendizado</text>
+    <text class="root" x="95" y="294" text-anchor="middle">de Máquina</text>
+    <!-- branches -->
+    <g>
+      <line x1="170" y1="280" x2="250" y2="60"/>
+      <line x1="170" y1="280" x2="250" y2="150"/>
+      <line x1="170" y1="280" x2="250" y2="240"/>
+      <line x1="170" y1="280" x2="250" y2="330"/>
+      <line x1="170" y1="280" x2="250" y2="420"/>
+      <line x1="170" y1="280" x2="250" y2="510"/>
+    </g>
+    <!-- B1 -->
+    <text class="b1" x="255" y="64">Introdução: KDD e bias indutivo</text>
+    <line x1="255" y1="70" x2="470" y2="70"/>
+    <text x="480" y="60">Supervisionado: classificação, regressão</text>
+    <text x="480" y="78">Não supervisionado: agrupamento, associação</text>
+    <text x="480" y="96">Bias de preferência × bias de representação</text>
+    <!-- B2 -->
+    <text class="b1" x="255" y="154">Dados e atributos</text>
+    <line x1="255" y1="160" x2="470" y2="160"/>
+    <text x="480" y="150">Instâncias (linhas) × atributos (colunas) × alvo</text>
+    <text x="480" y="168">Nominal, Ordinal, Intervalar, Racional</text>
+    <text x="480" y="186">Discreto × contínuo · categórico × numérico</text>
+    <!-- B3 -->
+    <text class="b1" x="255" y="244">Exploração de dados</text>
+    <line x1="255" y1="250" x2="470" y2="250"/>
+    <text x="480" y="240">Localidade: moda, média, mediana, percentil</text>
+    <text x="480" y="258">Espalhamento: intervalo, variância, desvio padrão</text>
+    <text x="480" y="276">Multivariado: covariância, correlação, scatter</text>
+    <!-- B4 -->
+    <text class="b1" x="255" y="334">Pré-processamento</text>
+    <line x1="255" y1="340" x2="470" y2="340"/>
+    <text x="480" y="330">Integração, amostragem, desbalanceamento</text>
+    <text x="480" y="348">Limpeza: ruído, outlier, ausente, inconsistente</text>
+    <text x="480" y="366">Transformação: 1-de-n, min-max, z-score</text>
+    <text x="480" y="384">Seleção de atributos: filtro, wrapper, embutida</text>
+    <!-- B5 -->
+    <text class="b1" x="255" y="424">Redução de dimensionalidade</text>
+    <line x1="255" y1="430" x2="470" y2="430"/>
+    <text x="480" y="420">Maldição da dimensionalidade</text>
+    <text x="480" y="438">PCA: padronizar → covariância → autovetores → projetar</text>
+    <text x="480" y="456">Variância explicada, loadings, scree plot</text>
+    <!-- B6 -->
+    <text class="b1" x="255" y="514">Classificação: KNN</text>
+    <line x1="255" y1="520" x2="470" y2="520"/>
+    <text x="480" y="510">Distâncias: Euclidiana, Manhattan, Minkowski, cosseno</text>
+    <text x="480" y="528">Lazy × eager · escolha do k · kd-tree · RBC</text>
+    <text x="480" y="546">train_test_split → fit → predict → accuracy_score</text>
+  </svg>
+  </div>
+</section>
+
+<section id="ordem">
+  <h2>Ordem de estudo recomendada</h2>
+  <p>Estude de cima para baixo: cada etapa usa vocabulário da anterior. O tempo sugerido supõe cerca de 10 horas totais.</p>
+  <ol class="steps">
+    <li><div><b>Vocabulário base (1 h)</b><small>Módulos 1 e 2: o que é instância, atributo, alvo, classe; tipos de atributo; supervisionado × não supervisionado. Sem isso você não lê as questões.</small></div></li>
+    <li><div><b>Exploração de dados + código de EDA (2 h)</b><small>Módulo 3 e o notebook cardekho. Saiba o que cada função (<code>head, info, describe, duplicated, nunique, corr</code>) responde e como interpretar a saída.</small></div></li>
+    <li><div><b>Pré-processamento (2 h)</b><small>Módulo 4. É o maior bloco teórico e aparece nos códigos como normalização (min-max e z-score). Foque em limpeza e transformação.</small></div></li>
+    <li><div><b>PCA (2 h)</b><small>Módulo 5. Entenda os 5 passos e o que significa "variância explicada". Pratique no notebook iris e no de commodities (aula 7).</small></div></li>
+    <li><div><b>Distâncias + KNN (2 h)</b><small>Módulo 6. Cálculo manual de distância Euclidiana e Manhattan, propriedades de métrica, como o k afeta o resultado, código completo do KNN.</small></div></li>
+    <li><div><b>Revisão com flashcards e escrever código do zero (1 h)</b><small>Feche o guia e reescreva: EDA → normalização → PCA → KNN. Se travar em alguma função, volte à colinha.</small></div></li>
+  </ol>
+</section>
+
+<section id="m1">
+  <h2>Módulo 1 · Introdução ao AM e ao processo de descoberta de conhecimento</h2>
+  <div class="why"><b>Por que estudar</b>Define o que o curso inteiro está tentando fazer: induzir um modelo a partir de exemplos e aplicá-lo a dados novos. As questões conceituais da prova (que o professor avisou que valoriza) saem daqui.</div>
+
+  <h3>Indução de hipóteses e bias indutivo</h3>
+  <p>Aprender = a partir de um <b>conjunto de exemplos</b>, induzir um <b>modelo (hipótese)</b> e aplicá-lo a <b>novos dados</b>. Todo algoritmo indutivo tem um <b>bias</b>: uma tendência a privilegiar certas hipóteses. Sem bias não há generalização, o modelo apenas decoraria os exemplos.</p>
+  <table>
+    <tr><th>Tipo de bias</th><th>O que é</th><th>Exemplo</th></tr>
+    <tr><td>De preferência (ou busca)</td><td>Como as hipóteses são procuradas no espaço; preferência de umas sobre outras</td><td>Preferir hipóteses curtas</td></tr>
+    <tr><td>De representação (ou linguagem)</td><td>Define o espaço de busca; restringe que hipóteses podem ser geradas</td><td>Só regras conjuntivas; árvore de decisão × rede neural × conjunto de regras (slide 4 da aula 4t)</td></tr>
+  </table>
+
+  <h3>Tarefas de aprendizado</h3>
+  <ul class="tight">
+    <li><b>Supervisionado</b> (há atributo alvo <code>y</code>): <b>classificação</b> (alvo discreto: doente/saudável, espécie de flor) e <b>regressão</b> (alvo numérico contínuo: preço, taxa de câmbio).</li>
+    <li><b>Não supervisionado</b> (sem alvo): <b>agrupamento</b> (clusters) e <b>associação</b> (regras "quem compra A compra B").</li>
+  </ul>
+  <div class="prova"><b>Provável na prova</b>"Dado o problema X, é classificação ou regressão? Supervisionado ou não?" Regra rápida: tem rótulo conhecido nos exemplos → supervisionado; rótulo é categoria → classificação; rótulo é número → regressão.</div>
+  <h3>O processo de descoberta de conhecimento (KDD)</h3>
+  <p>"Descoberta de conhecimento em bases de dados" é o nome do processo completo; aprendizado de máquina é a etapa central dele. As etapas clássicas, que batem exatamente com a ordem dos módulos deste guia:</p>
+  <ol class="steps">
+    <li><div><b>Seleção</b><small>Escolher os dados relevantes para o problema (quais tabelas, quais atributos, qual período).</small></div></li>
+    <li><div><b>Pré-processamento</b><small>Limpar: ruído, ausentes, duplicatas, inconsistências (Módulo 4).</small></div></li>
+    <li><div><b>Transformação</b><small>Normalizar, codificar categóricos, reduzir dimensionalidade (Módulos 4 e 5).</small></div></li>
+    <li><div><b>Mineração / aprendizado</b><small>Aplicar o algoritmo: classificação, regressão, agrupamento, associação (Módulo 6).</small></div></li>
+    <li><div><b>Interpretação e avaliação</b><small>Medir acurácia, entender o modelo e decidir se o conhecimento é útil. Frequentemente volta-se a uma etapa anterior.</small></div></li>
+  </ol>
+
+  <h3>Generalização, treino e teste</h3>
+  <p>O objetivo do aprendizado não é acertar os exemplos vistos, e sim <b>generalizar</b> para dados novos. Por isso o conjunto é dividido em <b>treino</b> (o algoritmo aprende) e <b>teste</b> (mede-se o desempenho em dados nunca vistos; nas aulas, 80%/20%). Dois fracassos típicos: <b>overfitting</b> (modelo complexo demais, decora o treino, vai mal no teste; agravado por ruído) e <b>underfitting</b> (modelo simples demais, vai mal até no treino). Os dois aparecem tanto em regressão quanto em classificação.</p>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Se o KNN só "guarda" os dados, onde está a hipótese induzida?</dt>
+      <dd>A hipótese é implícita: "a classe de um ponto é a classe majoritária dos vizinhos". O bias de representação do KNN é a geometria do espaço de atributos com a métrica de distância escolhida; o bias de preferência é "pontos próximos têm a mesma classe".</dd>
+      <dt>Prever o preço de um carro é classificação ou regressão?</dt>
+      <dd>Regressão (preço é contínuo). Prever se o carro é "caro" ou "barato" seria classificação. O mesmo dado vira problemas diferentes conforme se define o alvo.</dd>
+      <dt>Agrupar clientes é supervisionado?</dt>
+      <dd>Não: não existe rótulo conhecido; o algoritmo descobre os grupos. Se você já tivesse a etiqueta "cliente bom/ruim" e quisesse prevê-la, aí seria classificação.</dd>
+      <dt>Por que o professor insiste em "conceito"?</dt>
+      <dd>Porque a biblioteca (sklearn) esconde a matemática em uma linha. Na prova, o que diferencia é saber o que a linha faz, quando ela é inadequada e como interpretar a saída.</dd>
+    </dl>
+  </div>
+
+  <p class="note">Das suas anotações da aula 1: LLMs são modelos baseados em texto que trabalham com padrões e predições sobre grandes volumes de dados; agentes inteligentes são scripts automatizados sobre eles. Da aula 3: soberania de dados (países regulam a coleta de dados dos cidadãos, ex.: União Europeia) e o cuidado de não enviar dados reais integrais a uma IA.</p>
+</section>
+
+<section id="m2">
+  <h2>Módulo 2 · Dados: instâncias, atributos e tipos</h2>
+  <div class="why"><b>Por que estudar</b>O tipo do atributo decide quais operações e estatísticas fazem sentido (não existe "média de cor") e qual pré-processamento aplicar antes de um algoritmo.</div>
+
+  <h3>Estrutura de um conjunto de dados</h3>
+  <p>Uma tabela: cada <b>linha é uma instância</b> (objeto, exemplo: paciente<sub>i</sub>), cada <b>coluna é um atributo</b> (x<sub>i1</sub> … x<sub>im</sub>) e, no supervisionado, há uma coluna extra: o <b>atributo meta/alvo</b> (y<sub>i</sub>). Atributos podem ser <b>categóricos</b> ou <b>numéricos</b>.</p>
+
+  <h3>Os quatro tipos de atributo</h3>
+  <table>
+    <tr><th>Tipo</th><th>Operações válidas</th><th>Significado</th><th>Exemplos das aulas</th></tr>
+    <tr><td>Nominal</td><td>=, ≠</td><td>Valores são apenas nomes diferentes</td><td>cor, identificação, profissão, nome</td></tr>
+    <tr><td>Ordinal</td><td>&lt;, &gt;</td><td>Existe ordem entre valores</td><td>gosto (ruim, médio, bom), dias da semana, mancha (pequena/grande)</td></tr>
+    <tr><td>Intervalar</td><td>+, −</td><td>Diferença faz sentido; o zero é arbitrário</td><td>data, temperatura em Celsius</td></tr>
+    <tr><td>Racional</td><td>×, ÷</td><td>Razão e diferença fazem sentido; zero absoluto</td><td>peso, tamanho, idade, salário</td></tr>
+  </table>
+  <p>Outra classificação, pela <b>quantidade de valores</b>: <b>discretos</b> (finito ou enumerável; caso especial: binário; ex.: código postal, contagens) e <b>contínuos</b> (números reais; ex.: temperatura, peso, distância). Atributos complexos: <b>hierárquicos</b> (valores em hierarquia) e <b>heterogêneos</b> (ora um tipo, ora outro: data como string e inteiro).</p>
+
+  <div class="ex"><b>Teste rápido para decidir o tipo</b>
+    Faz sentido dizer que um valor é o dobro do outro? → <b>racional</b>. Não, mas faz sentido subtrair (diferença tem significado)? → <b>intervalar</b>. Não, mas dá para ordenar? → <b>ordinal</b>. Nada disso, só comparar igualdade? → <b>nominal</b>. Números que são apenas rótulos (matrícula, CEP, telefone) são nominais mesmo sendo dígitos.</div>
+
+  <h3>Como isso aparece no pandas</h3>
+  <table>
+    <tr><th>No conceito</th><th>No pandas</th><th>Observação</th></tr>
+    <tr><td>Instância</td><td>linha (índice 0..n−1)</td><td><code>df.shape[0]</code></td></tr>
+    <tr><td>Atributo</td><td>coluna</td><td><code>df.columns</code></td></tr>
+    <tr><td>Categórico (nominal/ordinal)</td><td><code>dtype == 'O'</code> (object)</td><td>Ordinal precisa ser convertido para números com ordem</td></tr>
+    <tr><td>Numérico (intervalar/racional)</td><td><code>int64</code>, <code>float64</code></td><td><code>df.select_dtypes(include=['number'])</code></td></tr>
+    <tr><td>Atributo meta</td><td>coluna escolhida como <code>y</code></td><td>Todas as outras viram <code>X</code></td></tr>
+  </table>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>"Ano de fabricação" é intervalar ou racional?</dt>
+      <dd>Intervalar: o ano 0 é arbitrário (2020 não é "o dobro" de 1010). Já "idade do veículo" (vehicle_age no cardekho) é racional: 10 anos é o dobro de 5.</dd>
+      <dt>Discreto é o mesmo que categórico?</dt>
+      <dd>Não. Discreto/contínuo fala da quantidade de valores; categórico/numérico fala da natureza. "Número de assentos" é numérico e discreto; "cor" é categórico e discreto; "peso" é numérico e contínuo.</dd>
+      <dt>Um atributo binário (sim/não) é de que tipo?</dt>
+      <dd>Nominal com dois valores (caso especial dos discretos). Converter para 0/1 é trivial e é o que os algoritmos precisam.</dd>
+      <dt>Por que o cardekho tem 6 categóricas e 7 numéricas?</dt>
+      <dd>Porque <code>df.info()</code> mostra 6 colunas <code>object</code> (car_name, brand, model, seller_type, fuel_type, transmission_type) e 7 numéricas (vehicle_age, km_driven, mileage, engine, max_power, seats, selling_price). Esse é o "resumo" pedido no exercício 1.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova (o exercício do slide 7)</b>
+    Renda mensal → racional · Número de palavras de um texto → racional (discreto) · Conteúdo de um e-mail → nominal (texto) · Número de matrícula → nominal (é identificador, não se soma) · Data de nascimento → intervalar · Código postal → nominal (discreto) · Posição em uma corrida → ordinal.</div>
+</section>
+
+<section id="m3">
+  <h2>Módulo 3 · Exploração de dados (estatística descritiva e visualização)</h2>
+  <div class="why"><b>Por que estudar</b>A exploração preliminar ajuda a escolher a técnica de pré-processamento e de aprendizado. Na prática, é o que os notebooks das aulas 2 e 3 fazem com <code>describe()</code>, <code>corr()</code> e gráficos.</div>
+
+  <h3>Medidas para dados univariados</h3>
+  <table>
+    <tr><th>Grupo</th><th>Medida</th><th>Ideia</th><th>Cuidado</th></tr>
+    <tr><td>Frequência</td><td>Proporção</td><td>Quantas vezes um valor aparece (ex.: 66% das manchas são grandes)</td><td>Muito usada para categóricos</td></tr>
+    <tr><td rowspan="4">Localidade (tendência central)</td><td>Moda</td><td>Valor mais frequente</td><td>Única medida para nominais</td></tr>
+    <tr><td>Média</td><td>x̄ = (1/m) Σ x<sub>i</sub></td><td>Sensível a outliers</td></tr>
+    <tr><td>Mediana</td><td>Valor central após ordenar (m ímpar: x<sub>(r+1)</sub>; m par: média de x<sub>r</sub> e x<sub>(r+1)</sub>)</td><td>Menos sensível a outliers; melhor se distribuição assimétrica (skewed)</td></tr>
+    <tr><td>Percentil / quartil</td><td>p-ésimo percentil: valor abaixo do qual estão p% dos dados. Q1 = P25, Q2 = mediana, Q3 = P75</td><td>Resumido no <b>boxplot</b> (mín, Q1, Q2, Q3, máx)</td></tr>
+    <tr><td rowspan="3">Espalhamento (dispersão)</td><td>Intervalo</td><td>r(x) = max(x) − min(x)</td><td>Ruim se há poucos valores extremos</td></tr>
+    <tr><td>Variância</td><td>var(v) = 1/(n−1) Σ (v<sub>i</sub> − v̄)²</td><td>n−1 é a correção de Bessel</td></tr>
+    <tr><td>Desvio padrão</td><td>√variância</td><td>Mesma unidade dos dados</td></tr>
+  </table>
+
+  <h3>Dados multivariados</h3>
+  <ul class="tight">
+    <li><b>Média de objetos com m atributos</b>: vetor de médias x̄ = (x̄<sub>1</sub>, …, x̄<sub>m</sub>).</li>
+    <li><b>Covariância</b> de dois atributos: quanto variam juntos. Depende da magnitude dos atributos. ≈ 0 → sem relação linear; positiva → um sobe, o outro sobe. O espalhamento de um conjunto é capturado pela <b>matriz de covariância</b>.</li>
+    <li><b>Correlação</b>: covariância normalizada, entre −1 e 1. Dá uma indicação clara da <b>força da relação linear</b> e é preferida à covariância para explorar dados (não depende da escala).</li>
+  </ul>
+  <p class="note">Exemplo real da aula 7: correlação de Pearson entre soybean_paranagua e soybean_pr = 0,9994 (quase a mesma série); dollar × soja = 0,82. No cardekho: max_power × selling_price = 0,75, mileage × engine = −0,63 (negativa: motor maior, consumo pior).</p>
+
+  <h3>Visualização</h3>
+  <ul class="tight">
+    <li><b>Histograma / KDE</b>: forma da distribuição de um atributo numérico (<code>sns.kdeplot</code>).</li>
+    <li><b>Gráfico de torta / barras de contagem</b>: frequências relativas de categóricos (<code>sns.countplot</code>).</li>
+    <li><b>Boxplot</b>: quartis e outliers.</li>
+    <li><b>Scatter plot</b>: ilustra correlação linear entre dois atributos; a <b>matriz de scatter plots</b> mostra todos os pares (exemplo clássico: iris, classes em cores diferentes).</li>
+    <li><b>Heatmap de correlação</b>: <code>sns.heatmap(df.corr(), annot=True)</code>.</li>
+  </ul>
+  <div class="ex"><b>Exemplo resolvido completo (idades do slide 14: 23, 9, 61, 32, 21, 48)</b>
+    Média = (23+9+61+32+21+48)/6 = 194/6 ≈ <b>32,33</b>.<br>
+    Ordenado: 9, 21, 23, 32, 48, 61 (m = 6, par) → mediana = (23+32)/2 = <b>27,5</b>.<br>
+    Moda: nenhum valor se repete (amodal). Intervalo = 61 − 9 = <b>52</b>.<br>
+    Desvios da média: −9,33; −23,33; 28,67; −0,33; −11,33; 15,67. Quadrados: 87,1; 544,4; 821,8; 0,1; 128,4; 245,4 → soma ≈ 1827,3.<br>
+    Variância = 1827,3/(6−1) ≈ <b>365,5</b>; desvio padrão ≈ <b>19,1</b>.<br>
+    Se um 9 virasse 90, a média iria para 45,8 (subiu 13) e a mediana para 40 (subiu 12,5, porque 90 empurra o segundo valor central); com m maior, a mediana quase não se moveria: é isso que "menos sensível a outliers" significa.</div>
+
+  <h3>Detalhes que os slides deixam implícitos</h3>
+  <ul class="tight">
+    <li><b>Correlação de Pearson</b>: r = cov(x,y) / (σ<sub>x</sub> σ<sub>y</sub>). Interpretação usual: |r| &gt; 0,7 forte, 0,3–0,7 moderada, &lt; 0,3 fraca. r = 0 não significa independência: só ausência de relação <i>linear</i>.</li>
+    <li><b>Correlação não é causalidade</b>: engine × max_power = 0,81 porque ambos medem "tamanho do motor", não porque um causa o outro.</li>
+    <li><b>Outlier pelo boxplot</b>: IQR = Q3 − Q1; valores abaixo de Q1 − 1,5·IQR ou acima de Q3 + 1,5·IQR são marcados como outliers. É a regra que o seaborn usa para desenhar os pontos.</li>
+    <li><b>Assimetria</b>: se média &gt; mediana, a distribuição tem cauda à direita (ex.: preços de carros, salários); se média &lt; mediana, cauda à esquerda.</li>
+    <li><b>Por que n−1 (Bessel)</b>: a variância calculada em torno da média da amostra subestima a variância da população; dividir por n−1 corrige o viés. <code>pandas</code> e <code>describe()</code> usam n−1; <code>numpy.var</code> usa n por padrão.</li>
+  </ul>
+
+  <div class="ex"><b>Como ler a saída de df.describe()</b>
+    <code>count</code> = quantos não nulos (se for menor que o total de linhas, há ausentes) · <code>mean</code>/<code>50%</code> = média e mediana (compare para ver assimetria) · <code>std</code> = desvio padrão · <code>min</code>/<code>max</code> = extremos (procure valores impossíveis, como seats = 0) · <code>25%</code>/<code>75%</code> = Q1 e Q3.</div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Qual a diferença entre histograma e KDE?</dt>
+      <dd>O histograma conta valores em caixas (bins); o KDE (kernel density estimate) suaviza essa contagem em uma curva contínua. Ambos mostram a forma da distribuição; o KDE não depende da escolha do número de caixas.</dd>
+      <dt>Para que serve olhar frequência de categóricas?</dt>
+      <dd>Para detectar classes raras e desbalanceamento (ex.: fuel_type "Electric" com pouquíssimos carros) e valores suspeitos digitados de forma diferente ("Petrol" e "petrol").</dd>
+      <dt>Covariância positiva grande significa relação forte?</dt>
+      <dd>Não necessariamente: a covariância cresce com a escala dos atributos. Preço em reais × km rodados dá covariância enorme só por causa das unidades. Só a correlação diz se a relação é forte.</dd>
+      <dt>Quando um scatter plot é melhor que a correlação?</dt>
+      <dd>Quando a relação não é linear (curva em U) ou há grupos: o número r esconde isso, o gráfico revela. A matriz de scatter plots do iris mostra que petal_length e petal_width separam as três espécies quase sozinhos, por isso o KNN da aula 6 usa só essas duas colunas.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>Dado um vetor pequeno, calcular média, mediana, moda, intervalo, variância (use o exemplo resolvido acima como modelo). E: "por que a mediana é melhor que a média quando há outliers?"</div>
+</section>
+
+<section id="m4">
+  <h2>Módulo 4 · Pré-processamento de dados</h2>
+  <div class="why"><b>Por que estudar</b>"Entra lixo, sai lixo." Dados quase nunca foram gerados para AM; o pré-processamento prepara os dados para melhorar <b>tempo, custo e qualidade</b> do algoritmo. É o bloco teórico mais extenso das aulas 3 e 4.</div>
+
+  <h3>Etapas</h3>
+  <h4>Integração</h4>
+  <p>Dados vêm de várias fontes e precisam ser combinados (data warehouse). Identificar instâncias do mesmo exemplo por um atributo comum de valor único; nomes podem diferir entre fontes; usar <b>metadados</b> (dados sobre dados). Primeiro passo típico: eliminar atributos irrelevantes (ex.: "Nome" não ajuda a prever diagnóstico).</p>
+
+  <h4>Amostragem</h4>
+  <p>Selecionar um subconjunto de objetos quando a base é grande (eficiência × acurácia). A amostra deve ser <b>representativa</b>: aproximadamente as mesmas propriedades da população original (ex.: média<sub>amostra</sub> ≈ média<sub>população</sub>). Tipos: <b>aleatória simples</b>, <b>estratificada</b> (mantém a proporção das classes) e <b>progressiva</b> (começa pequena e cresce enquanto a acurácia melhorar).</p>
+  <p><b>Dados desbalanceados</b>: número de exemplos varia muito entre classes; muitos algoritmos tendem a classificar tudo na classe majoritária. Alternativa: balanceamento artificial.</p>
+
+  <h4>Qualidade e limpeza</h4>
+  <p>Erros podem ter causa sistemática (fácil de corrigir) ou aleatória; causas: falha humana, falha na coleta, limitação do dispositivo, má-fé, alvo que muda com o tempo. Consequências: valores perdidos, objetos duplicados ou espúrios, inconsistências (pessoa com 2 m e 10 kg). A limpeza deve lidar com:</p>
+  <table>
+    <tr><th>Problema</th><th>Definição</th><th>Tratamento</th></tr>
+    <tr><td>Ruído</td><td>Valor incorreto; só se tem indício, não certeza. Pode levar a superajuste (overfitting)</td><td>Encestamento (binning/suavização), agrupamento, distância, regressão/classificação para estimar o valor verdadeiro</td></tr>
+    <tr><td>Outlier</td><td>Objeto ou valor que destoa da maioria. Ao contrário do ruído, pode ser <b>legítimo</b> (às vezes é o que se quer encontrar)</td><td>Detectar (boxplot, distância) e decidir se remove</td></tr>
+    <tr><td>Valores ausentes</td><td>Objeto sem valor em um ou mais atributos (não coletado, desconhecido, não se aplica)</td><td>Ignorar; adaptar o algoritmo; descartar o exemplo (se for o alvo ou poucos casos); substituir/estimar (imputação)</td></tr>
+    <tr><td>Inconsistentes</td><td>Violam relações conhecidas (A sempre &lt; B) ou domínio (altura negativa). Erro ou fraude</td><td>Regras de validação; verificar informação adicional</td></tr>
+    <tr><td>Redundantes</td><td>Não trazem informação nova (duplicatas, atributos com correlação 1)</td><td><code>drop_duplicates()</code>; remover atributo</td></tr>
+  </table>
+  <div class="prova"><b>Provável na prova (exercício do slide 39, aula 3t)</b>Na tabela de clientes (Nome, Profissão, Escolaridade, Altura, Salário, Situação): altura "6" e "70" são inconsistentes/ruído; "Nome" é irrelevante para prever inadimplência; médico com salário 600 destoa (possível outlier ou erro). Saiba <i>nomear</i> o tipo de problema.</div>
+
+  <h4>Transformação de dados</h4>
+  <ul class="tight">
+    <li><b>Categórico → numérico</b> (muitas técnicas só aceitam números). Com 2 valores: trivial (0/1). Ordinais: números discretos ou binários (<b>código cinza</b> 000, 010, 011, 001… ou <b>código termômetro</b> 001, 011, 111). Nominais: vetores binários <b>1-de-n</b> (one-hot; codificação canônica) ou <b>m-de-n</b>, ou frequências.</li>
+    <li><b>Numérico → ordinal (discretização)</b>: transformar valores contínuos em intervalos/categorias. Usuário define o número de categorias; algoritmo define largura/frequência dos intervalos.</li>
+    <li><b>Pseudo-atributos</b>: em vez de 1-de-n com 193 países (esparso, maldição da dimensionalidade), usar 5 pseudo-atributos: continente, PIB, população, área, temperatura média.</li>
+    <li><b>Funções simples</b>: x<sup>k</sup>, log x, e<sup>x</sup>, √x, 1/x, sen x, |x|. √, log e 1/x aproximam uma Gaussiana; log<sub>10</sub> comprime grandes intervalos.</li>
+    <li><b>Tradução</b>: hora/data → inteiro; rua → código postal.</li>
+  </ul>
+
+  <h4>Normalização (a parte que aparece nos códigos)</h4>
+  <p>Evita que um atributo com valores grandes predomine sobre os outros (essencial para distâncias e PCA).</p>
+  <table>
+    <tr><th>Técnica</th><th>Fórmula</th><th>Resultado</th><th>sklearn / pandas</th></tr>
+    <tr><td>Reescala (min-max)</td><td>x' = (x − min) / (max − min)</td><td>Intervalo [0, 1]</td><td><code>MinMaxScaler()</code> ou <code>(df-df.min())/(df.max()-df.min())</code></td></tr>
+    <tr><td>Padronização (z-score)</td><td>z = (x − μ) / σ</td><td>Média 0, desvio padrão 1</td><td><code>StandardScaler().fit_transform(df)</code></td></tr>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido: normalizar salário = (1000, 1100, 600, 2000, 1800, 900)</b>
+    Min-max: min = 600, max = 2000, amplitude = 1400. 1000 → (1000−600)/1400 = <b>0,286</b>; 2000 → 1,0; 600 → 0,0.<br>
+    Z-score: média = 7400/6 ≈ 1233,3; desvio (n−1) ≈ 543,8. 1000 → (1000−1233,3)/543,8 ≈ <b>−0,43</b>; 2000 → +1,41; 600 → −1,16.<br>
+    Repare: min-max sempre cai em [0,1]; z-score pode ser negativo e não tem limite fixo. Um outlier "esmaga" o min-max (todo o resto fica perto de 0) mas afeta menos o z-score.</div>
+
+  <div class="ex"><b>Exemplo resolvido: codificação de "Mancha" (pequena, média, grande)</b>
+    1-de-n (nominal): pequena = 100, média = 010, grande = 001.<br>
+    Termômetro (ordinal): pequena = 001, média = 011, grande = 111 (preserva a ordem: mais 1s = maior).<br>
+    Inteiro ordinal: 0, 1, 2. Cuidado: usar inteiros em um atributo <i>nominal</i> (vermelho = 0, verde = 1, azul = 2) inventa uma ordem que não existe e engana algoritmos baseados em distância.</div>
+
+  <div class="code"><b>Como isso fica no pandas/sklearn</b>
+<pre><span class="c"># one-hot (1-de-n) para nominais</span>
+df = pd.get_dummies(df, columns=[<span class="s">'fuel_type'</span>, <span class="s">'transmission_type'</span>], dtype=int)
+
+<span class="c"># ordinal com ordem explícita</span>
+df[<span class="s">'mancha'</span>] = df[<span class="s">'mancha'</span>].map({<span class="s">'pequena'</span>:0, <span class="s">'media'</span>:1, <span class="s">'grande'</span>:2})
+
+<span class="c"># valores ausentes: descartar ou imputar</span>
+df.dropna()                                            <span class="c"># descarta linhas com NaN</span>
+df[<span class="s">'mileage'</span>].fillna(df[<span class="s">'mileage'</span>].median())         <span class="c"># imputa pela mediana</span>
+
+<span class="c"># duplicatas e linhas incorretas</span>
+df = df.drop_duplicates()
+df = df.drop(df[df[<span class="s">'seats'</span>] == 0].index)
+
+<span class="c"># outliers pela regra do IQR</span>
+q1, q3 = df[<span class="s">'selling_price'</span>].quantile([0.25, 0.75]); iqr = q3 - q1
+outliers = df[(df[<span class="s">'selling_price'</span>] &lt; q1 - 1.5*iqr) | (df[<span class="s">'selling_price'</span>] &gt; q3 + 1.5*iqr)]
+
+<span class="c"># amostragem estratificada ao dividir treino/teste (mantém proporção das classes)</span>
+train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)</pre>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Min-max ou z-score: qual usar?</dt>
+      <dd>Z-score é o padrão para PCA e quando há outliers; min-max quando você precisa de um intervalo fixo [0,1] (redes neurais, comparação visual como no gráfico da aula 7). Para KNN qualquer um resolve o problema de escala.</dd>
+      <dt>Normalizo antes ou depois de dividir treino/teste?</dt>
+      <dd>Ajuste o scaler só no treino (<code>fit</code>) e aplique no teste (<code>transform</code>). Se ajustar com tudo, informação do teste "vaza" para o treino. Nos notebooks das aulas isso foi simplificado com <code>fit_transform</code> em tudo, o que é aceitável para exploração, não para avaliação séria.</dd>
+      <dt>Por que amostragem estratificada?</dt>
+      <dd>Se 95% dos exemplos são "saudável", uma amostra aleatória pequena pode não conter nenhum "doente". A estratificada sorteia dentro de cada classe mantendo a proporção; é a mais indicada para classificação.</dd>
+      <dt>Dados desbalanceados: o que acontece se eu ignorar?</dt>
+      <dd>Um classificador que responde sempre "saudável" tem 95% de acurácia e é inútil. Por isso a acurácia sozinha engana com classes desbalanceadas; balanceamento artificial (subamostrar a majoritária, superamostrar a minoritária) é a alternativa citada nos slides.</dd>
+      <dt>Remover duplicatas é sempre certo?</dt>
+      <dd>Se são registros idênticos por erro de coleta, sim (os 167 do cardekho). Se duas instâncias legitimamente iguais existem (dois carros iguais vendidos), removê-las distorce a frequência. Verifique a origem antes.</dd>
+      <dt>Qual a diferença entre agregação e seleção de atributos?</dt>
+      <dd>Seleção mantém um subconjunto das colunas originais (interpretáveis). Agregação cria colunas novas combinando as originais (PCA): mais compacto, menos interpretável.</dd>
+    </dl>
+  </div>
+
+  <h4>Maldição da dimensionalidade e seleção de atributos</h4>
+  <p>Com muitos atributos os dados ficam <b>esparsos</b>, as instâncias parecem equidistantes e o número de exemplos necessário cresce exponencialmente. Como o treinamento é fixo, reduz-se a dimensão por <b>agregação</b> (novos atributos combinando os originais, ex.: PCA) ou <b>seleção de atributos</b>.</p>
+  <table>
+    <tr><th>Abordagem</th><th>Como funciona</th><th>Prós</th><th>Contras</th></tr>
+    <tr><td>Filtro</td><td>Independe do algoritmo de AM (ex.: correlação entre atributos)</td><td>Rápido, reutilizável, escala bem</td><td>Ignora o bias do algoritmo e dependências entre atributos</td></tr>
+    <tr><td>Wrapper</td><td>Usa o próprio algoritmo de AM para avaliar subconjuntos</td><td>Melhor conjunto e melhor número de atributos para aquele algoritmo; menor erro</td><td>Caro (muitas execuções), risco de overfitting, precisa repetir para outro algoritmo</td></tr>
+    <tr><td>Embutida</td><td>Seleção feita dentro do algoritmo (ex.: árvores)</td><td>Sem custo extra</td><td>Presa ao algoritmo</td></tr>
+  </table>
+  <p>Seleção de subconjunto trata de: ponto de início, estratégia de busca, avaliação e critério de parada. Geração de subconjuntos: <b>backward</b> (começa com todos, remove um a um), <b>forward</b> (começa vazio, inclui um a um), <b>bidirecional</b>, <b>estocástica</b>. Busca: completa/exaustiva, heurística (sequencial, sem garantia de ótimo), não determinística. <b>Ordenação</b> (ranking de atributos) ≠ <b>seleção</b> (subconjunto).</p>
+</section>
+
+<section id="m5">
+  <h2>Módulo 5 · Redução de dimensionalidade: PCA</h2>
+  <div class="why"><b>Por que estudar</b>Tabelas com muitas colunas são difíceis de entender e caras de processar. PCA cria poucas "super variáveis" (componentes) que capturam a essência dos dados. Foi tema de duas aulas práticas (5 e 7) e é o assunto com mais código.</div>
+
+  <p>Ideia: embora a base tenha alta dimensionalidade, um número menor de <b>fatores latentes</b> explica os dados. Reduzir dimensionalidade <b>não é reduzir escala</b>. Ganhos: interpretabilidade e desempenho para métodos baseados em instância (KNN sofre com a maldição da dimensionalidade). Risco: perda de desempenho para alguns algoritmos.</p>
+
+  <h3>Os passos do PCA</h3>
+  <ol class="steps">
+    <li><div><b>Padronizar os dados</b><small>Z<sub>ij</sub> = (X<sub>ij</sub> − μ<sub>j</sub>) / σ<sub>j</sub>. Obrigatório: PCA é sensível à escala. <code>StandardScaler()</code>.</small></div></li>
+    <li><div><b>Matriz de covariância</b><small>C = (1/(n−1)) Zᵀ Z. Mede como cada par de atributos varia junto.</small></div></li>
+    <li><div><b>Decomposição espectral (autovalores e autovetores)</b><small>A v = λ v. Autovalores: det(C − λI) = 0. Autovetores: (C − λI) v = 0. Cada autovetor é uma direção (componente); o autovalor é a variância naquela direção.</small></div></li>
+    <li><div><b>Ranking dos autovalores</b><small>Ordenar do maior para o menor e escolher os h primeiros (n_components).</small></div></li>
+    <li><div><b>Projeção</b><small>Z<sub>h</sub> = Z Q<sub>h</sub>: os dados padronizados multiplicados pelos h autovetores escolhidos. Resultado: novas colunas PC1, PC2…</small></div></li>
+  </ol>
+
+  <h3>Como ler a saída</h3>
+  <ul class="tight">
+    <li><b>Variância explicada</b> (<code>pca.explained_variance_ratio_</code>): fração da informação em cada componente. Iris: PC1 ≈ 73%, PC2 ≈ 23% (≈ 96% em 2D). Commodities (aula 7): PC1 = 92,5%, PC2 = 5,6%, total 98,1%.</li>
+    <li><b>Scree plot</b>: barras da variância por componente; escolhe-se onde a curva "achata".</li>
+    <li><b>Loadings</b> (<code>pca.components_.T</code>): peso de cada variável original em cada componente. Contribuição (%) = loading² × 100. A variável com maior contribuição "domina" o componente.</li>
+    <li><b>Círculo de correlação</b>: correlação = autovetor × √autovalor; setas próximas ao círculo unitário são bem representadas pelos dois PCs.</li>
+  </ul>
+  <div class="ex"><b>Intuição geométrica</b>
+    Imagine os pontos de dois atributos correlacionados espalhados como um charuto inclinado (a figura dos slides). O PCA gira os eixos: o novo eixo 1 (PC1) segue o comprimento do charuto (direção de maior variância); o eixo 2 (PC2) é perpendicular, seguindo a largura. Se o charuto é fino, PC2 carrega pouca informação e pode ser descartado: dois atributos viraram um sem perder quase nada. Com 5 atributos de commodities que sobem e descem juntos (correlação &gt; 0,8), PC1 é basicamente "o nível geral dos preços", por isso explica 92,5%.</div>
+
+  <div class="ex"><b>Exemplo numérico em 2D</b>
+    Dados padronizados com matriz de covariância C = [[1, 0,8], [0,8, 1]]. Autovalores: det(C − λI) = (1−λ)² − 0,64 = 0 → λ₁ = 1,8, λ₂ = 0,2. Variância explicada por PC1 = 1,8/(1,8+0,2) = <b>90%</b>. Autovetor de λ₁: (1, 1)/√2, ou seja, PC1 = 0,707·x₁ + 0,707·x₂ (a "média" das duas variáveis); PC2 = 0,707·x₁ − 0,707·x₂ (a diferença entre elas). Os loadings são exatamente esses 0,707; contribuição de cada variável em PC1 = 0,707² = 50%.</div>
+
+  <h3>Decisões práticas</h3>
+  <ul class="tight">
+    <li><b>Quantos componentes manter?</b> Critérios usuais: variância acumulada ≥ 90–95% (com <code>np.cumsum</code>), o "cotovelo" do scree plot, ou autovalor &gt; 1 (regra de Kaiser, em dados padronizados). Para visualização, sempre 2 ou 3.</li>
+    <li><b>PCA não usa a classe.</b> É não supervisionado: as classes só entram no scatter como cor. Por isso no gráfico da aula 7 as commodities aparecem misturadas: PC1/PC2 separam níveis de preço, não "quem variou mais".</li>
+    <li><b>PCA não é seleção de atributos.</b> Todas as colunas continuam contribuindo; o que muda é a base. Se precisar de interpretabilidade, olhe os loadings para dar nome ao componente.</li>
+    <li><b>Colunas quase duplicadas</b> (soybean_paranagua × soybean_pr, r = 0,9994) são o caso ideal para PCA: viram uma só direção.</li>
+  </ul>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Os componentes têm significado físico?</dt>
+      <dd>Só o que os loadings permitirem ler. Se PC1 tem pesos parecidos e positivos em todas as variáveis, é um "índice geral"; se tem pesos positivos numas e negativos noutras, é um "contraste" entre grupos de variáveis.</dd>
+      <dt>Por que <code>pca.components_</code> precisa de <code>.T</code> para virar loadings?</dt>
+      <dd><code>components_</code> tem forma (n_componentes × n_variáveis). Transpondo fica (n_variáveis × n_componentes), que é a tabela "cada variável em cada PC" usada na aula 7.</dd>
+      <dt>O que muda entre <code>fit</code>, <code>transform</code> e <code>fit_transform</code>?</dt>
+      <dd><code>fit</code> calcula covariância e autovetores; <code>transform</code> projeta dados nesses autovetores; <code>fit_transform</code> faz os dois. Para projetar dados novos use só <code>transform</code>.</dd>
+      <dt>Reduzir dimensionalidade melhora ou piora o classificador?</dt>
+      <dd>Depende. Melhora métodos por distância (KNN) ao combater a maldição da dimensionalidade e ruído; pode piorar algoritmos que se beneficiam de atributos individuais (árvores). Por isso os slides dizem "pode acarretar perda de desempenho para alguns algoritmos".</dd>
+      <dt>Se a variância explicada total for 60%, o PCA falhou?</dt>
+      <dd>Não falhou; significa que os dados não têm uma estrutura de baixa dimensão forte (atributos pouco correlacionados). Nesse caso reduzir para 2 PCs perde muita informação: mantenha mais componentes ou não reduza.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>Listar os passos do PCA em ordem; explicar por que padronizar antes; interpretar "PC1 explica 92,5% da variância"; escrever o código de 2 componentes e imprimir a variância explicada.</div>
+  <div class="code"><b>Exercício da aula 7 (commodities do CEPEA)</b>Série mensal de dólar, soja (Paranaguá e PR) e trigo (PR e RS), 2016–2025. Passos feitos: normalização min-max → correlação de Pearson e heatmap → distâncias entre as <i>variáveis</i> (transpondo o DataFrame, <code>pdist(df.T)</code>) → variação percentual mensal em módulo (<code>pct_change().abs()</code>) → classe alvo = commodity com maior variação no mês (<code>idxmax(axis=1)</code> + mapeamento para soybean/wheat/dollar) → PCA com 2 componentes e scatter por classe.</div>
+</section>
+
+<section id="m6">
+  <h2>Módulo 6 · Aprendizado supervisionado: classificação e KNN</h2>
+  <div class="why"><b>Por que estudar</b>É o primeiro classificador do curso e o único cujo código foi feito em aula. A ementa lista "métodos lineares clássicos" e "K-vizinhos"; do que foi ministrado, o material é o KNN e a teoria de distâncias.</div>
+
+  <h3>Métodos preditivos</h3>
+  <p>Um algoritmo preditivo retorna um estimador a partir de exemplos rotulados. Rótulo discreto e não ordenado → <b>classificação</b> (função de custo: erro = 1, acerto = 0). Rótulo contínuo e ordenado → <b>regressão</b> (custo: erro quadrático médio; caso especial: séries temporais). Ambos sofrem de <b>overfitting</b> (modelo decora o treino) e <b>underfitting</b> (modelo simples demais). Algoritmos de classificação citados: árvores de decisão (C4.5), regras, redes neurais, SVM, K-NN, regressão logística, redes bayesianas.</p>
+
+  <h3>Métodos baseados em distância</h3>
+  <p>Princípio: dados similares tendem a estar na mesma região do espaço ("se anda como cachorro e late como cachorro…"). São <b>lazy (preguiçosos)</b>: não constroem modelo explícito; só olham o treino na hora de classificar. Contraste com <b>eager</b> (SVM, árvores) que usam informação global. Exemplos: KNN e Raciocínio Baseado em Casos.</p>
+
+  <h4>Similaridade × dissimilaridade</h4>
+  <p>Similaridade: quanto mais parecidos, maior o valor (geralmente em [0,1]). Dissimilaridade (distância): quanto mais diferentes, maior o valor. Para um atributo: nominal → d = 0 se p = q, senão 1; ordinal → |p − q|/(n−1); intervalar/racional → |p − q|.</p>
+
+  <h4>Distâncias entre objetos com vários atributos</h4>
+  <table>
+    <tr><th>Distância</th><th>Fórmula</th><th>Quando</th></tr>
+    <tr><td>Euclidiana (L2)</td><td>√Σ (p<sub>k</sub> − q<sub>k</sub>)²</td><td>Padrão; exige padronizar atributos em escalas diferentes</td></tr>
+    <tr><td>Minkowski</td><td>(Σ |p<sub>k</sub> − q<sub>k</sub>|<sup>r</sup>)<sup>1/r</sup></td><td>Generalização; r=1 Manhattan, r=2 Euclidiana</td></tr>
+    <tr><td>Manhattan / bloco cidade (L1)</td><td>Σ |p<sub>k</sub> − q<sub>k</sub>|</td><td>Hamming para binários; <code>metric='cityblock'</code></td></tr>
+    <tr><td>Quadrática / Chebyshev (L∞)</td><td>max |p<sub>k</sub> − q<sub>k</sub>|</td><td>Mais simples, menos precisa</td></tr>
+    <tr><td>Cosseno</td><td>(p · q) / (‖p‖ ‖q‖)</td><td>Textos: muitos atributos, esparsos, assimétricos</td></tr>
+    <tr><td>Casamento simples (binários)</td><td>(M11 + M00) / (M01 + M10 + M11 + M00)</td><td>0 e 1 igualmente importantes</td></tr>
+    <tr><td>Jaccard (binários)</td><td>M11 / (M01 + M10 + M11)</td><td>Ignora coincidências 0-0</td></tr>
+  </table>
+  <p><b>Propriedades de uma métrica</b>: d(p,q) ≥ 0 e d(p,q) = 0 só se p = q; simetria d(p,q) = d(q,p); desigualdade triangular d(p,r) ≤ d(p,q) + d(q,r). Similaridade: s(p,q) = 1 só se p = q; simétrica.</p>
+
+  <h3>1-NN e K-NN</h3>
+  <p><b>1-vizinho</b>: novo exemplo recebe a classe do exemplo mais próximo. A superfície de decisão é formada por poliedros convexos (diagrama de Voronoi). <b>K-vizinhos</b>: para cada novo exemplo, achar os k mais próximos e classificar na <b>classe majoritária</b> entre eles (para regressão: média dos vizinhos).</p>
+  <div class="two">
+    <div><h4>k muito grande</h4><ul class="tight"><li>Vizinhos podem ser muito diferentes</li><li>Predição tendenciosa à classe majoritária</li><li>Custo computacional maior</li></ul></div>
+    <div><h4>k muito pequeno</h4><ul class="tight"><li>Usa pouca informação</li><li>Previsão instável, sensível a ruído</li></ul></div>
+  </div>
+  <p>Boas práticas: <b>normalizar atributos</b>, ponderar atributos, ponderar o voto pela distância, usar k ímpar (evita empate). Limitações: lento para classificar (busca linear); soluções: seleção de atributos, <b>seleção de protótipos</b> (eliminação sequencial: descarta corretamente classificados; inserção sequencial: acrescenta os mal classificados) e estruturas de indexação como a <b>kd-tree</b> (generaliza a árvore binária de busca; cada nível particiona o espaço por um atributo discriminador). KNN é naturalmente incremental.</p>
+
+  <div class="ex"><b>Exemplo resolvido: classificar um paciente novo com KNN</b>
+    Treino (Temp, Salário/1000 → já normalizados para escala parecida):<br>
+    A (37,7; 1,0) doente · B (37,0; 1,1) saudável · C (38,2; 0,6) saudável · D (39,0; 2,0) doente · E (37,3; 1,8) saudável.<br>
+    Novo ponto N = (37,5; 1,2). Distâncias Euclidianas ao quadrado (basta comparar, a raiz não muda a ordem):<br>
+    A: (0,2)² + (0,2)² = 0,08 · B: 0,25 + 0,01 = 0,26 · C: 0,49 + 0,36 = 0,85 · D: 2,25 + 0,64 = 2,89 · E: 0,04 + 0,36 = 0,40.<br>
+    <b>k = 1</b>: vizinho A → <b>doente</b>. <b>k = 3</b>: A (doente), B (saudável), E (saudável) → maioria <b>saudável</b>. O mesmo ponto muda de classe com k: por isso k é um hiperparâmetro que se escolhe testando (validação).<br>
+    Sem normalizar, com salário em reais (1000, 1100…), a diferença de salário dominaria e a temperatura seria irrelevante: é o motivo da regra "normalizar antes do KNN".</div>
+
+  <div class="ex"><b>Exemplo resolvido: similaridade entre vetores binários</b>
+    p = (1, 0, 1, 1, 0), q = (1, 1, 1, 0, 0). M11 = 2 (posições 1 e 3), M00 = 1 (posição 5), M10 = 1 (posição 4), M01 = 1 (posição 2).<br>
+    Casamento simples = (2 + 1)/5 = 0,6. Jaccard = 2/(2 + 1 + 1) = 0,5. Jaccard é menor porque ignora o "ambos zero", útil quando 0 significa "ausente" (produtos não comprados, palavras que não aparecem).</div>
+
+  <div class="ex"><b>Exemplo resolvido: cosseno</b>
+    p = (2, 1, 0), q = (4, 2, 0): p·q = 10; ‖p‖ = √5, ‖q‖ = √20; cos = 10/(√5·√20) = 10/10 = <b>1</b>. Os vetores são "iguais" para o cosseno embora q tenha o dobro do tamanho: cosseno mede direção (proporção entre atributos), não magnitude. É por isso que serve para textos: um documento longo e um curto sobre o mesmo assunto ficam próximos.</div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>KNN tem fase de treinamento?</dt>
+      <dd>Praticamente não: <code>fit</code> só armazena X e y (por isso "preguiçoso"). Todo o custo vai para <code>predict</code>, que calcula a distância do novo ponto a todos os exemplos: O(n·d) por consulta. Kd-tree e seleção de protótipos existem para baratear isso.</dd>
+      <dt>Por que k ímpar?</dt>
+      <dd>Para evitar empate na votação com duas classes (k = 4 pode dar 2 × 2). Com três classes (iris) ainda pode empatar; o sklearn desempata pela ordem dos vizinhos. Ponderar o voto pela distância (<code>weights='distance'</code>) também reduz empates.</dd>
+      <dt>Como escolher o k na prática?</dt>
+      <dd>Testar vários valores (1, 3, 5, …, √n) e medir a acurácia em um conjunto de validação; escolher o k com melhor desempenho estável. k = 9 da aula foi uma escolha didática.</dd>
+      <dt>KNN serve para regressão?</dt>
+      <dd>Sim: em vez da classe majoritária, devolve a média (ou média ponderada pela distância) do alvo dos k vizinhos. <code>KNeighborsRegressor</code>.</dd>
+      <dt>O que é o diagrama de Voronoi do 1-NN?</dt>
+      <dd>Cada exemplo de treino "possui" a região do espaço mais próxima dele; as fronteiras entre regiões são as superfícies de decisão. Com k maior as fronteiras ficam mais suaves; com k = 1 são recortadas e sensíveis a ruído (overfitting).</dd>
+      <dt>Acurácia de 0,97 no iris é boa?</dt>
+      <dd>Sim, mas o valor muda a cada execução porque <code>train_test_split</code> sorteia o teste. Para comparar modelos fixe <code>random_state</code> ou use validação cruzada. E em classes desbalanceadas acurácia alta pode ser ilusória (ver Módulo 4).</dd>
+      <dt>Diferença entre RBC e KNN?</dt>
+      <dd>Os dois recuperam casos semelhantes. O KNN só vota a classe; o RBC recupera a <i>solução</i> do caso passado, adapta ao problema atual, e guarda o novo caso resolvido (ciclo recuperar → reutilizar → revisar → reter). RBC é um sistema; KNN é um algoritmo.</dd>
+    </dl>
+  </div>
+
+  <h3>Raciocínio Baseado em Casos (RBC)</h3>
+  <p>Resolve novos problemas <b>adaptando soluções de problemas anteriores semelhantes</b>. Não é uma tabela de busca: casos são indexados e recuperados por similaridade, depois adaptados. Um caso armazenado tem uma parte "problema/sintomas" (para indexação) e uma parte "solução". Processos: representação, indexação, armazenamento e recuperação, adaptação, avaliação e reparo. Ciclo: recuperar → reutilizar → revisar → reter.</p>
+  <div class="prova"><b>Provável na prova</b>(1) Calcular a distância Euclidiana e Manhattan entre dois pontos dados. (2) Dada uma tabela pequena e um ponto novo, classificar com k = 1 e k = 3. (3) Explicar lazy × eager. (4) Escrever/completar o código do KNN no iris e dizer o que <code>accuracy_score</code> retorna.</div>
+</section>
+
+<section id="m7">
+  <h2>Módulo 7 · Extra: regras de associação (o que a ementa lista e o material não cobriu)</h2>
+  <div class="why"><b>Por que estudar</b>Está na planilha do professor para antes da P1. Nenhum slide seu cobre, então este é o mínimo defensável: se aparecer uma questão conceitual, você responde.</div>
+  <p>Tarefa <b>não supervisionada</b> que encontra regras do tipo <b>{A} → {B}</b> em transações ("quem compra pão e leite tende a comprar manteiga"). Não há classe alvo; qualquer item pode estar de qualquer lado da regra.</p>
+  <table>
+    <tr><th>Medida</th><th>Fórmula</th><th>Responde</th></tr>
+    <tr><td>Suporte</td><td>sup(A→B) = P(A ∪ B) = transações com A e B / total</td><td>A regra é frequente?</td></tr>
+    <tr><td>Confiança</td><td>conf(A→B) = P(B | A) = sup(A ∪ B) / sup(A)</td><td>Quando A ocorre, quão frequentemente B ocorre?</td></tr>
+    <tr><td>Lift</td><td>lift(A→B) = conf(A→B) / sup(B)</td><td>A aumenta a chance de B? &gt;1 associação positiva; =1 independentes; &lt;1 negativa</td></tr>
+  </table>
+  <div class="ex"><b>Exemplo resolvido (10 transações)</b>
+    Pão em 6, leite em 5, pão e leite juntos em 4.<br>
+    sup(pão→leite) = 4/10 = <b>0,4</b> · conf(pão→leite) = 4/6 ≈ <b>0,67</b> · lift = 0,67 / 0,5 = <b>1,33</b> (comprar pão aumenta em 33% a chance de levar leite).<br>
+    Regra inversa: conf(leite→pão) = 4/5 = 0,8. Suporte é simétrico, confiança não.</div>
+  <p><b>Algoritmo Apriori</b>: gera conjuntos de itens frequentes por tamanho crescente usando a propriedade de que <i>todo subconjunto de um conjunto frequente também é frequente</i> (se {pão, leite} é raro, nem testa {pão, leite, manteiga}). Depois deriva regras dos conjuntos frequentes e filtra por confiança mínima. Parâmetros: suporte mínimo e confiança mínima. Alternativa mais rápida: FP-Growth.</p>
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Por que suporte alto e confiança alta não bastam?</dt>
+      <dd>Se leite está em 90% das compras, qualquer regra "→ leite" terá confiança alta sem dizer nada. O lift corrige isso comparando com a frequência base de B.</dd>
+      <dt>Associação × classificação?</dt>
+      <dd>Classificação prevê um atributo fixo (a classe). Associação descreve co-ocorrências entre quaisquer atributos, sem alvo, e produz muitas regras que o analista precisa filtrar.</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="codigo">
+  <h2>Python · colinha das funções usadas nas aulas</h2>
+  <p class="note">Tudo aqui apareceu nos notebooks. Os imports padrão: <code>import numpy as np, pandas as pd, matplotlib.pyplot as plt, seaborn as sns</code>.</p>
+
+  <h3>1. Análise exploratória (aulas 2 e 3, cardekho)</h3>
+  <table>
+    <tr><th>Função</th><th>Responde</th></tr>
+    <tr><td><code>pd.read_csv('arquivo.csv')</code></td><td>Carrega o CSV em um DataFrame</td></tr>
+    <tr><td><code>df.head()</code> / <code>df.tail()</code></td><td>5 primeiras / últimas linhas</td></tr>
+    <tr><td><code>df.shape</code></td><td>(linhas, colunas) — cardekho: (15411, 13)</td></tr>
+    <tr><td><code>df.columns</code></td><td>Nomes dos atributos</td></tr>
+    <tr><td><code>df.describe()</code></td><td>count, mean, std, min, 25%, 50%, 75%, max das numéricas</td></tr>
+    <tr><td><code>df.info()</code></td><td>Tipos de dados e contagem de não-nulos por coluna</td></tr>
+    <tr><td><code>df.isnull().sum()</code></td><td>Nulos por coluna</td></tr>
+    <tr><td><code>df.duplicated().sum()</code></td><td>Linhas duplicadas — cardekho: 167</td></tr>
+    <tr><td><code>df.nunique()</code></td><td>Valores únicos por coluna</td></tr>
+    <tr><td><code>df['col'].unique()</code></td><td>Categorias de uma coluna</td></tr>
+    <tr><td><code>df.drop('col', axis=1, inplace=True)</code></td><td>Remove coluna (ex.: 'Unnamed: 0')</td></tr>
+    <tr><td><code>df[df['seats'] == 0]</code></td><td>Filtra linhas com possível erro</td></tr>
+    <tr><td><code>df.groupby('fuel_type')['selling_price'].mean()</code></td><td>Média bivariada por categoria</td></tr>
+    <tr><td><code>df[numeric].corr()</code></td><td>Matriz de correlação de Pearson</td></tr>
+  </table>
+  <details class="snip"><summary>Ver: separar numéricas de categóricas + gráficos univariados</summary>
+<pre><span class="c"># numéricas × categóricas pelo dtype ('O' = object)</span>
+numeric_features = [f <span class="k">for</span> f <span class="k">in</span> df.columns <span class="k">if</span> df[f].dtype != <span class="s">'O'</span>]
+categorical_features = [f <span class="k">for</span> f <span class="k">in</span> df.columns <span class="k">if</span> df[f].dtype == <span class="s">'O'</span>]
+
+<span class="c"># distribuição de cada numérica</span>
+plt.figure(figsize=(15,15))
+<span class="k">for</span> i <span class="k">in</span> range(len(numeric_features)):
+    plt.subplot(5,3,i+1)
+    sns.kdeplot(x=df[numeric_features[i]], shade=True, color=<span class="s">'b'</span>)
+plt.tight_layout()
+
+<span class="c"># contagem de cada categórica</span>
+<span class="k">for</span> i, c <span class="k">in</span> enumerate([<span class="s">'brand'</span>,<span class="s">'seller_type'</span>,<span class="s">'fuel_type'</span>,<span class="s">'transmission_type'</span>]):
+    plt.subplot(2,2,i+1); sns.countplot(x=df[c]); plt.xticks(rotation=45)
+
+<span class="c"># heatmap de correlação</span>
+sns.heatmap(df[numeric_features].corr(), annot=True, cmap=<span class="s">'coolwarm'</span>, vmin=-1, vmax=1)</pre>
+  </details>
+
+  <h3>2. Normalização e distâncias (aula 7)</h3>
+<pre><span class="k">from</span> sklearn.preprocessing <span class="k">import</span> StandardScaler, MinMaxScaler
+<span class="k">from</span> scipy.spatial.distance <span class="k">import</span> pdist, squareform
+
+<span class="c"># min-max "na mão"</span>
+cols = df.columns.drop(<span class="s">'date'</span>)
+df_norm = df.copy()
+df_norm[cols] = (df[cols] - df[cols].min()) / (df[cols].max() - df[cols].min())
+
+<span class="c"># z-score com sklearn</span>
+numeric_df = df.drop(columns=[<span class="s">'date'</span>])
+df_z = pd.DataFrame(StandardScaler().fit_transform(numeric_df), columns=numeric_df.columns)
+
+<span class="c"># distância entre VARIÁVEIS: transpõe (.T). Sem .T seria entre linhas/instâncias</span>
+dist_array  = pdist(df_z.T, metric=<span class="s">'euclidean'</span>)   <span class="c"># ou 'cityblock' (Manhattan)</span>
+dist_matrix = squareform(dist_array)                <span class="c"># vetor condensado -> matriz simétrica</span>
+matriz = pd.DataFrame(dist_matrix, index=numeric_df.columns, columns=numeric_df.columns)</pre>
+  <p class="note">Leitura do resultado: distância pequena = variáveis parecidas (soybean_paranagua × soybean_pr = 0,38); grande = diferentes (dollar × qualquer outra ≈ 6,5). Manhattan sempre ≥ Euclidiana.</p>
+
+  <h3>3. PCA (aulas 5 e 7)</h3>
+<pre><span class="k">from</span> sklearn.preprocessing <span class="k">import</span> StandardScaler
+<span class="k">from</span> sklearn.decomposition <span class="k">import</span> PCA
+
+X_scaled = StandardScaler().fit_transform(X)          <span class="c"># 1) padronizar (obrigatório)</span>
+pca = PCA(n_components=2)                             <span class="c"># 2) quantos componentes manter</span>
+X_pca = pca.fit_transform(X_scaled)                   <span class="c"># 3) projetar</span>
+
+df_pca = pd.DataFrame(X_pca, columns=[<span class="s">'Componente Principal 1'</span>, <span class="s">'Componente Principal 2'</span>])
+df_pca[<span class="s">'classe'</span>] = y
+
+var = pca.explained_variance_ratio_                   <span class="c"># 4) quanto cada PC explica</span>
+print(f<span class="s">"CP1: {var[0]*100:.1f}%  CP2: {var[1]*100:.1f}%  Total: {sum(var)*100:.1f}%"</span>)
+
+<span class="c"># 5) importância das variáveis originais (loadings)</span>
+loadings = pd.DataFrame(pca.components_.T, columns=[<span class="s">'PC1'</span>,<span class="s">'PC2'</span>], index=feature_names)
+contrib_pc1 = (loadings[<span class="s">'PC1'</span>]**2) * 100
+print(contrib_pc1.idxmax())                           <span class="c"># variável dominante na PC1</span>
+
+<span class="c"># scatter dos componentes</span>
+sns.scatterplot(x=<span class="s">'Componente Principal 1'</span>, y=<span class="s">'Componente Principal 2'</span>, hue=<span class="s">'classe'</span>, data=df_pca)</pre>
+  <details class="snip"><summary>Ver: scree plot e criação da classe alvo (aula 7)</summary>
+<pre><span class="c"># scree plot: variância de TODOS os componentes</span>
+pca_full = PCA().fit(X_scaled)
+var_pct = pca_full.explained_variance_ratio_ * 100
+var_acum = np.cumsum(var_pct)
+plt.bar([f<span class="s">'CP{i+1}'</span> <span class="k">for</span> i <span class="k">in</span> range(len(var_pct))], var_pct)
+
+<span class="c"># classe alvo = commodity com maior variação mensal em módulo</span>
+df_var = df[[<span class="s">'dollar'</span>,<span class="s">'soybean_paranagua'</span>,<span class="s">'soybean_pr'</span>,<span class="s">'wheat_pr'</span>,<span class="s">'wheat_rs'</span>]].pct_change().abs().round(4)
+res = df_var.dropna()                               <span class="c"># 1ª linha vira NaN</span>
+res[<span class="s">'commodities'</span>] = res.idxmax(axis=1)              <span class="c"># nome da coluna com maior valor por linha</span>
+classes = {<span class="s">'soybean_paranagua'</span>:<span class="s">'soybean'</span>, <span class="s">'soybean_pr'</span>:<span class="s">'soybean'</span>, <span class="s">'wheat_pr'</span>:<span class="s">'wheat'</span>, <span class="s">'wheat_rs'</span>:<span class="s">'wheat'</span>}
+res[<span class="s">'commodities'</span>] = res[<span class="s">'commodities'</span>].replace(classes)
+df_num = df_classes.select_dtypes(include=[<span class="s">'number'</span>])  <span class="c"># só numéricas para o PCA</span></pre>
+  </details>
+
+  <h3>4. KNN completo (aula 6, iris)</h3>
+<pre><span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">from</span> sklearn.model_selection <span class="k">import</span> train_test_split
+<span class="k">from</span> sklearn.neighbors <span class="k">import</span> KNeighborsClassifier
+<span class="k">from</span> sklearn.metrics <span class="k">import</span> accuracy_score
+
+url = <span class="s">"https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"</span>
+header = [<span class="s">'sepal_length'</span>,<span class="s">'sepal_width'</span>,<span class="s">'petal_length'</span>,<span class="s">'petal_width'</span>,<span class="s">'species'</span>]
+df = pd.read_csv(url, header=None, names=header)
+print(df.groupby(<span class="s">'species'</span>).size())                  <span class="c"># distribuição das classes (50/50/50)</span>
+
+entradas = df[[<span class="s">'petal_length'</span>, <span class="s">'petal_width'</span>]]        <span class="c"># X: atributos de entrada</span>
+classes  = df[<span class="s">'species'</span>]                             <span class="c"># y: atributo alvo</span>
+
+<span class="c"># 80% treino / 20% teste</span>
+X_tr, X_te, y_tr, y_te = train_test_split(entradas, classes, test_size=0.2)
+
+modelo = KNeighborsClassifier(n_neighbors=9)         <span class="c"># k = 9</span>
+modelo.fit(X_tr, y_tr)                               <span class="c"># "treina" (KNN só guarda os dados)</span>
+pred = modelo.predict(X_te)                          <span class="c"># classifica o teste</span>
+print(<span class="s">"Acurácia:"</span>, accuracy_score(y_te, pred))       <span class="c"># acertos / total, entre 0 e 1</span>
+
+modelo.predict([[3.3, 3.2]])                         <span class="c"># exemplo novo: 2 entradas -> 1 classe</span></pre>
+  <p class="note">Sintaxe do scikit-learn: <code>fit(X, y)</code> recebe a matriz de amostras e o vetor de saídas esperadas; <code>predict(X)</code> devolve um array de classes. Vale para qualquer classificador da biblioteca.</p>
+
+  <h3>5. Erros e dúvidas frequentes no código</h3>
+  <div class="faq">
+    <dl>
+      <dt><code>SettingWithCopyWarning</code> (apareceu na aula 7). O que é?</dt>
+      <dd>Você escreveu numa fatia de DataFrame (<code>array_resultado = df_variacao.dropna()</code>) e o pandas não sabe se deve alterar o original. Não é erro; corrija com <code>.copy()</code> ao criar a fatia ou use <code>.loc[linhas, 'col'] = valor</code>.</dd>
+      <dt>Por que a primeira linha de <code>pct_change()</code> é NaN?</dt>
+      <dd>Variação percentual precisa do valor anterior; a linha 0 não tem. Por isso o <code>dropna()</code> em seguida e, ao concatenar com o df original, a linha 0 fica sem classe (o <code>NaN</code> em <code>target_names</code>).</dd>
+      <dt>Diferença entre <code>df.drop('col', axis=1)</code> e <code>df.drop(0)</code>?</dt>
+      <dd><code>axis=1</code> remove coluna; sem <code>axis</code> (ou <code>axis=0</code>) remove a linha de índice 0. <code>inplace=True</code> altera o df sem precisar reatribuir.</dd>
+      <dt>Por que <code>modelo.predict([[3.3, 3.2]])</code> tem dois colchetes?</dt>
+      <dd><code>predict</code> espera uma matriz (lista de amostras); <code>[[3.3, 3.2]]</code> é uma matriz com 1 linha e 2 colunas. <code>[3.3, 3.2]</code> seria uma lista de 2 amostras de 1 atributo e dá erro de dimensão.</dd>
+      <dt>Por que o KNN da aula usa só petal_length e petal_width?</dt>
+      <dd>Para desenhar o scatter em 2D e porque essas duas colunas já separam bem as espécies (visto na matriz de scatter). Com as 4 colunas a acurácia é parecida ou melhor.</dd>
+      <dt><code>pca.explained_variance_</code> × <code>pca.explained_variance_ratio_</code>?</dt>
+      <dd>O primeiro são os autovalores (variância absoluta de cada PC); o segundo é a fração do total, que soma 1. O círculo de correlação usa o primeiro (√autovalor); o scree plot em % usa o segundo.</dd>
+      <dt><code>df.corr()</code> deu erro por causa de uma coluna de texto. E agora?</dt>
+      <dd>Correlação só existe para numéricas: use <code>df.select_dtypes(include=['number']).corr()</code> ou <code>df.drop(columns=['date']).corr()</code>, como na aula 7.</dd>
+    </dl>
+  </div>
+</section>
+
+<section id="formulas">
+  <h2>Fórmulas que caem</h2>
+  <div class="two">
+    <div>
+      <h4>Estatística</h4>
+      <div class="formula">média: x̄ = (1/m) Σ xᵢ</div><br>
+      <div class="formula">intervalo: r(x) = max(x) − min(x)</div><br>
+      <div class="formula">variância: 1/(n−1) Σ (vᵢ − v̄)²</div><br>
+      <div class="formula">desvio padrão: √var</div><br>
+      <div class="formula">min-max: (x − min)/(max − min)</div><br>
+      <div class="formula">z-score: (x − μ)/σ</div>
+    </div>
+    <div>
+      <h4>Distâncias e PCA</h4>
+      <div class="formula">Euclidiana: √Σ (pₖ − qₖ)²</div><br>
+      <div class="formula">Manhattan: Σ |pₖ − qₖ|</div><br>
+      <div class="formula">Minkowski: (Σ |pₖ − qₖ|ʳ)^(1/r)</div><br>
+      <div class="formula">Cosseno: (p·q)/(‖p‖‖q‖)</div><br>
+      <div class="formula">Covariância: C = Zᵀ Z /(n−1)</div><br>
+      <div class="formula">Autovetor: A v = λ v · Projeção: Z_h = Z Q_h</div>
+    </div>
+  </div>
+  <h4>Exemplo resolvido</h4>
+  <p>p = (1, 2, 3) e q = (4, 6, 3). Euclidiana = √((1−4)² + (2−6)² + (3−3)²) = √(9 + 16 + 0) = 5. Manhattan = 3 + 4 + 0 = 7. Chebyshev = max(3, 4, 0) = 4.</p>
+  <p>Vetor (23, 9, 61, 32, 21, 48): média = 194/6 ≈ 32,3; ordenado (9, 21, 23, 32, 48, 61) → mediana = (23 + 32)/2 = 27,5; intervalo = 61 − 9 = 52.</p>
+</section>
+
+<section id="quiz">
+  <h2>Auto-teste · flashcards</h2>
+  <p class="note">Tente responder em voz alta antes de abrir. Se errar, volte ao módulo indicado.</p>
+  <div class="btnrow"><button type="button" onclick="document.querySelectorAll('.card').forEach(c=>c.open=false)">Fechar todas</button></div>
+  <div class="cards">
+    <details class="card"><summary>O que é bias indutivo e por que ele é necessário?</summary><div class="a">Tendência do algoritmo a privilegiar certas hipóteses. Sem bias não haveria generalização: as regras ficariam especializadas nos exemplos individuais. Tipos: de preferência (busca) e de representação (linguagem). [M1]</div></details>
+    <details class="card"><summary>Classificação × regressão × agrupamento</summary><div class="a">Classificação: alvo discreto (supervisionado). Regressão: alvo contínuo (supervisionado). Agrupamento: sem alvo, forma grupos por similaridade (não supervisionado). [M1]</div></details>
+    <details class="card"><summary>Qual o tipo de atributo de "temperatura em Celsius" e por quê não é racional?</summary><div class="a">Intervalar: diferenças fazem sentido, mas o zero é arbitrário, então 20 °C não é "duas vezes mais quente" que 10 °C. [M2]</div></details>
+    <details class="card"><summary>Quando preferir a mediana à média?</summary><div class="a">Quando a distribuição é assimétrica (skewed) ou há outliers; a média é sensível a valores extremos, a mediana não. [M3]</div></details>
+    <details class="card"><summary>Diferença entre covariância e correlação</summary><div class="a">Ambas medem se dois atributos variam juntos. A covariância depende da magnitude/escala; a correlação é normalizada em [−1, 1] e indica claramente a força da relação linear, por isso é preferida na exploração. [M3]</div></details>
+    <details class="card"><summary>O que o boxplot mostra?</summary><div class="a">Mínimo, Q1 (P25), Q2 (mediana), Q3 (P75) e máximo; pontos fora das hastes são outliers. [M3]</div></details>
+    <details class="card"><summary>Ruído × outlier</summary><div class="a">Ruído é um valor incorreto (só se tem indício). Outlier é um valor/objeto que destoa da maioria, mas pode ser legítimo; às vezes o objetivo é justamente encontrá-lo. [M4]</div></details>
+    <details class="card"><summary>Quatro alternativas para valores ausentes</summary><div class="a">Ignorar (usar só os presentes), modificar o algoritmo, descartar o exemplo (sobretudo se o ausente é o alvo), substituir/estimar o valor. [M4]</div></details>
+    <details class="card"><summary>Como converter um atributo nominal com n valores em numérico?</summary><div class="a">Codificação 1-de-n (one-hot): um vetor binário com n posições e apenas um 1. Problema: com n grande (193 países) fica esparso, maldição da dimensionalidade; alternativa: pseudo-atributos. [M4]</div></details>
+    <details class="card"><summary>Min-max × z-score: fórmula e resultado</summary><div class="a">Min-max: (x−min)/(max−min) → [0,1]. Z-score: (x−μ)/σ → média 0, desvio 1. Ambos evitam que um atributo de escala grande domine distâncias e PCA. [M4]</div></details>
+    <details class="card"><summary>Filtro × wrapper na seleção de atributos</summary><div class="a">Filtro: independe do algoritmo (ex.: correlação), rápido, mas ignora o bias do algoritmo. Wrapper: usa o próprio algoritmo para avaliar subconjuntos, menor erro, mas caro e com risco de overfitting. [M4]</div></details>
+    <details class="card"><summary>Maldição da dimensionalidade</summary><div class="a">Com muitos atributos os dados ficam esparsos, as instâncias parecem equidistantes (prejudica métodos por distância) e o número de exemplos necessário cresce exponencialmente. Solução: reduzir dimensionalidade. [M4/M5]</div></details>
+    <details class="card"><summary>Os 5 passos do PCA</summary><div class="a">1) Padronizar (z-score). 2) Matriz de covariância C = ZᵀZ/(n−1). 3) Autovalores e autovetores de C. 4) Ranquear autovalores e escolher os h maiores. 5) Projetar: Z_h = Z Q_h. [M5]</div></details>
+    <details class="card"><summary>Por que padronizar antes do PCA?</summary><div class="a">PCA maximiza variância; sem padronizar, o atributo com maior escala (ex.: preço em milhares) dominaria o primeiro componente artificialmente. [M5]</div></details>
+    <details class="card"><summary>"PC1 explica 92,5% da variância" significa…</summary><div class="a">Que uma única combinação linear das variáveis originais retém 92,5% da informação (dispersão) do conjunto; com PC2 (5,6%) chega-se a 98,1%, então 2 dimensões bastam para representar 5 variáveis. [M5]</div></details>
+    <details class="card"><summary>O que é um loading no PCA?</summary><div class="a">O peso de cada variável original em um componente (linhas de pca.components_). Contribuição % = loading² × 100; a variável de maior contribuição domina o componente. [M5]</div></details>
+    <details class="card"><summary>Lazy × eager</summary><div class="a">Lazy (KNN, RBC): não constrói modelo, só consulta o treino na hora de classificar; informação local. Eager (SVM, árvores): constrói um modelo global antes. [M6]</div></details>
+    <details class="card"><summary>Propriedades de uma métrica de distância</summary><div class="a">Não negatividade (d = 0 só se p = q), simetria d(p,q) = d(q,p) e desigualdade triangular d(p,r) ≤ d(p,q) + d(q,r). [M6]</div></details>
+    <details class="card"><summary>Efeito de k grande e k pequeno no KNN</summary><div class="a">k grande: vizinhos muito diferentes, viés para a classe majoritária, mais custo. k pequeno: pouca informação, previsão instável/sensível a ruído. Usar k ímpar e normalizar atributos. [M6]</div></details>
+    <details class="card"><summary>Para que serve a kd-tree no KNN?</summary><div class="a">Indexar o espaço k-dimensional (uma generalização da árvore binária de busca, um atributo discriminador por nível) para achar vizinhos mais próximos sem busca linear em bases grandes. [M6]</div></details>
+    <details class="card"><summary>O que faz train_test_split(X, y, test_size=0.2)?</summary><div class="a">Separa aleatoriamente 80% das amostras para treino e 20% para teste, devolvendo X_treino, X_teste, y_treino, y_teste. O teste avalia a generalização em dados nunca vistos. [Código]</div></details>
+    <details class="card"><summary>Etapas do processo de KDD</summary><div class="a">Seleção → pré-processamento → transformação → mineração (aprendizado) → interpretação/avaliação. Iterativo: resultados ruins levam de volta a etapas anteriores. [M1]</div></details>
+    <details class="card"><summary>Overfitting × underfitting</summary><div class="a">Overfitting: modelo complexo demais, decora o treino (incluindo ruído), vai mal no teste. Underfitting: modelo simples demais, vai mal até no treino. Combate-se com divisão treino/teste, validação e controle da complexidade (ex.: k no KNN). [M1/M6]</div></details>
+    <details class="card"><summary>Regra do IQR para outliers</summary><div class="a">IQR = Q3 − Q1. Outlier se x &lt; Q1 − 1,5·IQR ou x &gt; Q3 + 1,5·IQR. É o que o boxplot desenha como pontos isolados. [M3]</div></details>
+    <details class="card"><summary>Por que não codificar cor como 0, 1, 2?</summary><div class="a">Cria uma ordem e distâncias falsas (azul "mais longe" de vermelho que verde). Para nominais use 1-de-n; inteiros só para ordinais. [M4]</div></details>
+    <details class="card"><summary>Quantos componentes manter no PCA?</summary><div class="a">Variância acumulada ≥ 90–95%, cotovelo do scree plot ou autovalor &gt; 1. Para visualização, 2 ou 3. [M5]</div></details>
+    <details class="card"><summary>Suporte, confiança e lift de A→B</summary><div class="a">Suporte = P(A e B); confiança = P(B|A) = sup(A,B)/sup(A); lift = conf/sup(B). Lift &gt; 1 indica associação positiva. [M7]</div></details>
+    <details class="card"><summary>O que pdist(df.T) calcula e por que o .T?</summary><div class="a">Distâncias entre pares de linhas do que recebe. Com .T as linhas passam a ser as variáveis, então mede distância entre variáveis; squareform transforma o vetor condensado em matriz simétrica. [Código]</div></details>
+  </div>
+</section>
+
+<section id="ementa">
+  <h2>O que está na ementa, mas não apareceu no material até a P1</h2>
+  <ul class="tight">
+    <li><b>Técnicas de associação</b>: consta na planilha do professor, mas nenhum slide, notebook ou anotação sua cobre isso. O Módulo 7 traz o mínimo defensável (suporte, confiança, lift, Apriori).</li>
+    <li><b>Métodos lineares clássicos</b> (regressão linear/logística, perceptron): apenas citados na lista de algoritmos da aula 6. O classificador efetivamente ensinado foi o <b>KNN</b>.</li>
+    <li>Árvores de decisão, redes neurais, SVM, bayes, agrupamento e outliers como técnica: são conteúdo de P2.</li>
+  </ul>
+  <p class="note">Sugestão: pergunte ao professor se associação cai na P1. Se cair, avise e eu monto um módulo extra.</p>
+</section>
+</main>
+</div>
+
+<script>
+  // realça o item do sumário conforme a rolagem
+  const links=[...document.querySelectorAll('nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.toggle('on', l.getAttribute('href')==='#'+e.target.id)); }});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
