@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engenharia de Software I — Guia de estudo para a P1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F3F8;
+    --ink:#1D1A33;
+    --ink-soft:#4D4A66;
+    --navy:#4B3BA8;
+    --mustard:#E0A11B;
+    --mint:#2A8766;
+    --coral:#C8483B;
+    --line:#D9D6E6;
+    --white:#FFFFFF;
+    --mono:'Fira Code', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'Figtree', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+  a{color:var(--navy)}
+  code,pre{font-family:var(--mono);font-size:.84em}
+  pre{background:#1A1730;color:#ECEAF7;padding:14px 16px;border-radius:6px;overflow:auto;line-height:1.5;margin:10px 0 0}
+  pre .c{color:#9D98C2}
+  pre .k{color:#F3C969}
+  pre .s{color:#9ADBB5}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--ink);color:#E2E0F0;padding:28px 22px}
+  nav h1{font-size:15px;font-weight:600;margin:0 0 4px;color:#fff;letter-spacing:.01em}
+  nav .sub{font-size:12.5px;color:#A29EC0;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav li{margin:0}
+  nav a{display:block;color:#CFCCE4;text-decoration:none;font-size:13.5px;padding:6px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.07);color:#fff;outline:none}
+  nav a.on{border-left-color:var(--mustard);color:#fff;background:rgba(255,255,255,.06)}
+  nav .grp{font-size:11.5px;color:#8A86AB;margin:16px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12px;color:#A29EC0;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  main{padding:0 0 80px;min-width:0}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-size:34px;line-height:1.15;margin:0 0 12px;font-weight:600;max-width:26ch}
+  .hero p{max-width:68ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px}
+  .hero .facts div{font-size:13.5px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-size:22px;color:var(--ink);font-weight:600}
+  .alert{margin-top:20px;border:1px solid var(--coral);border-left-width:4px;background:#FBE9E6;border-radius:0 6px 6px 0;padding:10px 14px;max-width:72ch;font-size:14.5px}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1100px}
+  section h2{font-size:26px;font-weight:600;margin:0 0 6px}
+  section h3{font-size:18px;font-weight:600;margin:28px 0 8px;color:var(--navy)}
+  section h4{font-size:15px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--mustard);background:#FBF3DC;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why>b:first-child{display:block;margin-bottom:2px}
+  .prova{border-left:4px solid var(--coral);background:#FBE9E6;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova>b:first-child{display:block;margin-bottom:2px;color:var(--coral)}
+  .prova ul{margin:4px 0 0;padding-left:20px}
+  .code{border-left:4px solid var(--mint);background:#E3F2EC;padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0;max-width:900px}
+  .code>b:first-child{display:block;margin-bottom:2px;color:var(--mint)}
+  .note{font-size:14px;color:var(--ink-soft);max-width:72ch}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 10px;max-width:820px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--navy)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:12px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15px;max-width:72ch}
+  .ex{background:#F8F7FC;border:1px dashed #B3AED0;border-radius:6px;padding:12px 16px;max-width:820px;margin:12px 0;font-size:15px}
+  .ex>b:first-child{display:block;margin-bottom:4px}
+  .ex p{margin:6px 0}
+
+  .tw{overflow-x:auto;max-width:900px}
+  table{border-collapse:collapse;width:100%;max-width:900px;margin:10px 0 6px;font-size:14.5px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#E7E4F3;font-weight:600}
+  td.n,th.n{text-align:right;font-family:var(--mono);font-size:13px;white-space:nowrap}
+  td code{background:#ECEAF5;padding:1px 5px;border-radius:3px;color:var(--ink)}
+  p code,li code,dd code,small code{background:#E8E6F2;padding:1px 5px;border-radius:3px}
+  td.lo{background:#E3F2EC} td.md{background:#FBF3DC} td.hi{background:#FBE0DB}
+
+  ul.tight,ol.tight{margin:6px 0 10px;padding-left:20px;max-width:72ch}
+  ul.tight li,ol.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);font-size:.86em;background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 0}
+  .inf{font-size:11.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);border:1px solid #B3AED0;border-radius:3px;padding:0 5px;white-space:nowrap}
+
+  /* study order */
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:820px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:20px;color:var(--mustard);font-weight:500;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft);font-size:14px}
+
+  /* flow (sequência horizontal) */
+  .flow{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:12px 0;max-width:900px;padding:0;list-style:none}
+  .flow li{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:14px;flex:1 1 150px;position:relative}
+  .flow li>b{display:block;color:var(--navy);font-size:13.5px}
+  .flow li small{color:var(--ink-soft);font-size:13px}
+
+  /* mind map */
+  .map{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto}
+  .map svg{width:100%;height:auto;min-width:780px;display:block}
+  .map text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+  .map .root{font-size:15px;font-weight:600;fill:#fff}
+  .map .b1{font-weight:600;fill:var(--ink)}
+  .map .zoom{font-size:11px;fill:#7A769C;font-style:italic}
+  .map line{stroke:#B3AED0;stroke-width:1.4}
+
+  /* flashcards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--mustard);font-size:18px}
+  .card[open] summary::after{content:"–"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink-soft)}
+  details.snip{margin:10px 0;max-width:900px}
+  details.snip summary{cursor:pointer;font-weight:500;color:var(--mint)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14px;background:var(--navy);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 16px}
+    .hero h2{font-size:27px}
+    .two{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Engenharia de Software I</h1>
+  <div class="sub">Guia de estudo · P1 · 23/09/2026 · Prof. Luiz Camolesi Jr.</div>
+  <ol>
+    <li><a href="#mapa">Mapa mental geral</a></li>
+    <li><a href="#ordem">Ordem de estudo</a></li>
+    <li class="grp">Módulos</li>
+    <li><a href="#m1">1 · Software, crise e mitos</a></li>
+    <li><a href="#m2">2 · Eng. de software e ciclos de vida</a></li>
+    <li><a href="#m3">3 · PMBOK: conceitos</a></li>
+    <li><a href="#m4">4 · PMBOK: processos, TAP e EAP</a></li>
+    <li><a href="#m5">5 · Engenharia de riscos</a></li>
+    <li><a href="#m6">6 · Tamanho: pontos de função</a></li>
+    <li><a href="#m7">7 · COCOMO, cronograma e plano</a></li>
+    <li><a href="#m8">8 · Eng. de requisitos: processo</a></li>
+    <li><a href="#m9">9 · Técnicas de elicitação</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#codigo">Fichas do relatório (colinha)</a></li>
+    <li><a href="#formulas">Fórmulas e números que caem</a></li>
+    <li><a href="#quiz">Auto-teste (flashcards)</a></li>
+    <li><a href="#ementa">Lacunas e o que NÃO cai</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--mustard)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--coral)"></span>Provável na prova</div>
+    <div><span style="background:var(--mint)"></span>Como fica no relatório</div>
+    <div style="margin-top:6px"><span class="inf" style="width:auto;height:auto;color:#A29EC0;border-color:#6A668C">inferência</span> = não está no material</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <h2>Da demanda ao requisito: tudo o que vem antes da primeira linha de código.</h2>
+  <p>Este guia foi montado a partir dos slides das cinco aulas (Introdução, 50 slides; Gestão de Projetos com PMBOK, 75; Engenharia de Riscos, 22; Estimativas, 117; Engenharia de Requisitos, 54), dos quatro modelos do Relatório de Projeto, do Guia Prático de Análise de Ponto de Função e das suas anotações. O fio condutor é a própria lista de fases que o professor mostrou na aula 1: <b>identificação e formalização da demanda → planejamento e estimativa → engenharia de requisitos</b>. A P1 cobre exatamente esse começo do ciclo de vida.</p>
+  <p>Em paralelo corre uma segunda história: o <b>Volume 1 do Relatório de Projeto</b>. Ele tem a mesma ordem da matéria: Termo de Abertura (TAP) → Mapeamento de Riscos → Estimativa por Ponto de Função → Especificação de Requisitos. Cada aula entregou uma ficha desse relatório; se você souber preencher as fichas e explicar cada campo, sabe a matéria.</p>
+  <div class="facts">
+    <div><b>9</b>módulos de conteúdo</div>
+    <div><b>3</b>ciclos de vida</div>
+    <div><b>5 · 42</b>grupos e processos do PMBOK</div>
+    <div><b>5</b>tipos de função em PF</div>
+    <div><b>3</b>fichas do relatório</div>
+    <div><b>50%</b>da nota · P1×0,5 + P2×0,5</div>
+  </div>
+  <div class="alert"><b>Das suas anotações:</b> "Software não é só código" (aparece nas aulas 1, 2 e 3) · "Quanto mais tempo passa de andamento do projeto, maior o custo para realizar mudanças" (aula 3) · "O mapeamento [de riscos] deve ser feito antes do projeto começar" (aula 4) · "A documentação de requisitos é praticamente o contrato do que eu devo entregar ao cliente" (aula 3) · "Vale a pena ser MUITO BEM FEITA a obtenção de requisitos" (aula 6). São as cinco ideias que o professor repetiu em voz alta.</div>
+</div>
+
+<section id="mapa">
+  <h2>Mapa mental geral</h2>
+  <p class="note">Leia de cima para baixo: é a ordem em que um projeto de software nasce. Os números entre parênteses são contagens que o professor pode cobrar.</p>
+  <div class="map">
+  <svg viewBox="0 0 1000 770" role="img" aria-label="Mapa mental da matéria: nove ramos, do conceito de software até as técnicas de elicitação de requisitos">
+    <rect x="20" y="345" width="150" height="70" rx="8" fill="#4B3BA8"/>
+    <text class="root" x="95" y="374" text-anchor="middle">Engenharia</text>
+    <text class="root" x="95" y="394" text-anchor="middle">de Software I</text>
+    <g>
+      <line x1="170" y1="380" x2="250" y2="40"/>
+      <line x1="170" y1="380" x2="250" y2="125"/>
+      <line x1="170" y1="380" x2="250" y2="210"/>
+      <line x1="170" y1="380" x2="250" y2="295"/>
+      <line x1="170" y1="380" x2="250" y2="380"/>
+      <line x1="170" y1="380" x2="250" y2="465"/>
+      <line x1="170" y1="380" x2="250" y2="550"/>
+      <line x1="170" y1="380" x2="250" y2="635"/>
+      <line x1="170" y1="380" x2="250" y2="720"/>
+    </g>
+    <text class="b1" x="255" y="44">1 · Software, crise e mitos</text>
+    <line x1="255" y1="50" x2="470" y2="50"/>
+    <text x="480" y="30">Software = instruções + estruturas de dados + documentos + testes</text>
+    <text x="480" y="48">Não se desgasta, mas se deteriora · 4 eras · crise (4 problemas, 3 causas)</text>
+    <text x="480" y="66">Mitos: administrativos, do cliente, do profissional · 1x / 1,5–6x / 60–100x</text>
+
+    <text class="b1" x="255" y="129">2 · Eng. de software e ciclos de vida</text>
+    <line x1="255" y1="135" x2="470" y2="135"/>
+    <text x="480" y="115">Métodos + ferramentas (CASE) + procedimentos</text>
+    <text x="480" y="133">Cascata (sequencial) · Prototipação (descarta o protótipo)</text>
+    <text x="480" y="151">Espiral = cascata + prototipação + análise de risco</text>
+
+    <text class="b1" x="255" y="214">3 · PMBOK: conceitos</text>
+    <line x1="255" y1="220" x2="470" y2="220"/>
+    <text x="480" y="200">Projeto = esforço temporário, resultado exclusivo</text>
+    <text x="480" y="218">Projeto × programa × portfólio · PMO · gerente de projetos</text>
+    <text x="480" y="236">Fatores ambientais × ativos de processos · partes interessadas</text>
+
+    <text class="b1" x="255" y="299">4 · PMBOK: processos, TAP e EAP</text>
+    <line x1="255" y1="305" x2="470" y2="305"/>
+    <text x="480" y="285">5 grupos · 42 processos · 9 áreas (4 a 12)</text>
+    <text x="480" y="303">TAP autoriza formalmente o projeto · registro das partes interessadas</text>
+    <text x="480" y="321">OBS (quem) · PBS (o quê) · WBS/EAP (como) · RAM (quem faz o quê)</text>
+
+    <text class="b1" x="255" y="384">5 · Engenharia de riscos</text>
+    <line x1="255" y1="390" x2="470" y2="390"/>
+    <text x="480" y="370">Risco: impacto · probabilidade · controle · 10 itens de Boehm</text>
+    <text x="480" y="388">Identificar → analisar → priorizar → planejar → monitorar</text>
+    <text x="480" y="406">R = P × I · Exposição = PO × MI × Co · evitar, transferir, assumir</text>
+
+    <text class="b1" x="255" y="469">6 · Tamanho: pontos de função</text>
+    <line x1="255" y1="475" x2="470" y2="475"/>
+    <text x="480" y="455">LOC × PF · fronteira da aplicação · ALI, AIE, EE, SE, CE</text>
+    <text x="480" y="473">NESMA: indicativa, estimada (dados baixa, transações média), detalhada</text>
+    <text x="480" y="491">Tabela 7/10/15 · 5/7/10 · 3/4/6 · 4/5/7 · 3/4/6 · locadora = 236 PF</text>
+
+    <text class="b1" x="255" y="554">7 · COCOMO, cronograma e plano</text>
+    <line x1="255" y1="560" x2="470" y2="560"/>
+    <text x="480" y="540">Boehm, 1981 · básico, intermediário, avançado · 63 projetos</text>
+    <text x="480" y="558">Orgânico, semidestacado, embutido · E = a·KLOC^b · P = 2,5·E^c</text>
+    <text x="480" y="576">FAE = produto de 15 direcionadores · PERT, caminho crítico, Gantt</text>
+
+    <text class="b1" x="255" y="639">8 · Eng. de requisitos: processo</text>
+    <line x1="255" y1="645" x2="470" y2="645"/>
+    <text x="480" y="625">Viabilidade → extração e análise → especificação → validação</text>
+    <text x="480" y="643">Usuário × sistema · funcional, não funcional, domínio</text>
+    <text x="480" y="661">Não funcional: produto, organização, externo · fontes de requisitos</text>
+
+    <text class="b1" x="255" y="724">9 · Técnicas de elicitação</text>
+    <line x1="255" y1="730" x2="470" y2="730"/>
+    <text x="480" y="704">Documentação · sistemas existentes · entrevistas (5WH)</text>
+    <text x="480" y="722">Brainstorming (4 a 10, sem críticas) · workshops · cenários</text>
+    <text x="480" y="740">Protótipos · reutilização (até 50%) · questionários · pontos de vista</text>
+    <text class="zoom" x="20" y="30">começo: a demanda</text>
+    <text class="zoom" x="20" y="755">fim da P1: o requisito especificado</text>
+  </svg>
+  </div>
+</section>
+
+<section id="ordem">
+  <h2>Ordem de estudo recomendada</h2>
+  <p>A ordem segue as dependências: o espiral só faz sentido depois de cascata e prototipação; risco usa o vocabulário do PMBOK; COCOMO precisa do tamanho em PF; a ficha de requisito cita as técnicas de elicitação. O tempo sugerido soma cerca de 9 horas.</p>
+  <ol class="steps">
+    <li><div><b>Software, crise, mitos e ciclos de vida (1 h 30)</b><small>Módulos 1 e 2. É a aula que o professor deu duas vezes (aulas 1 e 2 das suas anotações). Decore as listas curtas e os três ciclos com seus problemas.</small></div></li>
+    <li><div><b>PMBOK (1 h 30)</b><small>Módulos 3 e 4. São 75 slides de trechos do livro: foque nas definições (projeto, gerenciamento, programa, portfólio, PMO, TAP) e nos 5 grupos de processos. Não tente decorar entradas e saídas dos 42 processos.</small></div></li>
+    <li><div><b>Riscos (1 h 15)</b><small>Módulo 5. Tem conta (R = P × I, exposição) e tem ficha (RK_01). Faça os exemplos resolvidos à mão.</small></div></li>
+    <li><div><b>Pontos de função e COCOMO (2 h 30)</b><small>Módulos 6 e 7. É o bloco com mais cálculo e o mais provável de virar exercício numérico. Refaça a locadora inteira sem olhar. Atenção: não há anotação sua desta aula.</small></div></li>
+    <li><div><b>Requisitos e elicitação (1 h 30)</b><small>Módulos 8 e 9. Conteúdo mais recente e o que o professor chamou de mais importante. Muita lista: use as tabelas comparativas.</small></div></li>
+    <li><div><b>Fichas de memória + flashcards (45 min)</b><small>Feche o guia e escreva: os campos da ficha RK, os campos da ficha Rq, a tabela de contribuição de PF e as equações do COCOMO. Depois rode os 42 flashcards.</small></div></li>
+  </ol>
+  <div class="ex"><b>Plano curto, se só sobrarem 3 horas</b>
+    <p>1) Locadora de carros do começo ao fim: PF → KLOC → esforço → prazo (módulos 6 e 7), 60 min. 2) Riscos: três aspectos, processo, R = P × I, exposição e as quatro respostas (módulo 5), 35 min. 3) Tabela dos três ciclos de vida + mitos (módulos 1 e 2), 35 min. 4) Processo de requisitos, classificação e tabela das técnicas (módulos 8 e 9), 35 min. 5) Seção "Fórmulas e números que caem", 15 min.</p>
+  </div>
+</section>
+
+<section id="m1">
+  <h2>Módulo 1 · Software, crise e mitos</h2>
+  <div class="why"><b>Por que estudar</b>É a justificativa da disciplina inteira: por que software precisa de engenharia. São listas curtas, fáceis de cobrar em questão dissertativa ("cite e explique") e fáceis de pontuar se você usar as palavras do slide. O professor repetiu o primeiro slide em três aulas.</div>
+
+  <h3>Software não é somente código</h3>
+  <ol class="tight">
+    <li><b>Instruções</b> que, quando executadas, produzem a função e o desempenho desejados.</li>
+    <li><b>Estruturas de dados</b> que possibilitam que os programas manipulem adequadamente a informação.</li>
+    <li><b>Documentos</b> que descrevem a operação e o uso dos programas.</li>
+    <li><b>Conjunto de teste</b> etc.</li>
+  </ol>
+  <p class="note">Da sua anotação da aula 1: "Nosso produto é a junção de todos os artefatos da engenharia de software. Artefatos = documentação, requisitos, modelagem, codificação, banco de dados, interface etc."</p>
+
+  <h3>Características do software</h3>
+  <ol class="tight">
+    <li>É <b>desenvolvido ou projetado por engenharia</b>, não manufaturado no sentido clássico.</li>
+    <li><b>Não se desgasta, mas se deteriora.</b></li>
+    <li>A maioria é <b>feita sob medida</b>, em vez de ser montada a partir de componentes existentes.</li>
+  </ol>
+  <div class="tw"><table>
+    <tr><th>Curva de falhas</th><th>Formato</th><th>Leitura</th></tr>
+    <tr><td>Hardware</td><td>"Banheira": índice alto no início (<b>mortalidade infantil</b>), cai, fica estável e sobe de novo no fim (<b>desgaste</b>).</td><td>A peça física envelhece; troca-se por uma peça sobressalente igual.</td></tr>
+    <tr><td>Software, curva idealizada</td><td>Alta no início, cai e fica plana para sempre.</td><td>Defeitos iniciais são corrigidos e nada se desgasta.</td></tr>
+    <tr><td>Software, curva real</td><td>A cada <b>mudança</b> surge um pico de falhas; antes de voltar ao patamar, vem outra mudança. O patamar mínimo vai subindo.</td><td>É isso que "se deteriora" quer dizer: a manutenção introduz novos defeitos. Não existe peça sobressalente de software.</td></tr>
+  </table></div>
+
+  <h3>Evolução do software</h3>
+  <div class="tw"><table>
+    <tr><th>Era</th><th>Marcas (palavras do slide)</th></tr>
+    <tr><td>1950 – 1965</td><td>Hardware em contínua mudança e de propósito geral; software era arte "secundária", com poucos métodos sistemáticos, específico para cada aplicação; <b>não havia documentação</b>.</td></tr>
+    <tr><td>1965 – 1975</td><td>Multiprogramação e sistemas multiusuários; técnicas interativas; tempo real; 1ª geração de SGBDs; produto de software (software houses); bibliotecas de software; cresce o número de sistemas; manutenção quase impossível → <b>crise de software</b>.</td></tr>
+    <tr><td>1975 – hoje</td><td>Sistemas distribuídos; redes locais e globais; uso generalizado de microprocessadores (produtos inteligentes); hardware de baixo custo; impacto de consumo.</td></tr>
+    <tr><td>Quarta era</td><td>Tecnologias orientadas a objetos; sistemas especialistas e IA usados na prática; redes neurais; computação paralela; computação em nuvens.</td></tr>
+  </table></div>
+
+  <h3>Crise de software</h3>
+  <p>"Refere-se a um conjunto de problemas encontrados no desenvolvimento de software."</p>
+  <div class="two">
+    <div>
+      <h4>Os 4 problemas</h4>
+      <ol class="tight">
+        <li><b>Estimativas de prazo e de custo</b> frequentemente imprecisas ("não dedicamos tempo para coletar dados sobre o processo").</li>
+        <li><b>Produtividade das pessoas</b> não acompanha a demanda ("projetos efetuados com um vago indício das exigências do cliente").</li>
+        <li><b>Qualidade</b> às vezes menos que adequada (conceitos quantitativos de garantia de qualidade são recentes).</li>
+        <li>Software existente é <b>muito difícil de manter</b> (a manutenção devora o orçamento; manutenibilidade não foi critério).</li>
+      </ol>
+    </div>
+    <div>
+      <h4>As 3 causas</h4>
+      <ol class="tight">
+        <li><b>O próprio caráter do software:</b> elemento lógico, não físico. O sucesso é medido pela qualidade de uma única entidade, não de muitas entidades manufaturadas.</li>
+        <li><b>Falhas das pessoas responsáveis:</b> gerentes sem background em software; profissionais com pouco treinamento formal em novas técnicas; resistência a mudanças.</li>
+        <li><b>Mitos do software:</b> propagaram desinformação e confusão.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Os mitos (tabela para decorar)</h3>
+  <div class="tw"><table>
+    <tr><th>Grupo</th><th>Mito</th><th>Realidade</th></tr>
+    <tr><td rowspan="3">Administrativos</td><td>Já temos um manual repleto de padrões e procedimentos; isso basta.</td><td>O manual é usado? Os profissionais sabem que existe? Reflete a prática moderna? É completo?</td></tr>
+    <tr><td>Meu pessoal tem ferramentas de última geração; compramos os computadores mais novos.</td><td>É preciso muito mais do que computadores recentes para desenvolver com alta qualidade.</td></tr>
+    <tr><td>Se estamos atrasados, adicionamos mais programadores e tiramos o atraso.</td><td>Desenvolvimento não é processo mecânico como manufatura. <b>Acrescentar pessoas torna o projeto ainda mais atrasado.</b> Só de forma planejada.</td></tr>
+    <tr><td rowspan="2">Do cliente</td><td>Uma declaração geral dos objetivos é suficiente para começar; os detalhes vêm depois.</td><td><b>Definição inicial ruim é a principal causa de fracasso.</b> É fundamental descrição formal e detalhada do domínio da informação, função, desempenho, interfaces, restrições de projeto e critérios de validação.</td></tr>
+    <tr><td>Os requisitos mudam continuamente, mas as mudanças são facilmente acomodadas porque software é flexível.</td><td>Uma mudança tardia pode custar uma ordem de magnitude a mais que a mesma mudança pedida no início.</td></tr>
+    <tr><td rowspan="2">Do profissional</td><td>Assim que escrevermos o programa e ele funcionar, o trabalho está completo.</td><td>Entre <b>50 e 70%</b> de todo o esforço gasto num programa é despendido <b>depois</b> da primeira entrega ao cliente.</td></tr>
+    <tr><td>Enquanto o programa não estiver funcionando, não há como avaliar sua qualidade.</td><td>Programa funcionando é só uma parte da <b>configuração de software</b>, que inclui todos os itens de informação produzidos na construção e manutenção.</td></tr>
+  </table></div>
+
+  <h3>Impacto das mudanças no projeto</h3>
+  <div class="tw"><table>
+    <tr><th>Fase em que a mudança é pedida</th><th class="n">Custo</th></tr>
+    <tr><td>Definição</td><td class="n">1x</td></tr>
+    <tr><td>Desenvolvimento</td><td class="n">1,5 – 6x</td></tr>
+    <tr><td>Manutenção</td><td class="n">60 – 100x</td></tr>
+  </table></div>
+  <div class="ex"><b>Exemplo resolvido · quanto custa mudar tarde</b>
+    <p>Incluir um campo novo no cadastro custa R$ 2.000 se pedido durante a definição (1x). A mesma mudança pedida durante o desenvolvimento custa entre 2.000 × 1,5 = <b>R$ 3.000</b> e 2.000 × 6 = <b>R$ 12.000</b>. Depois de implantado: entre 2.000 × 60 = <b>R$ 120.000</b> e 2.000 × 100 = <b>R$ 200.000</b>.</p>
+    <p>É o argumento contra o mito "software é flexível" e a razão da sua anotação da aula 3: "não se deve avançar o projeto com dúvidas. O custo é alto". O mesmo formato aparece no gráfico do PMBOK (módulo 3): custo das mudanças sobe com o tempo.</p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>Se software não tem peça que gasta, por que a curva real sobe?</dt>
+    <dd>Porque cada mudança (correção, requisito novo, adaptação) mexe em código que funcionava e introduz defeitos novos. Como as mudanças chegam antes de a curva voltar ao patamar anterior, o mínimo vai subindo. "Deteriorar" é efeito das mudanças, não do tempo.</dd>
+    <dt>Crise de software é um evento histórico ou um estado?</dt>
+    <dd>O slide coloca o nome no fim da era 1965–1975, mas define a crise como "um conjunto de problemas" e a sua anotação da aula 2 lista os quatro no presente. Na prova, descreva os quatro problemas e, se pedirem, as três causas.</dd>
+    <dt>Por que adicionar gente atrasa mais?</dt>
+    <dd>O slide de estimativas explica: "a comunicação é absolutamente essencial para o desenvolvimento do software. Todo novo caminho de comunicação exige esforço adicional e, portanto, tempo adicional". Além disso, quem já está no projeto para de produzir para treinar quem chegou.</dd>
+    <dt>Qual a diferença entre o mito do cliente nº 1 e o nº 2?</dt>
+    <dd>O primeiro é sobre começar sem saber (declaração geral basta). O segundo é sobre mudar depois (é barato mudar). As realidades também são diferentes: "definição inicial ruim é a principal causa de fracasso" × "mudança tardia custa uma ordem de magnitude a mais".</dd>
+    <dt>O que é "configuração de software"?</dt>
+    <dd>Todos os itens de informação produzidos durante a construção e a manutenção: documentos, modelos, código, dados de teste. É a versão formal de "software não é só código" e permite avaliar qualidade antes de o programa rodar (revisando os outros itens).</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Por que software não é só código?" Liste os 4 componentes e dê um exemplo de cada no seu projeto.</li>
+    <li>"Explique a frase: o software não se desgasta, mas se deteriora." Desenhe ou descreva as curvas de falha.</li>
+    <li>Dado um mito, classifique-o (administrativo, cliente, profissional) e escreva a realidade.</li>
+    <li>Cite os problemas da crise de software e relacione cada um com um tema do curso (estimativas → PF/COCOMO; qualidade e manutenção → requisitos bem feitos). <span class="inf">inferência</span></li>
+  </ul></div>
+</section>
+
+<section id="m2">
+  <h2>Módulo 2 · Engenharia de software e ciclos de vida</h2>
+  <div class="why"><b>Por que estudar</b>Comparar ciclos de vida é questão clássica de P1: o que é cada um, quando usar, quais os problemas. O espiral também é a ponte para o módulo de riscos, e a prototipação volta como técnica de elicitação no módulo 9.</div>
+
+  <h3>Os três elementos da engenharia de software</h3>
+  <div class="tw"><table>
+    <tr><th>Elemento</th><th>Definição do slide</th></tr>
+    <tr><td><b>Métodos</b></td><td>Proporcionam a sequência de fases e atividades para a criação do <b>produto</b> software.</td></tr>
+    <tr><td><b>Ferramentas</b></td><td>Dão suporte automatizado aos métodos. Quando integradas, formam um sistema de suporte chamado <b>CASE</b> (Computer Aided Software Engineering).</td></tr>
+    <tr><td><b>Procedimentos</b></td><td>Sequência de passos em que os métodos serão aplicados; partes do produto que devem ser entregues; controles que asseguram a qualidade e coordenam as alterações; marcos de referência para administrar o progresso.</td></tr>
+  </table></div>
+  <p><b>Conclusão do slide:</b> engenharia de software "pode ser vista como uma abordagem de desenvolvimento de um <b>produto</b> software elaborada com <b>disciplina</b> e <b>métodos bem definidos</b>".</p>
+
+  <h3>As fases (slide 29) e o recorte da P1</h3>
+  <ol class="flow">
+    <li><b>1</b>Identificação e formalização da demanda<small> · TAP, módulo 4</small></li>
+    <li><b>2</b>Planejamento e estimativa de projeto<small> · módulos 5, 6, 7</small></li>
+    <li><b>3</b>Engenharia de requisitos<small> · módulos 8, 9</small></li>
+    <li><b>4</b>Análise</li>
+    <li><b>5</b>Projeto</li>
+    <li><b>6</b>Codificação</li>
+    <li><b>7</b>Teste (verificação e validação)</li>
+    <li><b>8</b>Distribuição</li>
+  </ol>
+  <p><b>Ciclo de vida</b> = "conjunto de fases e suas inter-relações". Para escolher um: (1) natureza do projeto e da aplicação; (2) métodos e ferramentas a serem usados; (3) controles e produtos que precisam ser entregues.</p>
+
+  <h3>Visão da aula de estimativas: três macrofases + apoio</h3>
+  <div class="tw"><table>
+    <tr><th>Definição</th><th>Construção</th><th>Manutenção</th><th>Atividades de apoio</th></tr>
+    <tr><td>Análise de sistema · planejamento do projeto · análise de requisitos</td><td>Projeto · codificação · teste</td><td>Entendimento · modificação · revalidação</td><td>Documentação · gerenciamento de configuração · verificação · validação · revisão conjunta · auditoria · resolução de problemas · garantia da qualidade</td></tr>
+  </table></div>
+  <p class="note">São as mesmas três fases da tabela de custo de mudança (definição 1x, desenvolvimento 1,5–6x, manutenção 60–100x).</p>
+
+  <h3>Comparação dos três ciclos</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Clássico (cascata)</th><th>Prototipação</th><th>Espiral</th></tr>
+    <tr><td><b>Ideia</b></td><td>Modelo mais antigo e mais amplamente usado; modelado no ciclo da engenharia convencional; abordagem <b>sistemática e sequencial</b>.</td><td>O desenvolvedor cria um <b>modelo</b> do software; o protótipo serve como <b>mecanismo para identificar os requisitos</b>.</td><td>Engloba as melhores características dos dois e adiciona um elemento novo: a <b>análise de risco</b>. Estrutura <b>iterativa</b>.</td></tr>
+    <tr><td><b>Atividades</b></td><td>Planejamento → engenharia de requisitos → análise → projeto → codificação → testes</td><td>Obtenção dos requisitos → projeto rápido → construção do protótipo → avaliação → refinamento (itera) → construção do produto</td><td>Planejamento → análise de risco → construção (engenharia) → avaliação do cliente, em voltas sucessivas</td></tr>
+    <tr><td><b>Quando usar</b></td><td>Requisitos conhecidos e estáveis. <span class="inf">inferência</span></td><td>Cliente definiu <b>objetivos gerais</b>, mas não identificou requisitos de entrada, processamento e saída em detalhe.</td><td>Desenvolvimento de software <b>em grande escala</b>: "a abordagem mais realística".</td></tr>
+    <tr><td><b>Problemas</b></td><td>Projetos reais raramente seguem o fluxo sequencial; no início é difícil estabelecer todos os requisitos (incerteza natural); o cliente precisa ter paciência: versão executável só em etapa avançada.</td><td>Cliente não sabe que o protótipo ignorou qualidade global e manutenibilidade e <b>força o uso como produto final</b>; desenvolvedor faz implementação comprometida, se acostuma e esquece que as escolhas não servem ao produto.</td><td>Difícil convencer o cliente de que uma abordagem evolutiva é controlável; <b>exige considerável experiência em determinação de riscos</b>; modelo relativamente novo, eficácia ainda não comprovada.</td></tr>
+    <tr><td><b>Frase de defesa</b></td><td>"Embora tenha fragilidades, é significativamente melhor do que uma abordagem casual."</td><td>"A chave é definir as regras do jogo logo no começo": ambos concordam que o protótipo existe para definir requisitos.</td><td>"Capacita o desenvolvedor e o cliente a entender e reagir aos riscos em cada etapa evolutiva."</td></tr>
+  </table></div>
+
+  <h3>Atividades do ciclo clássico, em detalhe</h3>
+  <ol class="tight">
+    <li><b>Planejamento:</b> coleta de requisitos em nível do negócio sobre demanda/necessidade e viabilidade.</li>
+    <li><b>Engenharia de requisitos de software:</b> a coleta é intensificada e concentrada no software; compreender o <b>domínio da informação, a função, o desempenho e as interfaces</b>; requisitos documentados e revistos com o cliente.</li>
+    <li><b>Análise e projeto:</b> tradução dos requisitos em representações avaliáveis quanto à qualidade antes da codificação. Concentra-se em 4 atributos: <b>estrutura de dados, arquitetura de software, detalhes procedimentais e caracterização de interfaces</b>.</li>
+    <li><b>Codificação:</b> tradução do projeto para uma linguagem "artificial", resultando em instruções executáveis.</li>
+    <li><b>Testes:</b> aspectos <b>lógicos internos</b> (todas as instruções testadas) e aspectos <b>funcionais externos</b> (a entrada definida produz os resultados esperados).</li>
+  </ol>
+
+  <h3>Atividades do espiral</h3>
+  <ol class="tight">
+    <li><b>Planejamento:</b> determinação dos objetivos, alternativas e restrições.</li>
+    <li><b>Análise de risco:</b> análise das alternativas e identificação/resolução dos riscos. Ao fim, <b>decisão de continuar ou não</b>.</li>
+    <li><b>Construção (engenharia):</b> desenvolvimento do produto no nível seguinte.</li>
+    <li><b>Avaliação do cliente:</b> avaliação do produto e planejamento das novas fases.</li>
+  </ol>
+  <p>O espiral "usa a prototipação, em qualquer etapa da evolução do produto, como <b>mecanismo de redução de riscos</b>".</p>
+
+  <div class="ex"><b>Exemplo resolvido · cenário → ciclo de vida</b>
+    <p><b>(a)</b> Uma ONG quer "um sistema para organizar as doações", mas não sabe dizer quais telas, quais dados nem quais relatórios. → <b>Prototipação</b>: objetivos gerais definidos, requisitos de entrada/processamento/saída não identificados. Combine desde o início que o protótipo será descartado.</p>
+    <p><b>(b)</b> Reescrever em outra linguagem a folha de pagamento que a empresa já usa, com as mesmas regras. → <b>Cascata</b>: requisitos conhecidos, fluxo sequencial viável.</p>
+    <p><b>(c)</b> Plataforma nacional de telemedicina, com integração a vários hospitais, tecnologia nova para a equipe e orçamento de anos. → <b>Espiral</b>: grande escala; a cada volta reavaliam-se riscos e decide-se continuar ou não.</p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>No slide a cascata começa em "Planejamento", mas em livros começa em "Requisitos". Qual uso?</dt>
+    <dd>Use a do professor: planejamento, engenharia de requisitos, análise, projeto, codificação, testes. No texto ele junta "análise e projeto" em uma atividade só (5 itens), mas o desenho tem 6 degraus.</dd>
+    <dt>O protótipo deve mesmo ser jogado fora?</dt>
+    <dd>No ciclo de vida do slide, sim: "identificados os requisitos, o protótipo deve ser descartado e a versão de produção deve ser construída considerando os critérios de qualidade". Já no slide de requisitos aparece que a prototipagem "pode ir desde maquetes a protótipos evolutivos". Se a pergunta for sobre o ciclo de vida, responda "descartado".</dd>
+    <dt>Espiral é só cascata repetida?</dt>
+    <dd>Não. Tem os passos sistemáticos da cascata e é iterativo, mas o elemento novo é a análise de risco em toda volta, com decisão explícita de continuar ou não, e o uso de protótipos para reduzir risco.</dd>
+    <dt>Por que o espiral "depende de experiência"?</dt>
+    <dd>Porque o sucesso do modelo está na qualidade da análise de risco. Se um risco grande não for identificado, a volta seguinte é planejada sobre uma premissa errada.</dd>
+    <dt>Qual ciclo o nosso projeto da disciplina segue?</dt>
+    <dd>Da sua anotação da aula 3: "todo o relatório é feito de forma sequenciada, onde pouquíssimas situações permitem realizar as atividades de forma paralela". É essencialmente cascata, com protótipos de interface dentro da fase de requisitos. <span class="inf">inferência</span></dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Compare cascata, prototipação e espiral": ideia, atividades, um problema de cada.</li>
+    <li>Dado um cenário, escolha o ciclo e justifique com os três critérios de escolha.</li>
+    <li>"Quais os problemas da prototipação?" Responda pelos dois lados: cliente e desenvolvedor.</li>
+    <li>"O que são métodos, ferramentas e procedimentos? O que é CASE?"</li>
+  </ul></div>
+</section>
+
+<section id="m3">
+  <h2>Módulo 3 · Gestão de projetos com o PMBOK: conceitos</h2>
+  <div class="why"><b>Por que estudar</b>A aula 3 foi leitura comentada de trechos do Guia PMBOK (capítulos 1, 2 e 3). O que vira questão é vocabulário: projeto, gerenciamento, programa, portfólio, PMO, partes interessadas, fatores ambientais, ativos de processos. São definições de uma frase, e o professor projeta o texto do livro, então a resposta esperada usa as palavras do livro.</div>
+
+  <p class="note"><b>PMI</b> = Project Management Institute, quem publica o guia. <b>PMBOK</b> = "Um Guia do Conhecimento em Gerenciamento de Projetos": descreve processos, ferramentas e técnicas; limita-se a <b>projetos individuais</b> e ao que é amplamente reconhecido como boa prática. Programas e portfólios têm normas próprias; a maturidade da empresa é tratada no OPM3.</p>
+
+  <h3>As duas definições centrais</h3>
+  <div class="tw"><table>
+    <tr><th>Termo</th><th>Definição (PMBOK, como no slide)</th><th>Detalhes cobráveis</th></tr>
+    <tr><td><b>Projeto</b> (1.2)</td><td>"Um <b>esforço temporário</b> empreendido para criar um <b>produto, serviço ou resultado exclusivo</b>."</td><td>Temporário = início e término definidos. Termina quando os objetivos são atingidos, quando se conclui que não serão atingidos, ou quando o projeto não é mais necessário. <b>Temporário não significa curta duração</b> e não se aplica ao produto (um monumento dura séculos). Projetos podem ter <b>impactos sociais, econômicos e ambientais</b> mais longos que eles próprios.</td></tr>
+    <tr><td><b>Gerenciamento de projetos</b> (1.3)</td><td>"A aplicação de <b>conhecimento, habilidades, ferramentas e técnicas</b> às atividades do projeto a fim de atender aos seus requisitos."</td><td>Realizado pela aplicação e integração de <b>42 processos</b> agrupados em <b>5 grupos</b>: iniciação, planejamento, execução, monitoramento e controle, encerramento.</td></tr>
+  </table></div>
+
+  <h4>Gerenciar um projeto inclui</h4>
+  <ul class="tight">
+    <li>Identificação dos requisitos;</li>
+    <li>Adaptação às diferentes necessidades, preocupações e expectativas das partes interessadas;</li>
+    <li>Balanceamento das <b>restrições conflitantes</b>: <b>escopo, qualidade, cronograma, orçamento, recursos e risco</b>. Se um fator muda, pelo menos um outro provavelmente será afetado (cronograma reduzido → orçamento aumentado).</li>
+  </ul>
+
+  <h4>Por que um projeto é autorizado (1.4.3, projetos e planejamento estratégico)</h4>
+  <p>"Os projetos são frequentemente utilizados como meio de atingir o plano estratégico de uma organização" (está na sua anotação da aula 2). As cinco considerações estratégicas:</p>
+  <ol class="tight">
+    <li><b>Demanda de mercado</b> (carros mais econômicos em resposta à escassez de gasolina);</li>
+    <li><b>Oportunidade/necessidade estratégica de negócios</b> (novo curso para aumentar receita);</li>
+    <li><b>Solicitação de cliente</b> (nova subestação para um parque industrial);</li>
+    <li><b>Avanço tecnológico</b> (laptop mais rápido e barato após avanços em memória);</li>
+    <li><b>Requisito legal</b> (diretrizes para manuseio de material tóxico).</li>
+  </ol>
+
+  <h3>Projeto × programa × portfólio</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Projeto</th><th>Programa</th><th>Portfólio</th></tr>
+    <tr><td><b>O que é</b></td><td>Esforço temporário, resultado exclusivo.</td><td><b>Grupo de projetos relacionados</b>, gerenciados de modo coordenado para obter benefícios e controle que não existiriam se fossem gerenciados individualmente.</td><td><b>Conjunto de projetos ou programas e outros trabalhos</b>, agrupados para facilitar o gerenciamento eficaz e atingir objetivos de negócios estratégicos.</td></tr>
+    <tr><td><b>Relação entre os itens</b></td><td>—</td><td>Relacionados por resultado comum ou capacidade coletiva. Foco nas <b>interdependências</b>.</td><td><b>Não precisam ser interdependentes</b> nem diretamente relacionados.</td></tr>
+    <tr><td><b>Foco do gerenciamento</b></td><td>Atender aos requisitos do projeto.</td><td>Centralizado e coordenado, para objetivos e benefícios estratégicos do programa: resolver conflitos de recursos, alinhar orientação estratégica.</td><td>Identificação, <b>priorização</b>, autorização, gerenciamento e controle; priorizar a <b>alocação de recursos</b>; alinhamento às estratégias organizacionais.</td></tr>
+    <tr><td><b>Exemplo do livro</b></td><td>Uma usina.</td><td>Todos os projetos de energia = programa de energia.</td><td>Empresa de infraestrutura: petróleo e gás, energia, água, estradas, ferrovias, aeroportos.</td></tr>
+  </table></div>
+  <p class="note">Regras de bolso do texto: "um projeto pode ou não fazer parte de um programa, mas um programa sempre terá projetos". Se a única relação entre projetos for cliente, vendedor, tecnologia ou recurso compartilhado, gerencie como <b>portfólio</b>, não como programa.</p>
+
+  <h3>PMO e gerente de projetos</h3>
+  <div class="tw"><table>
+    <tr><th>Papel</th><th>Definição</th><th>Observações</th></tr>
+    <tr><td><b>Escritório de projetos (PMO)</b></td><td>Corpo ou entidade organizacional à qual são atribuídas responsabilidades relacionadas ao <b>gerenciamento centralizado e coordenado</b> dos projetos sob seu domínio.</td><td>Vai desde funções de suporte até o gerenciamento direto de um projeto. <b>Principal função: dar suporte aos gerentes de projetos</b> (está na sua anotação): recursos compartilhados; metodologia, melhores práticas e padrões; orientação, treinamento e supervisão; auditorias de conformidade; políticas, procedimentos e formulários (ativos de processos).</td></tr>
+    <tr><td><b>Gerente de projetos</b></td><td>Pessoa designada pela organização executora para <b>atingir os objetivos do projeto</b>.</td><td>Diferente do <b>gerente funcional</b> (supervisiona uma área administrativa) e do <b>gerente de operações</b> (responsável por um aspecto do negócio principal). Conforme a estrutura, reporta-se a um gerente funcional ou a um gerente de portfólios/programas.</td></tr>
+  </table></div>
+
+  <h3>Fatores ambientais da empresa × ativos de processos organizacionais</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Fatores ambientais da empresa (1.8)</th><th>Ativos de processos organizacionais (2.4.3)</th></tr>
+    <tr><td><b>O que são</b></td><td>Fatores <b>internos e externos</b> que cercam ou influenciam o sucesso do projeto. Podem aumentar ou restringir as opções; influência positiva ou negativa.</td><td>Qualquer ativo relacionado a <b>processos</b>, de qualquer organização envolvida, que pode ser usado para influenciar o sucesso do projeto.</td></tr>
+    <tr><td><b>Exemplos</b></td><td>Cultura, estrutura e processos organizacionais; normas governamentais ou do setor; infraestrutura; recursos humanos existentes; administração de pessoal; sistemas de autorização do trabalho; condições do mercado.</td><td>Planos formais e informais, políticas, procedimentos e diretrizes; <b>base de conhecimento</b>: lições aprendidas e informações históricas, cronogramas terminados, dados sobre riscos.</td></tr>
+    <tr><td><b>Como pensar</b></td><td>"O terreno": condições que você não escolhe.</td><td>"A caixa de ferramentas": o que a organização já sabe e já tem pronto.</td></tr>
+    <tr><td><b>No processo</b></td><td colspan="2">Ambos aparecem como <b>entrada</b> de quase todos os processos. Os ativos também aparecem como <b>saída</b> ("atualizações dos ativos"): o projeto devolve conhecimento.</td></tr>
+  </table></div>
+  <p><b>Base de conhecimento corporativa</b> inclui: bancos de dados de medição de processos; arquivos do projeto (linhas de base, cronogramas, registros de riscos); informações históricas e lições aprendidas; banco de questões e defeitos; banco de gerenciamento de configuração; bancos financeiros (horas, custos, estouros).</p>
+  <p class="note">Das suas anotações: "Ativo → todo ou qualquer elemento significativo para o negócio" · "O que queremos é causar um impacto com o software: fazer com que pensem que ele é de fato um ativo" · "Toda experiência de projeto é valiosa. Informação se transforma em conhecimento" · dica: anotar a cada semana o que foi feito.</p>
+
+  <h3>Ciclo de vida do projeto (capítulo 2)</h3>
+  <p>Todo projeto, grande ou pequeno, pode ser mapeado para esta estrutura genérica:</p>
+  <ol class="flow">
+    <li><b>Início do projeto</b><small>saída: termo de abertura (project charter)</small></li>
+    <li><b>Organização e preparação</b><small>saída: plano de gerenciamento do projeto</small></li>
+    <li><b>Execução do trabalho</b><small>saída: entregas aceitas</small></li>
+    <li><b>Encerramento</b><small>saída: documentos arquivados</small></li>
+  </ol>
+  <div class="tw"><table>
+    <tr><th>Gráfico do slide</th><th>O que mostra</th></tr>
+    <tr><td>Nível de custos e de pessoal × tempo</td><td>Baixo no início, atinge o <b>máximo durante a execução</b> e cai rapidamente no encerramento.</td></tr>
+    <tr><td>Influência das partes interessadas, risco e incerteza × tempo</td><td><b>Máximos no início</b>, caem ao longo do projeto.</td></tr>
+    <tr><td>Custo das mudanças × tempo</td><td><b>Mínimo no início</b>, cresce até o fim. As duas curvas se cruzam: é barato mudar exatamente quando a incerteza é maior.</td></tr>
+  </table></div>
+  <p class="note">Sua anotação: como gestor, não é preciso ter toda a equipe em todas as etapas; aloca-se e desloca-se pessoas conforme a habilidade e o estágio. É a leitura prática da curva de pessoal.</p>
+
+  <h3>Partes interessadas e influências organizacionais</h3>
+  <p><b>Partes interessadas</b> (2.3): "pessoas ou organizações (clientes, patrocinadores, organização executora ou o público) <b>ativamente envolvidas</b> no projeto ou cujos interesses podem ser <b>positiva ou negativamente afetados</b> pela execução ou término do projeto". Também podem exercer influência sobre o projeto, as entregas e a equipe. A equipe precisa identificá-las (internas e externas) para determinar requisitos e expectativas; o gerente precisa gerenciar a influência delas.</p>
+  <ul class="tight">
+    <li><b>Influências organizacionais</b> (2.4): cultura, estilo e estrutura influenciam como os projetos são executados, assim como o grau de maturidade em gerenciamento de projetos.</li>
+    <li><b>Culturas e estilos</b> ("normas culturais"): visões compartilhadas, valores, normas, crenças e expectativas; políticas, métodos e procedimentos; visão das relações de autoridade; ética e horas de trabalho. A pessoa no topo do organograma pode ser autoridade simbólica: o gerente precisa saber quem são os <b>deliberantes</b>.</li>
+    <li><b>Estrutura organizacional</b> (2.4.2): é um fator ambiental; varia de <b>funcional</b> a <b>projetizada</b>, com estruturas <b>matriciais</b> entre elas. A figura do slide é a <b>matricial balanceada</b>: o gerente de projetos é um membro da equipe de um gerente funcional e coordena pessoas de vários departamentos.</li>
+  </ul>
+
+  <h3>IPMA · The Eye of Competence</h3>
+  <p>O slide mostra a linha de base de competências da International Project Management Association, em três grupos:</p>
+  <div class="tw"><table>
+    <tr><th>Contextuais</th><th>Comportamentais</th><th>Técnicas</th></tr>
+    <tr><td>Orientação a projetos, programas e portfólios; organização permanente; negócio; sistemas, produtos e tecnologia; gestão de pessoal; saúde, segurança e meio ambiente; finanças; aspectos legais.</td><td>Liderança; engajamento e motivação; autocontrole; assertividade; descontração; abertura; criatividade; orientação a resultados; eficiência; consulta; negociação; conflitos e crises; confiabilidade; valores; ética.</td><td>Sucesso do gerenciamento; partes interessadas; requisitos e objetivos; risco e oportunidade; qualidade; organização do projeto; trabalho em equipe; resolução de problemas; estruturas; escopo e entregas; tempo e fases; recursos; custo e finanças; aquisições e contratos; mudanças; controle e relatórios; informação e documentação; comunicação; início; encerramento.</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido · projeto, programa, portfólio ou operação?</b>
+    <p><b>(a)</b> Desenvolver o app de agendamento da clínica X até dezembro. → <b>Projeto</b>: temporário, resultado exclusivo.</p>
+    <p><b>(b)</b> App do paciente + painel do médico + integração com o laboratório, que compartilham a mesma base e só dão resultado juntos. → <b>Programa</b>: projetos relacionados, benefício vem da coordenação.</p>
+    <p><b>(c)</b> Tudo o que a software house está fazendo este ano: o programa da clínica, um e-commerce, uma manutenção de ERP. → <b>Portfólio</b>: itens não relacionados, agrupados para priorizar recursos segundo a estratégia.</p>
+    <p><b>(d)</b> Atender chamados de suporte do ERP todos os dias. → Não é projeto: é trabalho contínuo, sem término definido (operação). <span class="inf">inferência</span></p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>A capa do slide é a 6ª edição, mas o texto fala em 42 processos. Qual número uso?</dt>
+    <dd>Use <b>42 processos em 5 grupos</b>, que é o que está escrito no slide e no quadro-resumo final (áreas numeradas de 4 a 12). Essa contagem é a da 4ª edição do guia; edições posteriores mudaram o total. <span class="inf">inferência</span> Os 5 grupos são os mesmos em todas.</dd>
+    <dt>"Temporário" quer dizer que o software é temporário?</dt>
+    <dd>Não. Temporário é o <b>esforço</b>. O texto diz que o termo geralmente não se aplica ao produto: a maioria dos projetos cria um resultado duradouro.</dd>
+    <dt>Ciclo de vida do projeto é a mesma coisa que ciclo de vida do software?</dt>
+    <dd>Não. O do software (módulo 2) descreve as fases técnicas do produto: requisitos, análise, projeto, código, teste. O do projeto descreve o esforço de gestão: início, organização, execução, encerramento. Um projeto de software tem os dois ao mesmo tempo.</dd>
+    <dt>Ciclo de vida do projeto (4 fases) × grupos de processos (5)?</dt>
+    <dd>Fases são períodos de tempo em sequência. Grupos de processos são categorias de atividade de gestão, que se repetem: o slide diz que em projetos grandes os processos de <b>iniciação são refeitos no início de cada fase</b>, e monitoramento e controle acontece o tempo todo.</dd>
+    <dt>Por que os impactos sociais, ambientais e econômicos aparecem no nosso TAP?</dt>
+    <dd>Porque a definição de projeto do slide termina com: "os projetos também podem ter impactos sociais, econômicos e ambientais com duração mais longa que a dos próprios projetos". O modelo de TAP do relatório tem exatamente esses três campos, e o projeto da disciplina tem caráter extensionista.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Defina projeto segundo o PMBOK e explique as palavras temporário e exclusivo."</li>
+    <li>"Diferencie projeto, programa e portfólio" ou classifique exemplos.</li>
+    <li>"Qual a principal função de um PMO?" / "Diferencie gerente de projetos de gerente funcional."</li>
+    <li>"O que são ativos de processos organizacionais? Dê exemplos." Relacione com "informação se transforma em conhecimento".</li>
+    <li>Interpretar o gráfico influência/risco × custo das mudanças e ligar com a tabela 1x / 1,5–6x / 60–100x.</li>
+  </ul></div>
+</section>
+
+<section id="m4">
+  <h2>Módulo 4 · PMBOK: grupos de processos, TAP e EAP</h2>
+  <div class="why"><b>Por que estudar</b>O capítulo 3 do guia ocupou mais da metade dos slides, e o primeiro item do seu relatório é o TAP. Você não precisa decorar entradas e saídas dos 42 processos, mas precisa saber os 5 grupos, o que o TAP faz, a cadeia de planejamento (requisitos → escopo → EAP → atividades → cronograma → custos) e a trinca OBS/PBS/WBS.</div>
+
+  <h3>Os cinco grupos de processos</h3>
+  <div class="tw"><table>
+    <tr><th>Grupo</th><th>Definição do slide</th><th class="n">Processos</th></tr>
+    <tr><td><b>Iniciação</b></td><td>Definir um novo projeto ou uma nova fase, obtendo <b>autorização</b> para iniciar. Escopo inicial definido, recursos financeiros iniciais comprometidos, partes interessadas identificadas, gerente selecionado.</td><td class="n">2</td></tr>
+    <tr><td><b>Planejamento</b></td><td>Definir o escopo, refinar os objetivos e desenvolver o curso de ação necessário para alcançá-los. Produz o plano de gerenciamento e os documentos do projeto.</td><td class="n">20</td></tr>
+    <tr><td><b>Execução</b></td><td>Executar o trabalho definido no plano para satisfazer as especificações. Envolve coordenar pessoas e recursos.</td><td class="n">8</td></tr>
+    <tr><td><b>Monitoramento e controle</b></td><td>Acompanhar, revisar e regular o progresso e o desempenho; identificar mudanças necessárias no plano e iniciá-las.</td><td class="n">10</td></tr>
+    <tr><td><b>Encerramento</b></td><td>Finalizar todas as atividades de todos os grupos, encerrando formalmente o projeto ou a fase.</td><td class="n">2</td></tr>
+  </table></div>
+  <p class="note">2 + 20 + 8 + 10 + 2 = 42. O desenho do slide "Resumo": Iniciação → Planejamento → Execução ⇄ Monitoramento e controle → Encerramento, com uma seta de volta de monitoramento para planejamento.</p>
+
+  <h3>Quadro-resumo: os 42 processos por grupo e área</h3>
+  <div class="tw"><table>
+    <tr><th>Área de conhecimento</th><th>Iniciação</th><th>Planejamento</th><th>Execução</th><th>Monit. e controle</th><th>Encerramento</th></tr>
+    <tr><td><b>4 · Integração</b></td><td>4.1 Desenvolver o TAP</td><td>4.2 Desenvolver o plano de gerenciamento</td><td>4.3 Orientar e gerenciar a execução</td><td>4.4 Monitorar e controlar o trabalho · 4.5 Controle integrado de mudanças</td><td>4.6 Encerrar o projeto ou a fase</td></tr>
+    <tr><td><b>5 · Escopo</b></td><td></td><td>5.1 Coletar os requisitos · 5.2 Definir o escopo · 5.3 Criar a EAP</td><td></td><td>5.4 Verificar o escopo · 5.5 Controlar o escopo</td><td></td></tr>
+    <tr><td><b>6 · Tempo</b></td><td></td><td>6.1 Definir atividades · 6.2 Sequenciar · 6.3 Estimar recursos · 6.4 Estimar durações · 6.5 Desenvolver o cronograma</td><td></td><td>6.6 Controlar o cronograma</td><td></td></tr>
+    <tr><td><b>7 · Custos</b></td><td></td><td>7.1 Estimar os custos · 7.2 Determinar o orçamento</td><td></td><td>7.3 Controlar os custos</td><td></td></tr>
+    <tr><td><b>8 · Qualidade</b></td><td></td><td>8.1 Planejar a qualidade</td><td>8.2 Realizar a garantia da qualidade</td><td>8.3 Controlar a qualidade</td><td></td></tr>
+    <tr><td><b>9 · Rec. humanos</b></td><td></td><td>9.1 Desenvolver o plano de RH</td><td>9.2 Mobilizar · 9.3 Desenvolver · 9.4 Gerenciar a equipe</td><td></td><td></td></tr>
+    <tr><td><b>10 · Comunicações</b></td><td>10.1 Identificar as partes interessadas</td><td>10.2 Planejar as comunicações</td><td>10.3 Distribuir informações · 10.4 Gerenciar expectativas das partes interessadas</td><td>10.5 Reportar o desempenho</td><td></td></tr>
+    <tr><td><b>11 · Riscos</b></td><td></td><td>11.1 Planejar o gerenciamento · 11.2 Identificar · 11.3 Análise qualitativa · 11.4 Análise quantitativa · 11.5 Planejar as respostas</td><td></td><td>11.6 Monitorar e controlar os riscos</td><td></td></tr>
+    <tr><td><b>12 · Aquisições</b></td><td></td><td>12.1 Planejar as aquisições</td><td>12.2 Realizar as aquisições</td><td>12.3 Administrar as aquisições</td><td>12.4 Encerrar as aquisições</td></tr>
+  </table></div>
+  <p class="note">Padrões para memorizar: só <b>Integração</b> tem processo em todos os grupos; <b>Riscos</b> tem 5 dos 6 processos no planejamento (o risco se mapeia antes); <b>RH</b> só tem planejamento e execução; iniciação e encerramento têm 2 processos cada.</p>
+
+  <h3>Iniciação: o TAP e as partes interessadas</h3>
+  <div class="tw"><table>
+    <tr><th>Processo</th><th>Definição</th><th>Entradas</th><th>Saídas</th></tr>
+    <tr><td><b>3.3.1 Desenvolver o termo de abertura do projeto</b></td><td>Desenvolvimento de um documento que <b>formalmente autoriza um projeto ou uma fase</b> e a documentação dos <b>requisitos iniciais</b> que satisfaçam as necessidades e expectativas das partes interessadas.</td><td>Declaração do trabalho; <i>business case</i>; contrato; fatores ambientais; ativos de processos.</td><td><b>Termo de abertura</b> (project charter).</td></tr>
+    <tr><td><b>3.3.2 Identificar as partes interessadas</b></td><td>Identificação de todas as pessoas ou organizações que podem ser afetadas pelo projeto e documentação de seus interesses, envolvimento e impacto no sucesso.</td><td>TAP; documentos de aquisição; fatores ambientais; ativos de processos.</td><td><b>Registro das partes interessadas</b>; estratégia para gerenciá-las.</td></tr>
+  </table></div>
+  <ul class="tight">
+    <li>"Quando o termo de abertura é aprovado, o projeto se torna <b>oficialmente autorizado</b>."</li>
+    <li>A equipe pode ajudar a escrever o TAP, mas <b>a aprovação e o financiamento são externos aos limites do projeto</b>.</li>
+    <li>Em projetos com várias fases, a iniciação é refeita a cada fase para validar as decisões; decide-se se o projeto deve ser <b>continuado, adiado ou interrompido</b>.</li>
+    <li>Nota do professor no slide: <i>procurement documents</i> = "Contrato de Relacionamento; Carta de Intenções etc.".</li>
+  </ul>
+  <div class="code"><b>Como fica no relatório · Termo de Abertura de Projeto (TAP)</b>
+    Campos do modelo: <b>Nome do projeto</b> · <b>Integrantes da equipe</b> · <b>Escopo</b> ("faça a apresentação da empresa e da solução de negócio pretendida com o software") · <b>Objetivo do projeto</b> ("o objetivo deste projeto é o desenvolvimento de um software que…") · <b>Motivação</b> ("atender a…") · <b>Impactos sociais</b> · <b>Impactos ambientais</b> · <b>Impactos econômicos</b>. O relatório abre com o RAP (Registro de Abertura: equipe e data de início) e fecha com o REP (Registro de Encerramento). O prazo total estabelecido no TAP é reutilizado na ficha de risco (20 meses no exemplo RK_01).</div>
+
+  <h3>Planejamento: a cadeia que leva do TAP ao orçamento</h3>
+  <ol class="flow">
+    <li><b>4.2 Plano de gerenciamento</b><small>integra todos os planos auxiliares; fonte principal de como o projeto será planejado, executado, monitorado, controlado e encerrado</small></li>
+    <li><b>5.1 Coletar os requisitos</b><small>definir e documentar as necessidades das partes interessadas → documentação, plano de gerenciamento e <b>matriz de rastreabilidade</b> dos requisitos</small></li>
+    <li><b>5.2 Definir o escopo</b><small>descrição detalhada do projeto e do produto → declaração do escopo</small></li>
+    <li><b>5.3 Criar a EAP</b><small>subdividir entregas e trabalho em componentes menores → EAP, dicionário da EAP, linha de base do escopo</small></li>
+    <li><b>6.1 a 6.5 Tempo</b><small>atividades e marcos → diagramas de rede → recursos → durações → cronograma e linha de base</small></li>
+    <li><b>7.1 e 7.2 Custos</b><small>estimativas por atividade → agregação → linha de base de custos autorizada</small></li>
+  </ol>
+  <p><b>Planejamento por ondas sucessivas:</b> o detalhamento progressivo do plano. À medida que mais informações são coletadas, pode ser necessário planejamento adicional; mudanças significativas obrigam a revisitar processos de planejamento e até de iniciação. "O planejamento e a documentação são processos iterativos e contínuos."</p>
+  <p class="note">Os demais processos de planejamento em uma linha cada: <b>planejar a qualidade</b> (requisitos e padrões de qualidade e como atingir a conformidade); <b>plano de RH</b> (papéis, responsabilidades, habilidades, relações hierárquicas); <b>planejar as comunicações</b> (necessidades de informação das partes interessadas); <b>riscos</b> (módulo 5); <b>planejar as aquisições</b> (decisões de compra, <i>make-or-buy</i>, fornecedores em potencial).</p>
+  <p>O slide da <b>árvore com o balanço</b> ("como o cliente explicou / como o líder entendeu / como o analista planejou / como o programador codificou / … / o que o cliente realmente necessitava") aparece logo depois de "Coletar os requisitos" e volta na aula de requisitos: é o argumento visual para a frase da sua anotação sobre requisitos serem o contrato.</p>
+
+  <h3>OBS, PBS, WBS e RAM</h3>
+  <div class="tw"><table>
+    <tr><th>Sigla</th><th>Nome</th><th>Responde</th><th>O que é</th></tr>
+    <tr><td><b>EOP / OBS</b></td><td>Estrutura Organizacional do Projeto</td><td><b>Quem</b> vai fazer</td><td>Diagrama hierárquico da estrutura funcional das pessoas que trabalham no projeto; identifica responsabilidades, hierarquias e conexões entre departamentos e organizações.</td></tr>
+    <tr><td><b>EFP / PBS</b></td><td>Estrutura Funcional do Produto</td><td><b>O que</b> vai ser feito</td><td>Representação gráfica da hierarquia de produtos e subprodutos; dá o enquadramento para o calendário das atividades e a gestão financeira.</td></tr>
+    <tr><td><b>EAP / WBS</b></td><td>Estrutura Analítica do Projeto</td><td><b>Como</b> vai ser feito</td><td>Decomposição hierárquica, <b>orientada às entregas</b>, do trabalho que a equipe precisa executar para atingir os objetivos.</td></tr>
+    <tr><td><b>MAR / RAM</b></td><td>Matriz de Atribuições de Responsabilidades</td><td>Quem faz cada coisa</td><td>Cruza a OBS com a estrutura de trabalho/produto; identifica de forma inequívoca quem, ou que organização, é responsável por cada atividade planejada.</td></tr>
+  </table></div>
+  <p class="note">Atenção ao texto: a legenda diz "quando combinada com a <b>EFP/PBS</b>, a EOP/OBS é usada para desenvolver a MAR/RAM"; a figura ao lado cruza <b>WBS</b> (colunas) com OBS (linhas). Se perguntarem, cite a frase do slide e descreva a figura.</p>
+  <p>O exemplo de EAP do slide é o <b>Projeto Bicicleta</b>, com 7 ramos de primeiro nível: Gerenciamento do projeto (plano do projeto, controle, fechamento) · Concepção (premissas e restrições, estudo de viabilidade, revisão do project charter) · Pesquisa · Projeto · Contratação · Fabricação do protótipo · Homologação (testes em campo, relatório). Repare: os nós são <b>entregas</b> (substantivos: "relatório de viabilidade", "plano de teste"), não verbos.</p>
+
+  <div class="ex"><b>Exemplo resolvido · mini EAP e RAM para um sistema de locadora</b>
+    <p><b>EAP (2 níveis, por entregas):</b> 1 Gerenciamento (1.1 TAP · 1.2 Mapa de riscos · 1.3 Estimativa em PF · 1.4 Cronograma) · 2 Requisitos (2.1 Atas de entrevista · 2.2 Fichas Rq · 2.3 Casos de uso) · 3 Banco de dados (3.1 DER · 3.2 Dicionário de dados) · 4 Implementação · 5 Verificação e validação · 6 Implantação.</p>
+    <div class="tw"><table>
+      <tr><th>RAM</th><th>1.1 TAP</th><th>1.3 PF</th><th>2.2 Fichas Rq</th><th>3.1 DER</th></tr>
+      <tr><td>Ana (gerente)</td><td>R</td><td>A</td><td>A</td><td></td></tr>
+      <tr><td>Bruno (analista)</td><td>C</td><td>R</td><td>R</td><td>C</td></tr>
+      <tr><td>Carla (DBA)</td><td></td><td>C</td><td></td><td>R</td></tr>
+    </table></div>
+    <p>R = responsável, A = aprova, C = consultado. <span class="inf">inferência</span> A notação RACI não está no slide; o slide só exige que a matriz mostre "de forma inequívoca" quem responde por cada atividade.</p>
+  </div>
+
+  <h3>Execução, controle e encerramento: só o essencial</h3>
+  <div class="tw"><table>
+    <tr><th>Conceito</th><th>O que dizer</th></tr>
+    <tr><td>Garantia × controle da qualidade</td><td><b>Garantia</b> (execução): auditoria dos requisitos de qualidade e dos resultados das medições, para garantir que os padrões apropriados estão sendo usados. <b>Controle</b> (monitoramento): monitorar e registrar os resultados das atividades de qualidade para avaliar o desempenho e recomendar mudanças.</td></tr>
+    <tr><td>Verificar × controlar o escopo</td><td><b>Verificar</b>: formalizar a <b>aceitação das entregas</b> terminadas. <b>Controlar</b>: monitorar o andamento do escopo e gerenciar as mudanças na linha de base.</td></tr>
+    <tr><td>Controle integrado de mudanças</td><td>Avaliar todas as solicitações de mudança, aprovar e gerenciar as mudanças em entregas, ativos, documentos e plano. Objetivo: "que <b>somente as mudanças aprovadas</b> sejam implementadas".</td></tr>
+    <tr><td>Equipe</td><td>Mobilizar (confirmar disponibilidade e obter a equipe) → desenvolver (melhorar competências e interação) → gerenciar (acompanhar desempenho, dar feedback, resolver questões).</td></tr>
+    <tr><td>Encerramento</td><td>Obter aceitação do cliente ou patrocinador; revisão pós-projeto; registrar impactos de adequação de processos; <b>documentar lições aprendidas</b>; atualizar os ativos de processos; arquivar documentos no SIGP como dados históricos; encerrar as aquisições.</td></tr>
+  </table></div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>TAP × plano de gerenciamento do projeto?</dt>
+    <dd>O TAP <b>autoriza</b> (iniciação) e traz requisitos iniciais em alto nível. O plano <b>detalha como</b> o projeto será planejado, executado, monitorado, controlado e encerrado (planejamento). No gráfico do ciclo de vida, o TAP é a saída da 1ª fase e o plano é a saída da 2ª.</dd>
+    <dt>Quem aprova o TAP?</dt>
+    <dd>Alguém de fora do projeto: o slide diz que aprovação e financiamento são externos aos limites do projeto. A equipe só ajuda a escrever.</dd>
+    <dt>"Coletar os requisitos" do PMBOK é a engenharia de requisitos?</dt>
+    <dd>É o ponto de encaixe. Para o PMBOK é um processo de planejamento do escopo, com três saídas (documentação, plano de gerenciamento e matriz de rastreabilidade dos requisitos). A engenharia de requisitos (módulos 8 e 9) é o "como fazer" desse processo em software.</dd>
+    <dt>EAP é lista de tarefas?</dt>
+    <dd>Não: é decomposição <b>orientada às entregas</b>. As atividades vêm depois, no processo 6.1 "Definir as atividades", que tem a linha de base do escopo (onde está a EAP) como entrada.</dd>
+    <dt>Preciso decorar entradas e saídas?</dt>
+    <dd>Improvável que cobrem em detalhe. <span class="inf">inferência</span> Guarde os encadeamentos: o TAP é entrada de quase tudo no início; o <b>registro de riscos</b> é saída de "identificar os riscos" e é atualizado por todos os processos seguintes de risco; "atualizações dos ativos de processos" aparecem como saída de vários processos.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Quais são os 5 grupos de processos? Em qual deles está o TAP? E a EAP? E o mapeamento de riscos?"</li>
+    <li>"O que é o Termo de Abertura do Projeto e para que serve?" Cite os campos do TAP do relatório.</li>
+    <li>"Diferencie OBS, PBS e WBS" (quem, o quê, como) e explique a RAM.</li>
+    <li>Esboçar uma EAP de dois níveis para um sistema simples.</li>
+    <li>"O que é planejamento por ondas sucessivas?"</li>
+  </ul></div>
+</section>
+
+<section id="m5">
+  <h2>Módulo 5 · Engenharia e gestão de riscos</h2>
+  <div class="why"><b>Por que estudar</b>É o item 2 do relatório e o primeiro conteúdo com conta. O professor disse (sua anotação) que o mapeamento é feito <b>antes</b> de o projeto começar e o gerenciamento, <b>durante todo</b> o projeto. Cabe questão conceitual (aspectos, processo, tipos), numérica (R = P × I, exposição) e de preenchimento (ficha RK).</div>
+
+  <h3>O que é risco</h3>
+  <ul class="tight">
+    <li>[Charette] [Pressman] O risco preocupa-se com <b>acontecimentos futuros</b>; envolve <b>mudanças</b> (de mentalidade, opinião, ações ou lugares); envolve <b>escolha</b> e a incerteza que a escolha acarreta.</li>
+    <li>[Pressman] "O risco, como a morte e os impostos, é uma das poucas certezas da vida."</li>
+    <li><b>Definição para escrever na prova:</b> "um risco é um acontecimento não desejado que tem consequências negativas".</li>
+    <li>Na aula de estimativas: "risco é um problema em potencial: pode ou não acontecer". É importante identificá-lo, avaliar sua probabilidade, estimar seu impacto e estabelecer um plano de contingência.</li>
+    <li>Preocupações do gerente: término no tempo previsto, restrições de esforço e restrições de custo. Risco nos requisitos: dificuldades no desenvolvimento e na análise.</li>
+  </ul>
+
+  <h3>Os três aspectos que distinguem um risco</h3>
+  <div class="tw"><table>
+    <tr><th>Aspecto</th><th>Definição</th><th>Pergunta</th></tr>
+    <tr><td><b>Impacto</b></td><td>Perda associada ao acontecimento (<b>tempo, qualidade, dinheiro, controle</b>). Ex.: alteração profunda de requisitos leva a perda de tempo e dinheiro se o projeto não for flexível.</td><td>Quanto eu perco?</td></tr>
+    <tr><td><b>Probabilidade</b></td><td>A frequência do acontecimento; deve ser estimada.</td><td>Qual a chance?</td></tr>
+    <tr><td><b>Controle</b></td><td>Capacidade de controlar a ocorrência: o que pode ser feito para minimizar ou evitar o impacto.</td><td>O que posso fazer?</td></tr>
+  </table></div>
+
+  <h3>Engenharia de riscos = análise + gerenciamento</h3>
+  <div class="tw"><table>
+    <tr><th>Análise de riscos</th><th>Gerenciamento de riscos</th></tr>
+    <tr><td><b>Identificação:</b> identificar fontes de risco (custos, segurança, jurídico, erro no desenho).<br><b>Estimativa:</b> avaliar a probabilidade e a gravidade.<br><b>Avaliação:</b> avaliar, priorizar e recomendar conduta e estratégias de prevenção.</td><td>Planejamento · controle · <b>monitoração</b> · direcionamento · recrutamento (para combate aos riscos).<br>A monitoração serve para: <b>garantir</b> que as recomendações da análise sejam cumpridas; <b>observar</b> a eficácia das estratégias de prevenção; <b>recomendar</b> mudanças nessas estratégias.</td></tr>
+  </table></div>
+  <div class="tw"><table>
+    <tr><th>Cultura</th><th>Maturidade</th><th>Práticas</th></tr>
+    <tr><td><b>Pró-ativa</b></td><td>Maior</td><td>Gerenciamento de mudanças · antecipação de falhas · estimativa de erros · prevenção</td></tr>
+    <tr><td><b>Reativa</b></td><td>Menor</td><td>Gerenciamento da crise · correção da falha · mitigação do risco. A mitigação é a ponte de transição para o estilo pró-ativo (prevenção).</td></tr>
+  </table></div>
+
+  <h3>Tipos de risco</h3>
+  <p>Lista do slide (10): projeto · técnico · negócio · desempenho · segurança · integridade de base de dados · processo de desenvolvimento · político · legal · volatilidade. Os três principais:</p>
+  <div class="tw"><table>
+    <tr><th>De projeto</th><th>Técnicos</th><th>Do negócio</th></tr>
+    <tr><td>Problemas <b>orçamentários, de cronograma, de pessoal, de recursos, de clientes, de requisitos</b> e o impacto no projeto.</td><td>Potenciais problemas de <b>projeto (design), implementação, interface, verificação e manutenção</b>.</td><td>"Podem destruir até os melhores projetos": construir um <b>produto que ninguém quer</b>; que não se encaixe mais na estratégia da empresa; perder o apoio da administração ou o compromisso orçamentário.</td></tr>
+  </table></div>
+  <p class="note">"Se você não atacar ativamente os riscos técnicos e de projeto, eles lhe atacarão ativamente." (Gilb)</p>
+
+  <h4>Os dez principais itens de risco [Boehm]</h4>
+  <div class="tw"><table>
+    <tr><th class="n">#</th><th>Slide de riscos</th><th>Slide de estimativas (outra tradução)</th></tr>
+    <tr><td class="n">1</td><td>Pessoal insuficiente</td><td>Imprevistos de pessoal</td></tr>
+    <tr><td class="n">2</td><td>Cronogramas e orçamentos não realistas</td><td>Cronogramas e orçamentos não realísticos</td></tr>
+    <tr><td class="n">3</td><td>Desenvolvimento equivocado das funções do software</td><td>Desenvolvimento das funções erradas</td></tr>
+    <tr><td class="n">4</td><td>Interface com o usuário inadequada</td><td>Desenvolvimento da interface errada</td></tr>
+    <tr><td class="n">5</td><td>Simplificar os requisitos</td><td>Requisitos sofisticados, sem necessidade</td></tr>
+    <tr><td class="n">6</td><td>Fluxo contínuo de modificações de requisitos</td><td>Fluxo contínuo de mudanças nos requisitos</td></tr>
+    <tr><td class="n">7</td><td>Insuficiência nas tarefas realizadas externamente</td><td>Imprevistos em serviços terceirizados</td></tr>
+    <tr><td class="n">8</td><td>Insuficiência dos componentes fornecidos externamente</td><td>Imprevistos em componentes terceirizados</td></tr>
+    <tr><td class="n">9</td><td>Insuficiência de desempenho em tempo real</td><td>Imprevistos de desempenho em tempo real</td></tr>
+    <tr><td class="n">10</td><td>Exceder a capacidade da ciência</td><td>Capacidade de ciência da computação excedida</td></tr>
+  </table></div>
+  <p class="note">Agrupe para lembrar: pessoas e prazo (1, 2) · fazer a coisa errada (3, 4, 5, 6) · terceiros (7, 8) · limites técnicos (9, 10). Quatro dos dez são riscos de <b>requisitos</b>.</p>
+
+  <h3>O processo de gestão de riscos</h3>
+  <ol class="flow">
+    <li><b>Identificar riscos</b><small>→ lista de riscos em potencial</small></li>
+    <li><b>Análise dos riscos</b><small>→ lista de riscos comentados (quando, por que e onde)</small></li>
+    <li><b>Priorização</b><small>→ lista de riscos priorizada (probabilidade × impacto)</small></li>
+    <li><b>Planejamento</b><small>→ planos para evitar riscos e de contingência</small></li>
+    <li><b>Monitoramento</b><small>→ avaliação dos riscos; realimenta a análise</small></li>
+  </ol>
+  <p>Outra forma do mesmo processo (slide "Passos envolvidos"): <b>Avaliar o risco</b> (identificar, analisar, atribuir prioridade) e <b>Controlar o risco</b> (reduzir, plano de gestão, resolução do problema causado pelo risco).</p>
+  <h4>Técnicas de identificação</h4>
+  <ol class="tight">
+    <li><b>Aprender com a história:</b> reconhecer softwares idênticos desenvolvidos antes e usar a lista de riscos que ocorreram.</li>
+    <li><b>Decomposição:</b> verificar os riscos associados a cada atividade do processo de desenvolvimento.</li>
+    <li><b>Analisar pressupostos e decisões</b> sobre como o projeto vai ser executado, por quem e com que recursos.</li>
+  </ol>
+  <p class="note">Listas de verificação da aula de estimativas. <b>Riscos do cliente:</b> já trabalhou com ele? Tem ideia sólida dos requisitos? Quer participar das revisões? É tecnicamente sofisticado? Entende o processo de engenharia de software? <b>Riscos tecnológicos:</b> tecnologia nova para a empresa? Hardware novo ou não testado? Interface especializada? Métodos novos ou não convencionais (métodos formais, IA, redes neurais)? Restrições significativas de desempenho?</p>
+
+  <h3>Priorização: qualitativa e quantitativa</h3>
+  <p><b>Matriz 3 × 3</b> (está na sua anotação): na vertical, o <b>impacto</b> (baixo, médio, alto); na horizontal, a <b>probabilidade</b> (baixa, média, alta). Quanto mais para cima e para a direita, maior a prioridade. O gráfico "risco e preocupação gerencial" diz o mesmo: impacto muito alto com probabilidade perto de 1,0 → preocupação elevada; impacto muito baixo e probabilidade baixa → desconsidere o fator de risco.</p>
+  <p><span class="formula">Exposição ao risco = Prob(evento) × Impacto(sistema)</span> &nbsp; <span class="formula">R = P × I</span> &nbsp; <span class="formula">ER = P × C</span> (C = custo para o projeto se o risco ocorrer)</p>
+  <p>A matriz do slide vem em branco: o exercício é preenchê-la. Preenchida:</p>
+  <div class="tw"><table>
+    <tr><th>P \ I</th><th class="n">0,05</th><th class="n">0,10</th><th class="n">0,20</th><th class="n">0,40</th><th class="n">0,80</th></tr>
+    <tr><th class="n">0,9</th><td class="n lo">0,045</td><td class="n md">0,09</td><td class="n hi">0,18</td><td class="n hi">0,36</td><td class="n hi">0,72</td></tr>
+    <tr><th class="n">0,7</th><td class="n lo">0,035</td><td class="n md">0,07</td><td class="n md">0,14</td><td class="n hi">0,28</td><td class="n hi">0,56</td></tr>
+    <tr><th class="n">0,5</th><td class="n lo">0,025</td><td class="n lo">0,05</td><td class="n md">0,10</td><td class="n hi">0,20</td><td class="n hi">0,40</td></tr>
+    <tr><th class="n">0,3</th><td class="n lo">0,015</td><td class="n lo">0,03</td><td class="n md">0,06</td><td class="n md">0,12</td><td class="n hi">0,24</td></tr>
+    <tr><th class="n">0,1</th><td class="n lo">0,005</td><td class="n lo">0,01</td><td class="n lo">0,02</td><td class="n lo">0,04</td><td class="n md">0,08</td></tr>
+  </table></div>
+  <p class="note">Cores (verde até 0,05 · amarelo até 0,14 · vermelho de 0,18 em diante) seguem a convenção usual dessa matriz no PMBOK; o slide não define as faixas. <span class="inf">inferência</span></p>
+
+  <h4>Escala de impacto sobre aspectos do projeto (slide 20)</h4>
+  <div class="tw"><table>
+    <tr><th>Aspecto</th><th>Muito baixo · 0,1</th><th>Baixo · 0,2</th><th>Moderado · 0,4</th><th>Alto · 0,6</th><th>Muito alto · 0,8</th></tr>
+    <tr><td><b>Custos</b></td><td>Insignificante</td><td>&lt; 5%</td><td>5 – 10%</td><td>10 – 20%</td><td>&gt; 20%</td></tr>
+    <tr><td><b>Cronograma</b></td><td>Insignificante</td><td>&lt; 5%</td><td>5 – 10%</td><td>10 – 20%</td><td>&gt; 20%</td></tr>
+    <tr><td><b>Qualidade</b></td><td>Mal percebida</td><td>Afeta exigentes demandas</td><td>Requer aprovação do cliente</td><td>Inaceitável pelo cliente</td><td>Efetivamente sem uso</td></tr>
+  </table></div>
+
+  <h4>Matriz qualitativa probabilidade × impacto (slide 21)</h4>
+  <div class="tw"><table>
+    <tr><th>Probabilidade</th><th>Residual</th><th>Mínimo</th><th>Moderado</th><th>Acentuado</th><th>Crítico</th></tr>
+    <tr><td><b>Alta</b> (&gt; 90%)</td><td class="md">Moderado</td><td class="hi">Alto</td><td class="hi">Alto</td><td class="hi"><b>Extremo</b></td><td class="hi"><b>Extremo</b></td></tr>
+    <tr><td><b>Média alta</b> (&gt; 50% e ≤ 90%)</td><td class="md">Moderado</td><td class="md">Moderado</td><td class="hi">Alto</td><td class="hi">Alto</td><td class="hi"><b>Extremo</b></td></tr>
+    <tr><td><b>Média</b> (&gt; 15% e ≤ 50%)</td><td class="lo">Baixo</td><td class="md">Moderado</td><td class="md">Moderado</td><td class="hi">Alto</td><td class="hi"><b>Extremo</b></td></tr>
+    <tr><td><b>Média baixa</b> (&gt; 5% e ≤ 15%)</td><td class="lo">Baixo</td><td class="lo">Baixo</td><td class="md">Moderado</td><td class="hi">Alto</td><td class="hi"><b>Extremo</b></td></tr>
+    <tr><td><b>Baixa</b> (≤ 5%)</td><td class="lo">Baixo</td><td class="lo">Baixo</td><td class="md">Moderado</td><td class="md">Moderado</td><td class="hi">Alto</td></tr>
+  </table></div>
+  <p class="note">Impactos: residual = problema menor, tratado pelos processos normais; mínimo = alguma perturbação; moderado = tempo/recursos significativos; acentuado = operações severamente prejudicadas; crítico = sustentabilidade do negócio em risco. Leitura: impacto crítico é quase sempre "extremo", mesmo com probabilidade baixa.</p>
+
+  <h3>Redução dos riscos: as respostas</h3>
+  <div class="tw"><table>
+    <tr><th>Resposta</th><th>Como (slide)</th><th>Exemplo</th></tr>
+    <tr><td><b>Evitar</b></td><td>Alterando requisitos.</td><td>Tirar do escopo a integração com o sistema legado instável. <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Transferir</b></td><td>Atribuindo-os a outros sistemas; fazer seguro.</td><td>Usar gateway de pagamento de terceiros em vez de tratar cartões. <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Assumir</b></td><td>E controlá-los com recursos do projeto (protótipos).</td><td>Prototipar a tela crítica para reduzir o risco de interface inadequada.</td></tr>
+    <tr><td><b>Verificar se compensa</b></td><td colspan="2"><span class="formula">(Exposição antes da redução − Exposição depois da redução) ÷ Custo da redução</span><br>"Se o valor não for alto o suficiente para justificar a redução, pode-se procurar outras técnicas menos dispendiosas ou mais efetivas."</td></tr>
+  </table></div>
+  <p>Na aula de estimativas o mesmo tema aparece com três verbos: <b>Atenuação</b> (como podemos evitar o risco?) · <b>Monitoração</b> (que fatores podem ser rastreados para prevenir a ocorrência?) · <b>Administração</b> (que planos de contingência temos para o caso de o risco se tornar efetivo?). Exemplos "para pensar" do slide: <i>cliente não sabe o que quer</i>; <i>alta rotatividade de pessoal</i>.</p>
+  <ul class="tight">
+    <li><b>Plano de gestão do risco:</b> registrar as decisões sobre a redução do risco. <b>Resolução do problema:</b> monitorar o projeto de acordo com o plano.</li>
+    <li><b>Nível de referência de risco:</b> ponto (valor de custo, valor de tempo) a partir do qual a ultrapassagem do prazo e dos custos projetados leva ao <b>encerramento do projeto</b>.</li>
+    <li><b>Dados históricos</b> são o fator que reduz o risco das estimativas: estimativas mais seguras, prazos que evitam dificuldades passadas, riscos globais reduzidos.</li>
+    <li>"O fundamental é que os riscos assumidos sejam os riscos certos."</li>
+  </ul>
+
+  <div class="ex"><b>Exemplo resolvido 1 · a ficha RK_01 do professor</b>
+    <p>Risco: <i>Indisponibilidade de pessoa na equipe</i>. PO = 80%. MI = 30% (classe <b>Grande</b>: 25% &lt; MI ≤ 50%). Consequência (Co) no <b>cronograma</b>. Prazo do projeto no TAP = 20 meses.</p>
+    <p><span class="formula">Exposição = PO × MI × Co = 0,80 × 0,30 × 20 meses = 4,8 meses</span></p>
+    <p>Leitura: em média, este risco "custa" 4,8 meses ao cronograma. Se a consequência fosse em custo, Co seria o orçamento (ex.: 0,80 × 0,30 × R$ 50.000 = R$ 12.000). No <b>Resumo</b> do modelo, somam-se as exposições: 4,8 + 1,3 + 1 = <b>7,1 meses</b> e 1.500 + 8.100 + 500 = <b>R$ 10.100</b>, e conta-se quantos riscos há por magnitude (P: 2, M: 1, G: 2, E: 0).</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 2 · R = P × I e prioridade</b>
+    <p>Risco A: cliente muda requisitos, P = 0,7, I = 0,40 → R = <b>0,28</b>. Risco B: servidor de hospedagem falha, P = 0,1, I = 0,80 → R = <b>0,08</b>. Risco C: integrante adoece, P = 0,5, I = 0,20 → R = <b>0,10</b>. Ordem de prioridade: A, C, B. Note que B tem o maior impacto e fica em último: prioridade vem do <b>produto</b>.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 3 · a redução compensa?</b> <span class="inf">números meus</span>
+    <p>Risco de perder o único programador de backend: P = 40%, impacto = R$ 50.000 → exposição antes = R$ 20.000. Treinar um segundo integrante custa R$ 4.000 e derruba P para 10% → exposição depois = R$ 5.000.</p>
+    <p><span class="formula">(20.000 − 5.000) ÷ 4.000 = 3,75</span> Cada real gasto evita R$ 3,75 de exposição: compensa. Se o treinamento custasse R$ 20.000, o índice seria 0,75 e valeria procurar técnica mais barata.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 4 · os dois "exemplos para pensar" do slide</b> <span class="inf">resposta minha</span>
+    <div class="tw"><table>
+      <tr><th></th><th>Cliente não sabe o que quer</th><th>Alta rotatividade de pessoal</th></tr>
+      <tr><td><b>Tipo</b></td><td>De projeto (requisitos, clientes); itens 3, 5 e 6 de Boehm.</td><td>De projeto (pessoal); item 1 de Boehm.</td></tr>
+      <tr><td><b>Atenuação</b> (como evitar?)</td><td>Prototipação e cenários; entrevistas estruturadas; validar os requisitos com o cliente e registrar a aprovação; entregas curtas.</td><td>Ao menos dois membros familiarizados com cada tarefa; documentação em dia; comunicação individual constante; bonificação por desempenho.</td></tr>
+      <tr><td><b>Monitoração</b> (o que rastrear?)</td><td>Número de mudanças de requisito por semana; requisitos sem fonte ou sem aprovação; cliente faltando às revisões.</td><td>Ausências, dificuldade de contato, queda de entregas nas reuniões de acompanhamento.</td></tr>
+      <tr><td><b>Administração</b> (contingência)</td><td>Congelar o escopo da versão e levar as mudanças ao controle integrado de mudanças, com novo prazo e custo.</td><td>Reduzir o escopo; contratar profissional habilitado; redistribuir tarefas a quem já conhece o módulo.</td></tr>
+    </table></div>
+    <p>A coluna da direita é praticamente a ficha RK_01 do professor; a da esquerda mostra por que prototipação (módulo 2) e elicitação bem feita (módulo 9) são, no fundo, medidas de gestão de risco.</p>
+  </div>
+
+  <div class="code"><b>Como fica no relatório · ficha de Mapeamento de Risco (item 2)</b>
+<pre><span class="k">Identificador</span>        RK_01            <span class="k">Responsável</span>  Luiz Camolesi Jr.
+<span class="k">Nome</span>                 Indisponibilidade de Pessoa na Equipe
+<span class="k">Descrição</span>            Integrantes impossibilitados de cumprir suas tarefas
+                     (doença, solicitação de desligamento)
+<span class="k">Probab. de Ocorrência (PO)</span>   80%
+<span class="k">Magnitude de Impacto (MI)</span>    30%   <span class="c">→ Pequena ≤10% · Média 10–25% · Grande 25–50% · Extrema &gt;50%</span>
+<span class="k">Consequência (Co)</span>    Qualidade ( )  Custo ( )  Cronograma (Sim)
+                     Obs.: sobrecarga de trabalho aos membros da equipe
+<span class="k">Sinais</span> <span class="c">(cenários de alerta)</span>
+                     Dificuldade para contatar o integrante; ausência nos horários
+<span class="k">Ações de Mitigação</span> <span class="c">(prevenção)</span>
+                     Comunicação constante e individualizada; programa de saúde;
+                     bonificação por desempenho; <span class="s">ao menos 2 membros por tarefa</span>
+<span class="k">Ações de Monitoramento</span>
+                     Reuniões frequentes em que cada membro se posiciona
+<span class="k">Ações de Contingência</span> <span class="c">(redução de impacto e magnitude)</span>
+                     Redução do escopo; contratação de novo profissional
+<span class="k">Riscos Relacionados</span>  RK_09 (Redução da capacidade de trabalho de membro)
+<span class="k">Exposição</span>            = PO × MI × (Co) = 80% × 30% × 20 meses = <span class="s">4,8 meses</span>
+<span class="k">Histórico do Risco</span>   data da alteração · motivo · responsável · alteração realizada</pre>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>Mitigação × monitoramento × contingência?</dt>
+    <dd><b>Mitigação</b> age antes, para reduzir a chance (prevenção). <b>Monitoramento</b> vigia os <b>sinais</b> de que o risco está se aproximando. <b>Contingência</b> é o que se faz depois que o risco ocorreu, para reduzir impacto e magnitude. É o trio atenuação, monitoração e administração do slide de estimativas.</dd>
+    <dt>Risco × problema?</dt>
+    <dd>Risco é futuro e incerto ("problema em potencial: pode ou não acontecer"). Quando ocorre, vira problema e entra a contingência ("resolução do problema causado pelo risco").</dd>
+    <dt>R = P × I dá um número sem unidade; a exposição da ficha dá meses. Qual é a certa?</dt>
+    <dd>As duas. Com impacto em escala (0,05 a 0,80), R serve para <b>ordenar</b> riscos. Com impacto em meses ou reais (MI × Co), a exposição serve para <b>ajustar a estimativa final</b>: "pode-se ajustar a estimativa final de custo de um projeto" somando as exposições.</dd>
+    <dt>Por que mapear antes de começar, se o gerenciamento é durante todo o projeto?</dt>
+    <dd>Porque no início a incerteza é máxima e mudar é barato (gráfico do módulo 3); e o PMBOK coloca 5 dos 6 processos de risco no planejamento. O sexto (monitorar e controlar) roda até o fim porque surgem riscos novos e as probabilidades mudam, por isso a ficha tem "Histórico do Risco".</dd>
+    <dt>E o slide de hackers, crimes cibernéticos e espionagem?</dt>
+    <dd>É um exemplo de análise de <b>riscos de segurança</b> no formato ameaça → motivação → ação (hacker: desafio, ego → engenharia social, acesso não autorizado; funcionário descontente: vingança, ganho monetário → fraude, código malicioso, sabotagem). Serve de inspiração para riscos do tipo "segurança" no relatório.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Defina risco e explique os três aspectos que o distinguem."</li>
+    <li>Calcular R = P × I para alguns riscos e ordená-los; ou calcular a exposição em meses/R$ como na RK_01.</li>
+    <li>Dado um risco (ex.: "cliente não sabe o que quer", "alta rotatividade"), escrever sinais, mitigação, monitoramento e contingência.</li>
+    <li>"Quais as estratégias de redução de riscos?" (evitar, transferir, assumir + verificar o custo).</li>
+    <li>Classificar riscos em de projeto, técnicos e de negócio; citar itens da lista de Boehm.</li>
+    <li>"Diferencie gerenciamento pró-ativo de reativo."</li>
+  </ul></div>
+</section>
+
+<section id="m6">
+  <h2>Módulo 6 · Estimativa de tamanho: pontos de função</h2>
+  <div class="why"><b>Por que estudar</b>É o item 3 do relatório e o conteúdo com mais cara de exercício numérico: dado um conjunto de funções, contar PF e derivar esforço, prazo e custo. Resolve diretamente o primeiro problema da crise de software (estimativas imprecisas). Não há anotação sua desta aula, então o guia segue só os slides e o modelo do relatório.</div>
+
+  <h3>Por que planejar e o que o planejamento entrega</h3>
+  <ul class="tight">
+    <li>No planejamento do projeto devem ser derivados: <b>estimativa do esforço humano exigido, duração cronológica e custo</b>.</li>
+    <li>Por que planejar: o desenvolvimento tem vários ciclos que podem se repetir; <b>o cliente precisa saber quanto custará e quando ficará pronto</b>; há riscos envolvidos. O planejamento é essencial para <b>decidir se o projeto continuará ou não</b> e serve de base para o gerenciamento.</li>
+    <li>Objetivos: determinar o alcance do trabalho (<b>função, desempenho, interface e segurança</b>); estimar recursos (<b>humanos, de hardware e de software</b>); identificar tarefas; elaborar cronogramas; estimar esforço (custo).</li>
+  </ul>
+  <p><b>As 4 atividades fundamentais de planejamento:</b> (1) elaboração de estimativas · (2) análise de riscos · (3) elaboração de cronograma · (4) elaboração do plano e aprovação.</p>
+  <ol class="flow">
+    <li><b>Requisitos funcionais</b><small>entrada de tudo</small></li>
+    <li><b>Estimar tamanho</b><small>LOC ou PF · usar 2 ou mais métodos</small></li>
+    <li><b>Estimar esforço</b><small>pessoas-mês ou pessoas-hora · 2 ou mais métodos</small></li>
+    <li><b>Estimar tempo</b><small>mês, horas ou dias · 2 ou mais métodos · daqui sai o custo</small></li>
+    <li><b>Avaliar riscos</b></li>
+    <li><b>Inspecionar e aprovar</b><small>repetir periodicamente</small></li>
+    <li><b>Acompanhar as estimativas</b><small>medição e melhoria do processo · SEPO</small></li>
+  </ol>
+  <p class="note">Unidade de esforço: <b>1 pessoa trabalhando 12 meses = 12 pessoas-mês</b>. SEPO = Software Engineering Process Office.</p>
+
+  <h3>LOC × PF</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Linhas de código (LOC / KLOC)</th><th>Pontos por função (PF)</th></tr>
+    <tr><td><b>O que mede</b></td><td>Tamanho físico do código.</td><td>Tamanho pela <b>quantificação da funcionalidade</b> do processamento da aplicação: o que o software faz, não como foi construído.</td></tr>
+    <tr><td><b>Vantagens</b></td><td>Fáceis de obter; vários modelos de estimativa baseados em LOC/KLOC (COCOMO).</td><td>Permite estimar <b>desde as primeiras fases</b> de análise e projeto, quando há poucas informações; independe de linguagem.</td></tr>
+    <tr><td><b>Desvantagens</b></td><td><b>Depende da linguagem</b>; <b>penaliza programas bem projetados, mas pequenos</b>; não se adapta a linguagens não procedimentais; <b>difícil de obter na fase de planejamento</b>.</td><td>Exige identificar corretamente funções e fronteira; tem subjetividade. <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Quem padroniza</b></td><td>—</td><td><b>IFPUG</b> (International Function Point Users Group) e <b>NESMA</b> (Netherlands Function Point Users Group). A técnica nasceu na IBM nos anos 70, com Allan Albrecht.</td></tr>
+  </table></div>
+
+  <h3>Passo 1: a fronteira e os cinco tipos de função</h3>
+  <p><b>Fronteira da aplicação:</b> "a linha que separa o projeto ou aplicação que está sendo contada de outras aplicações ou sistemas da organização". Define-se pelo ponto de vista do usuário.</p>
+  <div class="tw"><table>
+    <tr><th>Sigla</th><th>Grupo</th><th>Definição do slide</th><th>Exemplos</th></tr>
+    <tr><td><b>ALI</b> · Arquivo Lógico Interno</td><td rowspan="2">Dados</td><td>Grupo de dados logicamente relacionados, ou informações de controle, identificados e modificados pelo usuário e <b>mantidos dentro</b> das fronteiras da aplicação.</td><td>Tabelas Cliente, Reserva, Fatura.</td></tr>
+    <tr><td><b>AIE</b> · Arquivo de Interface Externa</td><td>Grupo de dados logicamente relacionados, utilizados no sistema que está sendo analisado, mas <b>mantidos fora</b> da fronteira.</td><td>Tabela de CEP dos Correios; dados salariais do sistema financeiro.</td></tr>
+    <tr><td><b>EE</b> · Entrada Externa</td><td rowspan="3">Transações</td><td>Função ou transação que leva dados ou informações de controle <b>de fora para dentro</b> da fronteira.</td><td>Incluir, alterar, excluir cliente; registrar locação.</td></tr>
+    <tr><td><b>SE</b> · Saída Externa</td><td>Processo que fornece <b>dados derivados</b> para fora da aplicação. Dado derivado: um ou mais dados elementares combinados para gerar elementos de dados adicionais.</td><td>Relatório de faturamento por período (total calculado); fatura com juros.</td></tr>
+    <tr><td><b>CE</b> · Consulta Externa</td><td>Transação que combina entrada e saída, resultando em <b>recuperação de dados</b> de um ALI ou AIE. Sem cálculo.</td><td>Consultar cliente pelo nome; listar carros alugados.</td></tr>
+  </table></div>
+  <p class="note">Do guia prático: <b>não são</b> EE telas de filtro, preenchimento de campos e login simples; login <b>com criptografia</b> é SE (tem processamento); um cadastro que mostra uma mensagem no fim continua EE, porque a finalidade era cadastrar. <b>Processo elementar</b> = menor unidade de atividade significativa para o usuário; "consultar clientes" não é um processo elementar, "consultar clientes pelo nome" é.</p>
+
+  <h3>Os três tipos de contagem NESMA</h3>
+  <div class="tw"><table>
+    <tr><th>Contagem</th><th>Quando</th><th>Como</th></tr>
+    <tr><td><b>Indicativa</b></td><td>Só se conhece o modelo de dados.</td><td>Usa apenas a quantidade de ALI e AIE. O slide só cita o nome. <span class="inf">detalhe fora do material</span></td></tr>
+    <tr><td><b>Estimada</b></td><td><b>Fase inicial da proposta</b>, quando não há dados detalhados do processo, só informações preliminares sobre processos e modelo de dados.</td><td>Identifica as 5 funções e assume: <b>ALI e AIE com complexidade baixa; EE, SE e CE com complexidade média</b>.</td></tr>
+    <tr><td><b>Detalhada</b></td><td>Requisitos maduros.</td><td>Determina a complexidade de cada função. "É a mesma técnica de Análise de Pontos por Função do IFPUG."</td></tr>
+  </table></div>
+
+  <h3>Tabela de contribuição (decore)</h3>
+  <div class="tw"><table>
+    <tr><th>Tipo de função</th><th class="n">Baixa</th><th class="n">Média</th><th class="n">Alta</th><th>Na contagem estimada</th></tr>
+    <tr><td>ALI</td><td class="n"><b>7</b></td><td class="n">10</td><td class="n">15</td><td>usa 7</td></tr>
+    <tr><td>AIE</td><td class="n"><b>5</b></td><td class="n">7</td><td class="n">10</td><td>usa 5</td></tr>
+    <tr><td>EE</td><td class="n">3</td><td class="n"><b>4</b></td><td class="n">6</td><td>usa 4</td></tr>
+    <tr><td>SE</td><td class="n">4</td><td class="n"><b>5</b></td><td class="n">7</td><td>usa 5</td></tr>
+    <tr><td>CE</td><td class="n">3</td><td class="n"><b>4</b></td><td class="n">6</td><td>usa 4</td></tr>
+  </table></div>
+  <p class="note">Truque: EE e CE têm a mesma linha (3, 4, 6); SE é sempre um a mais (4, 5, 7); AIE começa onde SE termina a média (5, 7, 10); ALI é a linha mais cara (7, 10, 15).</p>
+  <p><b>Os 3 passos da contagem estimada:</b> (1) determinar todos os AIE, ALI, EE, SE e CE; (2) atribuir complexidade baixa aos arquivos e média às transações; (3) calcular o total pela tabela.</p>
+
+  <div class="ex"><b>Exemplo resolvido 1 · a locadora de carros do slide (contagem estimada)</b>
+    <p><b>ALI (16):</b> Pessoa, Fone_Pessoa, Pessoa_Física, Pessoa_Jurídica, Funcionário, Cliente, Acesso, Categoria, Reserva, Reserva_Confirmada, Automóvel, Locação_Prevista, Locação_Especial, Serviço, Serviço_Reservado, Fatura → 16 × 7 = <b>112</b>.</p>
+    <p><b>AIE:</b> "não existem" → 0.</p>
+    <p><b>EE (23):</b> incluir/alterar/excluir de Cliente, Categoria, Automóvel, Funcionário, Serviço e Nível de Acesso (18) + incluir e excluir Reserva (2) + retirar automóvel, devolução de automóvel, pagamento de fatura (3) → 23 × 4 = <b>92</b>.</p>
+    <p><b>SE (8):</b> comprovante de retirada, comprovante de devolução, listagem de automóveis por período, listagem de reservas do dia, consulta de ocupação, relatório de faturamento, faturas diárias, faturas em atraso.</p>
+    <p><b>Total do slide: 236 PF.</b> Conferindo: 112 + 92 = 204, então o slide contou as 8 saídas com <b>4 PF</b> cada (32). Pela tabela do próprio slide, SE média vale <b>5</b>: seriam 8 × 5 = 40 e o total daria <b>244 PF</b>. O professor segue com 236 no restante do exemplo (conversão e COCOMO).</p>
+    <p><b>O que fazer na prova:</b> use a tabela (SE = 5), mostre a conta linha a linha e, se o enunciado já der o total, use o total dado. Se quiser refazer o exemplo do slide, saiba explicar de onde vem o 236.</p>
+  </div>
+
+  <h3>Contagem detalhada: como achar a complexidade</h3>
+  <p>É o formato das tabelas do item 3 do relatório: para cada arquivo, <b>Tipos de Dados</b> e <b>Tipos de Registros</b>; para cada transação, <b>Tipos de Dados</b> e <b>Arquivos Referenciados</b>.</p>
+  <ul class="tight">
+    <li><b>TD · tipo de dado:</b> campo único, não recursivo, reconhecido pelo usuário. Em arquivo: cada atributo. Em transação: cada campo preenchido ou exibido, e também o botão de confirmação e a mensagem de erro.</li>
+    <li><b>TR · tipo de registro:</b> subgrupo de dados dentro de um arquivo lógico. Todo arquivo é um tipo de registro de si mesmo (mínimo 1). Ex.: Funcionário com especializações Auxiliar e Dentista = 1 ALI com 3 TR.</li>
+    <li><b>AR · arquivo referenciado:</b> todo ALI ou AIE lido, ou ALI mantido, pela transação; conta uma vez só.</li>
+  </ul>
+  <div class="two">
+    <div class="tw"><table>
+      <tr><th>ALI e AIE</th><th>&lt; 20 TD</th><th>20–50 TD</th><th>&gt; 50 TD</th></tr>
+      <tr><td><b>1 TR</b></td><td class="lo">Baixa</td><td class="lo">Baixa</td><td class="md">Média</td></tr>
+      <tr><td><b>2–5 TR</b></td><td class="lo">Baixa</td><td class="md">Média</td><td class="hi">Alta</td></tr>
+      <tr><td><b>&gt; 5 TR</b></td><td class="md">Média</td><td class="hi">Alta</td><td class="hi">Alta</td></tr>
+    </table></div>
+    <div class="tw"><table>
+      <tr><th>EE</th><th>&lt; 5 TD</th><th>5–15 TD</th><th>&gt; 15 TD</th></tr>
+      <tr><td><b>&lt; 2 AR</b></td><td class="lo">Baixa</td><td class="lo">Baixa</td><td class="md">Média</td></tr>
+      <tr><td><b>2 AR</b></td><td class="lo">Baixa</td><td class="md">Média</td><td class="hi">Alta</td></tr>
+      <tr><td><b>&gt; 2 AR</b></td><td class="md">Média</td><td class="hi">Alta</td><td class="hi">Alta</td></tr>
+    </table></div>
+  </div>
+  <div class="tw" style="max-width:440px"><table>
+    <tr><th>SE e CE</th><th>&lt; 6 TD</th><th>6–19 TD</th><th>&gt; 19 TD</th></tr>
+    <tr><td><b>&lt; 2 AR</b></td><td class="lo">Baixa</td><td class="lo">Baixa</td><td class="md">Média</td></tr>
+    <tr><td><b>2–3 AR</b></td><td class="lo">Baixa</td><td class="md">Média</td><td class="hi">Alta</td></tr>
+    <tr><td><b>&gt; 3 AR</b></td><td class="md">Média</td><td class="hi">Alta</td><td class="hi">Alta</td></tr>
+  </table></div>
+  <p class="note">As três matrizes têm o mesmo desenho (diagonal baixa → média → alta); só mudam os limites. Essas tabelas estão no "Guia Prático em APF" da pasta, não nos slides. Se caírem, o enunciado deve fornecê-las. <span class="inf">inferência</span></p>
+
+  <div class="ex"><b>Exemplo resolvido 2 · contagem detalhada (guia prático, mesma locadora simplificada)</b>
+    <div class="tw"><table>
+      <tr><th>Função</th><th>Tipo</th><th class="n">TD</th><th class="n">TR / AR</th><th>Complexidade</th><th class="n">PF</th></tr>
+      <tr><td>Usuário</td><td>ALI</td><td class="n">4</td><td class="n">1 TR</td><td>Baixa</td><td class="n">7</td></tr>
+      <tr><td>Cliente (absorve "Aluga")</td><td>ALI</td><td class="n">7</td><td class="n">2 TR</td><td>Baixa</td><td class="n">7</td></tr>
+      <tr><td>Carro (absorve "Aluga")</td><td>ALI</td><td class="n">8</td><td class="n">2 TR</td><td>Baixa</td><td class="n">7</td></tr>
+      <tr><td>Incluir Cliente</td><td>EE</td><td class="n">6</td><td class="n">1 AR</td><td>Baixa</td><td class="n">3</td></tr>
+      <tr><td>Incluir Automóveis</td><td>EE</td><td class="n">7</td><td class="n">2 AR</td><td><b>Média</b> (2 AR, 5–15 TD)</td><td class="n">4</td></tr>
+      <tr><td>Login (com criptografia)</td><td>SE</td><td class="n">4</td><td class="n">1 AR</td><td>Baixa</td><td class="n">4</td></tr>
+      <tr><td>Consulta clientes com carro alugado</td><td>CE</td><td class="n">6</td><td class="n">3 AR</td><td><b>Média</b> (2–3 AR, 6–19 TD)</td><td class="n">4</td></tr>
+    </table></div>
+    <p>No guia completo: dados = 21 PF (3 ALI) · transações = 57 PF (11 EE, 1 SE, 6 CE) · <b>total não ajustado = 78 PF</b>. Fator de ajuste (VAF) = 1, porque é opcional desde 2002 e subjetivo (±35%). <span class="formula">DFP = (UFP + CFP) × VAF = (78 + 0) × 1 = 78 PF</span> (CFP = funções de conversão de dados, usadas uma vez na instalação).</p>
+    <p><b>Lição do exemplo:</b> a tabela "Aluga" não é reconhecida pelo usuário como entidade, mas seus campos são; por isso virou <b>tipo de registro</b> de Cliente e de Carro, não um ALI. "É um erro assumir que cada tabela do banco é um ALI."</p>
+  </div>
+
+  <h3>Do tamanho ao esforço, prazo e custo (como no relatório)</h3>
+  <p>O modelo do item 3 deriva tudo direto dos PF, com três perguntas "pesquise no mercado":</p>
+  <p><span class="formula">Esforço (h) = Total PF × Produtividade (h/PF)</span><br>
+     <span class="formula">Custo = Total PF × Produtividade × Custo da hora</span><br>
+     <span class="formula">Prazo = (Total PF × Produtividade) ÷ Pessoas</span></p>
+  <div class="tw"><table>
+    <tr><th>Tecnologia</th><th class="n">h/PF</th><th>Tecnologia</th><th class="n">h/PF</th></tr>
+    <tr><td>Java</td><td class="n">15</td><td>HTML</td><td class="n">7</td></tr>
+    <tr><td>JSP</td><td class="n">13</td><td>Delphi · Visual Basic · PL/SQL</td><td class="n">9</td></tr>
+    <tr><td>PHP · Cold Fusion</td><td class="n">11</td><td>ASP</td><td class="n">10</td></tr>
+  </table></div>
+  <p class="note">Tabela de produtividade mínima de edital (guia prático). O modelo do relatório usa como exemplo: Java, 15 h/PF, R$ 30,00 a hora, 3 pessoas. O guia alerta: produtividade é intrínseca de cada empresa; usar base de terceiros é um risco, e o melhor redutor de erro é ter <b>histórico de projetos</b>.</p>
+
+  <div class="ex"><b>Exemplo resolvido 3 · um sistema pequeno, do zero</b> <span class="inf">números meus</span>
+    <p>Sistema de biblioteca: 3 ALI (Livro, Sócio, Empréstimo), 1 AIE (cadastro de alunos da secretaria), 6 EE, 2 SE, 3 CE. Contagem estimada:</p>
+    <p><span class="formula">3×7 + 1×5 + 6×4 + 2×5 + 3×4 = 21 + 5 + 24 + 10 + 12 = 72 PF</span></p>
+    <p>Em Java, 15 h/PF, R$ 30/h, 3 pessoas: Esforço = 72 × 15 = <b>1.080 h</b> · Custo = 1.080 × 30 = <b>R$ 32.400</b> · Prazo = 1.080 ÷ 3 = <b>360 h por pessoa</b>; a 130 h úteis por mês (valor do guia prático), ≈ <b>2,8 meses</b>.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 4 · derivações do guia prático</b>
+    <p>78 PF, produtividade 5 h/PF, 130 h por homem-mês, 2 pessoas: Esforço = 5 × 78 = <b>390 h</b> = 3 homens-mês · Prazo = 3 ÷ 2 = <b>1,5 mês</b>. Custo: hora a R$ 21 → PF a 21 × 5 = R$ 105. O guia arredonda para R$ 100 e chega a R$ 7.800; com o valor exato, 78 × 105 = <b>R$ 8.190</b>.</p>
+    <p>O guia avisa que prazo = esforço ÷ recursos supõe linearidade, "o que é uma suposição muito falha": <i>nove mulheres não geram um bebê em um mês</i>. É o mito do módulo 1 de novo.</p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>SE × CE: como decidir?</dt>
+    <dd>Pergunte se há <b>dado derivado</b> (cálculo, total, juros, criptografia). Se há, é SE. Se é recuperação simples de ALI/AIE, é CE. No exemplo da locadora do professor, tudo que sai (inclusive "consulta de ocupação") foi classificado como SE e nenhuma CE foi contada.</dd>
+    <dt>ALI × AIE?</dt>
+    <dd>Quem <b>mantém</b> o dado. Se a sua aplicação inclui, altera ou exclui, é ALI. Se só lê e outra aplicação mantém, é AIE. O mesmo arquivo é ALI para uma aplicação e AIE para outra.</dd>
+    <dt>Cada tabela do banco é um ALI?</dt>
+    <dd>Pelo guia prático, não: conta-se o que o <b>usuário reconhece</b> como entidade; tabelas de especialização ou de ligação viram tipos de registro. Já o exemplo do professor contou 16 ALI, um por tabela (inclusive Fone_Pessoa, Pessoa_Física e Pessoa_Jurídica). Na contagem <b>estimada</b> essa simplificação é aceitável e é o que o slide faz; na prova, siga o que o enunciado listar.</dd>
+    <dt>Alterar e excluir contam separado de incluir?</dt>
+    <dd>Sim. Cada um é um processo elementar: no slide, Cliente gera 3 EE (incluir, alterar dados, excluir).</dd>
+    <dt>PF "não ajustados"?</dt>
+    <dd>É a soma bruta das contribuições. O ajuste (VAF, de 0,65 a 1,35) considera características gerais do sistema; é opcional e subjetivo, e o curso não usa. Os slides sempre escrevem "PF (não ajustados)".</dd>
+    <dt>PF mede esforço?</dt>
+    <dd>Não. Mede <b>tamanho funcional</b>. Esforço, prazo e custo são derivações que dependem de produtividade, que depende da linguagem e da equipe.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Dada uma descrição ou lista de funções, classificar em ALI, AIE, EE, SE, CE e calcular o total pela contagem estimada.</li>
+    <li>Calcular esforço, custo e prazo a partir dos PF, com produtividade, custo-hora e tamanho da equipe dados.</li>
+    <li>"Cite vantagens e desvantagens de LOC" e "qual a principal vantagem dos pontos de função?"</li>
+    <li>"O que é fronteira da aplicação?" · "O que é dado derivado?" · "Quais as premissas da contagem estimada?"</li>
+    <li>"Quais são os três tipos de contagem segundo a NESMA e qual equivale à do IFPUG?"</li>
+  </ul></div>
+</section>
+
+<section id="m7">
+  <h2>Módulo 7 · COCOMO 81, cronograma e plano de projeto</h2>
+  <div class="why"><b>Por que estudar</b>É o "segundo método" que o fluxo de estimativas exige: conhecido o tamanho, o COCOMO dá esforço e prazo por equações empíricas. O exemplo da locadora continua aqui e fecha com números (52,42 pessoas-mês; 11,26 meses). Cronograma e plano completam as 4 atividades de planejamento.</div>
+
+  <h3>O que é o COCOMO 81</h3>
+  <ul class="tight">
+    <li><b>CO</b>nstructive <b>CO</b>st <b>MO</b>del (Modelo de Custo Construtivo), apresentado em <b>1981</b> por <b>Boehm</b>. Estima <b>esforço, prazo, custo e tamanho da equipe</b>.</li>
+    <li>Equações derivadas de uma base de <b>63 projetos</b>, a maior parte da TRW Systems; domínios variados (negócios, científicas, sistemas de controle, sistemas operacionais); de <b>2.000 a 1.000.000</b> de linhas de código (comentários excluídos).</li>
+    <li>Combinou experiência, resultados de outros modelos e a opinião subjetiva de gerentes experientes.</li>
+    <li><b>Pontos fortes:</b> embasamento em experimentações, derivações matemáticas e tabelas de dados; critérios bem definidos para o nível de influência do ambiente e da capacidade dos profissionais.</li>
+    <li><b>Limitação:</b> precisa do tamanho em <b>KLOC</b> no início do projeto. Alternativa viável: contar PF e converter.</li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th>Nível</th><th>Calcula o esforço em função de…</th><th>Observação</th></tr>
+    <tr><td><b>Básico</b></td><td>…do tamanho estimado (linhas de código).</td><td>Aplicável à grande maioria dos projetos, de pequeno a médio porte; <b>não considera</b> restrições de hardware, qualificação e experiência do pessoal, uso de ferramentas modernas.</td></tr>
+    <tr><td><b>Intermediário</b></td><td>…do tamanho <b>e de um conjunto de direcionadores de custo</b> (atributos do produto, do hardware, do pessoal e do projeto).</td><td>É o usado no exemplo da locadora.</td></tr>
+    <tr><td><b>Avançado</b></td><td>…de tudo o que o intermediário considera, porém <b>em cada passo do processo</b> de engenharia de software.</td><td>Só o conceito.</td></tr>
+  </table></div>
+
+  <h3>Os três modos de desenvolvimento</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Orgânico</th><th>Semidestacado (difuso)</th><th>Embutido (restrito)</th></tr>
+    <tr><td><b>Tamanho</b></td><td>Relativamente pequeno (<b>até 50.000 linhas</b>); equipes pequenas.</td><td>Estágio intermediário.</td><td>Projetos relativamente grandes, com muita necessidade de inovação.</td></tr>
+    <tr><td><b>Equipe</b></td><td>Ambiente familiar; maioria com grande experiência em sistemas relacionados.</td><td>Nível intermediário de experiência, <b>ou</b> mistura de experientes e inexperientes, <b>ou</b> experiência só em alguns aspectos.</td><td>—</td></tr>
+    <tr><td><b>Restrições</b></td><td>Processo descontraído; ambiente estável, pouca inovação; sem requisitos de entrega rígidos; algoritmos simples.</td><td>Alguns requisitos funcionais e de interface rigorosos e alguns flexíveis.</td><td><b>Restrições rigorosas</b>: o produto opera embutido em complexo rígido de hardware, software, regulamentos e procedimentos. Alto custo de V&amp;V e de gerência de configuração.</td></tr>
+    <tr><td><b>Exemplos</b></td><td>Sistema de locadora.</td><td>—</td><td>Transferência eletrônica de fundos; controle de tráfego aéreo.</td></tr>
+  </table></div>
+
+  <h3>As equações</h3>
+  <div class="tw"><table>
+    <tr><th>Modo</th><th>Esforço · básico</th><th>Esforço nominal · intermediário</th><th>Prazo (básico e intermediário)</th></tr>
+    <tr><td>Orgânico</td><td class="n">E = 2,4 × KLOC<sup>1,05</sup></td><td class="n">E<sub>nom</sub> = 3,2 × KLOC<sup>1,05</sup></td><td class="n">P = 2,5 × E<sup>0,38</sup></td></tr>
+    <tr><td>Semidestacado</td><td class="n">E = 3,0 × KLOC<sup>1,12</sup></td><td class="n">E<sub>nom</sub> = 3,0 × KLOC<sup>1,12</sup></td><td class="n">P = 2,5 × E<sup>0,35</sup></td></tr>
+    <tr><td>Embutido</td><td class="n">E = 3,6 × KLOC<sup>1,20</sup></td><td class="n">E<sub>nom</sub> = 2,8 × KLOC<sup>1,20</sup></td><td class="n">P = 2,5 × E<sup>0,32</sup></td></tr>
+  </table></div>
+  <p><span class="formula">Intermediário: E = FAE × E<sub>nom</sub></span> · E em <b>homens-mês</b> (pessoas-mês) · P em <b>meses</b> · KLOC = milhares de linhas.</p>
+  <p class="note">Para memorizar: os <b>expoentes</b> do esforço sobem com a rigidez (1,05 → 1,12 → 1,20) e os do prazo descem (0,38 → 0,35 → 0,32); o 2,5 do prazo é fixo. No básico o coeficiente sobe (2,4 · 3,0 · 3,6); no intermediário <b>desce</b> (3,2 · 3,0 · 2,8), porque a dificuldade extra entra pelo FAE. Expoente maior que 1 = <b>deseconomia de escala</b>: dobrar o tamanho mais que dobra o esforço. <span class="inf">inferência</span></p>
+
+  <h3>Conversão PF → LOC</h3>
+  <p>"Pontos de função não ajustados podem ser convertidos na quantidade equivalente de linhas de código", com base na observação empírica do número de instruções para implementar um PF.</p>
+  <div class="tw"><table>
+    <tr><th>Linguagem</th><th class="n">LOC/PF</th><th>Linguagem</th><th class="n">LOC/PF</th><th>Linguagem</th><th class="n">LOC/PF</th></tr>
+    <tr><td>Ansi SQL</td><td class="n">13</td><td>dBase IV</td><td class="n">36</td><td>LISP</td><td class="n">64</td></tr>
+    <tr><td>HTML 3.0</td><td class="n">15</td><td><b>Access</b></td><td class="n"><b>38</b></td><td>Fortran 95</td><td class="n">71</td></tr>
+    <tr><td>Clipper</td><td class="n">19</td><td>Oracle</td><td class="n">40</td><td>Ansi COBOL 85</td><td class="n">91</td></tr>
+    <tr><td>Smalltalk</td><td class="n">22</td><td>Natural 2</td><td class="n">46</td><td>COBOL II</td><td class="n">107</td></tr>
+    <tr><td>Delphi · Object Pascal · VB 5</td><td class="n">29</td><td>Turbo Pascal 5</td><td class="n">49</td><td>C · Turbo C</td><td class="n">128</td></tr>
+    <tr><td>FoxPro 2.5</td><td class="n">34</td><td><b>Java · C++</b></td><td class="n"><b>53</b></td><td></td><td></td></tr>
+  </table></div>
+
+  <h3>FAE: os 15 direcionadores de custo</h3>
+  <p><b>Direcionador de custo</b> = "característica de desenvolvimento de software que tem efeito aumentativo ou diminutivo na quantidade de esforço de desenvolvimento final do projeto". Boehm definiu 15, em 4 categorias, cada um avaliado numa escala de 6 pontos (muito baixo, baixo, normal, alto, muito alto, extra alto). <b>O produto de todos os multiplicadores é o FAE</b> (Fator de Ajuste do Esforço).</p>
+  <div class="tw"><table>
+    <tr><th>Categoria</th><th>Sigla</th><th>Atributo</th><th class="n">M. baixo</th><th class="n">Baixo</th><th class="n">Normal</th><th class="n">Alto</th><th class="n">M. alto</th><th class="n">Extra</th></tr>
+    <tr><td rowspan="3"><b>Produto</b></td><td>RELY</td><td>Confiabilidade requerida</td><td class="n">0,75</td><td class="n">0,88</td><td class="n">1,00</td><td class="n">1,15</td><td class="n">1,40</td><td class="n">–</td></tr>
+    <tr><td>DATA</td><td>Tamanho da base de dados</td><td class="n">–</td><td class="n">0,94</td><td class="n">1,00</td><td class="n">1,08</td><td class="n">1,16</td><td class="n">–</td></tr>
+    <tr><td>CPLX</td><td>Complexidade do software</td><td class="n">0,70</td><td class="n">0,85</td><td class="n">1,00</td><td class="n">1,15</td><td class="n">1,30</td><td class="n">1,65</td></tr>
+    <tr><td rowspan="4"><b>Computacionais</b></td><td>TIME</td><td>Restrições de tempo de máquina</td><td class="n">–</td><td class="n">–</td><td class="n">1,00</td><td class="n">1,11</td><td class="n">1,30</td><td class="n">1,66</td></tr>
+    <tr><td>STOR</td><td>Restrições de uso de memória</td><td class="n">–</td><td class="n">–</td><td class="n">1,00</td><td class="n">1,06</td><td class="n">1,21</td><td class="n">1,56</td></tr>
+    <tr><td>VIRT</td><td>Mudanças do ambiente de software</td><td class="n">–</td><td class="n">0,87</td><td class="n">1,00</td><td class="n">1,15</td><td class="n">1,30</td><td class="n">–</td></tr>
+    <tr><td>TURN</td><td>Tempo de resposta</td><td class="n">–</td><td class="n">0,87</td><td class="n">1,00</td><td class="n">1,07</td><td class="n">1,15</td><td class="n">–</td></tr>
+    <tr><td rowspan="5"><b>Equipe</b></td><td>ACAP</td><td>Capacidade dos analistas</td><td class="n">1,46</td><td class="n">1,19</td><td class="n">1,00</td><td class="n">0,86</td><td class="n">0,71</td><td class="n">–</td></tr>
+    <tr><td>AEXP</td><td>Experiência na aplicação</td><td class="n">1,29</td><td class="n">1,13</td><td class="n">1,00</td><td class="n">0,91</td><td class="n">0,82</td><td class="n">–</td></tr>
+    <tr><td>PCAP</td><td>Capacidade dos programadores</td><td class="n">1,42</td><td class="n">1,17</td><td class="n">1,00</td><td class="n">0,86</td><td class="n">0,70</td><td class="n">–</td></tr>
+    <tr><td>VEXP</td><td>Experiência no ambiente de hardware</td><td class="n">1,21</td><td class="n">1,10</td><td class="n">1,00</td><td class="n">0,90</td><td class="n">–</td><td class="n">–</td></tr>
+    <tr><td>LEXP</td><td>Experiência com a linguagem</td><td class="n">1,14</td><td class="n">1,07</td><td class="n">1,00</td><td class="n">0,95</td><td class="n">–</td><td class="n">–</td></tr>
+    <tr><td rowspan="3"><b>Projeto</b></td><td>MODP</td><td>Técnicas modernas de programação</td><td class="n">1,24</td><td class="n">1,10</td><td class="n">1,00</td><td class="n">0,91</td><td class="n">0,82</td><td class="n">–</td></tr>
+    <tr><td>TOOL</td><td>Uso de ferramentas de software</td><td class="n">1,24</td><td class="n">1,10</td><td class="n">1,00</td><td class="n">0,91</td><td class="n">0,83</td><td class="n">–</td></tr>
+    <tr><td>SCED</td><td>Prazo requerido</td><td class="n">1,23</td><td class="n">1,08</td><td class="n">1,00</td><td class="n">1,04</td><td class="n">1,10</td><td class="n">–</td></tr>
+  </table></div>
+  <p class="note">No PDF o texto desta tabela sai embaralhado; ela foi remontada a partir dos fragmentos do slide 77 e conferida com as faixas do slide 73 (ex.: RELY de 0,75 a 1,40; ACAP de 1,46 a 0,71). <b>Não precisa decorar valores</b>; entenda o sentido: atributos de <b>produto e computacionais</b> crescem com o nível (mais exigência → mais esforço); atributos de <b>equipe e de projeto</b> decrescem (mais capacidade → menos esforço). SCED é o único que é maior que 1 nos dois extremos: prazo apertado demais e folgado demais custam mais.</p>
+
+  <div class="ex"><b>Exemplo resolvido 1 · a locadora, do PF ao prazo (slides 80–85)</b>
+<pre><span class="c">1. Tamanho</span>
+   236 PF, implementado em Access (38 LOC/PF)
+   TAMANHO = 38 × 236 = 8.968 LOC = 8,968 KLOC ≈ <span class="s">9 KLOC</span>
+
+<span class="c">2. Modo: orgânico · Modelo: intermediário</span>
+   E = 3,2 × KLOC^1,05 × FAE        P = 2,5 × E^0,38
+
+<span class="c">3. Direcionadores (os outros 11 são nominais = 1,00)</span>
+   Complexidade do software ........ alta  → 1,15
+   Restrições de memória ........... alto  → 1,06
+   Experiência com a linguagem ..... baixa → 1,14
+   Capacidade dos programadores .... baixa → 1,17
+   FAE = 1,15 × 1,06 × 1,14 × 1,17 = <span class="s">1,63</span>
+
+<span class="c">4. Esforço</span>
+   E = 3,2 × 9,0^1,05 × 1,63 = 3,2 × 10,05 × 1,63 = <span class="s">52,42 pessoas-mês</span>
+
+<span class="c">5. Prazo</span>
+   P = 2,5 × 52,42^0,38 = <span class="s">11,26 meses</span>
+
+<span class="c">6. Equipe média (não está no slide, mas é a pergunta seguinte)</span>
+   52,42 ÷ 11,26 ≈ <span class="s">4,7 pessoas</span></pre>
+    <p><b>Detalhe para conferir:</b> o slide usa 1,14 para experiência com a linguagem "baixa", mas na tabela 1,14 é o valor de <b>muito baixo</b> (baixo = 1,07). Com 1,07 o FAE seria 1,53. Na prova, use os multiplicadores que o enunciado fornecer.</p>
+    <p><b>Comparação:</b> com o modelo <b>básico</b> (sem FAE), E = 2,4 × 10,05 = 24,1 pessoas-mês e P = 2,5 × 24,1<sup>0,38</sup> = 8,4 meses. Os quatro direcionadores desfavoráveis mais que dobram o esforço.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 2 · a biblioteca de 72 PF no COCOMO básico</b> <span class="inf">números meus</span>
+    <p>72 PF em Java (53 LOC/PF) = 3.816 LOC = 3,816 KLOC, modo orgânico. E = 2,4 × 3,816<sup>1,05</sup> = 2,4 × 4,08 = <b>9,8 pessoas-mês</b>. P = 2,5 × 9,8<sup>0,38</sup> = 2,5 × 2,38 = <b>5,9 meses</b>. Equipe média ≈ 1,7 pessoa.</p>
+    <p>Compare com o método do relatório (módulo 6): 1.080 h ÷ 130 h/mês ≈ 8,3 pessoas-mês e 2,8 meses com 3 pessoas. Métodos diferentes dão números diferentes; por isso o slide insiste em "usar 2 ou mais métodos" e a calibrar com <b>dados históricos</b>.</p>
+    <p><b>Sem calculadora científica:</b> KLOC<sup>1,05</sup> é só um pouco maior que KLOC (9 → 10,05; 3,8 → 4,08; 20 → 23,2). Se a prova não permitir calculadora, deixe a expressão indicada. <span class="inf">inferência</span></p>
+  </div>
+
+  <h3>Elaboração do cronograma</h3>
+  <ol class="tight">
+    <li><b>Identificar e selecionar os recursos:</b> feito em paralelo com as estimativas de tempo (dependência entre duração e quantidade de recursos). Recursos <b>humanos</b> (quantos e quais profissionais), <b>materiais de consumo e equipamentos</b> (quantos, quando, quais), <b>financeiros</b> (quanto e quando).</li>
+    <li><b>Inter-relacionar as atividades e definir precedências:</b> a técnica gráfica mais consagrada é a <b>rede PERT</b> (Program Evaluation and Review Technique). Exemplo do slide: análise e especificação → revisão de requisitos → projeto preliminar → projeto procedimental/de dados (com <i>walkthrough</i>) → codificação → teste de unidade → integração → validação, com planejamento e procedimentos de teste em paralelo.</li>
+    <li><b>Calcular o caminho crítico.</b> É o caminho mais longo da rede; determina a duração mínima do projeto, e atraso nele atrasa tudo. <span class="inf">definição fora do slide</span></li>
+    <li><b>Alocar recursos nas atividades.</b></li>
+    <li><b>Preparar o cronograma:</b> apresentar graficamente datas de início e término. Formas: tabelas com listas de atividades, <b>gráficos de Gantt</b> (no slide: linhas por pessoa, barras por tarefa, meses no eixo, <b>planejado × realizado</b>, pontos de controle), gráficos de marcos.</li>
+  </ol>
+
+  <h3>Esboço do plano de projeto de software</h3>
+  <div class="tw"><table>
+    <tr><th>Seção</th><th>Conteúdo</th></tr>
+    <tr><td><b>I. Introdução</b></td><td>Escopo e propósito do documento; objetivos do projeto (objetivos, funções principais, questões de desempenho, restrições técnicas e administrativas).</td></tr>
+    <tr><td><b>II. Estimativas</b></td><td>Dados históricos usados; técnicas de estimativa; estimativas.</td></tr>
+    <tr><td><b>III. Riscos</b></td><td>Análise (identificação, estimativa, avaliação) e administração (opções para evitar, procedimentos de monitoração).</td></tr>
+    <tr><td><b>IV. Cronograma</b></td><td>Work breakdown; rede de tarefas; gráfico de Gantt; tabela de recursos.</td></tr>
+    <tr><td><b>V. Recursos</b></td><td>Pessoal; hardware e software; recursos especiais.</td></tr>
+    <tr><td><b>VI. Organização do pessoal</b></td><td>Estrutura de equipe; relatórios administrativos.</td></tr>
+    <tr><td><b>VII e VIII</b></td><td>Mecanismos de tracking e controle; apêndices.</td></tr>
+  </table></div>
+  <p class="note">Repare que as seções II, III e IV são exatamente as três primeiras atividades fundamentais de planejamento, e que os itens 2 e 3 do seu relatório (riscos e PF) são as seções III e II deste plano.</p>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>Por que o COCOMO precisa de KLOC se acabamos de criticar LOC?</dt>
+    <dd>Porque as equações foram calibradas em linhas de código. A solução do slide é contar PF (possível no início do projeto) e converter pela tabela LOC/PF da linguagem.</dd>
+    <dt>Pessoas-mês é quantidade de pessoas?</dt>
+    <dd>Não: é <b>trabalho</b>. 52 pessoas-mês podem ser 4,7 pessoas por 11 meses. E não dá para trocar livremente pessoas por meses (mito do atraso): por isso o COCOMO tem uma equação própria para o prazo.</dd>
+    <dt>Como escolho o modo?</dt>
+    <dd>Pelo tamanho, pela experiência da equipe e pela rigidez das restrições. Sistema de informação pequeno com equipe acostumada ao domínio = orgânico. Software acoplado a hardware/regulamentos rígidos = embutido. O meio-termo, ou equipe mista = semidestacado.</dd>
+    <dt>FAE maior que 1 é bom ou ruim?</dt>
+    <dd>Ruim: aumenta o esforço. FAE = 1 significa projeto "nominal" em tudo. Equipe muito capaz e boas ferramentas puxam o FAE para baixo de 1.</dd>
+    <dt>PERT × Gantt?</dt>
+    <dd>PERT é uma <b>rede</b>: mostra dependências e permite achar o caminho crítico. Gantt é uma <b>linha do tempo</b>: mostra quando cada tarefa começa e termina, quem faz, e compara planejado com realizado. Primeiro a rede, depois o Gantt.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Dado o tamanho em PF, a linguagem, o modo e alguns direcionadores: calcular KLOC, FAE, esforço e prazo.</li>
+    <li>"Quais os três níveis do COCOMO e o que cada um considera?" · "Caracterize os modos orgânico, semidestacado e embutido."</li>
+    <li>"O que é um direcionador de custo? Cite as 4 categorias e dois exemplos de cada."</li>
+    <li>"Cite pontos fortes e a principal limitação do COCOMO 81."</li>
+    <li>"Quais as tarefas da elaboração do cronograma?" · "Para que servem a rede PERT e o gráfico de Gantt?"</li>
+  </ul></div>
+</section>
+
+<section id="m8">
+  <h2>Módulo 8 · Engenharia de requisitos: processo, classificação e fontes</h2>
+  <div class="why"><b>Por que estudar</b>É o item 4 do relatório e o tema que o professor mais enfatizou: "vale a pena ser MUITO BEM FEITA a obtenção de requisitos"; "é possível se especializar apenas em engenharia de requisitos". Quatro dos dez riscos de Boehm e o principal mito do cliente são sobre requisitos.</div>
+
+  <h3>O que é requisito</h3>
+  <ul class="tight">
+    <li>"É uma <b>necessidade de uma solução</b>, mesmo que o problema ou demanda não seja conhecida."</li>
+    <li>"É uma <b>unidade de necessidade</b>."</li>
+  </ul>
+  <p class="note">O slide vem com a tirinha do balanço na árvore: como o cliente explicou · como o analista especificou · como o programador desenvolveu · como o cliente realmente pretendia. Da sua anotação da aula 3: "A documentação de requisitos é praticamente o contrato do que eu devo entregar ao cliente. Entregou a menos, deixou a desejar ou entregou diferente, haverá um feedback ruim."</p>
+
+  <h3>O processo de engenharia de requisitos</h3>
+  <ol class="flow">
+    <li><b>Estudo de viabilidade</b><small>→ relatório de viabilidade</small></li>
+    <li><b>Extração e análise</b><small>→ modelos de sistema</small></li>
+    <li><b>Especificação</b><small>→ requisitos de usuário e de sistema</small></li>
+    <li><b>Validação</b><small>→ especificação de requisitos de software</small></li>
+  </ol>
+  <p>O diagrama tem <b>setas de retorno</b>: da especificação para a extração e da validação para a especificação. Por isso o slide seguinte mostra o mesmo processo como <b>espiral</b>: elicitação → análise e negociação → especificação → validação, com um <b>ponto de decisão</b> a cada volta: aceitar o documento ou reentrar na espiral.</p>
+  <div class="tw"><table>
+    <tr><th>Quadrante da espiral</th><th>Entra</th><th>Sai</th></tr>
+    <tr><td>Elicitação</td><td>Necessidades do usuário, informação do domínio, normas</td><td>Declaração informal de requisitos</td></tr>
+    <tr><td>Análise e negociação</td><td>Declaração informal</td><td>Requisitos acordados</td></tr>
+    <tr><td>Especificação</td><td>Requisitos acordados</td><td>Rascunho do documento de requisitos</td></tr>
+    <tr><td>Validação</td><td>Rascunho</td><td>Documento de requisitos e relatório de validação</td></tr>
+  </table></div>
+
+  <h3>Estudo de viabilidade</h3>
+  <p><b>Passo a passo:</b> contextualização do sistema → descrição do problema → soluções possíveis (pesquisa de sistemas semelhantes, ideias novas) → e quatro viabilidades:</p>
+  <div class="tw"><table>
+    <tr><th>Viabilidade</th><th>Pergunta</th></tr>
+    <tr><td><b>Operacional</b></td><td>Vai funcionar na organização? (fontes de informação, desempenho, economia, controle, eficiência, serviços, nível de satisfação do cliente)</td></tr>
+    <tr><td><b>Técnica</b></td><td>A tecnologia atual dá conta?</td></tr>
+    <tr><td><b>Econômica</b></td><td>Os investimentos compensam?</td></tr>
+    <tr><td><b>De cronograma</b></td><td>Cabe no prazo?</td></tr>
+  </table></div>
+  <p><b>Os três questionamentos:</b> (1) o sistema <b>contribui para os objetivos gerais</b> da organização? (2) pode ser implementado com <b>tecnologia atual dentro das restrições de custo e prazo</b>? (3) pode ser <b>integrado</b> com outros sistemas já em operação?</p>
+  <p class="note"><b>Verificação:</b> como a organização se comportaria se o sistema não fosse implementado? Quais os problemas dos processos atuais e como o sistema ajudaria? Quais as contribuições diretas? As informações podem ser transferidas para/recebidas de outros sistemas? Requer tecnologia nunca usada na organização? Que compatibilidades serão necessárias?</p>
+
+  <h3>Classificação de requisitos</h3>
+  <div class="tw"><table>
+    <tr><th>Nível</th><th>Classe</th><th>O que é</th><th>Exemplo (locadora)</th></tr>
+    <tr><td rowspan="2"><b>Quem lê</b></td><td>De <b>usuário</b></td><td>Declarações em linguagem natural do que o sistema deve oferecer, para clientes e gestores. <span class="inf">Sommerville</span></td><td>"O sistema deve permitir reservar um carro."</td></tr>
+    <tr><td>De <b>sistema</b></td><td>Descrição detalhada das funções e restrições, base do contrato e do projeto. No slide, usuário "=<sub>df</sub>" sistema: o requisito de sistema <b>define</b> o de usuário em detalhe.</td><td>"A reserva registra cliente, categoria, data/hora de retirada e de devolução prevista, taxa de multa e desconto."</td></tr>
+    <tr><td rowspan="3"><b>Natureza</b></td><td><b>Funcionais</b></td><td>Serviços que o sistema deve fornecer; como reage a entradas.</td><td>"Emitir fatura na devolução."</td></tr>
+    <tr><td><b>Não funcionais</b></td><td>Restrições sobre os serviços ou sobre o desenvolvimento (tempo, confiabilidade, padrões).</td><td>"A consulta de disponibilidade responde em até 2 s."</td></tr>
+    <tr><td>De <b>domínio</b></td><td>Vêm do domínio da aplicação; podem ser funcionais ou não funcionais.</td><td>"Um carro não pode ser locado a dois clientes no mesmo período" (o slide de reuso dá o equivalente da hotelaria).</td></tr>
+    <tr><td rowspan="3"><b>Não funcionais</b></td><td>De <b>produto</b></td><td>Comportamento do produto: desempenho, usabilidade, confiabilidade, portabilidade.</td><td>"Disponível 99% do horário comercial."</td></tr>
+    <tr><td>De <b>organização</b> (organizacionais)</td><td>Políticas e procedimentos do cliente e do desenvolvedor: padrões, linguagem, prazos de entrega.</td><td>"Desenvolvido em Java com MariaDB; entrega do Volume 1 em data fixa."</td></tr>
+    <tr><td><b>Externos</b></td><td>Fatores externos ao sistema e ao processo: legislação, interoperabilidade, ética.</td><td>"Dados pessoais tratados conforme a lei de proteção de dados."</td></tr>
+  </table></div>
+  <p class="note">O slide mostra apenas a árvore (Requisitos → Usuário / Sistema → Funcionais, Não funcionais, Domínio → Produto, Organização, Externo). As descrições acima são as de Sommerville, de onde a figura vem. <span class="inf">inferência</span> O livro de certificação (CPRE) que está na pasta usa outra divisão: funcional, de <b>qualidade</b> e <b>restrição</b>. A ficha do relatório só pede Funcional ( ) ou Não-Funcional ( ).</p>
+  <p class="note"><b>Comentário do professor</b> (sua anotação): cuidado com a legislação do país ao criar o produto; o desenvolvedor é quem recebe a culpa por algo que viola as leis. É a razão de existir a classe "externo".</p>
+
+  <h3>Especificação de requisitos</h3>
+  <ul class="tight">
+    <li>É um <b>acordo entre o cliente e o desenvolvedor</b> do sistema.</li>
+    <li>Propósito básico: criar uma <b>ponte de comunicação</b> entre os diversos tipos de pessoas envolvidas no desenvolvimento.</li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th>Critério</th><th>Tipos</th><th>Exemplo</th></tr>
+    <tr><td><b>Quanto à formalidade</b></td><td>Informais · semi-formais · formais</td><td>Texto livre · UML, fichas padronizadas · notação matemática <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Quanto à maneira de representação</b></td><td>Operacionais · descritivas</td><td>Operacional descreve o comportamento como algo executável/simulável; descritiva enuncia propriedades que o sistema deve ter <span class="inf">inferência</span></td></tr>
+  </table></div>
+
+  <h3>Elicitação: nomes, dimensões e estágios</h3>
+  <p><b>Designações equivalentes:</b> elicitação = descoberta = identificação = captura = aquisição = levantamento de requisitos.</p>
+  <div class="two">
+    <div>
+      <h4>As 4 dimensões (o que é preciso compreender)</h4>
+      <ol class="tight">
+        <li>O <b>domínio de aplicação</b>;</li>
+        <li>O <b>problema</b> a ser resolvido;</li>
+        <li>O <b>contexto de negócio</b>;</li>
+        <li>As <b>necessidades e restrições dos interessados</b>.</li>
+      </ol>
+    </div>
+    <div>
+      <h4>Os 4 estágios do processo</h4>
+      <ol class="tight">
+        <li><b>Estabelecimento de objetivos:</b> objetivos do negócio, descrição genérica do problema, necessidade e restrições.</li>
+        <li><b>Aquisição de conhecimento de background:</b> a organização, o domínio, os sistemas existentes.</li>
+        <li><b>Organização do conhecimento</b> recolhido.</li>
+        <li><b>Recolher requisitos dos stakeholders.</b></li>
+      </ol>
+    </div>
+  </div>
+
+  <h3>Fontes de requisitos</h3>
+  <div class="tw"><table>
+    <tr><th>Fonte</th><th>O que fornece</th></tr>
+    <tr><td><b>Objetivos gerais de alto nível</b></td><td>Problema a resolver, motivação, fatores críticos de sucesso, interesse para o negócio. Exige avaliar custos e benefícios (estudo de viabilidade).</td></tr>
+    <tr><td><b>Conhecimento do domínio</b></td><td>Necessário para inferir o <b>conhecimento tácito</b> que os stakeholders não explicitam e avaliar <i>trade-offs</i> entre requisitos conflitantes. Vem de especialistas e documentos.</td></tr>
+    <tr><td><b>Stakeholders</b></td><td>Identificar, representar e gerir pontos de vista, interesses e necessidades de todos os interessados.</td></tr>
+    <tr><td><b>Ambiente operacional</b></td><td>Aproveitamento de infraestruturas físicas e lógicas existentes; interoperabilidade com sistemas existentes.</td></tr>
+    <tr><td><b>Ambiente organizacional</b></td><td>O sistema suporta processos de negócio: adequar-se à estrutura, cultura, políticas, regras e normas internas.</td></tr>
+    <tr><td><b>Ambiente externo</b></td><td>Normas, regulamentos, legislação (proteção de dados pessoais, acessibilidade).</td></tr>
+    <tr><td><b>Produtos de mercado</b></td><td><b>Produtos concorrentes</b> (posicionar e diferenciar; às vezes ser compatível; às vezes copiar funcionalidades, como o OpenOffice) e <b>soluções candidatas</b> (ao comprar pronto, formular requisitos de modo a facilitar a comparação).</td></tr>
+    <tr><td><b>Sistemas e produtos internos</b></td><td>Interoperabilidade, substituição ou evolução de sistemas existentes.</td></tr>
+  </table></div>
+  <p class="note">Dica do professor (sua anotação): <b>INPI</b>, registrar a ideia para ter os direitos autorais; "30% do PIB dos Estados Unidos é só em royalties"; no Brasil, a IBM é a que mais patenteia, o que incentiva inovação dos funcionários. Curiosidade de aula, baixa chance de prova.</p>
+
+  <div class="code"><b>Como fica no relatório · ficha de Especificação de Requisito (item 4)</b>
+<pre><span class="k">Identificador</span>              Rq_01
+<span class="k">Tipo</span>                       Funcional ( X )   Não-Funcional (  )
+<span class="k">Responsável pelo Registro</span>  Luiz Camolesi Jr.
+<span class="k">Responsável pela Revisão</span>   Clenio Moreira
+<span class="k">Fonte Responsável</span>          Marcio da Silva          <span class="c">← quem pediu (stakeholder)</span>
+<span class="k">Nome</span>                       Segurança de Acesso
+<span class="k">Requisitos Relacionados</span>    Rq_12
+<span class="k">Descrição</span>                  <span class="s">Qualquer usuário do sistema deve se identificar por nome
+                           e senha para ter acesso ao sistema</span>
+<span class="k">Técnicas de Elicitação</span>     Entrevista
+<span class="k">Classificação</span>              ( ) Essencial   ( ) Importante   ( ) Desejável
+<span class="k">Artefatos Associados</span>       Arq1.mp4                 <span class="c">← gravação da entrevista, atas, fotos</span>
+<span class="k">Histórico do Requisito</span>     data da obtenção: 22 de fevereiro de 2019
+                           data da alteração · motivo · responsável · alteração realizada</pre>
+    No relatório, o item 4 também lista as <b>técnicas utilizadas</b> (entrevistas não-estruturadas e estruturadas) antes das fichas.
+  </div>
+
+  <div class="ex"><b>Exemplo resolvido · de uma frase de entrevista a fichas</b>
+    <p>O dono da locadora diz: "Quero que o cliente reserve pelo celular, que ninguém veja os dados dos outros, e tem que estar no ar antes das férias de julho."</p>
+    <p><b>Rq_01</b> · Funcional · "Reservar veículo": o cliente autenticado escolhe categoria, datas de retirada e devolução e confirma a reserva. Essencial. Técnica: entrevista. Relacionado: Rq_02.</p>
+    <p><b>Rq_02</b> · Não funcional (produto, segurança) · "Sigilo de dados": cada cliente só acessa os próprios dados; senhas armazenadas cifradas. Essencial.</p>
+    <p><b>Rq_03</b> · Não funcional (produto, portabilidade) · "Uso em celular": interface utilizável em telas a partir de 360 px. Importante.</p>
+    <p><b>Rq_04</b> · Não funcional (organizacional, prazo) · "Entrada em produção até 30/06". Essencial.</p>
+    <p>Regra prática: <b>um requisito por ficha</b> ("unidade de necessidade"), descrição verificável, e sempre registrar a fonte e a técnica para manter a rastreabilidade.</p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>Requisito de usuário × requisito de sistema?</dt>
+    <dd>Mesmo requisito em dois níveis de detalhe. O de usuário é curto e em linguagem do cliente; o de sistema detalha o suficiente para projetar e testar. No diagrama do processo, os dois saem da especificação e alimentam o documento final.</dd>
+    <dt>Requisito de domínio é um terceiro tipo além de funcional e não funcional?</dt>
+    <dd>Na árvore do slide ele aparece ao lado dos outros dois, mas a caixa pontilhada maior o envolve junto com eles: um requisito de domínio <b>pode ser</b> funcional ou não funcional; o que o distingue é a origem (o domínio da aplicação, não um stakeholder).</dd>
+    <dt>Validação × verificação?</dt>
+    <dd>Validar requisitos é conferir com o cliente se o que foi especificado é o que ele precisa ("estamos construindo o produto certo?"). Verificação, na fase de testes, confere se o produto atende à especificação. <span class="inf">inferência</span></dd>
+    <dt>Classificação "Essencial / Importante / Desejável" é o mesmo que funcional / não funcional?</dt>
+    <dd>Não. É <b>prioridade</b>. Um requisito não funcional pode ser essencial (segurança) e um funcional pode ser desejável (exportar para PDF).</dd>
+    <dt>Por que o estudo de viabilidade vem antes de levantar requisitos?</dt>
+    <dd>Porque é barato e decide se vale a pena continuar. Ele usa os objetivos de alto nível (primeira fonte de requisitos) e as mesmas três perguntas: contribui para os objetivos? Dá para fazer com tecnologia, custo e prazo atuais? Integra com o que já existe?</dd>
+    <dt>Onde isso encaixa no PMBOK?</dt>
+    <dd>No processo 5.1 "Coletar os requisitos" (planejamento, área de escopo), cujas saídas são a documentação dos requisitos, o plano de gerenciamento dos requisitos e a matriz de rastreabilidade. Os campos "Requisitos Relacionados", "Fonte" e "Histórico" da ficha são a rastreabilidade na prática.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Descreva o processo de engenharia de requisitos e o produto de cada etapa."</li>
+    <li>Classificar requisitos dados em funcional / não funcional (produto, organizacional, externo) / domínio.</li>
+    <li>"O que se avalia em um estudo de viabilidade?" (4 viabilidades + 3 questionamentos).</li>
+    <li>"Cite e explique fontes de requisitos." · "O que é conhecimento tácito e por que importa?"</li>
+    <li>Escrever um requisito no formato da ficha Rq a partir de um pequeno cenário.</li>
+    <li>"Qual o propósito da especificação de requisitos? Como se classificam as especificações?"</li>
+  </ul></div>
+</section>
+
+<section id="m9">
+  <h2>Módulo 9 · Técnicas de elicitação de requisitos</h2>
+  <div class="why"><b>Por que estudar</b>Foi a maior parte da última aula (39 dos 54 slides) e é o que você está usando no projeto. A questão típica é "qual técnica usar nesta situação e por quê" ou "descreva a técnica X: fases, papéis, regras".</div>
+
+  <h3>Visão geral: as 9 técnicas</h3>
+  <div class="tw"><table>
+    <tr><th>Técnica</th><th>Ideia</th><th>Quando brilha</th><th>Cuidado</th></tr>
+    <tr><td><b>Análise de documentação</b></td><td>Ler documentos sobre o domínio, dados essenciais, a organização, a legislação, sistemas existentes.</td><td>Aquisição de background antes de falar com pessoas.</td><td>Documento pode não refletir a prática. <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Análise de sistemas existentes</b></td><td>"Sistemas existentes <b>sempre</b> são fontes de requisitos": interface, dados de entrada, resultados.</td><td>Substituição/evolução de sistema; produto concorrente.</td><td>Copiar defeitos do antigo. <span class="inf">inferência</span></td></tr>
+    <tr><td><b>Entrevistas</b></td><td>"A técnica mais básica e simples."</td><td>Poucos stakeholders acessíveis; início do levantamento.</td><td>Simples, mas <b>não é fácil de aplicar</b>: enviesamento do entrevistador (não escuta), predisposição do entrevistado, relação pessoal.</td></tr>
+    <tr><td><b>Brainstorming</b></td><td>Geração de novas ideias por um grupo de <b>4 a 10</b> pessoas.</td><td>Produto novo; destravar visões diferentes.</td><td>Precisa de consolidação depois; sem críticas durante.</td></tr>
+    <tr><td><b>Workshops</b></td><td>Técnica de grupo para <b>debate e acordo</b>, com representantes dos stakeholders e um facilitador competente.</td><td>Requisitos conflitantes entre áreas.</td><td>Logística e participação dos stakeholders certos.</td></tr>
+    <tr><td><b>Cenários</b></td><td>Colocar os interessados diante de uma situação realista; <b>histórias</b> de como o sistema será usado.</td><td>Detalhar requisitos gerais; validar.</td><td>Cobrir também as exceções.</td></tr>
+    <tr><td><b>Protótipos</b></td><td>Versão inicial do sistema para apoiar identificação, análise e validação.</td><td>Interface (IHC); cliente que "só sabe quando vê".</td><td>Custos; cliente querer o protótipo como produto (módulo 2).</td></tr>
+    <tr><td><b>Reutilização de requisitos</b></td><td>Usar em um sistema requisitos desenvolvidos para outro.</td><td>Família de produtos; políticas da organização.</td><td>Hoje é processo informal; avaliar relevância.</td></tr>
+    <tr><td><b>Questionários</b></td><td>Perguntas focadas, para domínios específicos.</td><td>Pessoas <b>fisicamente distantes</b> ou <b>grupos numerosos</b>.</td><td>Planejar a tabulação das respostas.</td></tr>
+    <tr><td><b>Pontos de vista</b></td><td>Organizar requisitos por perspectiva: de interação, indiretos, do domínio.</td><td>Muitos tipos de interessado.</td><td>—</td></tr>
+  </table></div>
+  <p><b>Etapas básicas, comuns a todas as técnicas:</b> perguntar · observar e inferir · discutir e formular · negociar (a partir de um conjunto padrão) · estudar e identificar problemas · descobrir (processos criativos).</p>
+
+  <h3>Entrevistas</h3>
+  <p><b>Fases:</b> identificação dos candidatos → preparação → condução → conclusão (atividades subsequentes).</p>
+  <div class="tw"><table>
+    <tr><th></th><th>Não-estruturada</th><th>Estruturada</th></tr>
+    <tr><td><b>Postura</b></td><td>O entrevistador é mais um <b>ouvinte</b>.</td><td>Há uma <b>ordem pré-estabelecida</b> para as perguntas.</td></tr>
+    <tr><td><b>Perguntas</b></td><td>Mais da <b>área de negócio</b> do que de funcionalidades de implementação; genéricas; sem ordem fixa.</td><td>As mesmas, na mesma ordem, para vários usuários, para <b>confrontação das respostas</b>.</td></tr>
+    <tr><td><b>Exemplos</b></td><td>Qual o ramo da empresa? Quantas pessoas trabalham? O sistema deverá suprir quais departamentos?</td><td>Técnica <b>5WH</b>: o quê (What), quando (When), onde (Where), por quê (Why), quem (Who), como (How).</td></tr>
+    <tr><td><b>Ordem de uso</b></td><td>Primeiro: entender o negócio.</td><td>Depois: detalhar. O 5WH também serve para detalhar uma não-estruturada.</td></tr>
+  </table></div>
+  <div class="tw"><table>
+    <tr><th>Fase</th><th>O que fazer (protocolo do slide)</th></tr>
+    <tr><td><b>Identificação dos candidatos</b></td><td>Começar pelo financiador do projeto, gerente ou executivo. Cada candidato é fonte de novos candidatos: "Com quem mais eu deveria conversar? Quem mais pode usar o sistema? Quem concordaria com você? Quem <b>discordaria</b>? Quem mais interage com você?"</td></tr>
+    <tr><td><b>Preparação</b></td><td>Agendar com antecedência, esclarecendo objetivo e duração; relembrar o entrevistado um dia antes. Preparar a lista de questões com antecedência, em ordem lógica, agrupadas por assunto, e <b>entregá-la ao candidato</b>.</td></tr>
+    <tr><td><b>Condução</b></td><td>Apresentar os participantes; rever os objetivos; explicar notações (ex.: UML); resumir, refrasear e mostrar implicações; manter o processo visível ("estamos indo bem?"); questões de caráter geral e específicas; colocar as questões no contexto; verificar e corrigir erros; finalizar (sumarizar e consolidar, explicar as próximas ações, agradecer).</td></tr>
+    <tr><td><b>Atividades subsequentes</b></td><td>Enviar agradecimento por escrito; produzir um resumo escrito; confirmar as informações com fontes confiáveis; revisar os procedimentos para melhorar futuras entrevistas.</td></tr>
+  </table></div>
+  <p><b>Papéis:</b> líder da entrevista (faz os questionamentos) · comprador · usuários · engenheiros (requisitos, analistas, arquitetos) · <b>escrivão</b> (anota questões e respostas) · <b>secretário</b> (agendamentos e preparação).</p>
+
+  <h3>Brainstorming</h3>
+  <div class="two">
+    <div>
+      <h4>Por que usar</h4>
+      <ul class="tight">
+        <li>Encoraja a participação de todos;</li>
+        <li>Permite aproveitar e refinar ideias dos outros;</li>
+        <li>Bastante produtivo (ideias/hora);</li>
+        <li>O resultado pode ser um conjunto de soluções;</li>
+        <li>Encoraja o pensamento livre ("maluquices…");</li>
+        <li>Revela diferentes visões do problema;</li>
+        <li>Ajuda a sanar limitações cognitivas.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>As 4 regras</h4>
+      <ol class="tight">
+        <li><b>Não permitir críticas ou debates;</b></li>
+        <li>Deixar a imaginação voar;</li>
+        <li>Gerar tantas ideias quanto for possível;</li>
+        <li>Mudar e combinar ideias.</li>
+      </ol>
+      <p class="note">Papéis: líder (<b>facilitador</b>), compradores, usuários, engenheiros, escrivão (anota ideias, prepara a especificação), secretário.</p>
+    </div>
+  </div>
+  <ol class="flow">
+    <li><b>Preparação</b><small>identificar participantes; designar o líder; agendar; relembrar um dia antes; preparar a sala (papel, canetas, flip chart)</small></li>
+    <li><b>Sessão</b><small>líder explica regras e objetivos; escrivão documenta; ideias visíveis; sem censura; identificar pontos de vista, serviços, entradas, requisitos não funcionais, eventos de controle e exceções; pode ser por videoconferência</small></li>
+    <li><b>Consolidação</b><small>cortar ideias irrelevantes; agrupar por contexto; refrasear; definir características; <b>priorizar (essenciais, boas, não essenciais, más)</b>; especificar as remanescentes</small></li>
+  </ol>
+
+  <h3>Workshops</h3>
+  <ul class="tight">
+    <li><b>Preparação:</b> "vender" o conceito; assegurar a participação dos stakeholders adequados; garantir a logística; fornecer materiais para discussão antecipadamente; escolher o facilitador; estabelecer uma agenda.</li>
+    <li><b>Condução:</b> "soltem os cães…"; brainstorming; produção de documentos e continuação.</li>
+    <li><b>Consolidação:</b> resumir, relatar, validar.</li>
+  </ul>
+
+  <h3>Prototipagem (como técnica de requisitos)</h3>
+  <div class="tw"><table>
+    <tr><th>Tipo de protótipo</th><th>Descrição do slide</th></tr>
+    <tr><td><b>"Remendado"</b></td><td>Funciona, com interação, mas ineficiente.</td></tr>
+    <tr><td><b>Escalar não operante</b></td><td>Útil para testar alguns aspectos específicos, por exemplo entrada e saída.</td></tr>
+    <tr><td><b>Escalar completo</b></td><td>Sistema piloto.</td></tr>
+    <tr><td><b>Características essenciais</b></td><td>Algumas opções do menu funcionando.</td></tr>
+  </table></div>
+  <ul class="tight">
+    <li><b>Características:</b> desenvolvimento rápido; funcionalidades limitadas; <b>requisitos não funcionais pouco considerados</b>; várias tecnologias; vai de maquetes a protótipos evolutivos.</li>
+    <li><b>Benefício principal:</b> clientes e usuários têm contato <b>cedo</b> com um sistema realista e compreendem melhor os requisitos.</li>
+    <li><b>Outros:</b> ajuda a estabelecer viabilidade e utilidade; "é a <b>única forma efetiva de desenvolver IHC</b>"; pode ser usado na validação; revela inconsistências e lacunas.</li>
+    <li><b>Decisão por custo-benefício.</b> Custos: formação, desenvolvimento, prazos mais alargados, protótipos incompletos.</li>
+  </ul>
+
+  <h3>Cenários</h3>
+  <p>Definições: história ou exemplo de eventos do mundo real, com detalhes do contexto (cenas) · um caminho ou instância de um modelo (normalmente de <b>casos de utilização</b>) · a visão futura do sistema, com sequências de comportamento e descrições contextuais.</p>
+  <div class="tw"><table>
+    <tr><th>Estrutura de um cenário (figura do slide)</th></tr>
+    <tr><td>1. Descrição do sistema <b>antes</b> de se entrar no cenário · 2. <b>Fluxo normal</b> de eventos · 3. <b>Exceções</b> ao fluxo normal · 4. Informação sobre <b>outras atividades</b> que ocorrem ao mesmo tempo · 5. Descrição do estado do sistema <b>depois</b> de completado o cenário</td></tr>
+  </table></div>
+  <p>Servem para <b>identificar e clarificar</b> (adicionar detalhe a requisitos gerais, compreender a relação entre requisitos) e para <b>validar</b> (compreender o requisito no contexto de uso, verificar se a relação com outros requisitos faz sentido).</p>
+
+  <h3>Questionários, pontos de vista e reutilização</h3>
+  <div class="tw"><table>
+    <tr><th>Técnica</th><th>Detalhes</th></tr>
+    <tr><td><b>Questionários</b></td><td><b>Elaboração:</b> identificar o conjunto a inquirir; agrupar assuntos de mesma natureza; estudar os objetivos; entender as características dos inquiridos; definir as opções por tipo de pergunta; definir como serão tabuladas as respostas. <b>Questões abertas</b> (qualitativas): liberdade de resposta, partir das gerais para as específicas. <b>Fechadas</b> (quantitativas): limitam o inquirido às opções que são foco da pesquisa; podem ser gradativas.</td></tr>
+    <tr><td><b>Pontos de vista</b></td><td>Processo: identificação → estruturação → documentação → mapeamento dos pontos de vista. Tipos: <b>de interação</b> (pessoas e outros sistemas que interagem diretamente com o sistema) · <b>indiretos</b> (stakeholders que não interagem, mas impactam) · <b>do domínio</b> (restrições do domínio: legislação, padrões).</td></tr>
+    <tr><td><b>Reutilização</b></td><td>Poupa tempo e esforço porque os requisitos já foram analisados e validados; grau de reutilização <b>pode chegar a 50%</b> (Kotonya e Sommerville). Possibilidades: requisitos do <b>domínio de aplicação</b> (hotelaria: um quarto não pode ser vendido a dois clientes na mesma data), do <b>estilo de apresentação</b> da informação (consistência entre aplicações) e de <b>políticas da organização</b> (segurança: cifrar dados pessoais).</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido 1 · situação → técnica</b>
+    <p><b>(a)</b> Rede com 400 vendedores espalhados pelo país. → <b>Questionário</b> (distantes e numerosos), com questões fechadas para tabular, depois entrevistas com uma amostra.</p>
+    <p><b>(b)</b> Financeiro e comercial discordam sobre como calcular comissão. → <b>Workshop</b> com representantes das duas áreas e facilitador: debate e <b>acordo</b>.</p>
+    <p><b>(c)</b> Substituir uma planilha usada há dez anos. → <b>Análise de sistemas existentes</b> (a planilha: entradas, resultados) + análise de documentação.</p>
+    <p><b>(d)</b> O cliente não consegue dizer como quer a tela de reserva. → <b>Protótipo</b> de interface + <b>cenário</b> de uso.</p>
+    <p><b>(e)</b> Startup sem produto parecido no mercado. → <b>Brainstorming</b> para gerar ideias, consolidando por prioridade.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 2 · cenário "Devolver automóvel"</b>
+    <p><b>Antes:</b> existe locação aberta para o carro; funcionário autenticado. <b>Fluxo normal:</b> funcionário informa a placa → sistema mostra a locação → informa KM final e data/hora → sistema calcula diárias, KM excedente e desconto → gera a fatura → carro volta a "disponível". <b>Exceções:</b> placa sem locação aberta; devolução após o previsto (aplica taxa de multa); KM final menor que o inicial (erro). <b>Ao mesmo tempo:</b> outro atendente pode estar reservando a mesma categoria. <b>Depois:</b> locação encerrada, fatura emitida com vencimento, carro disponível.</p>
+    <p>Deste cenário saem uma EE (devolução), uma SE (fatura, com dados derivados) e pelo menos três requisitos funcionais: é a ponte entre os módulos 9, 8 e 6.</p>
+  </div>
+
+  <div class="faq"><h4>Perguntas que o leitor faria</h4><dl>
+    <dt>Brainstorming × workshop?</dt>
+    <dd>Brainstorming <b>gera</b> ideias e proíbe debate. Workshop busca <b>debate e acordo</b> e pode conter um brainstorming na fase de condução. Os dois têm preparação, sessão/condução e consolidação, e ambos precisam de facilitador.</dd>
+    <dt>Por que entregar a lista de perguntas ao entrevistado antes?</dt>
+    <dd>Está no protocolo de preparação do slide: ele chega com as informações em mãos e a entrevista rende mais. Também reduz a "predisposição do entrevistado" como obstáculo.</dd>
+    <dt>5WH não deveriam ser seis letras?</dt>
+    <dd>São cinco W (What, When, Where, Why, Who) e um H (How): seis perguntas. O slide chama de "técnica 5WH".</dd>
+    <dt>Prototipação (módulo 2) × prototipagem (aqui)?</dt>
+    <dd>Lá é um <b>ciclo de vida</b> inteiro organizado em torno do protótipo. Aqui é uma <b>técnica</b> dentro da engenharia de requisitos, que pode ser usada em qualquer ciclo (inclusive no espiral, como redução de risco).</dd>
+    <dt>Cenário × caso de uso?</dt>
+    <dd>O slide define cenário como "um caminho ou instância de um modelo (normalmente de casos de utilização)". O caso de uso é o modelo; o cenário é uma história concreta que percorre um caminho dele. Casos de uso são o próximo item do relatório (item 5).</dd>
+    <dt>Posso usar várias técnicas?</dt>
+    <dd>Deve. A ficha Rq tem o campo "Técnicas de elicitação usadas" no plural, e as técnicas se complementam: documentação e sistemas existentes para o background, entrevistas para o negócio, protótipos e cenários para detalhar e validar.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>"Diferencie entrevista estruturada de não-estruturada" e "o que é a técnica 5WH?"</li>
+    <li>"Quais as regras do brainstorming?" · "Quais as fases e os papéis de uma sessão?"</li>
+    <li>Dada uma situação, indicar a técnica mais adequada e justificar.</li>
+    <li>"Cite benefícios e custos da prototipagem." · "Quais os tipos de protótipo?"</li>
+    <li>"Quais os elementos de um cenário?" ou escrever um cenário curto.</li>
+    <li>"Que tipos de requisitos podem ser reutilizados?" · "Quais os tipos de pontos de vista?"</li>
+    <li>"Por que a entrevista é simples, mas não é fácil de aplicar?"</li>
+  </ul></div>
+</section>
+
+<section id="codigo">
+  <h2>Fichas do relatório: colinha de preenchimento</h2>
+  <p>Esta disciplina não tem código até a P1; o equivalente prático são os quatro modelos do Volume 1 do Relatório de Projeto. Saber de memória os campos de cada ficha é a forma mais rápida de responder questões do tipo "como você documentaria…".</p>
+
+  <h3>Campo → o que ele responde</h3>
+  <div class="tw"><table>
+    <tr><th>Ficha</th><th>Campo</th><th>O que responde</th><th>Módulo</th></tr>
+    <tr><td rowspan="4"><b>TAP</b> (item 1)</td><td>Escopo</td><td>Quem é a empresa e qual a solução de negócio pretendida.</td><td rowspan="4">3 e 4</td></tr>
+    <tr><td>Objetivo</td><td>"O desenvolvimento de um software que…"</td></tr>
+    <tr><td>Motivação</td><td>A que demanda o projeto atende (as 5 considerações estratégicas).</td></tr>
+    <tr><td>Impactos sociais, ambientais, econômicos</td><td>Efeitos que duram mais que o projeto.</td></tr>
+    <tr><td rowspan="7"><b>RK_nn</b> (item 2)</td><td>PO</td><td>Probabilidade de ocorrência, em %.</td><td rowspan="7">5</td></tr>
+    <tr><td>MI</td><td>Magnitude de impacto, em %, e sua classe (P ≤ 10 · M 10–25 · G 25–50 · E &gt; 50).</td></tr>
+    <tr><td>Co</td><td>Onde dói: qualidade, custo ou cronograma.</td></tr>
+    <tr><td>Sinais</td><td>Cenários de alerta: como sei que está chegando.</td></tr>
+    <tr><td>Mitigação · Monitoramento · Contingência</td><td>Antes · durante · depois.</td></tr>
+    <tr><td>Exposição</td><td>PO × MI × Co, em meses ou R$.</td></tr>
+    <tr><td>Relacionados · Histórico</td><td>Rastreabilidade e mudanças do risco no tempo.</td></tr>
+    <tr><td rowspan="3"><b>PF</b> (item 3)</td><td>Listas de ALI e AIE</td><td>Nome · tipos de dados · tipos de registros · complexidade · contribuição.</td><td rowspan="3">6</td></tr>
+    <tr><td>Listas de EE, SE e CE</td><td>Nome · tipos de dados · arquivos referenciados · complexidade · contribuição.</td></tr>
+    <tr><td>Resumo e Esforço</td><td>Total por tipo; linguagem; h/PF; custo-hora; pessoas → esforço, custo, prazo.</td></tr>
+    <tr><td rowspan="4"><b>Rq_nn</b> (item 4)</td><td>Tipo</td><td>Funcional ou não funcional.</td><td rowspan="4">8 e 9</td></tr>
+    <tr><td>Registro · Revisão · Fonte</td><td>Quem escreveu, quem revisou, quem pediu.</td></tr>
+    <tr><td>Técnicas · Artefatos</td><td>Como foi obtido e onde está a evidência (gravação, ata).</td></tr>
+    <tr><td>Classificação · Relacionados · Histórico</td><td>Prioridade (essencial, importante, desejável), rastreabilidade, mudanças.</td></tr>
+  </table></div>
+
+  <h3>Roteiro completo de estimativa (a "receita")</h3>
+<pre><span class="c">── A. Contagem estimada de PF ─────────────────────────────────────────</span>
+1. Trace a fronteira da aplicação (visão do usuário)
+2. Liste os arquivos:     mantidos pela aplicação → <span class="k">ALI</span> (7)   só lidos → <span class="k">AIE</span> (5)
+3. Liste as transações:   entra dado → <span class="k">EE</span> (4)   sai dado derivado → <span class="k">SE</span> (5)
+                          recupera sem calcular → <span class="k">CE</span> (4)
+4. Total PF = 7·nALI + 5·nAIE + 4·nEE + 5·nSE + 4·nCE
+
+<span class="c">── B. Método do relatório ─────────────────────────────────────────────</span>
+5. Esforço (h) = PF × produtividade (h/PF)
+6. Custo       = Esforço × custo da hora
+7. Prazo       = Esforço ÷ pessoas           <span class="c">(÷ horas/mês para obter meses)</span>
+
+<span class="c">── C. COCOMO 81 ───────────────────────────────────────────────────────</span>
+8.  KLOC = PF × (LOC/PF da linguagem) ÷ 1000
+9.  Escolha o modo: orgânico · semidestacado · embutido
+10. Básico:        E = a × KLOC^b             <span class="c">a,b = 2,4/1,05 · 3,0/1,12 · 3,6/1,20</span>
+    Intermediário: E = a × KLOC^b × FAE       <span class="c">a,b = 3,2/1,05 · 3,0/1,12 · 2,8/1,20</span>
+                   FAE = produto dos 15 multiplicadores (nominal = 1,00)
+11. Prazo  P = 2,5 × E^c                      <span class="c">c = 0,38 · 0,35 · 0,32</span>
+12. Equipe média = E ÷ P
+
+<span class="c">── D. Ajuste por risco ────────────────────────────────────────────────</span>
+13. Some as exposições (PO × MI × Co) ao prazo e ao custo estimados</pre>
+
+  <h3>Erros frequentes</h3>
+  <div class="tw"><table>
+    <tr><th>Erro</th><th>Correção</th></tr>
+    <tr><td>Usar complexidade média para arquivos na contagem estimada.</td><td>Arquivos (ALI, AIE) = <b>baixa</b>; transações (EE, SE, CE) = <b>média</b>.</td></tr>
+    <tr><td>Contar "manter cliente" como 1 EE.</td><td>Incluir, alterar e excluir são 3 processos elementares = 3 EE.</td></tr>
+    <tr><td>Classificar relatório com totais como CE.</td><td>Tem dado derivado → SE.</td></tr>
+    <tr><td>Colocar LOC na fórmula do COCOMO.</td><td>É <b>KLOC</b>: 8.968 LOC = 8,968.</td></tr>
+    <tr><td><b>Somar</b> os multiplicadores do FAE.</td><td>É o <b>produto</b>: 1,15 × 1,06 × 1,14 × 1,17 = 1,63.</td></tr>
+    <tr><td>Usar o coeficiente do básico (2,4) com FAE.</td><td>Com FAE é o intermediário: 3,2 no orgânico.</td></tr>
+    <tr><td>Calcular o prazo com KLOC.</td><td>P = 2,5 × <b>E</b><sup>c</sup>: o prazo depende do esforço.</td></tr>
+    <tr><td>Esquecer o Co na exposição.</td><td>PO × MI dá uma fração; × Co (prazo ou orçamento do TAP) dá meses ou R$.</td></tr>
+    <tr><td>Ordenar riscos só pelo impacto.</td><td>Prioridade = P × I.</td></tr>
+    <tr><td>Confundir mitigação com contingência.</td><td>Mitigação previne (antes); contingência reduz o dano (depois).</td></tr>
+    <tr><td>Dizer que o protótipo vira o produto.</td><td>No ciclo de prototipação do slide ele é <b>descartado</b>.</td></tr>
+    <tr><td>Tratar "temporário" como "curto".</td><td>Temporário = início e término definidos.</td></tr>
+  </table></div>
+</section>
+
+<section id="formulas">
+  <h2>Fórmulas e números que caem</h2>
+  <p class="note">Só o que aparece nos slides e nos modelos do relatório, em uma página.</p>
+  <div class="tw"><table>
+    <tr><th>Tema</th><th>Fórmula ou número</th><th>Origem</th></tr>
+    <tr><td>Nota</td><td><span class="formula">Média = P1 × 0,5 + P2 × 0,5</span> · P1 23/09 · P2 25/11 · trabalho 04, 11 e 18/11</td><td>sua anotação, aula 1</td></tr>
+    <tr><td>Custo de mudança</td><td>Definição <b>1x</b> · desenvolvimento <b>1,5 – 6x</b> · manutenção <b>60 – 100x</b></td><td>M1</td></tr>
+    <tr><td>Esforço pós-entrega</td><td><b>50 a 70%</b> de todo o esforço vem depois da primeira entrega</td><td>M1</td></tr>
+    <tr><td>PMBOK</td><td><b>5</b> grupos · <b>42</b> processos (2 + 20 + 8 + 10 + 2) · <b>9</b> áreas (4 a 12) · ciclo de vida do projeto com <b>4</b> fases</td><td>M3, M4</td></tr>
+    <tr><td>Valor do risco</td><td><span class="formula">R = P × I</span> · P ∈ {0,1; 0,3; 0,5; 0,7; 0,9} · I ∈ {0,05; 0,10; 0,20; 0,40; 0,80}</td><td>M5</td></tr>
+    <tr><td>Exposição ao risco</td><td><span class="formula">ER = Prob(evento) × Impacto(sistema) = P × C</span> · na ficha: <span class="formula">PO × MI × Co</span></td><td>M5</td></tr>
+    <tr><td>Magnitude de impacto</td><td>Pequena ≤ 10% · Média 10–25% · Grande 25–50% · Extrema &gt; 50%</td><td>ficha RK</td></tr>
+    <tr><td>Escala de impacto</td><td>0,1 insignificante · 0,2 &lt; 5% · 0,4 5–10% · 0,6 10–20% · 0,8 &gt; 20% (custo e cronograma)</td><td>M5</td></tr>
+    <tr><td>Probabilidade qualitativa</td><td>Baixa ≤ 5% · média baixa 5–15% · média 15–50% · média alta 50–90% · alta &gt; 90%</td><td>M5</td></tr>
+    <tr><td>Vale reduzir?</td><td><span class="formula">(ER antes − ER depois) ÷ custo da redução</span></td><td>M5</td></tr>
+    <tr><td>PF · contribuição</td><td>ALI 7/10/15 · AIE 5/7/10 · EE 3/4/6 · SE 4/5/7 · CE 3/4/6</td><td>M6</td></tr>
+    <tr><td>PF · contagem estimada</td><td><span class="formula">PF = 7·ALI + 5·AIE + 4·EE + 5·SE + 4·CE</span></td><td>M6</td></tr>
+    <tr><td>PF · projeto de desenvolvimento</td><td><span class="formula">DFP = (UFP + CFP) × VAF</span> · VAF = 1 (ajuste opcional, ±35%)</td><td>guia prático</td></tr>
+    <tr><td>Derivações do relatório</td><td><span class="formula">Esforço = PF × h/PF</span> · <span class="formula">Custo = Esforço × R$/h</span> · <span class="formula">Prazo = Esforço ÷ pessoas</span></td><td>modelo item 3</td></tr>
+    <tr><td>Conversão</td><td><span class="formula">KLOC = PF × (LOC/PF) ÷ 1000</span> · Access 38 · Java e C++ 53 · C 128 · SQL 13 · Delphi/VB 29</td><td>M7</td></tr>
+    <tr><td>COCOMO básico</td><td>Org. <span class="formula">2,4·KLOC^1,05</span> · Semi. <span class="formula">3,0·KLOC^1,12</span> · Emb. <span class="formula">3,6·KLOC^1,20</span></td><td>M7</td></tr>
+    <tr><td>COCOMO intermediário</td><td>Org. <span class="formula">3,2·KLOC^1,05</span> · Semi. <span class="formula">3,0·KLOC^1,12</span> · Emb. <span class="formula">2,8·KLOC^1,20</span> · todos <span class="formula">× FAE</span></td><td>M7</td></tr>
+    <tr><td>COCOMO prazo</td><td>Org. <span class="formula">2,5·E^0,38</span> · Semi. <span class="formula">2,5·E^0,35</span> · Emb. <span class="formula">2,5·E^0,32</span></td><td>M7</td></tr>
+    <tr><td>COCOMO · fatos</td><td>Boehm, 1981 · 63 projetos (TRW) · 2.000 a 1.000.000 LOC · 15 direcionadores, 4 categorias, escala de 6 pontos · orgânico até 50.000 linhas</td><td>M7</td></tr>
+    <tr><td>Unidade</td><td>1 pessoa × 12 meses = <b>12 pessoas-mês</b></td><td>M6</td></tr>
+    <tr><td>Requisitos</td><td>Brainstorming com <b>4 a 10</b> pessoas · reutilização pode chegar a <b>50%</b> · 5WH = 6 perguntas</td><td>M9</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo numérico de bolso · a locadora em seis linhas</b>
+<pre>PF    = 16 ALI × 7 + 23 EE × 4 + 8 SE × 4(*)  = 112 + 92 + 32 = <span class="s">236 PF</span>
+KLOC  = 236 × 38 (Access) ÷ 1000               = 8,968 ≈ <span class="s">9 KLOC</span>
+FAE   = 1,15 × 1,06 × 1,14 × 1,17              = <span class="s">1,63</span>
+E     = 3,2 × 9^1,05 × 1,63 = 3,2 × 10,05 × 1,63 = <span class="s">52,42 pessoas-mês</span>
+P     = 2,5 × 52,42^0,38                       = <span class="s">11,26 meses</span>
+Equipe média = 52,42 ÷ 11,26                   ≈ <span class="s">4,7 pessoas</span>
+<span class="c">(*) o slide usa 4 por SE; pela tabela seria 5 → 244 PF (ver módulo 6)</span></pre>
+  </div>
+</section>
+
+<section id="quiz">
+  <h2>Auto-teste · flashcards</h2>
+  <p class="note">Tente responder em voz alta antes de abrir. Se errar, volte ao módulo indicado entre colchetes.</p>
+  <div class="btnrow"><button type="button" onclick="document.querySelectorAll('.card').forEach(c=>c.open=false)">Fechar todas</button></div>
+  <div class="cards">
+    <details class="card"><summary>Por que "software não é somente código"?</summary><div class="a">Porque é composto de instruções, estruturas de dados, documentos e conjunto de teste. [M1]</div></details>
+    <details class="card"><summary>As 3 características do software</summary><div class="a">É desenvolvido por engenharia, não manufaturado; não se desgasta, mas se deteriora; a maioria é feita sob medida em vez de montada a partir de componentes. [M1]</div></details>
+    <details class="card"><summary>Por que a curva real de falhas do software sobe?</summary><div class="a">Cada mudança introduz novos defeitos e gera um pico; antes de voltar ao patamar, vem outra mudança. O mínimo vai subindo: o software se deteriora. [M1]</div></details>
+    <details class="card"><summary>Os 4 problemas da crise de software</summary><div class="a">Estimativas de prazo e custo imprecisas; produtividade não acompanha a demanda; qualidade menos que adequada; software difícil de manter. [M1]</div></details>
+    <details class="card"><summary>As 3 causas da crise</summary><div class="a">O próprio caráter do software (lógico, não físico); falhas das pessoas responsáveis (gerentes sem background, pouco treinamento, resistência a mudanças); mitos do software. [M1]</div></details>
+    <details class="card"><summary>Mito: "estamos atrasados, vamos pôr mais programadores". Tipo e realidade?</summary><div class="a">Administrativo. Desenvolvimento não é processo mecânico; acrescentar pessoas torna o projeto ainda mais atrasado (novos caminhos de comunicação). Só de forma planejada. [M1]</div></details>
+    <details class="card"><summary>Custo de uma mudança por fase</summary><div class="a">Definição 1x; desenvolvimento 1,5 a 6x; manutenção 60 a 100x. [M1]</div></details>
+    <details class="card"><summary>Métodos, ferramentas e procedimentos</summary><div class="a">Métodos: sequência de fases e atividades. Ferramentas: suporte automatizado aos métodos; integradas = CASE. Procedimentos: passos, entregas, controles de qualidade e de alterações, marcos. [M2]</div></details>
+    <details class="card"><summary>Os 3 problemas do ciclo clássico</summary><div class="a">Projetos reais raramente seguem o fluxo sequencial; é difícil estabelecer todos os requisitos no início; o cliente só vê versão executável em etapa avançada. [M2]</div></details>
+    <details class="card"><summary>Quando a prototipação é apropriada?</summary><div class="a">Quando o cliente definiu objetivos gerais, mas não identificou requisitos de entrada, processamento e saída em detalhe. [M2]</div></details>
+    <details class="card"><summary>O que o espiral acrescenta a cascata + prototipação?</summary><div class="a">A análise de risco, em estrutura iterativa: planejamento → análise de risco → construção → avaliação do cliente, com decisão de continuar ou não a cada volta. [M2]</div></details>
+    <details class="card"><summary>Definição de projeto (PMBOK)</summary><div class="a">Esforço temporário empreendido para criar um produto, serviço ou resultado exclusivo. Temporário = início e término definidos, não "curto". [M3]</div></details>
+    <details class="card"><summary>Definição de gerenciamento de projetos</summary><div class="a">Aplicação de conhecimento, habilidades, ferramentas e técnicas às atividades do projeto a fim de atender aos seus requisitos; 42 processos em 5 grupos. [M3]</div></details>
+    <details class="card"><summary>Programa × portfólio</summary><div class="a">Programa: projetos relacionados, gerenciados de modo coordenado para benefícios que não existiriam individualmente. Portfólio: projetos, programas e outros trabalhos, não necessariamente relacionados, agrupados para atingir objetivos estratégicos e priorizar recursos. [M3]</div></details>
+    <details class="card"><summary>Principal função de um PMO</summary><div class="a">Dar suporte aos gerentes de projetos: recursos compartilhados, metodologia e padrões, orientação e treinamento, auditorias, políticas e formulários. [M3]</div></details>
+    <details class="card"><summary>Fatores ambientais × ativos de processos organizacionais</summary><div class="a">Fatores ambientais: condições internas e externas que cercam o projeto (cultura, normas, infraestrutura, mercado). Ativos: planos, políticas, procedimentos e a base de conhecimento (lições aprendidas, históricos). [M3]</div></details>
+    <details class="card"><summary>Ao longo do projeto, o que cai e o que sobe?</summary><div class="a">Caem a influência das partes interessadas, o risco e a incerteza; sobe o custo das mudanças. Custo e pessoal têm pico na execução. [M3]</div></details>
+    <details class="card"><summary>Os 5 grupos de processos e quantos processos em cada</summary><div class="a">Iniciação (2), planejamento (20), execução (8), monitoramento e controle (10), encerramento (2) = 42. [M4]</div></details>
+    <details class="card"><summary>O que é o TAP?</summary><div class="a">Documento que formalmente autoriza um projeto ou fase e documenta os requisitos iniciais das partes interessadas. Aprovação e financiamento são externos ao projeto. [M4]</div></details>
+    <details class="card"><summary>OBS, PBS, WBS</summary><div class="a">OBS/EOP: quem vai fazer. PBS/EFP: o que vai ser feito. WBS/EAP: como vai ser feito (decomposição orientada às entregas). A RAM/MAR cruza as estruturas para dizer quem é responsável por cada atividade. [M4]</div></details>
+    <details class="card"><summary>Definição de risco e os 3 aspectos</summary><div class="a">Acontecimento não desejado que tem consequências negativas. Aspectos: impacto (perda), probabilidade (frequência), controle (o que pode ser feito). [M5]</div></details>
+    <details class="card"><summary>As 5 etapas do processo de riscos e suas saídas</summary><div class="a">Identificar (lista de riscos em potencial) → analisar (riscos comentados) → priorizar (lista priorizada) → planejar (planos para evitar e de contingência) → monitorar (avaliação dos riscos). [M5]</div></details>
+    <details class="card"><summary>PO = 80%, MI = 30%, prazo do TAP = 20 meses. Exposição?</summary><div class="a">0,80 × 0,30 × 20 = 4,8 meses. MI de 30% é magnitude Grande (25–50%). [M5]</div></details>
+    <details class="card"><summary>As estratégias de redução de riscos</summary><div class="a">Evitar (alterando requisitos); transferir (a outros sistemas, seguro); assumir e controlar com recursos do projeto (protótipos); e verificar se o custo da redução compensa. [M5]</div></details>
+    <details class="card"><summary>Riscos de projeto × técnicos × de negócio</summary><div class="a">Projeto: orçamento, cronograma, pessoal, recursos, clientes, requisitos. Técnicos: design, implementação, interface, verificação, manutenção. Negócio: produto que ninguém quer, fora da estratégia, perda de apoio ou de orçamento. [M5]</div></details>
+    <details class="card"><summary>Desvantagens de medir tamanho por LOC</summary><div class="a">Depende da linguagem; penaliza programas bem projetados e pequenos; não se adapta a linguagens não procedimentais; difícil de obter no planejamento. [M6]</div></details>
+    <details class="card"><summary>ALI × AIE</summary><div class="a">Ambos são grupos de dados logicamente relacionados. ALI é mantido dentro da fronteira da aplicação; AIE é usado pela aplicação, mas mantido fora. [M6]</div></details>
+    <details class="card"><summary>SE × CE</summary><div class="a">SE fornece dados derivados (combinados/calculados) para fora. CE combina entrada e saída e só recupera dados de ALI ou AIE, sem cálculo. [M6]</div></details>
+    <details class="card"><summary>Premissas e pesos da contagem estimada</summary><div class="a">Arquivos com complexidade baixa (ALI 7, AIE 5); transações com complexidade média (EE 4, SE 5, CE 4). [M6]</div></details>
+    <details class="card"><summary>2 ALI, 1 AIE, 5 EE, 2 SE, 3 CE. Quantos PF?</summary><div class="a">14 + 5 + 20 + 10 + 12 = 61 PF. [M6]</div></details>
+    <details class="card"><summary>100 PF em Java, 15 h/PF, R$ 30/h, 3 pessoas. Esforço, custo, prazo?</summary><div class="a">Esforço = 1.500 h; custo = R$ 45.000; prazo = 500 h por pessoa (≈ 3,8 meses a 130 h/mês). [M6]</div></details>
+    <details class="card"><summary>Os 3 níveis do COCOMO 81</summary><div class="a">Básico: esforço em função do tamanho. Intermediário: tamanho + 15 direcionadores de custo (FAE). Avançado: o mesmo, em cada passo do processo. [M7]</div></details>
+    <details class="card"><summary>Modo orgânico × embutido</summary><div class="a">Orgânico: até 50.000 linhas, equipe pequena e experiente, ambiente estável, sem restrições rígidas. Embutido: restrições rigorosas de hardware, software, regulamentos; projetos grandes e inovadores (tráfego aéreo, transferência de fundos). [M7]</div></details>
+    <details class="card"><summary>Equações do intermediário orgânico</summary><div class="a">E = 3,2 × KLOC^1,05 × FAE (pessoas-mês); P = 2,5 × E^0,38 (meses). [M7]</div></details>
+    <details class="card"><summary>Como se calcula o FAE?</summary><div class="a">É o produto dos multiplicadores dos 15 direcionadores (produto, computacionais, equipe, projeto); os nominais valem 1,00. Ex.: 1,15 × 1,06 × 1,14 × 1,17 = 1,63. [M7]</div></details>
+    <details class="card"><summary>PERT × Gantt</summary><div class="a">PERT: rede de tarefas com precedências, base para o caminho crítico. Gantt: barras no tempo por tarefa/pessoa, planejado × realizado. [M7]</div></details>
+    <details class="card"><summary>As 4 etapas do processo de engenharia de requisitos</summary><div class="a">Estudo de viabilidade (relatório) → extração e análise (modelos de sistema) → especificação (requisitos de usuário e de sistema) → validação (especificação de requisitos de software). [M8]</div></details>
+    <details class="card"><summary>Árvore de classificação de requisitos</summary><div class="a">Usuário / sistema → funcionais, não funcionais, de domínio → não funcionais: de produto, de organização, externos. [M8]</div></details>
+    <details class="card"><summary>Entrevista estruturada × não-estruturada</summary><div class="a">Não-estruturada: entrevistador ouvinte, perguntas genéricas de negócio, sem ordem. Estruturada: ordem pré-estabelecida, mesmas perguntas a vários usuários para confrontar respostas; pode usar 5WH. [M9]</div></details>
+    <details class="card"><summary>As 4 regras do brainstorming</summary><div class="a">Não permitir críticas ou debates; deixar a imaginação voar; gerar tantas ideias quanto possível; mudar e combinar ideias. Grupo de 4 a 10. [M9]</div></details>
+    <details class="card"><summary>Os 5 elementos de um cenário</summary><div class="a">Estado do sistema antes; fluxo normal de eventos; exceções ao fluxo normal; outras atividades simultâneas; estado do sistema depois. [M9]</div></details>
+    <details class="card"><summary>Que requisitos podem ser reutilizados?</summary><div class="a">Os do domínio de aplicação, os de estilo de apresentação da informação e os que refletem políticas da organização (ex.: segurança). Reuso pode chegar a 50%. [M9]</div></details>
+  </div>
+</section>
+
+<section id="ementa">
+  <h2>Lacunas do material e o que NÃO cai</h2>
+
+  <h3>Inventário: o que foi lido</h3>
+  <div class="tw"><table>
+    <tr><th>Arquivo</th><th>Tipo</th><th>Leitura</th><th>Módulo</th></tr>
+    <tr><td>Aula 1 · Introdução (50 slides)</td><td>Teoria</td><td>Texto completo.</td><td>1, 2</td></tr>
+    <tr><td>Aula 2 · Gestão de Projetos (75 slides)</td><td>Teoria</td><td>Slides são <b>imagens</b> de páginas do PMBOK; lidos visualmente, um a um.</td><td>3, 4</td></tr>
+    <tr><td>Aula 3 · Engenharia e Gestão de Riscos (22 slides)</td><td>Teoria</td><td>Texto + figuras lidas visualmente.</td><td>5</td></tr>
+    <tr><td>Aula 4 · Estimativas de Esforço (117 slides)</td><td>Teoria + exemplo</td><td>Texto completo; tabelas sobrepostas (multiplicadores, locadora) remontadas e conferidas por conta.</td><td>6, 7</td></tr>
+    <tr><td>Aula · Engenharia de Requisitos (54 slides)</td><td>Teoria</td><td>Texto + figuras lidas visualmente.</td><td>8, 9</td></tr>
+    <tr><td>Guia Prático em APF (30 p.)</td><td>Apoio</td><td>Lido por inteiro.</td><td>6</td></tr>
+    <tr><td>4 modelos do relatório (.docx)</td><td>Prática</td><td>Lidos por inteiro.</td><td>4, 5, 6, 8</td></tr>
+    <tr><td>5 anotações (aulas 1, 2, 3, 4 e 6)</td><td>Suas</td><td>Lidas por inteiro.</td><td>todos</td></tr>
+    <tr><td>Capítulo 28 · Gestão de Riscos (Pressman)</td><td>Apoio</td><td><b>Não lido:</b> PDF escaneado sem camada de texto. O conteúdo de Pressman que aparece no guia veio dos slides.</td><td>5</td></tr>
+    <tr><td>Function Point Count Manual (334 p.) · Roteiro SERPRO (87 p.) · Livro CPRE (169 p.)</td><td>Referência</td><td><b>Não lidos por inteiro:</b> só consultados pontualmente (sumário e classificação de requisitos do CPRE).</td><td>6, 8</td></tr>
+  </table></div>
+
+  <h3>Recorte usado neste guia</h3>
+  <div class="tw"><table>
+    <tr><th>Classe</th><th>Temas</th><th>Evidência</th></tr>
+    <tr><td><b>Núcleo</b></td><td>Riscos (M5) · Requisitos e elicitação (M8, M9)</td><td>Slide + ficha do relatório + sua anotação com ênfases do professor.</td></tr>
+    <tr><td><b>Núcleo numérico</b></td><td>Pontos de função e COCOMO (M6, M7)</td><td>Slide com exemplo resolvido + ficha do relatório. <b>Sem anotação sua.</b></td></tr>
+    <tr><td><b>Conceitual</b></td><td>Software, crise, mitos, ciclos de vida (M1, M2) · PMBOK (M3, M4)</td><td>Slide + anotação; TAP no relatório.</td></tr>
+    <tr><td><b>Lacuna</b></td><td>Classificação de requisitos · tipos de especificação · contagem indicativa · caminho crítico</td><td>O slide só traz a figura ou o nome; as explicações vêm de Sommerville e do conhecimento geral e estão marcadas como inferência.</td></tr>
+    <tr><td><b>Fora</b></td><td>Itens 5 a 7 do Volume 1 (casos de uso, modelo de domínio, interface) e todo o Volume 2</td><td>Não há slides nem anotações sobre eles na pasta.</td></tr>
+  </table></div>
+
+  <h3>O que eu não tive e você deve conferir</h3>
+  <ul class="tight">
+    <li><b>Plano de ensino / ementa e cronograma oficial:</b> não estão na pasta. O recorte foi feito pelas datas: P1 em 23/09/2026; anotações em 05/08, 12/08, 19/08, 26/08 e 09/09.</li>
+    <li><b>Aula de 02/09 (estimativas):</b> não há anotação. Não sei quanto do conjunto de 117 slides foi efetivamente dado (em especial COCOMO, cronograma e plano de projeto), nem que ênfase o professor deu.</li>
+    <li><b>Aula de 16/09:</b> não há anotação nem material datado. Se houve conteúdo novo (por exemplo, casos de uso), ele <b>não está neste guia</b>. A sua anotação de 09/09 diz que foi a "última aula relacionada à entrega do relatório parcial".</li>
+    <li><b>Numeração:</b> o arquivo <code>anotacao_aula5.pdf</code> tem o título "Aula 6" (09/09). Tratei como a aula de requisitos.</li>
+    <li><b>Formato da prova:</b> não consta em nenhum material. Os slides e as fichas sugerem dissertativas curtas (definir, comparar, listar), classificação de itens (mito, risco, requisito, função de PF) e ao menos um cálculo (PF, COCOMO ou exposição ao risco). <span class="inf">inferência</span> Confirme se pode usar calculadora: o COCOMO tem expoente fracionário.</li>
+    <li><b>Duas inconsistências nos slides de estimativas</b>, explicadas nos módulos 6 e 7: o total de 236 PF usa 4 PF por saída externa (a tabela diz 5 → 244); e o multiplicador 1,14 aparece como experiência "baixa" (na tabela, 1,14 é "muito baixo"). Vale perguntar ao professor qual valor ele espera.</li>
+    <li><b>Edição do PMBOK:</b> a capa no slide é a 6ª edição (e a sua anotação também), mas o texto projetado fala em 42 processos e numera as áreas de 4 a 12, que é a estrutura de edição anterior. O guia usa os números do slide.</li>
+  </ul>
+
+  <h3>Fora da P1 (servem para o projeto e, provavelmente, para a P2)</h3>
+  <ul class="tight">
+    <li><b>Volume 1, itens 5 a 7:</b> modelo de casos de uso (perfil de atores, especificação, diagrama, diagramas de atividades); modelo de domínio (diagrama de classes de análise, cartões CRC); modelo de interface (protótipos, navegação).</li>
+    <li><b>Volume 2:</b> banco de dados (DER, modelo lógico e físico, dicionário de dados, matrizes CRUD, backup); implementação (diagramas de classe de projeto, estados, colaboração, sequência, inspeções); codificação; verificação (testes de unidade e integração em caixa branca, de sistema e interface em caixa preta); validação (alfa e beta); implantação; finalização.</li>
+    <li>Datas do trabalho na sua anotação: 04/11, 11/11 e 18/11. P2 em 25/11. A nota do projeto também vale para PIC III.</li>
+  </ul>
+  <p class="note">Sugestão: se conseguir falar com o professor ou com colegas antes de quarta-feira, confirme três coisas: se COCOMO entra, se a aula de 16/09 entra, e se as tabelas de PF e de multiplicadores serão fornecidas.</p>
+</section>
+</main>
+</div>
+
+<script>
+  // realça o item do sumário conforme a rolagem
+  const links=[...document.querySelectorAll('nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.toggle('on', l.getAttribute('href')==='#'+e.target.id)); }});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
