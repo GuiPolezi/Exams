@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitetura de Software — Guia de estudo para a P1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2F5F4;
+    --ink:#10262B;
+    --ink-soft:#3F5459;
+    --navy:#0C5F73;
+    --mustard:#E3A008;
+    --mint:#2F8F5B;
+    --coral:#C9473A;
+    --line:#D2DCDB;
+    --white:#FFFFFF;
+    --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'Archivo', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+  a{color:var(--navy)}
+  code,pre{font-family:var(--mono);font-size:.84em}
+  pre{background:#0B2027;color:#E6EEF0;padding:14px 16px;border-radius:6px;overflow:auto;line-height:1.5;margin:10px 0 0}
+  pre .c{color:#86A5AC}
+  pre .k{color:#F3C969}
+  pre .s{color:#9ADBB5}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--ink);color:#DCE6E8;padding:28px 22px}
+  nav h1{font-size:15px;font-weight:600;margin:0 0 4px;color:#fff;letter-spacing:.01em}
+  nav .sub{font-size:12.5px;color:#93A9AE;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav li{margin:0}
+  nav a{display:block;color:#C5D3D6;text-decoration:none;font-size:13.5px;padding:6px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.07);color:#fff;outline:none}
+  nav a.on{border-left-color:var(--mustard);color:#fff;background:rgba(255,255,255,.06)}
+  nav .grp{font-size:11.5px;color:#7A9197;margin:16px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12px;color:#93A9AE;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  main{padding:0 0 80px;min-width:0}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-size:34px;line-height:1.15;margin:0 0 12px;font-weight:600;max-width:26ch}
+  .hero p{max-width:68ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px}
+  .hero .facts div{font-size:13.5px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-size:22px;color:var(--ink);font-weight:600}
+  .alert{margin-top:20px;border:1px solid var(--coral);border-left-width:4px;background:#FBE9E6;border-radius:0 6px 6px 0;padding:10px 14px;max-width:72ch;font-size:14.5px}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1100px}
+  section h2{font-size:26px;font-weight:600;margin:0 0 6px}
+  section h3{font-size:18px;font-weight:600;margin:28px 0 8px;color:var(--navy)}
+  section h4{font-size:15px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--mustard);background:#FBF3DC;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why b{display:block;margin-bottom:2px}
+  .prova{border-left:4px solid var(--coral);background:#FBE9E6;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova b{display:block;margin-bottom:2px;color:var(--coral)}
+  .prova ul{margin:4px 0 0;padding-left:20px}
+  .code{border-left:4px solid var(--mint);background:#E4F3EA;padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0;max-width:900px}
+  .code b{display:block;margin-bottom:2px;color:var(--mint)}
+  .note{font-size:14px;color:var(--ink-soft);max-width:72ch}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 10px;max-width:820px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--navy)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:12px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15px;max-width:72ch}
+  .ex{background:#F6F9F8;border:1px dashed #A9BBBB;border-radius:6px;padding:12px 16px;max-width:820px;margin:12px 0;font-size:15px}
+  .ex b{display:block;margin-bottom:4px}
+  .ex p{margin:6px 0}
+
+  .tw{overflow-x:auto;max-width:900px}
+  table{border-collapse:collapse;width:100%;max-width:900px;margin:10px 0 6px;font-size:14.5px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#E3ECEC;font-weight:600}
+  td code{background:#EAF0F0;padding:1px 5px;border-radius:3px;color:var(--ink)}
+  p code,li code,dd code,small code{background:#E6EDED;padding:1px 5px;border-radius:3px}
+
+  ul.tight{margin:6px 0 10px;padding-left:20px;max-width:72ch}
+  ul.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);font-size:.86em;background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 0}
+  .inf{font-size:11.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);border:1px solid #A9BBBB;border-radius:3px;padding:0 5px;white-space:nowrap}
+
+  /* study order */
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:820px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:20px;color:var(--mustard);font-weight:500;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft);font-size:14px}
+
+  /* mind map */
+  .map{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto}
+  .map svg{width:100%;height:auto;min-width:780px;display:block}
+  .map text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+  .map .root{font-size:15px;font-weight:600;fill:#fff}
+  .map .b1{font-weight:600;fill:var(--ink)}
+  .map .zoom{font-size:11px;fill:#6B8388;font-style:italic}
+  .map line{stroke:#A9BBBB;stroke-width:1.4}
+
+  /* flashcards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--mustard);font-size:18px}
+  .card[open] summary::after{content:"–"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink-soft)}
+  details.snip{margin:10px 0;max-width:900px}
+  details.snip summary{cursor:pointer;font-weight:500;color:var(--mint)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14px;background:var(--navy);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--mustard);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 16px}
+    .hero h2{font-size:27px}
+    .two{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Arquitetura de Software</h1>
+  <div class="sub">Guia de estudo · P1 · 21/09/2026 · EEP</div>
+  <ol>
+    <li><a href="#mapa">Mapa mental geral</a></li>
+    <li><a href="#ordem">Ordem de estudo</a></li>
+    <li class="grp">Módulos</li>
+    <li><a href="#m1">1 · Arquitetura: conceitos</a></li>
+    <li><a href="#m2">2 · Estilos arquiteturais</a></li>
+    <li><a href="#m3">3 · GoF: padrões de criação</a></li>
+    <li><a href="#m4">4 · GoF: padrões estruturais</a></li>
+    <li><a href="#m5">5 · GoF: padrões comportamentais</a></li>
+    <li><a href="#m6">6 · GRASP</a></li>
+    <li><a href="#m7">7 · SOLID</a></li>
+    <li><a href="#m8">8 · Hollywood, IoC, DI e MVC</a></li>
+    <li><a href="#m9">9 · Persistência: DAO, VO e ORM</a></li>
+    <li><a href="#m10">10 · JPA + Abstract Factory no crud</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#codigo">Java: colinha de código</a></li>
+    <li><a href="#formulas">Listas que caem (decorar)</a></li>
+    <li><a href="#quiz">Auto-teste (flashcards)</a></li>
+    <li><a href="#ementa">Lacunas e o que NÃO cai</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--mustard)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--coral)"></span>Provável na prova</div>
+    <div><span style="background:var(--mint)"></span>Código Java</div>
+    <div style="margin-top:6px"><span class="inf" style="width:auto;height:auto;color:#93A9AE;border-color:#5C7379">inferência</span> = não está no material</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <h2>Do sistema inteiro à linha de código: tudo que a P1 cobra, em ordem.</h2>
+  <p>Este guia foi montado a partir dos slides das aulas 1 a 5, do roteiro da aula 6, das 7 listas de exercícios, do projeto <code>designpatterns</code> (os 23 padrões em Java), das 3 soluções do <code>crud</code> e das suas anotações das aulas 1 a 4. O fio condutor é um <b>zoom</b>: o curso começa olhando o sistema de longe (estilos de arquitetura), desce para as classes (padrões GoF), explica <i>por que</i> esses desenhos são bons (GRASP e SOLID), mostra quem manda no fluxo (IoC, DI, MVC) e termina na camada de dados (DAO, VO, ORM, JPA).</p>
+  <p>Em paralelo corre uma segunda história: a aplicação <b>crud de produto</b>. A cada aula ela perde um acoplamento: primeiro ganha um Singleton, depois DAO e VO, por fim JPA atrás de uma Abstract Factory. Se você entender essa evolução, entende a matéria.</p>
+  <div class="facts">
+    <div><b>10</b>módulos de conteúdo</div>
+    <div><b>23</b>padrões GoF em 3 grupos</div>
+    <div><b>9 + 5</b>princípios GRASP e SOLID</div>
+    <div><b>1</b>aplicação-âncora: o crud</div>
+    <div><b>50%</b>da nota · não há P2</div>
+  </div>
+  <div class="alert"><b>Das suas anotações:</b> "IMPORTANTE ESTUDAR ESSES PATTERNS. CAI NA PROVA" (aula 2) · "Aula importante pra prova, conteúdo pesado" (aula 4: GRASP, SOLID, IoC, DI, MVC) · "Sempre fazer exercícios da aula" (aula 1). Esses três avisos definem as prioridades deste guia.</div>
+</div>
+
+<section id="mapa">
+  <h2>Mapa mental geral</h2>
+  <p class="note">Leia de cima para baixo: é o zoom do curso, do sistema inteiro até a tabela do banco. Os números entre parênteses são contagens que o professor pode cobrar.</p>
+  <div class="map">
+  <svg viewBox="0 0 1000 850" role="img" aria-label="Mapa mental da matéria: dez ramos, do conceito de arquitetura até JPA">
+    <rect x="20" y="385" width="150" height="70" rx="8" fill="#0C5F73"/>
+    <text class="root" x="95" y="414" text-anchor="middle">Arquitetura</text>
+    <text class="root" x="95" y="434" text-anchor="middle">de Software</text>
+    <g>
+      <line x1="170" y1="420" x2="250" y2="40"/>
+      <line x1="170" y1="420" x2="250" y2="125"/>
+      <line x1="170" y1="420" x2="250" y2="210"/>
+      <line x1="170" y1="420" x2="250" y2="295"/>
+      <line x1="170" y1="420" x2="250" y2="380"/>
+      <line x1="170" y1="420" x2="250" y2="465"/>
+      <line x1="170" y1="420" x2="250" y2="550"/>
+      <line x1="170" y1="420" x2="250" y2="635"/>
+      <line x1="170" y1="420" x2="250" y2="720"/>
+      <line x1="170" y1="420" x2="250" y2="805"/>
+    </g>
+    <!-- B1 -->
+    <text class="b1" x="255" y="44">1 · Arquitetura: conceitos</text>
+    <line x1="255" y1="50" x2="470" y2="50"/>
+    <text x="480" y="30">Arquitetura = {Elementos, Organização, Decisões}</text>
+    <text x="480" y="48">Padrão × estilo × padrão de projeto × framework</text>
+    <text x="480" y="66">Elementos estáticos × dinâmicos · visões e stakeholders</text>
+    <!-- B2 -->
+    <text class="b1" x="255" y="129">2 · Estilos arquiteturais</text>
+    <line x1="255" y1="135" x2="470" y2="135"/>
+    <text x="480" y="115">Centrado em dados: repositório, blackboard</text>
+    <text x="480" y="133">Fluxo de dados: duto e filtro (pipeline) · camadas</text>
+    <text x="480" y="151">Chamada e retorno: principal/subprograma, cliente-servidor</text>
+    <!-- B3 -->
+    <text class="b1" x="255" y="214">3 · GoF · criação (5)</text>
+    <line x1="255" y1="220" x2="470" y2="220"/>
+    <text x="480" y="200">Singleton: instância única, ponto único de acesso</text>
+    <text x="480" y="218">Factory Method · Abstract Factory (famílias)</text>
+    <text x="480" y="236">Builder (Director, passo a passo) · Prototype (clone)</text>
+    <!-- B4 -->
+    <text class="b1" x="255" y="299">4 · GoF · estruturais (7)</text>
+    <line x1="255" y1="305" x2="470" y2="305"/>
+    <text x="480" y="285">Adapter (terceiros) · Bridge (abstração ≠ implementação)</text>
+    <text x="480" y="303">Composite (árvore) · Decorator (runtime) · Façade (simplifica)</text>
+    <text x="480" y="321">Flyweight (memória) · Proxy (controla acesso)</text>
+    <!-- B5 -->
+    <text class="b1" x="255" y="384">5 · GoF · comportamentais (11)</text>
+    <line x1="255" y1="390" x2="470" y2="390"/>
+    <text x="480" y="370">Chain of Resp. · Command · Interpreter · Iterator</text>
+    <text x="480" y="388">Mediator (hub) · Memento (desfazer) · Observer (listeners)</text>
+    <text x="480" y="406">State · Strategy · Template Method (final) · Visitor</text>
+    <!-- B6 -->
+    <text class="b1" x="255" y="469">6 · GRASP (9) · Larman, 1997</text>
+    <line x1="255" y1="475" x2="470" y2="475"/>
+    <text x="480" y="455">Information expert · Creator · Controller · Indirection</text>
+    <text x="480" y="473">Low coupling · High cohesion · Polymorphism</text>
+    <text x="480" y="491">Protected variants · Pure fabrication</text>
+    <!-- B7 -->
+    <text class="b1" x="255" y="554">7 · SOLID (5) · Martin, 2000</text>
+    <line x1="255" y1="560" x2="470" y2="560"/>
+    <text x="480" y="540">Single responsibility · Open-closed</text>
+    <text x="480" y="558">Liskov substitution · Interface segregation</text>
+    <text x="480" y="576">Dependency inversion: ambos dependem de abstrações</text>
+    <!-- B8 -->
+    <text class="b1" x="255" y="639">8 · Hollywood, IoC, DI, MVC</text>
+    <line x1="255" y1="645" x2="470" y2="645"/>
+    <text x="480" y="625">IoC: o container chama seu código · DI: a estrutura entrega o serviço</text>
+    <text x="480" y="643">MVC: Model (dados) · View (exibição) · Controller (ações)</text>
+    <text x="480" y="661">MVC usa Observer · Modelo 1 × Modelo 2 em Java Web</text>
+    <!-- B9 -->
+    <text class="b1" x="255" y="724">9 · Persistência: DAO, VO, ORM</text>
+    <line x1="255" y1="730" x2="470" y2="730"/>
+    <text x="480" y="710">JDBC na UI = código redundante · POJO × JavaBean</text>
+    <text x="480" y="728">DAO (lógica de acesso, CRUD) · VO (entidade de dados)</text>
+    <text x="480" y="746">Tabela → classe · coluna → atributo · 1:N → coleção</text>
+    <!-- B10 -->
+    <text class="b1" x="255" y="809">10 · JPA + Abstract Factory</text>
+    <line x1="255" y1="815" x2="470" y2="815"/>
+    <text x="480" y="795">@Entity @Table @Id @GeneratedValue @Column</text>
+    <text x="480" y="813">EntityManager: persist, merge, remove, createQuery (JPQL)</text>
+    <text x="480" y="831">DAOAbstractFactory.getFactory(tipo).createProdutoDAO()</text>
+    <text class="zoom" x="20" y="30">zoom: sistema</text>
+    <text class="zoom" x="20" y="835">zoom: tabela do banco</text>
+  </svg>
+  </div>
+</section>
+
+<section id="ordem">
+  <h2>Ordem de estudo recomendada</h2>
+  <p>A ordem segue as dependências: GRASP cita padrões GoF (Indirection = Adapter, Façade, Observer), MVC usa Observer, e o crud final usa Singleton + Abstract Factory + DAO. O tempo sugerido soma cerca de 9 horas.</p>
+  <ol class="steps">
+    <li><div><b>Vocabulário de arquitetura (1 h)</b><small>Módulos 1 e 2. Saiba diferenciar padrão, estilo, padrão de projeto e framework, e associar cenário → estilo. Resolva os 2 exercícios da aula 1 (respondidos no módulo 2).</small></div></li>
+    <li><div><b>Os 23 padrões GoF (3 h)</b><small>Módulos 3, 4 e 5. Primeiro decore a classificação (5 / 7 / 11), depois a intenção de cada um em uma frase, depois os pares que confundem. Sua anotação diz que cai: é o maior bloco.</small></div></li>
+    <li><div><b>GRASP, SOLID, IoC, DI e MVC (2 h 30)</b><small>Módulos 6, 7 e 8. "Conteúdo pesado pra prova". As 4 questões da lista da aula 4 são dissertativas e estão com resposta-modelo aqui. Treine escrevê-las à mão.</small></div></li>
+    <li><div><b>Persistência e o crud (1 h 30)</b><small>Módulos 9 e 10. Sem DAO/VO você não explica por que o crud foi reorganizado; sem a Abstract Factory você não fecha a história da aula 6.</small></div></li>
+    <li><div><b>Escrever de memória + flashcards (1 h)</b><small>Feche o guia e escreva: Singleton completo, VendaDeProduto com DI, interface ProdutoDAO, a fábrica abstrata. Depois rode os 36 flashcards.</small></div></li>
+  </ol>
+  <div class="ex"><b>Plano curto, se só sobrarem 3 horas</b>
+    <p>1) Respostas-modelo da aula 4 (módulos 6 a 8), 60 min. 2) Tabelas dos 23 padrões + exercício 1 e 2 da aula 3 (módulo 5), 60 min. 3) Exercícios da aula 1 (módulo 2), 20 min. 4) Singleton e DI escritos de memória, 20 min. 5) Seção "Listas que caem", 20 min.</p>
+  </div>
+</section>
+
+<section id="m1">
+  <h2>Módulo 1 · O que é arquitetura de software</h2>
+  <div class="why"><b>Por que estudar</b>É o vocabulário da disciplina. Toda questão conceitual parte daqui: "defina arquitetura", "diferencie padrão de framework", "o que são elementos estáticos". São pontos fáceis se você usar os termos exatos dos slides.</div>
+
+  <h3>As definições de arquitetura (aula 1)</h3>
+  <div class="tw"><table>
+    <tr><th>Quem / quando</th><th>Definição (palavras do slide)</th><th>Palavra-chave</th></tr>
+    <tr><td>Dijkstra, anos 60</td><td>O conceito inicial surgiu aqui (sua anotação: "nome do inventor").</td><td>origem</td></tr>
+    <tr><td>Perry e Wolf (92)</td><td><b>Arquitetura = {Elementos, Organização, Decisões}</b>. Conjunto de elementos arquiteturais (de dados, de processamento, de conexão) que possuem alguma organização; elementos e organização são definidos por decisões tomadas para satisfazer objetivos e restrições.</td><td>a tripla</td></tr>
+    <tr><td>Shaw e Garlan (96)</td><td>Define o que é o sistema em termos de <b>componentes computacionais</b>, os <b>relacionamentos</b> entre eles, os <b>padrões que guiam a sua composição</b> e <b>restrições</b>. Vai além de algoritmos e estruturas de dados: controle, protocolos, sincronização, acesso a dados, distribuição física, escalabilidade, desempenho.</td><td>componentes + conectores</td></tr>
+    <tr><td>Bass (98, 2ª ed. 2003)</td><td>A estrutura (ou estruturas) do sistema, composta de elementos de software, das <b>propriedades externamente visíveis</b> desses elementos e dos relacionamentos entre eles; é a <b>abstração do sistema</b>.</td><td>abstração</td></tr>
+    <tr><td>IEEE 1471:2000 → ISO/IEC/IEEE 42010:2011</td><td>A <b>organização fundamental</b> de um sistema incorporada em seus componentes, seus relacionamentos com o ambiente, e os <b>princípios que conduzem seu design e evolução</b>.</td><td>organização fundamental</td></tr>
+  </table></div>
+  <p class="note">O que todas têm em comum: <b>partes + relações entre as partes + as decisões/princípios que justificam esse desenho</b>. Se der branco na prova, escreva isso e cite Perry e Wolf.</p>
+
+  <h3>Padrão, padrão de arquitetura, estilo, padrão de projeto e framework</h3>
+  <p><b>Padrão</b>: template (receita) de solução para um <b>problema recorrente</b> que seja <b>comprovadamente útil</b> em um determinado <b>contexto</b>. É instanciado pela vinculação de valores a seus parâmetros e existe em várias escalas: padrões de arquitetura, de análise, de projeto, de teste e idiomas, de implementação.</p>
+  <div class="tw"><table>
+    <tr><th>Termo</th><th>O que é</th><th>Escala</th><th>Exemplo</th></tr>
+    <tr><td>Padrão de arquitetura</td><td>Template pronto para problema <b>arquitetural</b> recorrente. Expressa um esquema fundamental de organização estrutural; fornece subsistemas predefinidos, suas responsabilidades e regras para as relações entre eles.</td><td>sistema</td><td>Repositório, duto e filtro, camadas</td></tr>
+    <tr><td>Estilo de arquitetura</td><td><b>Delimita um conjunto de templates</b> que podem ser escolhidos e impõe um grau de <b>uniformidade</b>. Definido por um conjunto de padrões ou pela escolha de componentes/conectores ("tijolos básicos"). Cada estilo lida com diferentes atributos de qualidade.</td><td>sistema</td><td>Cliente-servidor, em camadas, orientado a serviços</td></tr>
+    <tr><td>Padrão de projeto (GoF)</td><td>Descreve um problema do nosso ambiente e o cerne da solução, para usar "mais de um milhão de vezes, sem nunca fazê-lo da mesma maneira" (Alexander, 1977, apud Gamma).</td><td>classes e objetos</td><td>Singleton, Observer</td></tr>
+    <tr><td>Framework</td><td><b>Denominador comum para uma família de aplicações</b>: coleção de artefatos (em geral classes + software para usá-las) utilizável por várias aplicações. Surge da necessidade de refazer passos semelhantes.</td><td>código pronto</td><td>Spring, Hibernate, Swing</td></tr>
+  </table></div>
+  <p><b>Os 4 elementos essenciais de um padrão GoF</b>: <b>nome</b> (poucas palavras que o identificam), <b>problema</b> (contexto, quando aplicar), <b>solução</b> (elementos e seus relacionamentos) e <b>consequências</b> (resultados, vantagens e desvantagens).</p>
+
+  <h3>Frameworks: como são usados e de que tipo são</h3>
+  <p>As classes (abstratas ou concretas) de um framework são usadas por <b>herança, agregação ou dependência</b>. Relação com arquitetura: a adoção de uma arquitetura (estilo) <b>permite a escolha de frameworks</b> que simplifiquem aspectos da aplicação; as classes do framework se integram às classes de domínio por meio de <b>classes de projeto</b>, projetadas como extensão imposta pelo framework.</p>
+  <div class="tw"><table>
+    <tr><th>Forma de utilização</th><th>Descrição</th><th>Exemplo do slide</th></tr>
+    <tr><td>Conjunto de ferramentas</td><td>Coleção de classes úteis, cada uma utilizável isoladamente. Às vezes é chamado de API, não de framework.</td><td>—</td></tr>
+    <tr><td>Denominador comum de arquiteturas</td><td>Uma arquitetura abstrata: formas predefinidas de se criar uma aplicação.</td><td>AWT/Swing</td></tr>
+    <tr><td>Sistema que possui controle</td><td>"Siga os protocolos para obter sua aplicação": forma rígida de construção; modelos, interfaces e controle bem definidos.</td><td>Struts, Spring</td></tr>
+  </table></div>
+  <div class="tw"><table>
+    <tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr>
+    <tr><td><b>Horizontal</b></td><td>Mais generalista, serve a diversas aplicações, maior flexibilidade; realiza funcionalidades que <b>não são as de negócio</b>.</td><td>Toolkits gráficos</td></tr>
+    <tr><td><b>Vertical</b></td><td>Usado por aplicações de <b>domínio específico</b>; o contexto do framework está alinhado à finalidade de negócio.</td><td>Aplicações estatísticas ou financeiras</td></tr>
+  </table></div>
+
+  <h3>Decompondo a definição: elementos e decisões</h3>
+  <div class="tw"><table>
+    <tr><th>Aspecto</th><th>O que define</th><th>Inclui</th></tr>
+    <tr><td><b>Elementos estáticos</b></td><td>As partes do sistema e sua organização, e como se relacionam (associações, composições).</td><td><b>Software</b>: módulos, classes, pacotes, procedimentos, serviços. <b>Dados</b>: entidades e tabelas, arquivos, classes de dados. <b>Hardware</b>: computadores, roteadores, cabos, impressoras.</td></tr>
+    <tr><td><b>Elementos dinâmicos</b></td><td>O <b>comportamento</b> do sistema: reflete o sistema durante a execução e como reage a estímulos internos e externos.</td><td>Processos, módulos, protocolos ou classes que realizam comportamento.</td></tr>
+    <tr><td><b>Decisões arquiteturais</b></td><td>As estruturas não são definidas aleatoriamente. O arquiteto escolhe entre alternativas de design, particionando o sistema em elementos e relações que atendam aos <b>atributos de qualidade</b>.</td><td>—</td></tr>
+  </table></div>
+  <p><b>Descrição de arquitetura</b>: conjunto de produtos para documentar uma arquitetura. Diferentes interessados (<i>stakeholders</i>) veem a descrição sob diferentes <b>visões</b>. Visão = "a representação de um sistema como um todo segundo a perspectiva de um conjunto de necessidades (dos interessados) relacionado". A IEEE-Std-1471-2000 estabelece o vocabulário, dá diretrizes para representar a descrição e encoraja práticas consistentes.</p>
+
+  <div class="ex"><b>Exemplo resolvido: a tripla de Perry e Wolf aplicada ao crud</b> <span class="inf">inferência</span>
+    <p><b>Elementos estáticos</b>: de software, as classes <code>CrudProduto</code> (janela), <code>ProdutoDAO</code>, <code>DBConnection</code>; de dados, a tabela <code>produto</code> e o VO <code>Produto</code>; de hardware, a máquina do MySQL na porta 3306.</p>
+    <p><b>Elementos dinâmicos</b>: o que acontece quando o usuário clica em "salvar": a janela monta o VO → pede um DAO à fábrica → o DAO executa o SQL → o banco responde.</p>
+    <p><b>Decisão arquitetural</b>: "a janela não fala SQL; todo acesso passa por uma interface DAO". Objetivo atendido: poder trocar JDBC por JPA sem reescrever a janela (manutenibilidade).</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Qual a diferença prática entre padrão de arquitetura e estilo?</dt>
+      <dd>O padrão é <i>uma</i> receita (ex.: repositório). O estilo é a <i>família</i> que delimita quais receitas e quais tijolos (componentes e conectores) você pode usar, impondo uniformidade. Os slides tratam "arquiteturas centradas em dados" como a família e "repositório" e "blackboard" como estilos/padrões dentro dela.</dd>
+      <dt>Framework é um padrão?</dt>
+      <dd>Não. Padrão é uma ideia (template); framework é <b>código</b> reutilizável. Um framework costuma <i>implementar</i> vários padrões (Spring implementa IoC/DI, MVC, Singleton nos beans) e é escolhido <i>depois</i> que a arquitetura foi adotada.</dd>
+      <dt>Swing é horizontal ou vertical?</dt>
+      <dd>Horizontal: é um toolkit gráfico, serve a qualquer domínio e não implementa regra de negócio. Um framework de cálculo atuarial seria vertical.</dd>
+      <dt>Por que Spring aparece como "sistema que possui controle"?</dt>
+      <dd>Porque é ele quem chama o seu código, e não o contrário. Essa é exatamente a Inversão de Controle do módulo 8.</dd>
+      <dt>Banco de dados é elemento de software ou de dados?</dt>
+      <dd>As <b>tabelas e entidades</b> são elementos de dados; o <b>servidor</b> onde o SGBD roda é elemento de hardware; um serviço autocontido que expõe os dados seria elemento de software.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Defina arquitetura de software" → cite a tripla {Elementos, Organização, Decisões} e pelo menos uma segunda definição.</li>
+      <li>"Diferencie padrão, estilo de arquitetura e framework" → use a tabela acima.</li>
+      <li>"Quais os 4 elementos essenciais de um padrão de projeto?" → nome, problema, solução, consequências.</li>
+      <li>"Framework horizontal × vertical, dê um exemplo de cada."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m2">
+  <h2>Módulo 2 · Estilos arquiteturais</h2>
+  <div class="why"><b>Por que estudar</b>Os dois exercícios da aula 1 são exatamente "dado o cenário, qual estilo e por quê?". É o formato mais natural de questão para este conteúdo, e a justificativa vale tanto quanto o nome do estilo.</div>
+
+  <h3>A lista de exemplos de estilos</h3>
+  <p>Cliente-servidor · Em camadas · Baseado em componentes · Baseado em regras · Centrado em dados · Orientado a eventos · Orientado a serviços · Objetos distribuídos. Os slides detalham quatro famílias:</p>
+
+  <div class="tw"><table>
+    <tr><th>Família</th><th>Ideia central</th><th>Componentes</th><th>Quando usar (pista)</th></tr>
+    <tr><td><b>Centrada em dados</b> · Repositório</td><td>O <b>repositório de dados está no centro</b>; outros componentes leem ou modificam (atualizam, acrescentam, eliminam) seus dados.</td><td>Repositório (armazena/centraliza) + componentes clientes que operam <b>independentes</b> entre si.</td><td>Várias ferramentas compartilham os mesmos dados.</td></tr>
+    <tr><td><b>Centrada em dados</b> · Quadro negro (Blackboard)</td><td>O <b>estado</b> do blackboard <b>dispara a escolha</b> do componente a executar.</td><td>Blackboard + <b>base de conhecimento</b> (subsistemas independentes, cada um resolve um aspecto e contribui incrementalmente) + <b>componente de controle</b> (monitora mudanças e decide as ações).</td><td>Problema sem algoritmo determinístico, resolvido por especialistas cooperando.</td></tr>
+    <tr><td><b>Fluxo de dados</b> · Duto e filtro (pipe and filter)</td><td>Filtros conectados por dutos que transmitem dados de um componente para o seguinte.</td><td>Cada filtro opera <b>independente</b>, espera entrada em determinada forma e produz saída na forma especificada; <b>desconhece o funcionamento interno dos vizinhos</b>. Linha única = <b>pipeline</b> ou "sequencial por lotes".</td><td>"Uma série de transformações aplicadas a uma entrada".</td></tr>
+    <tr><td><b>Em camadas</b></td><td>Camadas em diferentes <b>níveis de abstração</b>, cada uma com operações progressivamente mais próximas das instruções de máquina.</td><td>Externa: interface do usuário. Intermediárias: serviços utilitários, comunicação, funções de aplicação. Interna: interface com o sistema operacional. Nº de camadas depende das restrições do sistema.</td><td>Separar apresentação, negócio e infraestrutura. Anotação sua: "muito comum".</td></tr>
+    <tr><td><b>Chamadas e retornos</b></td><td>Estrutura de programa relativamente <b>fácil de modificar e aumentar</b>.</td><td><b>Principal/subprograma</b>: hierarquia de controle, um "principal" invoca componentes que invocam outros. <b>Cliente-servidor</b>: chamadas a procedimentos remotos, invocação a objetos remotos, acesso a serviços distribuídos.</td><td>Decomposição funcional; sistemas distribuídos.</td></tr>
+  </table></div>
+
+  <h3>Cliente-servidor em detalhe</h3>
+  <ul class="tight">
+    <li>É um <b>modelo para sistemas distribuídos</b>: representa como dados e processos estão distribuídos entre os componentes.</li>
+    <li><b>Pode ser implementada em um computador único</b> (pegadinha clássica).</li>
+    <li>Distribui <b>serviços em servidores específicos</b>; clientes chamam os serviços; a <b>rede</b> permite a comunicação.</li>
+    <li>Geralmente integrada por um <b>middleware</b>: chamada a procedimentos remotos, invocação a objetos remotos ou acesso a serviços distribuídos.</li>
+  </ul>
+
+  <div class="ex"><b>Exemplo resolvido: exercício 1 da aula 1</b>
+    <p><i>"De que forma as aplicações se comunicam em uma arquitetura baseada em repositório de dados? Forneça um exemplo."</i></p>
+    <p><b>Resposta-modelo:</b> de forma <b>indireta, por meio do repositório</b>. Os componentes (clientes) operam independentes uns dos outros e não se chamam diretamente: cada um lê ou modifica (atualiza, acrescenta, elimina) os dados centralizados, e é pelo dado gravado que o trabalho de um chega ao outro. Exemplo: um ambiente de desenvolvimento em que editor, compilador, gerador de código e analisador compartilham o mesmo repositório de projeto <span class="inf">exemplo do Sommerville</span>; ou vários sistemas de uma empresa (vendas, estoque, relatórios) sobre o mesmo SGBD.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido: exercício 2 da aula 1</b>
+    <p><i>Arquivo em linguagem natural → extração e transformação para um padrão estruturado, em módulos especialistas, "a saída de um módulo alimenta o seguinte".</i></p>
+    <p><b>Resposta-modelo:</b> <b>duto e filtro (pipe and filter)</b>, na variação <b>pipeline / sequencial por lotes</b>, pois o fluxo ocorre em uma única linha de transformações. Justificativa com os termos do slide: (1) o padrão aplica-se "quando se pretende uma série de transformações a uma entrada, realizadas por componentes específicos"; (2) cada módulo especialista é um <b>filtro</b>, que espera a entrada em determinada forma e produz a saída na forma especificada; (3) os filtros são independentes e desconhecem o funcionamento interno dos vizinhos, o que permite trocar ou inserir um módulo sem afetar os demais.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Repositório × blackboard: qual a diferença em uma frase?</dt>
+      <dd>No repositório os clientes decidem quando agir e o repositório é passivo. No blackboard há um <b>componente de controle</b> que observa o estado dos dados e <b>escolhe qual especialista executa</b>; a solução é construída incrementalmente.</dd>
+      <dt>Duto e filtro × camadas: os dois não são "uma coisa depois da outra"?</dt>
+      <dd>No duto e filtro o <b>dado flui em um sentido</b> e é transformado a cada etapa. Em camadas o que existe é <b>nível de abstração</b>: a camada de cima pede serviço à de baixo e recebe resposta (vai e volta).</dd>
+      <dt>Se o exercício 2 dissesse que os módulos decidem dinamicamente quem atua conforme o estado dos dados?</dt>
+      <dd>Aí a resposta mudaria para blackboard. A pista para pipeline é "a saída de um alimenta o seguinte", ordem fixa.</dd>
+      <dt>Em que estilo se encaixa o trabalho da disciplina (Vue + Spring Boot + MySQL)?</dt>
+      <dd><span class="inf">inferência</span> Cliente-servidor (frontend chama backend pela rede), orientado a serviços (REST) e em camadas no backend (controller → negócio → persistência). Estilos se combinam; o slide diz que o nº de camadas depende "do estilo e/ou combinação de padrões adotados".</dd>
+      <dt>O crud em Swing com MySQL é cliente-servidor?</dt>
+      <dd>Sim: a aplicação é cliente do servidor MySQL, e o middleware é o driver JDBC. E roda tudo em <code>localhost</code>, confirmando que cliente-servidor pode estar em um computador único.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>Cenário → estilo, com justificativa (os dois exercícios da aula 1, provavelmente reescritos).</li>
+      <li>"Quais os componentes do estilo blackboard?" → blackboard, base de conhecimento, controle.</li>
+      <li>"Cite as três formas de middleware em cliente-servidor."</li>
+      <li>Verdadeiro ou falso: "cliente-servidor exige máquinas diferentes" → falso.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m3">
+  <h2>Módulo 3 · GoF: visão geral e padrões de criação</h2>
+  <div class="why"><b>Por que estudar</b>Sua anotação da aula 2 diz em vermelho: "cai na prova". E o Singleton é o único padrão que você implementou do zero em exercício (DBConnection), então é o candidato natural a "escreva o código".</div>
+
+  <h3>Design patterns e o GoF</h3>
+  <p><b>Design patterns</b>: conjunto de regras ou técnicas para projeto e desenvolvimento OO; "melhores práticas" que dão agilidade na solução de problemas recorrentes. Padronizam a representação de componentes, tornam componentes reutilizáveis e <b>auxiliam a comunicação interna da equipe</b>.</p>
+  <p><b>GoF = "Gang of Four"</b>: Erich <b>Gamma</b>, Richard <b>Helm</b>, Ralph <b>Johnson</b>, John <b>Vlissides</b>. Livro de <b>1995</b>: <i>Design Patterns: Elements of Reusable Object-Oriented Software</i>. São <b>23 padrões em 3 grupos</b> (sua anotação: "é bom saber"):</p>
+  <div class="tw"><table>
+    <tr><th>Grupo</th><th>Qtde</th><th>Trata de…</th><th>Padrões</th></tr>
+    <tr><td><b>Criação</b></td><td>5</td><td><i>como</i> objetos são instanciados</td><td>Singleton, Factory Method, Abstract Factory, Builder, Prototype</td></tr>
+    <tr><td><b>Estruturais</b></td><td>7</td><td>como classes e objetos são <i>compostos</i></td><td>Adapter, Bridge, Composite, Decorator, Façade, Flyweight, Proxy</td></tr>
+    <tr><td><b>Comportamentais</b></td><td>11</td><td>como objetos <i>interagem</i> e dividem responsabilidade</td><td>Chain of Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy, Template Method, Visitor</td></tr>
+  </table></div>
+
+  <h3>Os 5 padrões de criação</h3>
+  <div class="tw"><table>
+    <tr><th>Padrão</th><th>Intenção (slide)</th><th>Exemplo da aula</th><th>Pista no enunciado</th></tr>
+    <tr><td><b>Singleton</b></td><td>Situações onde deve-se ter <b>apenas uma instância</b> de uma classe, acessada por diversos outros objetos; oferece <b>ponto único de acesso</b>.</td><td>Window managers, filas de impressão, sistemas de arquivos, <b>conexão com banco</b>. Código: <code>MessageSingleton</code>, <code>DBConnection</code>.</td><td>"uma única instância", "acesso global"</td></tr>
+    <tr><td><b>Factory Method</b></td><td>Estende funcionalidade pela construção de subclasses sem afetar os clientes. Cliente chama o método de fábrica; <b>subclasses decidem qual classe instanciar</b>, geralmente por um parâmetro recebido.</td><td><code>FactoryPessoa.getPessoa(nome, sexo)</code> devolve <code>Homem</code> ou <code>Mulher</code> (subclasses de <code>Pessoa</code>).</td><td>"decidir em runtime qual subclasse criar"</td></tr>
+    <tr><td><b>Abstract Factory</b></td><td>Permite criar diferentes ConcreteFactories; cria <b>famílias de objetos relacionados</b> por uma única interface. Objetivos: <b>isolar a criação de objetos de seu uso</b>.</td><td><code>DAOAbstractFactory</code> → <code>JDBCDAOFactory</code> / <code>JPADAOFactory</code> (aula 6).</td><td>"famílias", "trocar toda a implementação de uma vez"</td></tr>
+    <tr><td><b>Builder</b></td><td>Construção de <b>objetos complexos</b> com abordagem <b>passo a passo</b>.</td><td><code>MealDirector</code> + <code>ItalianMealBuilder</code> / <code>JapaneseMealBuilder</code> → <code>Meal</code>.</td><td>"montagem em etapas", "mesmo processo, produtos diferentes"</td></tr>
+    <tr><td><b>Prototype</b></td><td>Fornece <b>clones</b> de objetos protótipos que já têm estado inicial predefinido; o cliente customiza a cópia. Esconde como os objetos são criados/copiados.</td><td><code>Employees implements Cloneable</code>, com <code>clone()</code> copiando a lista.</td><td>"copiar um objeto caro de criar"</td></tr>
+  </table></div>
+
+  <h3>Singleton por dentro</h3>
+  <p>O slide diz que ele permite: (1) garantir que apenas uma instância é criada; (2) fornecer um único ponto de acesso; (3) permitir que haja <b>múltiplas instâncias no futuro sem afetar os clientes</b>, e nesse caso ele "se transforma numa Factory". Os três ingredientes que não podem faltar no código:</p>
+  <div class="code"><b>Como fica no código (slide da aula 2)</b>
+<pre><span class="k">public class</span> ClassicSingleton {
+    <span class="k">private static</span> ClassicSingleton instance = <span class="k">null</span>;   <span class="c">// 1) guarda a única instância, na classe</span>
+    <span class="k">private</span> ClassicSingleton() { }                       <span class="c">// 2) construtor privado: ninguém de fora dá new</span>
+    <span class="k">public static</span> ClassicSingleton getInstance() {       <span class="c">// 3) ponto único de acesso, estático</span>
+        <span class="k">if</span> (instance == <span class="k">null</span>) {                          <span class="c">//    cria só na primeira chamada (lazy)</span>
+            instance = <span class="k">new</span> ClassicSingleton();
+        }
+        <span class="k">return</span> instance;
+    }
+}</pre></div>
+
+  <div class="ex"><b>Exemplo resolvido: o que imprime o MessageSingletonTest?</b>
+    <p><code>getInstance("First").getMessage()</code> e depois <code>getInstance("Second").getMessage()</code>.</p>
+    <p><b>Saída: "First" e "First".</b> Na segunda chamada <code>instance</code> já não é <code>null</code>, então o construtor não roda de novo e o parâmetro "Second" é ignorado. É a prova de que existe uma única instância.</p>
+  </div>
+
+  <h3>Builder: os 4 componentes</h3>
+  <div class="tw"><table>
+    <tr><th>Componente</th><th>Papel (slide)</th><th>No exemplo Meal</th></tr>
+    <tr><td><b>Builder</b></td><td>Interface ou classe abstrata para a criação das partes (passos) de um produto.</td><td><code>MealBuilder</code>: <code>buildDrink()</code>, <code>buildMainCourse()</code>, <code>buildSide()</code>, <code>getMeal()</code></td></tr>
+    <tr><td><b>Concrete Builder</b></td><td>Constrói e monta as partes do produto, implementando a builder.</td><td><code>ItalianMealBuilder</code> (red wine, pizza, bread), <code>JapaneseMealBuilder</code> (sake, chicken teriyaki, miso soup)</td></tr>
+    <tr><td><b>Director</b></td><td>Contém um builder e <b>controla o algoritmo</b> que gera o produto final; recebe o Concrete Builder por parâmetro.</td><td><code>MealDirector.constructMeal()</code> chama os 3 passos em ordem</td></tr>
+    <tr><td><b>Product</b></td><td>O objeto complexo que está sendo construído.</td><td><code>Meal</code></td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido: Prototype</b>
+    <p><code>emps</code> carrega [Pankaj, Raj, David, Lisa]. <code>empsNew = emps.clone()</code> e adiciona "John"; <code>empsNew1 = emps.clone()</code> e remove "Pankaj".</p>
+    <p>Saída: emps = [Pankaj, Raj, David, Lisa] (intacto) · empsNew = [Pankaj, Raj, David, Lisa, John] · empsNew1 = [Raj, David, Lisa]. O original não muda porque o <code>clone()</code> cria uma <b>nova lista</b> e copia os itens; se devolvesse a mesma referência, os três seriam alterados juntos.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Factory Method × Abstract Factory?</dt>
+      <dd>Factory Method é <b>um método</b> que decide qual subclasse de <i>um</i> produto criar (Pessoa → Homem ou Mulher). Abstract Factory é <b>uma fábrica de fábricas</b>: uma interface com métodos de criação, e cada fábrica concreta produz uma <i>família</i> coerente (tudo JDBC ou tudo JPA). No crud, <code>getFactory(tipo)</code> escolhe a fábrica; <code>createProdutoDAO()</code> é o método de fábrica dentro dela.</dd>
+      <dt>Builder × Factory?</dt>
+      <dd>A factory entrega o objeto pronto em uma chamada. O Builder monta em <b>vários passos</b> coordenados por um Director, e o mesmo roteiro de passos gera produtos diferentes conforme o Concrete Builder.</dd>
+      <dt>Por que o atributo <code>instance</code> é <code>static</code>?</dt>
+      <dd>Porque precisa existir <b>antes de qualquer objeto</b> e ser compartilhado por todos: pertence à classe. Pelo mesmo motivo <code>getInstance()</code> é estático: sem instância, não há como chamar método de instância.</dd>
+      <dt>O Singleton do slide é seguro com threads?</dt>
+      <dd><span class="inf">fora do slide</span> Não: duas threads podem passar pelo <code>if (instance == null)</code> ao mesmo tempo e criar duas instâncias. A correção usual é <code>synchronized</code> no <code>getInstance()</code>. O professor não cobrou isso, mas é um bom comentário de "consequência".</dd>
+      <dt>O exercício pediu <code>finalize()</code> como "destrutor". Isso é confiável?</dt>
+      <dd><span class="inf">fora do slide</span> Na prova, responda como na aula: reimplementa-se <code>finalize()</code> de <code>Object</code> para fechar <code>Statement</code> e <code>Connection</code>. Na prática o Java não garante quando (ou se) o <code>finalize()</code> roda, e ele está obsoleto nas versões recentes.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Escreva um Singleton em Java" ou "complete o código" (faltando <code>private</code>, <code>static</code> ou o <code>if</code>).</li>
+      <li>"Quantos padrões GoF existem e como são classificados? Cite dois de cada grupo."</li>
+      <li>Múltipla escolha estilo concurso: "qual alternativa só tem padrões de criação?"</li>
+      <li>"Quais os componentes do Builder?" → Builder, Concrete Builder, Director, Product.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m4">
+  <h2>Módulo 4 · GoF: padrões estruturais</h2>
+  <div class="why"><b>Por que estudar</b>São os 7 padrões que mais se confundem entre si, porque quase todos "embrulham" um objeto em outro. A prova cobra a <i>intenção</i>: o que muda é o <b>motivo</b> do embrulho.</div>
+
+  <div class="tw"><table>
+    <tr><th>Padrão</th><th>Intenção (slide)</th><th>Exemplo da aula</th><th>Pista no enunciado</th></tr>
+    <tr><td><b>Adapter</b></td><td>Realiza adaptações em objetos e métodos para <b>integração</b> entre eles. Útil para integrar com <b>código de terceiros</b>; um objeto se adapta à interface de outro, de pacote não relacionado.</td><td><code>SortListAdapter implements Sorter</code>: cliente usa <code>int[]</code>, mas o <code>NumberSorter</code> de terceiros só aceita <code>List&lt;Integer&gt;</code>. O adapter converte ida e volta.</td><td>"interfaces incompatíveis", "código de terceiros", "legado"</td></tr>
+    <tr><td><b>Bridge</b></td><td><b>Desacopla uma abstração de sua implementação</b>; esconde detalhes de implementação; permite extensibilidade. Feito por <b>composição</b>: o cliente mantém instância de um <b>Implementor</b> (abstrato/interface) e a bridge direciona as requisições ao ConcreteImplementor.</td><td><code>Shape</code> (abstração: Triangle, Pentagon) contém um <code>Color</code> (implementor: RedColor, GreenColor).</td><td>"duas hierarquias que variam independentemente"</td></tr>
+    <tr><td><b>Composite</b></td><td>Organiza objetos em <b>estrutura de árvore</b> para representar hierarquias/taxonomias. <b>Uniformiza o tratamento</b> de objetos individuais e composições. Usado quando há <b>definição recursiva</b>.</td><td><code>Drawing implements Shape</code> e contém <code>List&lt;Shape&gt;</code>; <code>draw()</code> repassa a todos os filhos.</td><td>"árvore", "parte-todo", "composto por outros"</td></tr>
+    <tr><td><b>Decorator</b></td><td>Em <b>tempo de execução</b>, modifica e incrementa a funcionalidade de <b>um objeto</b>, sem afetar outras instâncias da mesma classe. Por herança ou composição.</td><td><code>new SportsCar(new LuxuryCar(new BasicCar()))</code></td><td>"adicionar responsabilidades dinamicamente", "sem criar subclasse para cada combinação"</td></tr>
+    <tr><td><b>Façade</b></td><td><b>Simplifica o acesso a APIs complexas</b>: interface simplificada e de alto nível para um subsistema; integra o acesso em um <b>ponto único</b>.</td><td><code>TravelFacade.getFlightsAndHotels(from, to)</code> esconde <code>FlightBooker</code> e <code>HotelBooker</code>.</td><td>"simplificar", "subsistema complexo", "um ponto de entrada"</td></tr>
+    <tr><td><b>Flyweight</b></td><td>Cria <b>grande número de objetos</b> de maneira eficiente; evita custo e desperdício de <b>memória</b> ao criar o mesmo objeto muitas vezes; objetos em memória são reutilizados.</td><td><code>ShapeFactory.getShape(tipo)</code> guarda as formas já criadas e devolve a mesma instância.</td><td>"milhares de objetos parecidos", "economia de memória", "cache"</td></tr>
+    <tr><td><b>Proxy</b></td><td>Fornece um <b>substituto ou intermediário</b> de acesso a um objeto; <b>controla o acesso</b>. Geralmente implementa a <b>mesma interface</b>, intercepta a chamada, checa permissões e delega ao real.</td><td><code>CommandExecutorProxy</code>: só admin pode executar comandos que começam com <code>rm</code>.</td><td>"controle de acesso", "permissão", "intermediário transparente"</td></tr>
+  </table></div>
+
+  <h3>Os pares que confundem</h3>
+  <div class="tw"><table>
+    <tr><th>Par</th><th>Como separar</th></tr>
+    <tr><td>Adapter × Façade</td><td>Adapter <b>converte</b> uma interface em outra que o cliente espera (o problema é incompatibilidade). Façade <b>cria uma interface nova e mais simples</b> sobre várias classes (o problema é complexidade).</td></tr>
+    <tr><td>Proxy × Decorator</td><td>Ambos implementam a mesma interface do objeto embrulhado. Proxy <b>controla/restringe</b> o acesso; Decorator <b>acrescenta</b> comportamento. No Proxy da aula o objeto real é criado <i>dentro</i> do proxy; no Decorator ele vem <i>de fora</i>, pelo construtor, e pode ser empilhado.</td></tr>
+    <tr><td>Bridge × Adapter</td><td>Bridge é planejada <b>antes</b>, para que abstração e implementação evoluam separadas. Adapter é remendo <b>depois</b>, para fazer duas coisas prontas conversarem.</td></tr>
+    <tr><td>Composite × Decorator</td><td>Composite agrega <b>vários filhos</b> (árvore). Decorator embrulha <b>um</b> objeto (corrente).</td></tr>
+    <tr><td>Flyweight × Singleton</td><td>Singleton: <b>uma</b> instância da classe. Flyweight: <b>poucas instâncias compartilhadas</b>, uma por estado intrínseco (um Line, um Oval…), servidas por uma fábrica com cache.</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido: saída do Decorator</b>
+    <p><code>Car c = new SportsCar(new LuxuryCar(new BasicCar())); c.assemble();</code></p>
+    <p>Cada decorator chama <code>super.assemble()</code> (que delega ao carro embrulhado) e <b>depois</b> imprime o seu texto. A chamada desce até o <code>BasicCar</code> e volta: <b>"Basic Car. Adding features of Luxury Car. Adding features of Sports Car."</b> A ordem de impressão é de dentro para fora.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido: saída do Proxy</b>
+    <p><code>new CommandExecutorProxy("Pankaj", "wrong_pwd")</code> → senha errada, <code>isAdmin = false</code>. <code>runCommand("ls -ltr")</code> executa normalmente. <code>runCommand(" rm -rf abc.pdf")</code>: o proxy faz <code>trim()</code>, vê que começa com "rm" e lança a exceção <b>"rm command is not allowed for non-admin users."</b> O objeto real nunca é chamado.</p>
+  </div>
+
+  <div class="code"><b>Como fica no código: Bridge e Composite lado a lado</b>
+<pre><span class="c">// BRIDGE: a abstração (Shape) TEM UM implementor (Color), recebido por composição</span>
+<span class="k">public abstract class</span> Shape {
+    <span class="k">protected</span> Color color;                  <span class="c">// a "ponte" para a outra hierarquia</span>
+    <span class="k">public</span> Shape(Color c) { <span class="k">this</span>.color = c; }
+    <span class="k">abstract public void</span> applyColor();
+}
+Shape tri = <span class="k">new</span> Triangle(<span class="k">new</span> RedColor());  <span class="c">// 2 formas x 2 cores sem criar 4 subclasses</span>
+
+<span class="c">// COMPOSITE: o composto É UM Shape e TEM VÁRIOS Shape</span>
+<span class="k">public class</span> Drawing <span class="k">implements</span> Shape {
+    <span class="k">private</span> List&lt;Shape&gt; shapes = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">public void</span> draw(String fillColor) {
+        <span class="k">for</span> (Shape sh : shapes) sh.draw(fillColor);   <span class="c">// trata folha e composto do mesmo jeito</span>
+    }
+    <span class="k">public void</span> add(Shape s) { shapes.add(s); }       <span class="c">// um Drawing pode conter outro Drawing</span>
+}</pre></div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Por que a Bridge evita "explosão de subclasses"?</dt>
+      <dd>Sem ela, 2 formas × 2 cores = 4 classes (TriânguloVermelho, TriânguloVerde…); com 5 formas e 6 cores seriam 30. Com Bridge são 5 + 6 = 11, e adicionar uma cor não toca nas formas.</dd>
+      <dt>O DAO da aula 5 é uma Façade?</dt>
+      <dd><span class="inf">inferência</span> Tem cara de Façade (esconde JDBC, SQL e ResultSet atrás de <code>create</code>, <code>retrieveAll</code>…), mas os slides o tratam como padrão J2EE próprio. Em GRASP, ele é <i>Pure fabrication</i> + <i>Indirection</i>.</dd>
+      <dt>"Estado intrínseco" no Flyweight é o quê?</dt>
+      <dd>É a parte do objeto que pode ser <b>compartilhada</b> (ex.: o tipo da forma). O que varia a cada uso (posição, cor naquele desenho) é passado por parâmetro na hora de usar.</dd>
+      <dt>Swing usa algum desses?</dt>
+      <dd><span class="inf">inferência</span> Sim: <code>JPanel</code> contendo componentes que podem ser outros <code>JPanel</code> é Composite; <code>JScrollPane</code> embrulhando um componente é Decorator.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>Exercício 1 da lista 2 da aula 3: "taxonomia/árvore, artefato composto por outros" → <b>Composite</b>; "integração com códigos de terceiros" → <b>Adapter</b>.</li>
+      <li>"Diferencie Proxy de Decorator" ou "Adapter de Façade".</li>
+      <li>Dado um trecho como <code>new A(new B(new C()))</code>, identificar o padrão (Decorator) e a saída.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m5">
+  <h2>Módulo 5 · GoF: padrões comportamentais</h2>
+  <div class="why"><b>Por que estudar</b>É o maior grupo (11) e o que gerou mais exercício: a lista 1 da aula 3 inteira é Observer com eventos em Swing, e a lista 2 é "requisito → padrão" mais uma questão de concurso sobre este grupo.</div>
+
+  <div class="tw"><table>
+    <tr><th>Padrão</th><th>Intenção (slide)</th><th>Exemplo da aula</th><th>Pista no enunciado</th></tr>
+    <tr><td><b>Chain of Responsibility</b></td><td><b>Desacopla o remetente do recipiente</b> de uma requisição; interpõe uma <b>cadeia de objetos</b> entre eles.</td><td>Caixa eletrônico: <code>Dollar50Dispenser → Dollar20 → Dollar10</code>, cada um trata o que pode e passa o resto.</td><td>"vários tratadores em sequência", "passa adiante"</td></tr>
+    <tr><td><b>Command</b></td><td>Faz requisições a objetos <b>sem saber o destinatário</b> nem os detalhes da operação; desacopla quem pede de quem realiza. <b>Similar a callbacks</b> em linguagens procedurais.</td><td><code>RemoteControl.setCommand(new LightOnCommand(light)); pressButton()</code></td><td>"encapsular uma ação como objeto", "botões", "desfazer/fila de ações"</td></tr>
+    <tr><td><b>Interpreter</b></td><td>Define <b>representações gramaticais</b> para linguagens e provê interpretadores para cada gramática.</td><td>Slide: <b>JVM</b> (interpreta bytecode), <b>Google Translator</b>. Código: <code>IntToBinaryExpression</code>, <code>IntToHexExpression</code>.</td><td>"gramática", "linguagem", "expressões"</td></tr>
+    <tr><td><b>Iterator</b></td><td>Forma padrão de <b>percorrer</b> grupos de objetos em uma agregação. Muito usado no <b>Java Collection Framework</b>.</td><td><code>ChannelIterator</code>: <code>hasNext()</code>, <code>next()</code>, filtrando por tipo de canal.</td><td>"percorrer sem expor a estrutura interna"</td></tr>
+    <tr><td><b>Mediator</b></td><td>Usa <b>um objeto para coordenar</b> mudanças de estado entre outros. Funciona como <b>hub de comunicação</b>, "many-to-many"; diminui acoplamento; lógica mais coesa.</td><td>Chat: <code>UserImpl.send()</code> chama <code>mediator.sendMessage()</code>, que entrega a todos os outros usuários.</td><td>"muitos objetos conversando entre si", "centralizar a comunicação"</td></tr>
+    <tr><td><b>Memento</b></td><td><b>Armazena e recupera o estado anterior</b> de um objeto: desfazer operação, recuperar de estado inválido. O estado fica <b>protegido do acesso externo</b> em um objeto memento.</td><td><code>FileWriterUtil.save()</code> devolve um <code>Memento</code> (classe interna privada); <code>FileWriterCaretaker</code> guarda e faz <code>undo</code>.</td><td>"undo", "snapshot", "restaurar"</td></tr>
+    <tr><td><b>Observer</b></td><td>Estabelece relações <b>causa-efeito</b> entre objetos sem ligação direta. Cada Observer é <b>notificado</b> sobre alterações de estado do objeto observado (<b>Sujeito</b>).</td><td>Slide: AWT, JavaBeans, <code>javax.naming</code>, I/O handlers. Java adere com o modelo de eventos (<b>Listeners</b>). Código: <code>Origem</code> / <code>Ouvinte</code>.</td><td>"notificar interessados que se cadastram", "eventos"</td></tr>
+    <tr><td><b>State</b></td><td>Altera o <b>comportamento</b> de um objeto com base em seu <b>estado atual</b>. Um <b>Context</b> mantém referência a uma implementação de State.</td><td><code>TVContext.setState(new TVStartState()); doAction()</code> → "TV is turned ON".</td><td>"comportamento depende do estado", "máquina de estados sem if/else"</td></tr>
+    <tr><td><b>Strategy</b></td><td>Define um conjunto de <b>algoritmos alternáveis</b>, encapsulados em classes "irmãs" (mesma interface). Seleciona o algoritmo pelo objeto passado; pode variar com o tempo.</td><td><code>cart.pay(new PaypalStrategy(...))</code> ou <code>cart.pay(new CreditCardStrategy(...))</code></td><td>"família de algoritmos intercambiáveis", "escolher em runtime"</td></tr>
+    <tr><td><b>Template Method</b></td><td>Define os <b>passos de um algoritmo</b>; implementa a parte genérica e deixa a específica para as <b>subclasses</b>. O método template geralmente é <b><code>final</code></b>, para que subclasses não mudem o algoritmo base.</td><td><code>HouseTemplate.buildHouse()</code>: fundação → pilares → paredes → janelas. <code>WoodenHouse</code> e <code>GlassHouse</code> só implementam pilares e paredes.</td><td>"sequência obrigatória de passos", "esqueleto fixo, passos customizáveis"</td></tr>
+    <tr><td><b>Visitor</b></td><td><b>Separa a estrutura</b> de uma coleção de objetos <b>das operações</b> realizadas nela. Cria nova funcionalidade <b>sem alterar as classes</b>. <b>Limitação</b>: adicionar novas classes à coleção obriga a modificar os Visitors.</td><td><code>car.accept(new CarElementPrintVisitor())</code>; cada elemento faz <code>visitor.visit(this)</code>.</td><td>"nova operação sobre uma estrutura estável"</td></tr>
+  </table></div>
+
+  <h3>Observer: o padrão que virou exercício</h3>
+  <p>A lista 1 da aula 3 pede quatro peças. Decore o papel de cada uma, porque é o mesmo desenho de todo Listener do Java:</p>
+  <div class="tw"><table>
+    <tr><th>Peça</th><th>Papel no padrão</th><th>Detalhe</th></tr>
+    <tr><td><code>MessageEvent extends EventObject</code></td><td>O <b>evento</b>: carrega a informação da mudança.</td><td>Construtor recebe a <code>source</code>; tem <code>get/setMessage</code>.</td></tr>
+    <tr><td><code>MessageEventListener</code> (interface)</td><td>O contrato do <b>Observer</b>.</td><td>Um método: <code>messageArrived(MessageEvent e)</code>.</td></tr>
+    <tr><td><code>Origem</code> (JFrame)</td><td>O <b>Sujeito</b>: mantém a lista de ouvintes, cadastra e notifica.</td><td><code>addMessageListener(mel)</code>; ao clicar em enviar: cria o evento, <b>itera a lista</b> e chama <code>messageArrived</code> em cada um.</td></tr>
+    <tr><td><code>Ouvinte</code> (JFrame)</td><td><b>Observer concreto</b>.</td><td><code>implements MessageEventListener</code>; exibe <code>e.getMessage()</code> na caixa de texto. Várias instâncias.</td></tr>
+  </table></div>
+  <div class="code"><b>Como fica no código (núcleo do exercício 1 da aula 3)</b>
+<pre><span class="c">// SUJEITO</span>
+<span class="k">private</span> List&lt;MessageEventListener&gt; lista = <span class="k">new</span> ArrayList&lt;&gt;();
+<span class="k">public void</span> addMessageListener(MessageEventListener mel) { lista.add(mel); }   <span class="c">// cadastro</span>
+
+<span class="k">private void</span> enviar() {
+    MessageEvent me = <span class="k">new</span> MessageEvent(<span class="k">this</span>);        <span class="c">// this = a origem do evento</span>
+    me.setMessage(jTextField1.getText());
+    <span class="k">for</span> (MessageEventListener mel : lista) {         <span class="c">// notifica TODOS os cadastrados</span>
+        mel.messageArrived(me);                      <span class="c">// a Origem não sabe que são janelas</span>
+    }
+}
+<span class="c">// OBSERVER</span>
+<span class="k">public class</span> Ouvinte <span class="k">extends</span> JFrame <span class="k">implements</span> MessageEventListener {
+    <span class="k">public void</span> messageArrived(MessageEvent e) { jTextField1.setText(e.getMessage()); }
+}</pre></div>
+  <p class="note">Os exercícios 2 e 3 da mesma lista (bolinha movida pelas setas; pintar pixels com click e drag) são o mesmo padrão com Listeners prontos do Swing: <code>KeyListener</code> e <code>MouseListener</code>/<code>MouseMotionListener</code>. O painel é o Sujeito; sua classe é o Observer.</p>
+
+  <h3>Os pares que confundem</h3>
+  <div class="tw"><table>
+    <tr><th>Par</th><th>Como separar</th></tr>
+    <tr><td>Strategy × State</td><td>Mesmo desenho (contexto + interface + implementações). Em Strategy o <b>cliente escolhe</b> o algoritmo (<code>cart.pay(estrategia)</code>). Em State o comportamento muda porque o <b>estado do objeto mudou</b> (<code>context.setState</code>), representando uma situação do objeto, não uma opção de algoritmo.</td></tr>
+    <tr><td>Strategy × Template Method</td><td>Strategy troca o <b>algoritmo inteiro</b>, por <b>composição</b>. Template Method fixa o esqueleto e troca <b>alguns passos</b>, por <b>herança</b>.</td></tr>
+    <tr><td>Observer × Mediator</td><td>Observer: <b>um sujeito → muitos observadores</b>, comunicação em um sentido. Mediator: <b>muitos ↔ muitos</b> passando por um hub que conhece todos.</td></tr>
+    <tr><td>Command × Chain of Responsibility</td><td>Command <b>empacota a ação</b> em um objeto com <code>execute()</code>. Chain <b>passa a requisição</b> por vários candidatos até alguém tratar. Ambos desacoplam remetente e receptor.</td></tr>
+    <tr><td>Template Method × Builder</td><td>Ambos têm "passos". Template Method é sobre <b>comportamento</b> (algoritmo com passos abstratos, herança). Builder é sobre <b>criação</b> (montar um produto, com Director + composição).</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido: Chain of Responsibility com saque de 130</b>
+    <p>Cadeia: 50 → 20 → 10. <b>Dollar50</b>: 130 ≥ 50 → 130 / 50 = <b>2 notas</b>, resto 30 → passa 30 adiante. <b>Dollar20</b>: 30 ≥ 20 → <b>1 nota</b>, resto 10 → passa 10. <b>Dollar10</b>: 10 ≥ 10 → <b>1 nota</b>, resto 0 → fim.</p>
+    <p>Saída: "Dispensing 2 50$ note", "Dispensing 1 20$ note", "Dispensing 1 10$ note". Com 125 o programa nem entra na cadeia: <code>amount % 10 != 0</code> encerra com "Amount should be in multiple of 10s."</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido: lista 2 da aula 3</b>
+    <p><b>1a)</b> "sequência obrigatória de passos, generalista, passos implementados para cada cliente" → <b>Template Method</b>. <b>1b)</b> "taxonomia em árvore, artefato composto por outros" → <b>Composite</b>. <b>1c)</b> "integração com códigos de terceiros" → <b>Adapter</b>. <b>1d)</b> "comunicar alterações de estado a quaisquer interessados que se cadastrem" → <b>Observer</b>.</p>
+    <p><b>2)</b> Comportamentais: alternativa <b>a) Command, Observer e Iterator</b>. As demais misturam grupos: b) Singleton é de criação; c) Prototype é de criação, Adapter e Bridge são estruturais; d) Builder é de criação; e) Proxy e Decorator são estruturais, Singleton é de criação.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Por que o <code>buildHouse()</code> é <code>final</code>?</dt>
+      <dd>Para impedir que uma subclasse sobrescreva o método template e mude a ordem (ex.: janelas antes da fundação). A subclasse só pode preencher os passos abstratos.</dd>
+      <dt>No exemplo Template Method, quais passos são fixos e quais variam?</dt>
+      <dd><code>buildFoundation()</code> e <code>buildWindows()</code> são <code>private</code> na classe base (fixos). <code>buildPillars()</code> e <code>buildWalls()</code> são <code>abstract</code> (variam: madeira ou vidro).</dd>
+      <dt>Qual a limitação do Visitor, em termos práticos?</dt>
+      <dd>Se surgir uma nova classe de elemento (ex.: <code>Door</code>), é preciso adicionar <code>visit(Door)</code> na interface <code>CarElementVisitor</code> e em <b>todos</b> os visitors existentes. Por isso ele só vale para estruturas estáveis.</dd>
+      <dt>Memento não quebra o encapsulamento ao guardar o estado fora do objeto?</dt>
+      <dd>Não: no exemplo, <code>Memento</code> é classe <b>interna e privada</b> de <code>FileWriterUtil</code>. O Caretaker guarda o objeto como <code>Object</code>, sem conseguir ler seu conteúdo.</dd>
+      <dt>Onde o Observer reaparece na matéria?</dt>
+      <dd>Em GRASP (é citado como especialização de Indirection) e em MVC (o Model notifica a View por Observer). É o padrão mais "reutilizado" pelo professor.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Requisito → padrão" (como o exercício 1) com outros padrões: undo → Memento; algoritmos intercambiáveis → Strategy; hub de comunicação → Mediator; controle de acesso → Proxy.</li>
+      <li>Múltipla escolha de classificação (como o exercício 2).</li>
+      <li>"Explique o Observer e dê um exemplo em Java" → Sujeito, Observers, notificação; Listeners do AWT/Swing.</li>
+      <li>"Qual a limitação do Visitor?" / "Por que o método template é final?"</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m6">
+  <h2>Módulo 6 · GRASP: a quem dar cada responsabilidade</h2>
+  <div class="why"><b>Por que estudar</b>Sua anotação da aula 4: "aula importante pra prova, conteúdo pesado". GRASP é a lista mais longa (9 nomes) e o exercício 1 da aula já mostra o formato: um cenário de código ruim e a pergunta "qual princípio foi ferido? Por quê?".</div>
+
+  <p><b>GRASP = General Responsibility Assignment Software Patterns</b>. <b>Craig Larman, 1997</b>. Conjunto de <b>9 princípios fundamentais</b>, aplicados ao projeto OO e à <b>atribuição de responsabilidades</b>. Cada um responde a uma pergunta de projeto:</p>
+
+  <div class="tw"><table>
+    <tr><th>Princípio</th><th>Pergunta que responde</th><th>O que diz (slide)</th><th>Exemplo do slide</th></tr>
+    <tr><td><b>Information expert</b></td><td>Quem deve fazer isso?</td><td>Atribuir a responsabilidade levando em conta <b>o tipo de informação que a classe contém</b>.</td><td>Simulação a 600 fps e tela que não suporta: <code>SpeedControl</code> tem as informações de quadros exibidos/faltantes, então é ela que decide quando exibir o quadro.</td></tr>
+    <tr><td><b>Creator</b></td><td>Quem deve criar A?</td><td>B cria A se: B <b>contém</b> A · B <b>agrega</b> A · B <b>tem os dados de inicialização</b> de A · B <b>registra</b> A · B faz <b>uso intenso/coeso</b> de A.</td><td>—</td></tr>
+    <tr><td><b>Controller</b></td><td>Quem recebe a ação vinda da UI?</td><td>Provê o <b>encaminhamento de uma ação</b>; encapsula uma operação do sistema; cria uma <b>camada entre UI e classes de domínio</b>, o que permite trocar o tipo de UI (linha de comando, Web, GUI).</td><td>Classe <code>Map</code>: o usuário move o cursor na UI, a ação é delegada ao <code>Map</code>, que assume o controle e chama os objetos de domínio.</td></tr>
+    <tr><td><b>Indirection</b></td><td>Como evitar que dois objetos se conheçam?</td><td><b>Intermedia a interação</b> entre dois objetos, mantendo o acoplamento baixo; papéis ficam isolados. <b>Adapter, Façade e Observer são especializações</b> deste princípio.</td><td>—</td></tr>
+    <tr><td><b>Low coupling</b></td><td>Como reduzir o impacto de mudanças?</td><td>Acoplamento mede <b>quanto uma classe está conectada a, ou depende de, outras</b>. O princípio procura reduzir a dependência para <b>diminuir o impacto de mudanças e aumentar a reutilização</b>.</td><td>Formas de acoplamento na tabela abaixo.</td></tr>
+    <tr><td><b>High cohesion</b></td><td>Como manter classes focadas e compreensíveis?</td><td>Coesão mede <b>quão relacionadas ou focadas estão as responsabilidades</b> de um elemento. Alta coesão: poucas tarefas, nº relativamente pequeno de métodos, funcionalidade altamente relacionada; mais estável, fácil de entender, manter e reusar; permite <b>projeto modular</b>.</td><td>—</td></tr>
+    <tr><td><b>Polymorphism</b></td><td>Como tratar variações por tipo?</td><td>Característica fundamental da POO; o princípio <b>recomenda seu uso</b> no lugar de testar o tipo do objeto (que tem alto custo em runtime). Chama-se o método pelo <b>supertipo</b> e a implementação especializada é acionada.</td><td>Dois dispositivos, <code>USB</code> e <code>Network</code>, com leitura chamada de forma geral.</td></tr>
+    <tr><td><b>Protected variants</b></td><td>Como blindar o sistema contra o que vai variar?</td><td><b>Estabilizar</b> o sistema perante variações: identificar <b>pontos de variação</b> e criar uma <b>interface estável</b> em volta deles (encapsulamento, interfaces, polimorfismo, indireção, padrões). Evitar enviar mensagens a objetos muito distantes.</td><td><b>Máquinas virtuais e brokers</b> são motivados por este princípio.</td></tr>
+    <tr><td><b>Pure fabrication</b></td><td>Onde pôr o que não é do domínio?</td><td>Atribuir responsabilidades <b>"acessórias" (não do domínio)</b> a classes <b>artificiais</b> criadas para isso, mantendo alta coesão, baixo acoplamento e reuso.</td><td>Um conjunto de classes que realizam <b>persistência em um BD</b>.</td></tr>
+  </table></div>
+
+  <h3>As quatro formas de acoplamento (Low coupling)</h3>
+  <div class="tw"><table>
+    <tr><th>Forma</th><th>Em Java</th></tr>
+    <tr><td>Uma classe <b>contém</b> outra, como atributo</td><td><code>private Log log;</code></td></tr>
+    <tr><td>Uma classe <b>obtém a instância</b> de outra (por construção ou retorno)</td><td><code>new Log("Arquivo.txt")</code> · <code>DBConnection.getInstance()</code></td></tr>
+    <tr><td>Uma classe <b>estende</b> outra</td><td><code>class Homem extends Pessoa</code></td></tr>
+    <tr><td>Uma classe <b>implementa</b> uma interface</td><td><code>class JDBCProdutoDAO implements ProdutoDAO</code></td></tr>
+  </table></div>
+  <p>Frase do slide que relaciona os dois: <b>"quanto menor acoplamento, maior é a coesão"</b>. Objetivo de projeto: <b>baixo acoplamento + alta coesão</b>.</p>
+
+  <div class="ex"><b>Exemplo resolvido: exercício 1 da aula 4</b>
+    <p><i>"Classe com muitas funcionalidades, código enorme; várias nem deveriam estar relacionadas a ela, o que a tornou complicada de entender e usar. Qual princípio GRASP ele feriu? Por quê?"</i></p>
+    <p><b>Resposta-modelo:</b> feriu o princípio da <b>alta coesão (High cohesion)</b>. Coesão mede quão relacionadas e focadas estão as responsabilidades de um elemento; para ser alta, a classe deve ter poucas tarefas, um número relativamente pequeno de métodos e funcionalidades altamente relacionadas. A classe descrita acumula responsabilidades não relacionadas, por isso ficou difícil de entender, manter e reusar, que são justamente os benefícios que a alta coesão traria. Correção: distribuir as funcionalidades para as classes que detêm a informação (<i>Information expert</i>) e mover o que não é do domínio para classes artificiais (<i>Pure fabrication</i>).</p>
+    <p class="note">Se a pergunta fosse sobre SOLID, a resposta equivalente seria <i>Single-responsibility</i>. Leia qual família o enunciado pede.</p>
+  </div>
+
+  <div class="ex"><b>Exemplo resolvido: GRASP dentro do crud</b> <span class="inf">inferência</span>
+    <p><b>Pure fabrication</b>: <code>DBConnection</code>, <code>JDBCProdutoDAO</code> e as fábricas não existem no domínio "produto"; foram fabricadas para tirar a persistência da janela. <b>Indirection</b>: o DAO fica entre a janela e o banco. <b>Protected variants</b>: o ponto de variação é "como acessar o BD" e a interface estável é <code>ProdutoDAO</code>. <b>Polymorphism</b>: a janela chama <code>create()</code> pelo supertipo <code>ProdutoDAO</code>, sem <code>if (tipo == JDBC)</code>. <b>Creator</b>: <code>JDBCDAOFactory</code> cria <code>JDBCProdutoDAO</code> porque tem os dados para decidir e inicializar. <b>Low coupling</b>: a janela depende só de <code>ProdutoDAO</code>, <code>Produto</code> e da fábrica abstrata.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Controller do GRASP é o Controller do MVC?</dt>
+      <dd>É a mesma ideia: um objeto que não é UI recebe a ação do usuário e a encaminha ao domínio. O MVC é uma arquitetura que aplica esse princípio de forma sistemática. O benefício declarado nos dois casos é poder trocar a UI.</dd>
+      <dt>Indirection × Pure fabrication?</dt>
+      <dd>Indirection diz <b>"ponha um intermediário"</b> entre dois objetos. Pure fabrication diz <b>"invente uma classe que não é do domínio"</b> para uma responsabilidade acessória. Muitas vezes o intermediário <i>é</i> uma classe fabricada (o DAO é os dois).</dd>
+      <dt>Protected variants × Open-closed (SOLID)?</dt>
+      <dd>São a mesma preocupação vista de dois lados: proteger o sistema do que varia, por meio de uma interface estável, é o que permite estender sem modificar.</dd>
+      <dt>Se implementar interface também é acoplamento, por que usamos tanto?</dt>
+      <dd>Porque é o acoplamento <b>mais fraco</b>: depende-se de um contrato estável, não de uma implementação. O objetivo é baixo acoplamento, não zero.</dd>
+      <dt>Como decorar os 9?</dt>
+      <dd>Três grupos: <b>quem faz</b> (Information expert, Creator, Controller) · <b>qualidade</b> (Low coupling, High cohesion) · <b>técnicas para chegar lá</b> (Indirection, Polymorphism, Protected variants, Pure fabrication).</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>Cenário → princípio ferido, com justificativa (exercício 1).</li>
+      <li>"O que significa GRASP? Cite e explique 3 princípios."</li>
+      <li>"Quais padrões GoF são especializações de Indirection?" → Adapter, Façade e Observer.</li>
+      <li>"Em que condições a classe B deve criar a classe A?" → as 5 condições do Creator.</li>
+      <li>"Defina acoplamento e coesão e a relação entre eles."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m7">
+  <h2>Módulo 7 · SOLID</h2>
+  <div class="why"><b>Por que estudar</b>O exercício 4 da aula 4 é literalmente "Explique cada um dos 5 princípios SOLID". É uma questão dissertativa pronta, com resposta fechada. Não pode perder ponto aqui.</div>
+
+  <p><b>SOLID</b>: princípios para programação orientada a objetos. <b>Robert C. Martin, 2000</b>. Acrônimo dos 5 princípios. Objetivo: tornar o projeto de software mais <b>compreensível, flexível e fácil de manter</b>.</p>
+
+  <div class="tw"><table>
+    <tr><th></th><th>Princípio</th><th>Enunciado (slide)</th><th>Detalhes que valem ponto</th></tr>
+    <tr><td><b>S</b></td><td>Single-responsibility</td><td>Uma classe deve ter <b>apenas uma responsabilidade</b>: apenas <b>uma razão para mudar</b>.</td><td>Vale para módulo, classe ou função; deve <b>encapsular</b> essa parte e estar estreitamente alinhado a ela.</td></tr>
+    <tr><td><b>O</b></td><td>Open-closed</td><td>Classes (módulos, funções) devem ser <b>abertas para extensão, mas fechadas para modificação</b>.</td><td>Estende-se o comportamento <b>sem modificar o código-fonte</b>, por <b>herança e polimorfismo</b>. <b>Aberto</b> = ainda disponível para extensão (adicionar campos, funções). <b>Fechado</b> = disponível para uso por outros módulos, com <b>descrição estável e bem definida</b> (a interface).</td></tr>
+    <tr><td><b>L</b></td><td>Liskov substitution</td><td>Se S é subtipo de T, objetos do tipo T <b>podem ser substituídos</b> por objetos do tipo S <b>sem alterar as propriedades desejáveis</b> do programa.</td><td>Contrato do subtipo comportamental: <b>pré-condições não podem ser reforçadas</b> · <b>pós-condições não podem ser enfraquecidas</b> · <b>invariantes preservados</b> · encapsulamento mantido.</td></tr>
+    <tr><td><b>I</b></td><td>Interface segregation</td><td><b>Nenhum cliente deve ser forçado a depender de métodos que não usa.</b></td><td>Dividir interfaces grandes em <b>menores e mais específicas</b> ("interfaces de função"). Mantém o sistema desacoplado, mais fácil de refatorar, alterar e reimplantar. <b>Semelhante à alta coesão (GRASP)</b>.</td></tr>
+    <tr><td><b>D</b></td><td>Dependency inversion</td><td>Módulos de <b>alto nível não devem depender de módulos de baixo nível; ambos devem depender de abstrações</b>. Abstrações não dependem de detalhes; <b>detalhes dependem de abstrações</b>.</td><td>Objetos de alto e baixo nível dependem da <b>mesma abstração</b> (interfaces). <b>Permite acoplamento fraco (GRASP)</b>.</td></tr>
+  </table></div>
+
+  <h3>As pontes SOLID ↔ GRASP que o próprio slide faz</h3>
+  <div class="tw"><table>
+    <tr><th>SOLID</th><th>GRASP</th><th>Onde está dito</th></tr>
+    <tr><td>Interface segregation</td><td>High cohesion</td><td>"É semelhante ao princípio de alta coesão (GRASP)"</td></tr>
+    <tr><td>Dependency inversion</td><td>Low coupling</td><td>"Permite acoplamento fraco (GRASP)"</td></tr>
+    <tr><td>Single-responsibility</td><td>High cohesion</td><td><span class="inf">inferência</span> mesma ideia: poucas responsabilidades, bem relacionadas</td></tr>
+    <tr><td>Open-closed</td><td>Protected variants / Polymorphism</td><td><span class="inf">inferência</span> o slide de OCP cita "herança e polimorfismo"</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido: SOLID lido no crud da aula 6</b> <span class="inf">inferência</span>
+    <p><b>S</b>: <code>Produto</code> só guarda dados; <code>JDBCProdutoDAO</code> só fala SQL; <code>CrudProduto</code> só cuida da tela. Antes (POO), a janela fazia as três coisas.</p>
+    <p><b>O</b>: para suportar JPA foi criada <code>JPAProdutoDAO</code>, sem alterar uma linha de <code>JDBCProdutoDAO</code> nem de <code>ProdutoDAO</code>: estendeu-se sem modificar.</p>
+    <p><b>L</b>: a janela recebe um <code>ProdutoDAO</code> e funciona igual com a implementação JDBC ou JPA. Se <code>JPAProdutoDAO.delete()</code> exigisse algo que a interface não promete (pré-condição reforçada), a substituição quebraria.</p>
+    <p><b>I</b>: <code>ProdutoDAO</code> tem só os 5 métodos de CRUD de produto. Uma interface única "<code>TudoDAO</code>" com métodos de cliente, fatura e produto forçaria cada implementação a depender do que não usa.</p>
+    <p><b>D</b>: a janela (alto nível) e o <code>JDBCProdutoDAO</code> (baixo nível) dependem ambos da abstração <code>ProdutoDAO</code>. A linha trocada no exercício mostra a inversão: de <code>new JDBCProdutoDAO()</code> para <code>DAOAbstractFactory.getFactory(...).createProdutoDAO()</code>.</p>
+  </div>
+
+  <div class="ex"><b>Resposta-modelo compacta para o exercício 4</b>
+    <p><b>S</b>, responsabilidade única: cada classe tem uma só responsabilidade e, portanto, um só motivo para mudar. <b>O</b>, aberto-fechado: entidades abertas para extensão e fechadas para modificação; novo comportamento entra por herança/polimorfismo, sem mexer no código existente. <b>L</b>, substituição de Liskov: um subtipo deve poder substituir seu supertipo sem alterar as propriedades desejáveis do programa (não reforça pré-condições, não enfraquece pós-condições, preserva invariantes). <b>I</b>, segregação de interfaces: nenhum cliente deve depender de métodos que não usa; prefira várias interfaces pequenas e específicas. <b>D</b>, inversão de dependência: módulos de alto nível não dependem dos de baixo nível, ambos dependem de abstrações; detalhes dependem de abstrações, não o contrário.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Como uma classe pode ser aberta e fechada ao mesmo tempo?</dt>
+      <dd>São dois públicos diferentes. Para quem <b>usa</b> a classe ela está fechada: interface estável, não muda. Para quem precisa de <b>novo comportamento</b> ela está aberta: cria-se uma subclasse ou nova implementação da interface.</dd>
+      <dt>Um exemplo clássico de violação de Liskov?</dt>
+      <dd><span class="inf">fora do slide</span> <code>Quadrado extends Retangulo</code>: quem recebe um <code>Retangulo</code> espera que <code>setLargura(5)</code> não altere a altura (pós-condição). O quadrado altera, enfraquecendo a pós-condição; o programa que funcionava com T deixa de funcionar com S.</dd>
+      <dt>Dependency inversion é o mesmo que injeção de dependência?</dt>
+      <dd>Não. DIP é o <b>princípio</b> ("dependa de abstrações"). DI é uma <b>técnica</b> para entregar a implementação concreta ao objeto sem que ele a crie (módulo 8). DI é uma forma de realizar DIP.</dd>
+      <dt>"Inversão" de quê, afinal?</dt>
+      <dd>No projeto ingênuo a seta de dependência vai do alto nível para o baixo (janela → JDBC). Ao introduzir a interface, o módulo de baixo nível passa a <b>apontar para a abstração</b> (implementa <code>ProdutoDAO</code>), e a abstração pertence ao nível alto. A seta do detalhe se inverteu.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Explique cada um dos 5 princípios SOLID" (exercício 4, quase certo em alguma forma).</li>
+      <li>"O que significa cada letra?" + autor e ano (Robert C. Martin, 2000).</li>
+      <li>"Quais as restrições de contrato para um subtipo comportamental?"</li>
+      <li>Trecho de código com uma interface gigante ou uma classe faz-tudo → qual princípio é violado.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m8">
+  <h2>Módulo 8 · Princípio de Hollywood, IoC, DI e MVC</h2>
+  <div class="why"><b>Por que estudar</b>Dois dos quatro exercícios da aula 4 saem daqui ("o que é MVC…", "o que é injeção de dependências…"), ambos pedindo <b>definição + exemplo + vantagem</b>. Além disso, IoC/DI é o que o Spring faz, e MVC é a arquitetura do trabalho.</div>
+
+  <h3>Princípio de Hollywood</h3>
+  <p><b>"Não ligue para nós, nós ligaremos para você."</b> Similar à inversão de dependências, porém especifica <b>como</b> o componente de nível superior e os de nível inferior interagem <b>sem criar dependências</b>. Permite dependências em <b>direção única</b>: o componente de alto nível chama os de baixo nível de modo que nenhum dependa do outro.</p>
+
+  <h3>IoC × DI</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Inversão de Controle (IoC)</th><th>Injeção de Dependências (DI)</th></tr>
+    <tr><td>O que é</td><td>Princípio de programação que <b>inverte o fluxo de controle tradicional (imperativo)</b>.</td><td>Passagem de uma <b>dependência</b> (um objeto usado como serviço) para o objeto <b>cliente</b> que a usaria.</td></tr>
+    <tr><td>Como</td><td>Em vez de programar todo o fluxo da aplicação, gera-se código para <b>tarefas específicas</b>; a <b>infraestrutura (container)</b> chama essas funções quando oportuno. A infraestrutura provê o laço de eventos e mensagens; a aplicação só trata os eventos.</td><td>Em vez de o cliente especificar qual serviço/objeto será usado, <b>a estrutura faz isso para ele</b>.</td></tr>
+    <tr><td>Ganho</td><td>Aumenta a <b>modularidade</b> e a <b>extensibilidade</b>.</td><td><b>Separation of Concerns</b>: o cliente não se preocupa com localização e instância dos serviços; a estrutura sim. Integra dependências em camadas de abstração compartilhadas.</td></tr>
+    <tr><td>Relação</td><td colspan="2">IoC é o princípio geral ("quem manda no fluxo é o container"). DI é a aplicação dele à <b>criação de dependências</b> ("quem dá <code>new</code> não sou eu").</td></tr>
+  </table></div>
+
+  <div class="code"><b>Como fica no código (exemplo do slide, antes e depois)</b>
+<pre><span class="c">// ANTES: a classe cria sua própria dependência</span>
+<span class="k">public class</span> VendaDeProduto {
+    <span class="k">public void</span> vendeProduto(Produto produto) {
+        <span class="c">// todo o código para a venda do produto...</span>
+        Log log = <span class="k">new</span> Log(<span class="s">"Arquivo.txt"</span>);    <span class="c">// problema: não seria responsabilidade dela criar o Log</span>
+        log.grava(produto);
+    }
+}
+
+<span class="c">// DEPOIS: a dependência é INJETADA pelo construtor</span>
+<span class="k">public class</span> VendaDeProduto {
+    <span class="k">private</span> Log log;
+    <span class="k">public</span> VendaDeProduto(Log logVenda) {   <span class="c">// quem instancia VendaDeProduto entrega o Log pronto</span>
+        <span class="k">this</span>.log = logVenda;
+    }
+    <span class="k">public void</span> vendeProduto(Produto produto) {
+        <span class="c">// todo o código para a venda do produto...</span>
+        log.grava(produto);                 <span class="c">// a classe somente USA a instância injetada</span>
+    }
+}</pre></div>
+  <p class="note"><b>Atenção a um detalhe do slide:</b> lá o construtor aparece como <code>public void VendaDeProduto(Log logVenda)</code>. Com <code>void</code>, o Java trata isso como um <i>método</i> comum, não como construtor, e o <code>log</code> ficaria <code>null</code>. O texto do slide diz "injeção de dependência <b>no construtor</b>", então na prova escreva sem o <code>void</code>, como acima.</p>
+
+  <div class="ex"><b>Resposta-modelo: exercício 3 da aula 4 (o que é DI, exemplo, vantagem)</b>
+    <p><b>O que é:</b> uma dependência é um objeto que pode ser usado como serviço; injeção é a passagem dessa dependência ao objeto cliente que a usaria. Em vez de o cliente especificar e criar o serviço, a estrutura (container/framework ou quem o instancia) faz isso por ele.</p>
+    <p><b>Exemplo:</b> <code>VendaDeProduto</code> deixava de fazer <code>new Log("Arquivo.txt")</code> e passa a receber um <code>Log</code> no construtor, apenas usando a instância injetada.</p>
+    <p><b>Vantagem:</b> separação de interesses e baixo acoplamento. A classe não precisa saber onde está nem como se cria o serviço; pode-se trocar o <code>Log</code> em arquivo por um log em banco, ou por um falso em testes, sem alterar <code>VendaDeProduto</code>.</p>
+  </div>
+
+  <h3>MVC</h3>
+  <p>Padrão <b>amplamente utilizado</b>, semelhante a uma ideia antiga do <b>Smalltalk</b>. É uma <b>divisão de responsabilidades</b>:</p>
+  <div class="tw"><table>
+    <tr><th>Parte</th><th>Representa</th><th>Palavra-chave</th></tr>
+    <tr><td><b>Model</b></td><td>O <b>estado da aplicação</b></td><td>dados</td></tr>
+    <tr><td><b>View</b></td><td>A <b>camada de apresentação</b></td><td>exibição</td></tr>
+    <tr><td><b>Controller</b></td><td>O <b>fluxo de eventos</b></td><td>ações</td></tr>
+  </table></div>
+  <p><b>Fluxo do diagrama do slide:</b> as <b>ações do usuário</b> chegam ao <b>Controller</b>; o Controller atua sobre o <b>Model</b> e <b>seleciona a View</b>; a View exibe o estado do Model. MVC <b>utiliza o padrão Observer</b> para que o Model notifique alterações à View.</p>
+  <p><b>Vantagens:</b> (1) <b>desacoplamento</b> entre o modelo da aplicação e a camada de exibição; (2) permite a existência de <b>diferentes camadas de exibição</b>; (3) <b>transparência</b>: o modelo não precisa saber qual camada de exibição é usada.</p>
+
+  <h3>Modelos Web em Java</h3>
+  <div class="tw"><table>
+    <tr><th>Modelo</th><th>Quem processa a requisição e define o fluxo</th><th>Quem constrói a página</th><th>Leitura</th></tr>
+    <tr><td><b>Modelo 1</b></td><td>O <b>frontend</b> (JSP, p.ex.)</td><td>O mesmo frontend (JSP)</td><td>Tudo na página: processamento, fluxo e exibição juntos. Não há Controller separado.</td></tr>
+    <tr><td><b>Modelo 2</b></td><td>O <b>backend</b> (servlets, p.ex.)</td><td>O frontend (JSP)</td><td>É o MVC na Web: servlet = Controller, JSP = View.</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Resposta-modelo: exercício 2 da aula 4 (o que é MVC, partes, exemplo, vantagem)</b>
+    <p><b>O que é:</b> padrão que divide as responsabilidades da aplicação em três partes. <b>Model</b> representa o estado da aplicação (dados); <b>View</b> representa a camada de apresentação (exibição); <b>Controller</b> representa o fluxo de eventos (ações do usuário), atuando sobre o Model e selecionando a View.</p>
+    <p><b>Exemplo:</b> aplicação Web Java no Modelo 2: um servlet (Controller) recebe a requisição "listar produtos", consulta os objetos <code>Produto</code> (Model) e encaminha para uma JSP (View) que monta a página. <span class="inf">inferência</span> No trabalho: componentes Vue = View, <code>@RestController</code> do Spring = Controller, entidades JPA = Model.</p>
+    <p><b>Vantagem:</b> desacoplamento entre modelo e exibição, permitindo várias Views para o mesmo Model (Web, desktop, mobile) sem que o modelo saiba qual está em uso.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Onde já usei IoC sem saber?</dt>
+      <dd>No Swing: você não escreve o laço que espera cliques. Você implementa <code>jButton1ActionPerformed</code> e a infraestrutura (a thread de eventos) chama seu código quando oportuno. É exatamente "a infraestrutura provê o laço de eventos; a aplicação apenas trata os eventos".</dd>
+      <dt>IoC, Hollywood e DIP são a mesma coisa?</dt>
+      <dd>São parentes. <b>DIP</b>: dependa de abstrações (estrutura do código). <b>Hollywood</b>: o alto nível chama o baixo nível, nunca o contrário (direção das chamadas). <b>IoC</b>: o framework controla o fluxo (quem chama quem, em runtime). <b>DI</b>: caso particular de IoC para obtenção de dependências.</dd>
+      <dt>O crud da aula 6 usa DI?</dt>
+      <dd>Não exatamente: a janela ainda <b>pede</b> o DAO à fábrica (<code>getFactory(...).createProdutoDAO()</code>). Isso é Abstract Factory, que já isola a criação do uso. Com DI, a janela <b>receberia</b> o <code>ProdutoDAO</code> pronto no construtor. No Spring (aula 8, fora da P1) é o container que entrega.</dd>
+      <dt>O crud em Swing é MVC?</dt>
+      <dd><span class="inf">inferência</span> Parcialmente: <code>Produto</code> é o Model e a janela acumula View e Controller (os métodos <code>ActionPerformed</code> tratam as ações). A separação em pacotes <code>view</code>, <code>db.vo</code>, <code>db.dao</code> caminha nessa direção.</dd>
+      <dt>Por que o Model usa Observer em vez de chamar a View direto?</dt>
+      <dd>Se chamasse direto, o Model conheceria a View (acoplamento) e só poderia haver uma. Com Observer, qualquer número de Views se cadastra e é notificado: é a "transparência" listada nas vantagens.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>Exercícios 2 e 3 da aula 4, praticamente como estão: <b>definição + exemplo + vantagem</b>.</li>
+      <li>"Diferencie IoC de DI."</li>
+      <li>"Reescreva o código abaixo aplicando injeção de dependência" (com o <code>new Log(...)</code> dentro do método).</li>
+      <li>"Que padrão GoF o MVC utiliza e para quê?" → Observer, para o Model notificar a View.</li>
+      <li>"Diferencie Modelo 1 e Modelo 2."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m9">
+  <h2>Módulo 9 · Persistência: DAO, VO e mapeamento objeto-relacional</h2>
+  <div class="why"><b>Por que estudar</b>É onde a teoria dos módulos anteriores vira estrutura de pacotes. "O que é um DAO? O que é um VO? Como se mapeia um relacionamento 1:N em objetos?" são perguntas diretas, e o exercício da aula 5 é a base do da aula 6.</div>
+
+  <h3>A motivação: o problema do JDBC na tela</h3>
+  <p><b>JDBC</b> é o principal mecanismo Java de acesso a bases de dados: acesso por operações básicas a muitos RDBMS, submetendo <b>sentenças SQL</b> ou chamadas de <b>Stored Procedures</b>. <b>Problema:</b> muitas aplicações operam o JDBC na <b>camada de apresentação (UI)</b>, o que gera <b>código redundante</b> e torna o sistema de <b>difícil manutenção</b>. Era exatamente o estado do crud vindo de POO: SQL dentro dos botões da janela.</p>
+
+  <h3>Os quatro tipos de objeto</h3>
+  <div class="tw"><table>
+    <tr><th>Termo</th><th>Definição (slide)</th><th>No crud</th></tr>
+    <tr><td><b>POJO</b> · Plain Old Java Object</td><td>Os objetos mais simples em Java: membros <b>privados</b> e <b>getters e setters públicos</b> para todos. Pode ter, além do construtor default, o construtor completo e parciais.</td><td rowspan="3"><code>Produto</code> é os três ao mesmo tempo: membros privados + get/set, <code>implements Serializable</code>, e descreve a entidade <code>produto</code>.</td></tr>
+    <tr><td><b>JavaBean</b></td><td>Componente Java <b>portável e independente de plataforma</b>, com propriedades customizáveis (ex.: componentes GUI). Normalmente: <b>POJO que implementa <code>Serializable</code></b>.</td></tr>
+    <tr><td><b>VO</b> · Value Object (ou <b>Transfer Object</b>)</td><td>JavaBeans que <b>descrevem as entidades de dados</b> do sistema. São <b>criados pelos DAOs</b> e usados pela aplicação. Permitem o mapeamento objeto-relacional.</td></tr>
+    <tr><td><b>DAO</b> · Data Access Object</td><td>Objetos que implementam <b>toda a lógica de acesso ao DB</b>. Fornecem métodos públicos de consulta (ex.: <code>List&lt;Client&gt; getClientsByFirstName(String)</code>). Normalmente implementam <b>CRUD: Create, Retrieve, Update, Delete</b>. Uma <b>Factory + interfaces</b> podem dar acesso a DAOs específicos para RDBMS diferentes.</td><td>Interface <code>ProdutoDAO</code> + <code>JDBCProdutoDAO</code> (e depois <code>JPAProdutoDAO</code>).</td></tr>
+  </table></div>
+  <p class="note">DAO e VO são <b>J2EE Design Patterns</b> (Core J2EE Patterns), não GoF. Se perguntarem "é um dos 23?", a resposta é não.</p>
+
+  <h3>Mapeamento objeto-relacional (ORM)</h3>
+  <p><b>Definição:</b> estratégia para <b>representação de entidades de dados relacionais</b> (contidas em tabelas de um RDBMS) <b>como objetos de dados</b>.</p>
+  <div class="tw"><table>
+    <tr><th>Tipo de objeto</th><th>Característica</th></tr>
+    <tr><td><b>Objeto persistente</b></td><td>Reflete um <b>estado consistente</b> do sistema: uma alteração em seu estado deve <b>obrigatoriamente</b> gerar alteração de sua entidade no RDBMS.</td></tr>
+    <tr><td><b>Objeto de sessão</b></td><td><b>Transiente</b>: existe durante a execução de uma <b>transação</b>. Ao final, os participantes são comprometidos (<b>commit</b>) e os efeitos são gerados nos objetos persistentes.</td></tr>
+    <tr><td><b>Business Objects</b></td><td>Camada adicional de negócio que faz a <b>integração</b> entre os dois tipos acima.</td></tr>
+  </table></div>
+
+  <h4>As três regras de mapeamento</h4>
+  <div class="tw"><table>
+    <tr><th>No banco</th><th>Em Java</th><th>Observação do slide</th></tr>
+    <tr><td><b>Tabela</b></td><td>Uma classe <b>VO</b> (e uma classe <b>DAO</b> para cada VO)</td><td>Uma para cada tabela, <b>com exceção das tabelas de relacionamento</b>.</td></tr>
+    <tr><td><b>Coluna</b> (PK ou campo)</td><td>Um <b>atributo</b> de classe do VO, com get/set</td><td>Tipos do RDBMS representados por equivalentes Java (tabela abaixo).</td></tr>
+    <tr><td><b>Relacionamento 1:N</b> (PK do lado 1 exportada como <b>FK</b> no lado N)</td><td>Uma <b>coleção</b> na entidade composta (ou agregada)</td><td>"As referências das entidades múltiplas são mantidas em coleções."</td></tr>
+  </table></div>
+  <div class="tw"><table>
+    <tr><th>JDBC type</th><th>Java type</th><th>JDBC type</th><th>Java type</th></tr>
+    <tr><td>CHAR, VARCHAR, LONGVARCHAR</td><td><code>String</code></td><td>REAL</td><td><code>float</code></td></tr>
+    <tr><td>NUMERIC, DECIMAL</td><td><code>java.math.BigDecimal</code></td><td>FLOAT, DOUBLE</td><td><code>double</code></td></tr>
+    <tr><td>BIT</td><td><code>boolean</code></td><td>BINARY, VARBINARY, LONGVARBINARY</td><td><code>byte[]</code></td></tr>
+    <tr><td>TINYINT</td><td><code>byte</code></td><td>DATE / TIME / TIMESTAMP</td><td><code>java.sql.Date</code> / <code>Time</code> / <code>Timestamp</code></td></tr>
+    <tr><td>SMALLINT</td><td><code>short</code></td><td>CLOB / BLOB</td><td><code>Clob</code> / <code>Blob</code></td></tr>
+    <tr><td>INTEGER</td><td><code>int</code></td><td>BIGINT</td><td><code>long</code></td></tr>
+  </table></div>
+  <p><b>Complementos:</b> VOs implementam get/set para cada atributo, podem ter construtor completo e, para sistemas distribuídos, devem implementar <code>Serializable</code>. DAOs podem definir <b>interfaces</b> para desacoplamento em ambientes distribuídos.</p>
+
+  <div class="ex"><b>Exemplo resolvido 1: tabela <code>produto</code> → VO</b>
+    <p><code>id_produto INTEGER PK AUTO_INCREMENT</code> → <code>Integer idProduto</code> · <code>nome_produto VARCHAR(50)</code> → <code>String nomeProduto</code> · <code>preco_produto VARCHAR(30)</code> → <code>String precoProduto</code> · <code>quantidade_produto INTEGER</code> → <code>Integer quantidadeProduto</code>. Construtor vazio, construtor completo (4 campos) e parcial sem id (para inserir, já que o id é AUTO_INCREMENT). Get/set para todos.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido 2: o 1:N do slide (setor × empregado)</b>
+    <p>Banco: <code>setor(id_setor PK, nome_setor)</code> e <code>empregado(id_empregado PK, id_setor FK, nome_empregado)</code>. A PK do lado 1 (<code>setor</code>) foi exportada como FK para o lado N (<code>empregado</code>).</p>
+    <p>Objetos: <code>class Setor { Integer idSetor; String nomeSetor; <b>List&lt;Empregado&gt; empregados;</b> }</code> e <code>class Empregado { Integer idEmpregado; String nomeEmpregado; }</code>. Repare na <b>inversão</b>: no banco quem guarda a ligação é o lado N (a FK); nos objetos quem guarda é o lado 1 (a coleção). O mesmo vale para o exemplo do slide "uma Fatura possui vários Produtos: coleção de objetos Produto é um dos membros de Fatura".</p>
+  </div>
+
+  <div class="code"><b>Como fica no código (solução da aula 5)</b>
+<pre><span class="c">// O CONTRATO: o que a janela enxerga. CRUD = Create, Retrieve, Update, Delete</span>
+<span class="k">public interface</span> ProdutoDAO {
+    <span class="k">public void</span> create(Produto produto) <span class="k">throws</span> Exception;
+    <span class="k">public</span> List&lt;Produto&gt; retrieveAll() <span class="k">throws</span> Exception;
+    <span class="k">public</span> Produto retrieveById(<span class="k">int</span> idProduto) <span class="k">throws</span> Exception;
+    <span class="k">public void</span> update(Produto produto) <span class="k">throws</span> Exception;
+    <span class="k">public void</span> delete(Produto produto) <span class="k">throws</span> Exception;
+}
+
+<span class="c">// A IMPLEMENTAÇÃO JDBC: todo o SQL mora aqui, e só aqui</span>
+<span class="k">public class</span> JDBCProdutoDAO <span class="k">implements</span> ProdutoDAO {
+    <span class="k">public</span> List&lt;Produto&gt; retrieveAll() <span class="k">throws</span> Exception {
+        List&lt;Produto&gt; produtos = <span class="k">new</span> ArrayList&lt;&gt;();
+        ResultSet result = DBConnection.getInstance().getStatement()   <span class="c">// usa o Singleton da aula 2</span>
+                .executeQuery(<span class="s">"SELECT * FROM produto"</span>);
+        <span class="k">while</span> (result.next()) {                                        <span class="c">// cada linha vira um VO</span>
+            produtos.add(<span class="k">new</span> Produto(result.getInt(1), result.getString(2),
+                                     result.getString(3), result.getInt(4)));
+        }
+        <span class="k">return</span> produtos;                                               <span class="c">// o DAO CRIA os VOs</span>
+    }
+    <span class="c">// create/update/delete montam o SQL com os getters do VO e chamam executeUpdate(sql)</span>
+}
+
+<span class="c">// NA JANELA (aula 5): nenhum SQL, só VO + DAO</span>
+ProdutoDAO produtoDAO = <span class="k">new</span> JDBCProdutoDAO();
+produtoDAO.create(<span class="k">new</span> Produto(nome, preco, Integer.parseInt(qtde)));</pre></div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Por que declarar a variável como <code>ProdutoDAO</code> e não como <code>JDBCProdutoDAO</code>?</dt>
+      <dd>Para depender da abstração (DIP). É isso que permite, na aula 6, trocar a implementação por JPA sem alterar as chamadas <code>create</code>, <code>update</code>…</dd>
+      <dt>Por que tabelas de relacionamento não viram VO?</dt>
+      <dd>Uma tabela associativa pura (N:N) só carrega as duas FKs; em objetos esse vínculo já é expresso pelas coleções de cada lado. Criar uma classe para ela seria redundante.</dd>
+      <dt>VO é "objeto persistente"?</dt>
+      <dd>Conceitualmente ele representa a entidade persistente. Com JDBC puro, porém, a sincronização é manual: alterar o VO não altera o banco até alguém chamar <code>dao.update(vo)</code>. Com JPA (módulo 10) o provedor assume essa sincronização dentro da transação.</dd>
+      <dt>Por que preço é <code>VARCHAR</code>/<code>String</code>?</dt>
+      <dd>Simplificação do exemplo de POO (guarda "30,00" como texto). Pela tabela de tipos, o correto para dinheiro seria <code>DECIMAL</code> → <code>BigDecimal</code>.</dd>
+      <dt>O SQL concatenado com <code>+</code> tem algum problema?</dt>
+      <dd><span class="inf">fora do slide</span> Sim, é vulnerável a SQL injection; o ideal seria <code>PreparedStatement</code>. Não foi tema da aula, mas mostra mais uma vantagem do DAO: a correção seria feita em um único lugar.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Diferencie DAO de VO" / "O que é um POJO? E um JavaBean?"</li>
+      <li>"Qual o problema de usar JDBC na camada de apresentação?" → código redundante, difícil manutenção.</li>
+      <li>Dado um DER com 1:N, escrever as classes VO (coleção no lado 1).</li>
+      <li>"O que é mapeamento objeto-relacional?" + objeto persistente × objeto de sessão.</li>
+      <li>"O que significa CRUD?"</li>
+    </ul>
+  </div>
+</section>
+
+<section id="m10">
+  <h2>Módulo 10 · JPA e Abstract Factory: o crud final</h2>
+  <div class="why"><b>Por que estudar</b>É a aula mais recente (14/09) e a que junta tudo: Singleton, DAO, VO, ORM automático e Abstract Factory na mesma aplicação. Se cair uma questão "integradora", será sobre este desenho. Atenção: esta aula <b>não tem slides</b>, só o roteiro do exercício e a solução.</div>
+
+  <h3>A evolução do crud: cada aula remove um acoplamento</h3>
+  <div class="tw"><table>
+    <tr><th>Versão</th><th>Como a janela acessa o banco</th><th>Problema que sobra</th><th>Padrão / princípio introduzido</th></tr>
+    <tr><td>POO (ponto de partida)</td><td>Abre conexão e executa SQL dentro da própria janela.</td><td>JDBC na UI; conexão aberta várias vezes.</td><td>—</td></tr>
+    <tr><td><b>Aula 2</b></td><td><code>DBConnection.getInstance().getStatement().executeUpdate(sql)</code></td><td>O SQL ainda está na janela.</td><td><b>Singleton</b> (uma conexão, ponto único de acesso) + parâmetros em <code>crud.properties</code>.</td></tr>
+    <tr><td><b>Aula 5</b></td><td><code>produtoDAO.create(produto)</code></td><td>A janela ainda faz <code>new JDBCProdutoDAO()</code>: conhece a tecnologia.</td><td><b>DAO + VO</b> (Pure fabrication, Indirection, Single-responsibility). Pacotes <code>dao</code>, <code>vo</code>, <code>util</code>, <code>view</code>.</td></tr>
+    <tr><td><b>Aula 6</b></td><td><code>DAOAbstractFactory.getFactory(tipo).createProdutoDAO().create(produto)</code></td><td>—</td><td><b>JPA</b> (ORM automático) + <b>Abstract Factory</b> (Protected variants, Dependency inversion). ComboBox escolhe JDBC ou JPA em runtime.</td></tr>
+  </table></div>
+
+  <h3>JPA: o ORM feito por anotações</h3>
+  <p><b>JPA</b> é a especificação Java de persistência; quem executa é um <b>provedor</b>. Na aula 6 usou-se o <b>EclipseLink (JPA 2.1)</b> pela biblioteca do NetBeans; o <b>Hibernate</b> (apresentado na aula 1 como "framework de persistência que realiza o mapeamento objeto-relacional, com configurações em XML ou anotações, usado de forma transparente pelo JPA") é outro provedor. Por isso o roteiro avisa: "onde vê Hibernate no diagrama, considere JPA".</p>
+  <div class="tw"><table>
+    <tr><th>Anotação</th><th>O que declara</th><th>Regra de ORM (módulo 9) que ela automatiza</th></tr>
+    <tr><td><code>@Entity</code></td><td>A classe é uma entidade persistente.</td><td>tabela → classe</td></tr>
+    <tr><td><code>@Table(name = "produto")</code></td><td>Nome da tabela correspondente.</td><td>tabela → classe</td></tr>
+    <tr><td><code>@Id</code></td><td>O atributo é a chave primária.</td><td>PK → atributo</td></tr>
+    <tr><td><code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code></td><td>O valor é gerado pelo banco (casa com <code>AUTO_INCREMENT</code>).</td><td>—</td></tr>
+    <tr><td><code>@Column(name = "nome_produto", nullable = false)</code></td><td>Nome da coluna e restrição <code>NOT NULL</code>.</td><td>coluna → atributo</td></tr>
+  </table></div>
+  <p><b>persistence.xml</b> (em <code>META-INF</code>): define a <b>Persistence Unit</b> <code>crudPU</code>, com <code>transaction-type="RESOURCE_LOCAL"</code>, o <code>&lt;provider&gt;</code> (EclipseLink), a lista de <code>&lt;class&gt;</code> de entidades (<code>crud.db.vo.Produto</code>) e as 4 propriedades de conexão (<code>javax.persistence.jdbc.url</code>, <code>user</code>, <code>driver</code>, <code>password</code>). Estratégia de criação de tabelas: <b>none</b> (a tabela já existe).</p>
+
+  <h3>EntityManager × JDBC, operação por operação</h3>
+  <div class="tw"><table>
+    <tr><th>CRUD</th><th>JDBCProdutoDAO</th><th>JPAProdutoDAO</th><th>Transação?</th></tr>
+    <tr><td>Create</td><td><code>executeUpdate("INSERT INTO produto VALUES(null,'…')")</code></td><td><code>em.persist(produto)</code></td><td>sim</td></tr>
+    <tr><td>Retrieve (todos)</td><td><code>executeQuery("SELECT * FROM produto")</code> + laço no <code>ResultSet</code></td><td><code>em.createQuery("SELECT p FROM Produto p", Produto.class).getResultList()</code></td><td>não</td></tr>
+    <tr><td>Retrieve (id)</td><td><code>"… WHERE id_produto=" + id</code></td><td><code>"… WHERE p.idProduto=" + id</code> + <code>getSingleResult()</code></td><td>não</td></tr>
+    <tr><td>Update</td><td><code>executeUpdate("UPDATE produto SET …")</code></td><td><code>em.merge(produto)</code></td><td>sim</td></tr>
+    <tr><td>Delete</td><td><code>executeUpdate("DELETE FROM produto WHERE …")</code></td><td><code>em.remove(em.find(Produto.class, id))</code></td><td>sim</td></tr>
+  </table></div>
+  <p>Toda escrita fica entre <code>em.getTransaction().begin()</code> e <code>em.getTransaction().commit()</code>: é o "objeto de sessão" e o <i>commit</i> do módulo 9 acontecendo na prática. A consulta usa <b>JPQL</b>, que fala de <b>classes e atributos</b> (<code>Produto p</code>, <code>p.idProduto</code>), não de tabelas e colunas (<code>produto</code>, <code>id_produto</code>).</p>
+
+  <h3>A Abstract Factory do exercício</h3>
+  <div class="code"><b>Como fica no código (solução da aula 6)</b>
+<pre><span class="k">public abstract class</span> DAOAbstractFactory {
+    <span class="k">public static final int</span> JDBC = 0;                    <span class="c">// mesmos valores dos índices da ComboBox</span>
+    <span class="k">public static final int</span> JPA = 1;
+
+    <span class="k">public abstract</span> ProdutoDAO createProdutoDAO();       <span class="c">// um create...() por DAO da família</span>
+
+    <span class="k">public static</span> DAOAbstractFactory getFactory(<span class="k">int</span> tipo) {   <span class="c">// escolhe a fábrica concreta</span>
+        <span class="k">switch</span> (tipo) {
+            <span class="k">case</span> JDBC: <span class="k">return new</span> JDBCDAOFactory();
+            <span class="k">case</span> JPA:  <span class="k">return new</span> JPADAOFactory();
+            <span class="k">default</span>:   <span class="k">return null</span>;
+        }
+    }
+}
+<span class="k">public class</span> JDBCDAOFactory <span class="k">extends</span> DAOAbstractFactory {
+    <span class="k">public</span> ProdutoDAO createProdutoDAO() { <span class="k">return new</span> JDBCProdutoDAO(); }
+}
+<span class="k">public class</span> JPADAOFactory <span class="k">extends</span> DAOAbstractFactory {
+    <span class="k">public</span> ProdutoDAO createProdutoDAO() { <span class="k">return</span> JPAProdutoDAO.getInstance(); }  <span class="c">// na solução, o DAO JPA é Singleton</span>
+}
+
+<span class="c">// NA JANELA: de  new JDBCProdutoDAO()  para</span>
+ProdutoDAO produtoDAO =
+    DAOAbstractFactory.getFactory(jComboBox1.getSelectedIndex()).createProdutoDAO();</pre></div>
+  <div class="tw"><table>
+    <tr><th>Papel no padrão</th><th>Classe no crud</th></tr>
+    <tr><td>AbstractFactory</td><td><code>DAOAbstractFactory</code></td></tr>
+    <tr><td>ConcreteFactory</td><td><code>JDBCDAOFactory</code>, <code>JPADAOFactory</code></td></tr>
+    <tr><td>AbstractProduct</td><td><code>ProdutoDAO</code> (interface)</td></tr>
+    <tr><td>ConcreteProduct</td><td><code>JDBCProdutoDAO</code>, <code>JPAProdutoDAO</code></td></tr>
+    <tr><td>Client</td><td><code>CrudProduto</code> (janela)</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplo resolvido: o que acontece quando o usuário escolhe "JPA" e clica em salvar</b>
+    <p>1) <code>jComboBox1.getSelectedIndex()</code> devolve <b>1</b> (ordem das opções: JDBC, JPA). 2) <code>getFactory(1)</code> cai em <code>case JPA</code> e devolve uma <code>JPADAOFactory</code>. 3) <code>createProdutoDAO()</code> devolve a instância única de <code>JPAProdutoDAO</code>, cujo construtor criou <code>EntityManagerFactory</code> ("crudPU") e <code>EntityManager</code>. 4) <code>create(produto)</code> faz <code>begin → persist → commit</code>. 5) O provedor lê as anotações do VO e gera o <code>INSERT INTO produto…</code> sozinho. A janela não sabe qual tecnologia foi usada.</p>
+  </div>
+  <div class="ex"><b>Exemplo resolvido: quais padrões e princípios aparecem no crud final?</b>
+    <p><b>Singleton</b>: <code>DBConnection</code> e, na solução, <code>JPAProdutoDAO</code>. <b>Abstract Factory</b>: <code>DAOAbstractFactory</code> e as duas fábricas. <b>DAO e VO</b> (J2EE). <b>Observer</b>: os Listeners dos botões Swing. Princípios: <b>Pure fabrication</b>, <b>Indirection</b>, <b>Protected variants</b>, <b>Polymorphism</b>, <b>Dependency inversion</b>, <b>Open-closed</b>.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que o leitor faria</h4>
+    <dl>
+      <dt>Se só existe um DAO (produto), por que Abstract Factory e não Factory Method?</dt>
+      <dd>Porque o desenho prevê a <b>família</b>: quando o sistema tiver <code>ClienteDAO</code> e <code>FaturaDAO</code>, a fábrica abstrata ganha <code>createClienteDAO()</code> e <code>createFaturaDAO()</code>, e cada fábrica concreta entrega a família inteira na mesma tecnologia. É o que o slide chama de "criar famílias de objetos relacionados por meio de uma única interface".</dd>
+      <dt>O <code>switch</code> dentro de <code>getFactory</code> não fere o Open-closed?</dt>
+      <dd>Em parte, sim: uma terceira tecnologia exige mexer nesse <code>switch</code>. Mas a modificação fica <b>confinada a um ponto</b>; a janela e os DAOs existentes continuam fechados. É a "interface estável em volta do ponto de variação" de Protected variants.</dd>
+      <dt>Por que o <code>delete</code> do JPA faz <code>em.find()</code> antes de <code>em.remove()</code>?</dt>
+      <dd>O <code>remove</code> só aceita uma entidade <b>gerenciada</b> pelo EntityManager. O <code>produto</code> que veio da janela é um objeto comum; <code>find</code> busca a versão gerenciada pelo id, e é essa que se remove.</dd>
+      <dt>Por que as consultas não abrem transação?</dt>
+      <dd>Porque não alteram o estado persistente. Transação (begin/commit) é necessária para <code>persist</code>, <code>merge</code> e <code>remove</code>.</dd>
+      <dt>O roteiro e a solução diferem em algo?</dt>
+      <dd>Sim: no roteiro, <code>JPAProdutoDAO</code> tem construtor público; na solução do professor ele virou <b>Singleton</b> (construtor privado + <code>getInstance()</code>), para não recriar o <code>EntityManagerFactory</code> a cada operação, e ganhou <code>finalize()</code> fechando <code>em</code> e <code>emf</code>.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Explique o padrão Abstract Factory e dê um exemplo" → use o crud: fábrica abstrata, duas concretas, produto abstrato <code>ProdutoDAO</code>.</li>
+      <li>"Que vantagem a fábrica trouxe para a janela?" → isolar a criação do uso; trocar JDBC por JPA em runtime sem alterar as chamadas.</li>
+      <li>"Para que servem <code>@Entity</code>, <code>@Id</code>, <code>@Column</code>?"</li>
+      <li>"Identifique os padrões presentes no diagrama/código" (questão integradora).</li>
+    </ul>
+  </div>
+</section>
+
+<section id="codigo">
+  <h2>Java: colinha de código</h2>
+  <p class="note">Primeiro, "trecho → o que ele responde", agrupado por projeto. Depois, os scripts completos para treinar escrita à mão e a lista de erros frequentes.</p>
+
+  <h3>Projeto <code>designpatterns</code> (aulas 2 e 3): a assinatura de cada padrão</h3>
+  <div class="tw"><table>
+    <tr><th>Se você vir isto…</th><th>…é</th></tr>
+    <tr><td><code>private static X instance</code> + construtor <code>private</code> + <code>static getInstance()</code></td><td>Singleton</td></tr>
+    <tr><td>método que recebe parâmetro e faz <code>return new SubclasseA()</code> ou <code>new SubclasseB()</code></td><td>Factory Method</td></tr>
+    <tr><td>classe abstrata com <code>abstract createX()</code> + <code>static getFactory(tipo)</code></td><td>Abstract Factory</td></tr>
+    <tr><td><code>Director(builder)</code> chamando <code>buildA(); buildB(); buildC();</code> e <code>getProduct()</code></td><td>Builder</td></tr>
+    <tr><td><code>implements Cloneable</code> + <code>clone()</code></td><td>Prototype</td></tr>
+    <tr><td>classe que implementa a interface esperada e, dentro, converte e chama outra classe incompatível</td><td>Adapter</td></tr>
+    <tr><td>classe abstrata com atributo <code>protected Implementor impl</code> recebido no construtor</td><td>Bridge</td></tr>
+    <tr><td>classe que <code>implements Shape</code> e contém <code>List&lt;Shape&gt;</code></td><td>Composite</td></tr>
+    <tr><td><code>new A(new B(new C()))</code>, todos da mesma interface, cada um chamando <code>super.metodo()</code> e acrescentando algo</td><td>Decorator</td></tr>
+    <tr><td>classe com vários subsistemas como atributos e um método que chama todos</td><td>Façade</td></tr>
+    <tr><td>fábrica com <code>HashMap</code> estático: "se já existe, devolve o mesmo"</td><td>Flyweight</td></tr>
+    <tr><td>mesma interface do real + <code>if (permitido) real.metodo()</code></td><td>Proxy</td></tr>
+    <tr><td><code>setNextChain(next)</code> + "se não trato, <code>chain.dispense(...)</code>"</td><td>Chain of Responsibility</td></tr>
+    <tr><td>interface com <code>execute()</code> + invocador com <code>setCommand()</code></td><td>Command</td></tr>
+    <tr><td><code>hasNext()</code> / <code>next()</code></td><td>Iterator</td></tr>
+    <tr><td>colegas guardam referência a um objeto central e chamam <code>mediator.sendMessage(msg, this)</code></td><td>Mediator</td></tr>
+    <tr><td><code>save()</code> devolve objeto de estado + <code>undo</code>/<code>restore</code></td><td>Memento</td></tr>
+    <tr><td>lista de listeners + <code>addXListener()</code> + laço chamando o método de callback</td><td>Observer</td></tr>
+    <tr><td><code>context.setState(s); context.doAction()</code></td><td>State</td></tr>
+    <tr><td><code>objeto.fazer(new AlgoritmoX())</code> com interface comum</td><td>Strategy</td></tr>
+    <tr><td><code>public final void algoritmo()</code> chamando métodos <code>abstract</code></td><td>Template Method</td></tr>
+    <tr><td><code>element.accept(visitor)</code> → <code>visitor.visit(this)</code></td><td>Visitor</td></tr>
+  </table></div>
+
+  <h3>Projeto <code>crud</code> (aulas 2, 5 e 6)</h3>
+  <div class="tw"><table>
+    <tr><th>Trecho</th><th>O que responde</th></tr>
+    <tr><td><code>ResourceBundle.getBundle("crud/crud").getString("jdbc.url")</code></td><td>Lê os parâmetros de conexão do <code>crud.properties</code> (o "recurso de internacionalização" do item d da aula 2).</td></tr>
+    <tr><td><code>Class.forName(driver)</code> · <code>DriverManager.getConnection(url, user, pwd)</code> · <code>connection.createStatement()</code></td><td>Carrega o driver, abre a conexão e cria o Statement. Feito <b>uma vez</b>, no construtor privado do Singleton.</td></tr>
+    <tr><td><code>statement.executeUpdate(sql)</code></td><td>INSERT, UPDATE, DELETE.</td></tr>
+    <tr><td><code>statement.executeQuery(sql)</code> → <code>ResultSet</code> · <code>result.next()</code> · <code>result.getInt(1)</code></td><td>SELECT; percorre as linhas; colunas contam <b>a partir de 1</b>.</td></tr>
+    <tr><td><code>Persistence.createEntityManagerFactory("crudPU")</code> · <code>emf.createEntityManager()</code></td><td>Sobe o JPA lendo a Persistence Unit do <code>persistence.xml</code>.</td></tr>
+    <tr><td><code>em.getTransaction().begin()</code> … <code>commit()</code></td><td>Delimita a transação das escritas.</td></tr>
+    <tr><td><code>em.persist(o)</code> / <code>em.merge(o)</code> / <code>em.remove(em.find(C.class, id))</code></td><td>Create / Update / Delete.</td></tr>
+    <tr><td><code>em.createQuery("SELECT p FROM Produto p", Produto.class).getResultList()</code></td><td>Retrieve com JPQL.</td></tr>
+  </table></div>
+
+  <h3>Scripts completos</h3>
+  <details class="snip" open><summary>1 · Singleton de conexão (DBConnection, aula 2, condensado)</summary>
+<pre><span class="k">public class</span> DBConnection {
+    <span class="k">private static</span> DBConnection instance = <span class="k">null</span>;
+    <span class="k">private</span> Connection connection;
+    <span class="k">private</span> Statement statement;
+
+    <span class="k">private</span> DBConnection() <span class="k">throws</span> Exception {           <span class="c">// construtor privado abre a conexão</span>
+        ResourceBundle rb = ResourceBundle.getBundle(<span class="s">"crud/crud"</span>);
+        Class.forName(rb.getString(<span class="s">"jdbc.driver"</span>));
+        connection = DriverManager.getConnection(rb.getString(<span class="s">"jdbc.url"</span>),
+                rb.getString(<span class="s">"jdbc.user"</span>), rb.getString(<span class="s">"jdbc.password"</span>));
+        statement = connection.createStatement();
+    }
+    <span class="k">public static</span> DBConnection getInstance() <span class="k">throws</span> Exception {
+        <span class="k">if</span> (instance == <span class="k">null</span>) { instance = <span class="k">new</span> DBConnection(); }
+        <span class="k">return</span> instance;
+    }
+    <span class="k">public</span> Statement getStatement() { <span class="k">return</span> statement; }   <span class="c">// item e) do exercício</span>
+
+    @Override
+    <span class="k">protected void</span> finalize() <span class="k">throws</span> Throwable {        <span class="c">// item f): "destrutor"</span>
+        statement.close();
+        connection.close();
+    }
+}
+<span class="c">// crud.properties</span>
+<span class="c">// jdbc.driver=com.mysql.cj.jdbc.Driver</span>
+<span class="c">// jdbc.url=jdbc:mysql://localhost:3306/curso</span>
+<span class="c">// jdbc.user=aluno</span>
+<span class="c">// jdbc.password=segredo</span></pre></details>
+
+  <details class="snip"><summary>2 · VO com anotações JPA (aulas 5 e 6)</summary>
+<pre>@Entity
+@Table(name = <span class="s">"produto"</span>)
+<span class="k">public class</span> Produto <span class="k">implements</span> Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = <span class="s">"id_produto"</span>)
+    <span class="k">private</span> Integer idProduto;
+    @Column(name = <span class="s">"nome_produto"</span>, nullable = <span class="k">false</span>)
+    <span class="k">private</span> String nomeProduto;
+    @Column(name = <span class="s">"preco_produto"</span>, nullable = <span class="k">false</span>)
+    <span class="k">private</span> String precoProduto;
+    @Column(name = <span class="s">"quantidade_produto"</span>, nullable = <span class="k">false</span>)
+    <span class="k">private</span> Integer quantidadeProduto;
+
+    <span class="k">public</span> Produto() { }                                         <span class="c">// default (JPA exige)</span>
+    <span class="k">public</span> Produto(String nome, String preco, <span class="k">int</span> qtde) { ... }  <span class="c">// parcial, para inserir</span>
+    <span class="k">public</span> Produto(<span class="k">int</span> id, String nome, String preco, <span class="k">int</span> qtde) { ... }  <span class="c">// completo</span>
+    <span class="c">// getters e setters de todos os atributos</span>
+}</pre></details>
+
+  <details class="snip"><summary>3 · DAO com JPA (aula 6)</summary>
+<pre><span class="k">public class</span> JPAProdutoDAO <span class="k">implements</span> ProdutoDAO {
+    <span class="k">private</span> EntityManagerFactory emf;
+    <span class="k">private</span> EntityManager em;
+    <span class="k">public</span> JPAProdutoDAO() {
+        emf = Persistence.createEntityManagerFactory(<span class="s">"crudPU"</span>);
+        em = emf.createEntityManager();
+    }
+    <span class="k">public void</span> create(Produto produto) <span class="k">throws</span> Exception {
+        em.getTransaction().begin();
+        em.persist(produto);
+        em.getTransaction().commit();
+    }
+    <span class="k">public</span> List&lt;Produto&gt; retrieveAll() <span class="k">throws</span> Exception {
+        <span class="k">return</span> em.createQuery(<span class="s">"SELECT p FROM Produto p"</span>, Produto.<span class="k">class</span>).getResultList();
+    }
+    <span class="k">public</span> Produto retrieveById(<span class="k">int</span> idProduto) <span class="k">throws</span> Exception {
+        <span class="k">return</span> em.createQuery(<span class="s">"SELECT p FROM Produto p WHERE p.idProduto="</span> + idProduto,
+                Produto.<span class="k">class</span>).getSingleResult();
+    }
+    <span class="k">public void</span> update(Produto produto) <span class="k">throws</span> Exception {
+        em.getTransaction().begin();
+        em.merge(produto);
+        em.getTransaction().commit();
+    }
+    <span class="k">public void</span> delete(Produto produto) <span class="k">throws</span> Exception {
+        em.getTransaction().begin();
+        em.remove(em.find(Produto.<span class="k">class</span>, produto.getIdProduto()));
+        em.getTransaction().commit();
+    }
+}</pre></details>
+
+  <details class="snip"><summary>4 · Template Method, Strategy e Command em miniatura (para comparar)</summary>
+<pre><span class="c">// TEMPLATE METHOD: herança, esqueleto final, passos abstratos</span>
+<span class="k">public abstract class</span> HouseTemplate {
+    <span class="k">public final void</span> buildHouse() { buildFoundation(); buildPillars(); buildWalls(); buildWindows(); }
+    <span class="k">private void</span> buildFoundation() { ... }        <span class="c">// fixo</span>
+    <span class="k">public abstract void</span> buildPillars();          <span class="c">// varia na subclasse</span>
+    <span class="k">public abstract void</span> buildWalls();
+    <span class="k">private void</span> buildWindows() { ... }
+}
+<span class="c">// STRATEGY: composição, algoritmo inteiro passado como objeto</span>
+<span class="k">public interface</span> PaymentStrategy { <span class="k">void</span> pay(<span class="k">int</span> amount); }
+<span class="k">public void</span> pay(PaymentStrategy paymentMethod) { paymentMethod.pay(calculateTotal()); }
+cart.pay(<span class="k">new</span> PaypalStrategy(<span class="s">"myemail@example.com"</span>, <span class="s">"mypwd"</span>));   <span class="c">// itens 10 + 40 → "50 paid using Paypal."</span>
+
+<span class="c">// COMMAND: a ação vira objeto; o invocador não conhece o receptor</span>
+<span class="k">public interface</span> Command { <span class="k">void</span> execute(); }
+<span class="k">public class</span> LightOnCommand <span class="k">implements</span> Command {
+    Light light;
+    <span class="k">public</span> LightOnCommand(Light light) { <span class="k">this</span>.light = light; }
+    <span class="k">public void</span> execute() { light.switchOn(); }
+}
+control.setCommand(<span class="k">new</span> LightOnCommand(light));
+control.pressButton();                           <span class="c">// RemoteControl só chama command.execute()</span></pre></details>
+
+  <h3>Erros frequentes</h3>
+  <div class="tw"><table>
+    <tr><th>Erro</th><th>Sintoma</th><th>Correção</th></tr>
+    <tr><td>Construtor do Singleton <code>public</code></td><td>Qualquer um faz <code>new</code>: deixa de ser instância única.</td><td><code>private</code>.</td></tr>
+    <tr><td><code>getInstance()</code> ou <code>instance</code> sem <code>static</code></td><td>Não compila / não há como chamar sem objeto.</td><td>Ambos <code>static</code>.</td></tr>
+    <tr><td><code>void</code> no "construtor" (como no slide de DI)</td><td>Vira método comum; atributo injetado fica <code>null</code> → <code>NullPointerException</code>.</td><td>Construtor não tem tipo de retorno.</td></tr>
+    <tr><td>Escrita JPA sem <code>begin()</code>/<code>commit()</code></td><td>Nada é gravado, ou exceção de transação.</td><td>Envolver <code>persist</code>, <code>merge</code>, <code>remove</code>.</td></tr>
+    <tr><td>JPQL com nome de tabela/coluna (<code>FROM produto</code>, <code>id_produto</code>)</td><td>Erro de sintaxe da consulta.</td><td>Usar classe e atributo: <code>FROM Produto p</code>, <code>p.idProduto</code>.</td></tr>
+    <tr><td><code>em.remove(produto)</code> direto</td><td><code>IllegalArgumentException</code>: entidade não gerenciada.</td><td><code>em.remove(em.find(Produto.class, id))</code>.</td></tr>
+    <tr><td>Esquecer <code>&lt;class&gt;</code> no <code>persistence.xml</code> ou nome errado da PU</td><td>"Produto is not a known entity type" / "No Persistence provider for EntityManager named…".</td><td>"Include Entity Classes" e conferir <code>"crudPU"</code>.</td></tr>
+    <tr><td><code>result.getInt(0)</code></td><td><code>SQLException</code>: índice inválido.</td><td>Colunas do <code>ResultSet</code> começam em 1.</td></tr>
+    <tr><td>Driver MySQL fora das bibliotecas</td><td><code>ClassNotFoundException: com.mysql.cj.jdbc.Driver</code>.</td><td>Adicionar o conector à Library do projeto.</td></tr>
+    <tr><td>Ordem da ComboBox diferente das constantes</td><td>Escolhe "JPA" e roda JDBC.</td><td>Opções na ordem JDBC (0), JPA (1).</td></tr>
+  </table></div>
+</section>
+
+<section id="formulas">
+  <h2>Listas que caem (para decorar)</h2>
+  <p class="note">Esta disciplina não tem fórmulas: o equivalente são as <b>listas fechadas</b> que o professor mostrou. Aqui estão todas em uma página, só as que aparecem nos slides, com um exercício de classificação resolvido no final.</p>
+
+  <div class="two">
+    <div>
+      <h4>Arquitetura (aula 1)</h4>
+      <p><span class="formula">Arquitetura = {Elementos, Organização, Decisões}</span></p>
+      <p><b>Escalas de padrão (5):</b> arquitetura · análise · projeto · teste e idiomas · implementação</p>
+      <p><b>Elementos de um padrão GoF (4):</b> nome · problema · solução · consequências</p>
+      <p><b>Exemplos de estilos (8):</b> cliente-servidor · em camadas · baseado em componentes · baseado em regras · centrado em dados · orientado a eventos · orientado a serviços · objetos distribuídos</p>
+      <p><b>Elementos estáticos (3):</b> software · dados · hardware</p>
+      <p><b>Blackboard (3):</b> blackboard · base de conhecimento · controle</p>
+      <p><b>Middleware cliente-servidor (3):</b> procedimentos remotos · objetos remotos · serviços distribuídos</p>
+      <p><b>Uso de framework (3):</b> conjunto de ferramentas · denominador comum de arquiteturas · sistema que possui controle</p>
+    </div>
+    <div>
+      <h4>GoF (aulas 2 e 3) · 23 = 5 + 7 + 11</h4>
+      <p><b>Criação (5):</b> Singleton · Factory Method · Abstract Factory · Builder · Prototype</p>
+      <p><b>Estruturais (7):</b> Adapter · Bridge · Composite · Decorator · Façade · Flyweight · Proxy</p>
+      <p><b>Comportamentais (11):</b> Chain of Responsibility · Command · Interpreter · Iterator · Mediator · Memento · Observer · State · Strategy · Template Method · Visitor</p>
+      <p><b>Builder (4):</b> Builder · Concrete Builder · Director · Product</p>
+      <p><b>Autores (4):</b> Gamma · Helm · Johnson · Vlissides · livro de 1995</p>
+      <p class="note">Truque: os estruturais estão em ordem alfabética (A, B, C, D, F, F, P) e os comportamentais também (C, C, I, I, M, M, O, S, S, T, V). Decore os 5 de criação e os 7 estruturais; o que sobrar é comportamental.</p>
+    </div>
+    <div>
+      <h4>GRASP (9) · Larman, 1997</h4>
+      <p>Information expert · Creator · Controller · Indirection · Low coupling · High cohesion · Polymorphism · Protected variants · Pure fabrication</p>
+      <p><b>Creator (5 condições):</b> B contém A · agrega A · tem dados de inicialização · registra A · usa intensamente A</p>
+      <p><b>Acoplamento (4 formas):</b> atributo · obter instância · estender · implementar interface</p>
+      <p><b>Indirection →</b> Adapter, Façade, Observer</p>
+    </div>
+    <div>
+      <h4>SOLID (5) · Martin, 2000</h4>
+      <p><b>S</b>ingle-responsibility · <b>O</b>pen-closed · <b>L</b>iskov substitution · <b>I</b>nterface segregation · <b>D</b>ependency inversion</p>
+      <p><b>Liskov (contrato):</b> pré-condições não reforçadas · pós-condições não enfraquecidas · invariantes preservados · encapsulamento mantido</p>
+      <h4>MVC e persistência</h4>
+      <p><b>MVC:</b> Model = estado (dados) · View = apresentação (exibição) · Controller = fluxo de eventos (ações)</p>
+      <p><b>CRUD:</b> Create · Retrieve · Update · Delete</p>
+      <p><b>ORM:</b> tabela → VO (+ DAO) · coluna → atributo · 1:N → coleção no lado 1</p>
+    </div>
+  </div>
+
+  <h4>Exemplo resolvido: classifique em 30 segundos</h4>
+  <p>Lista: <i>Proxy, Memento, Builder, Bridge, Strategy, Prototype, Visitor, Flyweight</i>.</p>
+  <p>Criação: <b>Builder, Prototype</b> (estão entre os 5). Estruturais: <b>Proxy, Bridge, Flyweight</b> (estão entre os 7). O resto é comportamental: <b>Memento, Strategy, Visitor</b>. Teste de sanidade pelo significado: criação "fabrica" objetos; estrutural "monta/embrulha" objetos; comportamental descreve "quem faz o quê e quando".</p>
+</section>
+
+<section id="quiz">
+  <h2>Auto-teste · flashcards</h2>
+  <p class="note">Tente responder em voz alta antes de abrir. Se errar, volte ao módulo indicado entre colchetes.</p>
+  <div class="btnrow"><button type="button" onclick="document.querySelectorAll('.card').forEach(c=>c.open=false)">Fechar todas</button></div>
+  <div class="cards">
+    <details class="card"><summary>Qual a definição de arquitetura de Perry e Wolf?</summary><div class="a">Arquitetura = {Elementos, Organização, Decisões}: elementos arquiteturais (de dados, de processamento, de conexão) com alguma organização, definidos por decisões tomadas para satisfazer objetivos e restrições. [M1]</div></details>
+    <details class="card"><summary>O que é um padrão?</summary><div class="a">Template (receita) de solução para um problema recorrente, comprovadamente útil em um determinado contexto. É instanciado pela vinculação de valores a seus parâmetros. [M1]</div></details>
+    <details class="card"><summary>Padrão de arquitetura × estilo de arquitetura</summary><div class="a">Padrão: um template pronto para um problema arquitetural recorrente. Estilo: delimita o conjunto de templates (e de componentes/conectores) que podem ser escolhidos e impõe uniformidade à arquitetura. [M1]</div></details>
+    <details class="card"><summary>Os 4 elementos essenciais de um padrão de projeto</summary><div class="a">Nome, problema (contexto), solução (elementos e relacionamentos) e consequências (vantagens e desvantagens). [M1]</div></details>
+    <details class="card"><summary>Framework horizontal × vertical</summary><div class="a">Horizontal: generalista, flexível, funcionalidades que não são de negócio (toolkits gráficos). Vertical: domínio específico, alinhado ao negócio (aplicações estatísticas ou financeiras). [M1]</div></details>
+    <details class="card"><summary>Elementos estáticos × dinâmicos</summary><div class="a">Estáticos: as partes (software, dados, hardware) e como se relacionam. Dinâmicos: o comportamento em execução e como o sistema reage a estímulos internos e externos. [M1]</div></details>
+    <details class="card"><summary>Como os componentes se comunicam no estilo repositório?</summary><div class="a">Indiretamente, pelos dados centralizados: cada cliente opera independente, lendo ou modificando o repositório. [M2]</div></details>
+    <details class="card"><summary>O que o blackboard tem que o repositório não tem?</summary><div class="a">Um componente de controle que monitora o estado do blackboard e decide qual componente da base de conhecimento executa; a solução é incremental. [M2]</div></details>
+    <details class="card"><summary>Série de transformações em que a saída de um módulo alimenta o seguinte. Qual estilo?</summary><div class="a">Duto e filtro (pipe and filter); em linha única chama-se pipeline ou sequencial por lotes. Filtros são independentes e desconhecem os vizinhos. [M2]</div></details>
+    <details class="card"><summary>Cliente-servidor exige computadores diferentes?</summary><div class="a">Não: "pode ser implementada em um computador único". Geralmente é integrada por middleware (RPC, objetos remotos, serviços distribuídos). [M2]</div></details>
+    <details class="card"><summary>Quantos são os padrões GoF e como se dividem?</summary><div class="a">23: 5 de criação, 7 estruturais, 11 comportamentais. Livro de 1995, de Gamma, Helm, Johnson e Vlissides. [M3]</div></details>
+    <details class="card"><summary>Os três ingredientes de um Singleton em Java</summary><div class="a">Atributo <code>private static</code> da própria classe; construtor <code>private</code>; método <code>public static getInstance()</code> que cria só se for <code>null</code>. [M3]</div></details>
+    <details class="card"><summary>getInstance("First") e depois getInstance("Second"): o que getMessage() devolve na segunda?</summary><div class="a">"First". A instância já existe, o construtor não roda de novo e o novo parâmetro é ignorado. [M3]</div></details>
+    <details class="card"><summary>Factory Method × Abstract Factory</summary><div class="a">Factory Method: um método decide qual subclasse de um produto instanciar. Abstract Factory: uma interface de fábrica com várias ConcreteFactories, cada uma criando uma família de objetos relacionados; isola a criação do uso. [M3]</div></details>
+    <details class="card"><summary>Os 4 componentes do Builder</summary><div class="a">Builder (interface dos passos), Concrete Builder (monta as partes), Director (controla o algoritmo de construção), Product (o objeto complexo). [M3]</div></details>
+    <details class="card"><summary>Adapter × Façade</summary><div class="a">Adapter converte uma interface incompatível (código de terceiros) na que o cliente espera. Façade oferece uma interface nova, simplificada e de alto nível para um subsistema complexo. [M4]</div></details>
+    <details class="card"><summary>Proxy × Decorator</summary><div class="a">Ambos implementam a interface do objeto embrulhado. Proxy controla o acesso (intercepta, checa permissão, delega). Decorator acrescenta funcionalidade em tempo de execução, sem afetar outras instâncias. [M4]</div></details>
+    <details class="card"><summary>Qual padrão representa hierarquias em árvore tratando folha e composto igualmente?</summary><div class="a">Composite. Usado quando há definição recursiva: composites contêm componentes que podem ser composites. [M4]</div></details>
+    <details class="card"><summary>O que a Bridge desacopla, e como?</summary><div class="a">Desacopla uma abstração de sua implementação, por composição: a abstração mantém uma instância do Implementor (interface) e direciona as requisições ao ConcreteImplementor. Ex.: Shape contém Color. [M4]</div></details>
+    <details class="card"><summary>Observer: quem são Sujeito e Observer no exercício da aula 3?</summary><div class="a">Sujeito: <code>Origem</code> (mantém a lista, <code>addMessageListener</code>, itera e chama <code>messageArrived</code>). Observers: instâncias de <code>Ouvinte</code>, que implementam <code>MessageEventListener</code>. O evento é <code>MessageEvent extends EventObject</code>. [M5]</div></details>
+    <details class="card"><summary>Por que o método template costuma ser final?</summary><div class="a">Para evitar que subclasses o reimplementem e mudem o algoritmo base; elas só implementam os passos específicos. [M5]</div></details>
+    <details class="card"><summary>Strategy × State</summary><div class="a">Mesma estrutura. Strategy: algoritmos alternáveis escolhidos pelo cliente. State: o comportamento muda conforme o estado atual do objeto, guardado em um Context. [M5]</div></details>
+    <details class="card"><summary>Qual a limitação do Visitor?</summary><div class="a">Adicionar novas classes à coleção normalmente obriga a modificar todas as classes Visitor. Em troca, permite criar novas operações sem alterar as classes visitadas. [M5]</div></details>
+    <details class="card"><summary>Quais alternativas têm só padrões comportamentais? a) Command, Observer, Iterator · b) Singleton, Visitor, State</summary><div class="a">Só a). Em b), Singleton é de criação. [M5]</div></details>
+    <details class="card"><summary>Classe enorme com funcionalidades não relacionadas: qual GRASP foi ferido?</summary><div class="a">High cohesion: as responsabilidades do elemento devem ser relacionadas e focadas (poucas tarefas, poucos métodos, altamente relacionados). [M6]</div></details>
+    <details class="card"><summary>Quais padrões GoF são especializações de Indirection?</summary><div class="a">Adapter, Façade e Observer. [M6]</div></details>
+    <details class="card"><summary>O que é Pure fabrication? Dê o exemplo do slide.</summary><div class="a">Atribuir responsabilidades acessórias (não do domínio) a classes artificiais, preservando alta coesão, baixo acoplamento e reuso. Exemplo: classes que realizam persistência em um BD. [M6]</div></details>
+    <details class="card"><summary>Enuncie o Dependency inversion principle</summary><div class="a">Módulos de alto nível não devem depender de módulos de baixo nível; ambos devem depender de abstrações. Abstrações não dependem de detalhes; detalhes dependem de abstrações. Permite acoplamento fraco. [M7]</div></details>
+    <details class="card"><summary>As restrições de contrato de Liskov</summary><div class="a">No subtipo: pré-condições não podem ser reforçadas, pós-condições não podem ser enfraquecidas, invariantes e encapsulamento devem ser preservados. [M7]</div></details>
+    <details class="card"><summary>IoC × DI</summary><div class="a">IoC: inverte o fluxo de controle; o container chama o código da aplicação quando oportuno. DI: a estrutura passa a dependência (serviço) ao cliente, em vez de o cliente criá-la. DI é IoC aplicada à obtenção de dependências. [M8]</div></details>
+    <details class="card"><summary>As três partes do MVC e o padrão GoF que ele usa</summary><div class="a">Model = estado/dados; View = apresentação; Controller = fluxo de eventos/ações. Usa Observer para o Model notificar alterações à View. Vantagem: desacopla modelo e exibição, permitindo várias Views. [M8]</div></details>
+    <details class="card"><summary>Modelo 1 × Modelo 2 (Web em Java)</summary><div class="a">Modelo 1: o frontend (JSP) processa a requisição, define o fluxo e constrói a página. Modelo 2: o backend (servlet) processa e define o fluxo; o frontend (JSP) só constrói a página. [M8]</div></details>
+    <details class="card"><summary>DAO × VO</summary><div class="a">DAO: implementa toda a lógica de acesso ao BD (CRUD) e cria os VOs. VO (Transfer Object): JavaBean que descreve uma entidade de dados, com atributos privados, get/set e Serializable. [M9]</div></details>
+    <details class="card"><summary>Como um 1:N do banco aparece nos objetos?</summary><div class="a">No banco, a PK do lado 1 vai como FK para o lado N. Nos objetos, a entidade do lado 1 mantém uma coleção das entidades do lado N (Setor tem List&lt;Empregado&gt;). [M9]</div></details>
+    <details class="card"><summary>Para que servem @Entity, @Id e @Column?</summary><div class="a">@Entity marca a classe como entidade persistente; @Id indica a chave primária; @Column liga o atributo à coluna (nome, nullable). Automatizam o mapeamento objeto-relacional. [M10]</div></details>
+    <details class="card"><summary>O que faz DAOAbstractFactory.getFactory(1).createProdutoDAO()?</summary><div class="a">getFactory(1) devolve a JPADAOFactory (JPA = 1); createProdutoDAO() devolve um JPAProdutoDAO, visto pela janela apenas como ProdutoDAO. [M10]</div></details>
+  </div>
+</section>
+
+<section id="ementa">
+  <h2>Lacunas do material e o que NÃO cai</h2>
+
+  <h3>Recorte usado neste guia</h3>
+  <div class="tw"><table>
+    <tr><th>Classe</th><th>Temas</th><th>Evidência</th></tr>
+    <tr><td><b>Núcleo</b></td><td>23 padrões GoF (módulos 3 a 5) · GRASP, SOLID, IoC, DI, MVC (6 a 8)</td><td>Slide + código ou exercício + sua anotação ("cai na prova", "conteúdo pesado").</td></tr>
+    <tr><td><b>Núcleo prático</b></td><td>Singleton, DAO/VO, Abstract Factory + JPA no crud (3, 9, 10)</td><td>Slide + exercício com solução. Sem anotação sua para as aulas 5 e 6.</td></tr>
+    <tr><td><b>Conceitual</b></td><td>Definições de arquitetura, estilos (1 e 2)</td><td>Slide + 2 exercícios dissertativos + anotação.</td></tr>
+    <tr><td><b>Lacuna</b></td><td>Teoria de JPA/Hibernate</td><td>A aula 6 não tem slides; o módulo 10 foi construído a partir do roteiro e do código da solução.</td></tr>
+    <tr><td><b>Fora</b></td><td>Aulas 7 a 10 e o trabalho</td><td>Datas posteriores à P1 (28/09 em diante).</td></tr>
+  </table></div>
+
+  <h3>O que eu não tive e você deve conferir</h3>
+  <ul class="tight">
+    <li><b>Plano de ensino / ementa oficial:</b> não está na pasta. Só há a linha da sua anotação ("Arquitetura de softwares orientados a objetos. Padrões de projetos"). O recorte foi feito pelas datas: P1 em 21/09, última aula dada em 14/09 (aula 6).</li>
+    <li><b>Formato da prova:</b> não consta em nenhum material. Os exercícios sugerem dissertativas curtas (definição + exemplo + vantagem), cenário → padrão/princípio, e múltipla escolha estilo concurso. Trecho de código para escrever ou completar é possível, principalmente Singleton e DI. <span class="inf">inferência</span></li>
+    <li><b>Slides que são só figura:</b> os diagramas UML dos padrões (aulas 2 e 3), "Framework × padrão × arquitetura", "Decisões arquiteturais", os exemplos de repositório, duto e filtro, camadas e cliente-servidor (aula 1), o diagrama do MVC e o DAOFactory (aulas 4 e 5) não têm texto extraível e não puderam ser lidos nesta máquina. Compensei os de GoF com o código-fonte do projeto <code>designpatterns</code>, lido por inteiro. <b>Abra os PDFs e olhe essas figuras pelo menos uma vez</b>, em especial os exemplos da aula 1.</li>
+    <li><b>Anotações das aulas 5 e 6:</b> não há. Se o professor deu alguma ênfase oral nessas aulas, ela não está refletida aqui.</li>
+    <li><b>Anotação da aula 3:</b> a tabela está cortada na exportação (aparecem só Chain of Responsibility, Mediator, Strategy e o início de "Command" e "Observer"). Tratei esses cinco como os destacados pelo professor, junto com Singleton, Builder, Bridge e Façade da aula 2.</li>
+  </ul>
+
+  <h3>Ferramentas citadas na apresentação (baixa probabilidade, uma linha cada)</h3>
+  <div class="tw"><table>
+    <tr><th>Ferramenta</th><th>Definição do slide</th></tr>
+    <tr><td>Hibernate (com JPA)</td><td>Framework de persistência de dados; realiza o mapeamento objeto-relacional; configurações em XML ou anotações; usado de forma transparente pelo JPA.</td></tr>
+    <tr><td>Spring</td><td>Framework Java que permite <b>inversão de controle</b>; realiza a <b>injeção de dependências</b>; muito usado para Web (MVC, Rest-WS).</td></tr>
+    <tr><td>Spring Boot</td><td>Framework para criação de projetos Spring: aplicações autônomas com Tomcat embarcado, configuração automática, POMs para Maven e Gradle.</td></tr>
+    <tr><td>Maven</td><td>Automatiza a construção de projetos; obtém dependências automaticamente; configuração em arquivo XML (POM).</td></tr>
+    <tr><td>Vue.js</td><td>Framework JavaScript progressivo para interfaces de usuário (view layer); suporta Single-Page Applications.</td></tr>
+  </table></div>
+
+  <h3>Fora da P1 (servem para o trabalho, entregas em 16 e 23/11)</h3>
+  <ul class="tight">
+    <li>Aula 7 (28/09): arquiteturas e sistemas Web, programação para Web, tecnologias client side.</li>
+    <li>Aula 8 (05 e 19/10): framework backend Spring e Spring Boot.</li>
+    <li>Aula 9 (26/10): Vue.js.</li>
+    <li>Aula 10 (09/11): integração do frontend Vue.js com backend Spring Boot.</li>
+    <li>Trabalho (30% da nota): aplicação Web frontend + backend com microsserviços REST, Spring Boot, JPA/Hibernate sobre MySQL/MariaDB, login e senha, pelo menos duas tabelas com relacionamento 1:N. As duas tarefas valem 10% cada.</li>
+  </ul>
+  <p class="note">Sugestão: se conseguir falar com o professor ou com colegas antes da prova, confirme o formato (tem código? pode consultar?) e se a aula 6 entra.</p>
+</section>
+</main>
+</div>
+
+<script>
+  // realça o item do sumário conforme a rolagem
+  const links=[...document.querySelectorAll('nav a')];
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.toggle('on', l.getAttribute('href')==='#'+e.target.id)); }});
+  },{rootMargin:'-30% 0px -60% 0px'});
+  secs.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
