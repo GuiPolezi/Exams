@@ -50,4 +50,5 @@ Termine pelas **flashcards**: se errar uma, o rótulo `[M#]` indica o módulo pa
 
 | Disciplina | Prova | Guia | Temas |
 |---|---|---|---|
-| Aprendizado de Máquina | P1 | `aprendizado-de-maquina/P1/guia_estudo_AM_P1.html` | KDD, dados, exploração, pré-processamento, PCA, KNN, associação |
+| Aprendizado de Máquina | P1 | `Aprendizado Máquina/P1.html` | KDD, dados, exploração, pré-processamento, PCA, KNN, associação |
+| Redes de Computadores II | P1 | `Redes de Computadores 2/P1.html` | Camada de transporte, portas, UDP, TCP, controle de fluxo e congestionamento, Telnet/SSH/FTP, DNS, SMTP/MIME/POP3/IMAP, HTTP e Proxy |

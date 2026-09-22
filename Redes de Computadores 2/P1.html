@@ -1,0 +1,1952 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Redes de Computadores II — Guia de estudo para a P1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDF2F5;
+    --ink:#11242F;
+    --ink-soft:#4B6473;
+    --deep:#0E5C76;
+    --deep-dk:#0A3B4C;
+    --amber:#B07A12;
+    --amber-bg:#FAF2DD;
+    --alert:#B23A48;
+    --alert-bg:#FAE9EB;
+    --green:#1E7A5E;
+    --green-bg:#E3F2EC;
+    --line:#CFDAE1;
+    --white:#FFFFFF;
+    --mono:'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+    --disp:'Space Grotesk', 'Inter', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55}
+  a{color:var(--deep)}
+  code,pre{font-family:var(--mono);font-size:.85em}
+  pre{background:#08222E;color:#DCE9EF;padding:14px 16px;border-radius:6px;overflow:auto;line-height:1.5;margin:10px 0 0}
+  pre .c{color:#7CA0B0}
+  pre .k{color:#F0C27B}
+  pre .s{color:#8FD9B6}
+  pre .p{color:#7FD4E8}
+
+  .layout{display:grid;grid-template-columns:266px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--deep-dk);color:#D5E4EB;padding:28px 22px}
+  nav h1{font-family:var(--disp);font-size:16px;font-weight:700;margin:0 0 4px;color:#fff;letter-spacing:.01em}
+  nav .sub{font-size:12.5px;color:#8FAEBC;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav li{margin:0}
+  nav a{display:block;color:#BFD3DC;text-decoration:none;font-size:13.5px;padding:7px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.08);color:#fff;outline:none}
+  nav a.on{border-left-color:#F0C27B;color:#fff;background:rgba(255,255,255,.07)}
+  nav .grp{font-family:var(--disp);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#6F94A4;margin:18px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12px;color:#8FAEBC;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+  nav .legend div{margin:5px 0}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:middle}
+
+  main{padding:0 0 80px}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-family:var(--disp);font-size:34px;line-height:1.15;margin:0 0 14px;font-weight:600;max-width:26ch;letter-spacing:-.01em}
+  .hero p{max-width:70ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:30px;flex-wrap:wrap;margin-top:24px}
+  .hero .facts div{font-size:13.5px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-family:var(--disp);font-size:24px;color:var(--deep);font-weight:600}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1120px}
+  section h2{font-family:var(--disp);font-size:26px;font-weight:600;margin:0 0 6px;letter-spacing:-.01em}
+  section h3{font-family:var(--disp);font-size:18px;font-weight:600;margin:28px 0 8px;color:var(--deep)}
+  section h4{font-size:15px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--amber);background:var(--amber-bg);padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why b{display:block;margin-bottom:2px;color:#8A5E0A}
+  .prova{border-left:4px solid var(--alert);background:var(--alert-bg);padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova b{display:block;margin-bottom:2px;color:var(--alert)}
+  .code{border-left:4px solid var(--green);background:var(--green-bg);padding:12px 16px;border-radius:0 6px 6px 0;margin:14px 0;max-width:900px}
+  .code b{display:block;margin-bottom:2px;color:var(--green)}
+  .note{font-size:14px;color:var(--ink-soft);max-width:72ch}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 12px;max-width:860px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--deep);font-family:var(--disp)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:13px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15px;max-width:72ch}
+  .ex{background:#F6F9FB;border:1px dashed #A9BDC8;border-radius:6px;padding:12px 16px;max-width:860px;margin:12px 0;font-size:15px}
+  .ex b{display:block;margin-bottom:4px}
+  .ex ol,.ex ul{margin:6px 0;padding-left:22px}
+  .ex li{margin:3px 0}
+
+  table{border-collapse:collapse;width:100%;max-width:900px;margin:10px 0 6px;font-size:14.5px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#DFE8ED;font-weight:600}
+  td code{background:#E8EEF2;padding:1px 5px;border-radius:3px;color:var(--ink)}
+
+  ul.tight{margin:6px 0 10px;padding-left:20px;max-width:72ch}
+  ul.tight li{margin:3px 0}
+  ol.tight{margin:6px 0 10px;padding-left:22px;max-width:72ch}
+  ol.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 6px 4px 0}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:860px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--disp);font-size:21px;color:var(--amber);font-weight:600;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft)}
+
+  .map{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto}
+  .map svg{width:100%;height:auto;min-width:820px;display:block}
+  .map text{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+  .map .root{font-family:var(--disp);font-size:14px;font-weight:600;fill:#fff}
+  .map .b1{font-family:var(--disp);font-weight:600;fill:var(--deep)}
+  .map line{stroke:#A9BDC8;stroke-width:1.4}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--amber);font-size:18px}
+  .card[open] summary::after{content:"\2013"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:14.5px;color:var(--ink-soft)}
+  .card .tag{font-family:var(--mono);font-size:11px;color:var(--deep);background:#E1ECF1;padding:1px 6px;border-radius:3px;margin-right:6px}
+  details.snip{margin:10px 0}
+  details.snip summary{cursor:pointer;font-weight:500;color:var(--green)}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14px;background:var(--deep);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 20px}
+    .hero h2{font-size:27px}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Redes de Computadores II</h1>
+  <div class="sub">Guia de estudo · P1 · EEP · Prof. José Martins Junior</div>
+  <ol>
+    <li><a href="#mapa">Mapa mental geral</a></li>
+    <li><a href="#ordem">Ordem de estudo</a></li>
+    <li class="grp">Transporte</li>
+    <li><a href="#m1">1 · Transporte: papel e primitivas</a></li>
+    <li><a href="#m2">2 · Portas e multiplexação</a></li>
+    <li><a href="#m3">3 · UDP</a></li>
+    <li><a href="#m4">4 · TCP: conexão, header e flags</a></li>
+    <li><a href="#m5">5 · Confiabilidade e controle de fluxo</a></li>
+    <li><a href="#m6">6 · Congestionamento e RED</a></li>
+    <li class="grp">Aplicação</li>
+    <li><a href="#m7">7 · Telnet, SSH e FTP</a></li>
+    <li><a href="#m8">8 · DNS</a></li>
+    <li><a href="#m9">9 · Correio: SMTP, MIME, POP3, IMAP</a></li>
+    <li><a href="#m10">10 · Web: HTTP, URL e Proxy</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#lab">Laboratório: colinha de comandos</a></li>
+    <li><a href="#numeros">Números, portas e RFCs</a></li>
+    <li><a href="#quiz">Auto-teste (flashcards)</a></li>
+    <li><a href="#ementa">Lacunas e o que NÃO cai</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--amber)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--alert)"></span>Provável na prova</div>
+    <div><span style="background:var(--green)"></span>Comando / código</div>
+    <div><span style="background:#A9BDC8"></span>Exemplo resolvido</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <h2>De um número de 16 bits até a Web inteira.</h2>
+  <p>Todo o conteúdo da P1 cabe em uma frase: <b>a camada de transporte inventa a porta, e a camada de aplicação gasta esse endereço construindo serviços</b>. Primeiro você aprende como duas aplicações se acham e conversam com (TCP) ou sem (UDP) garantia; depois percorre, um a um, os serviços clássicos que rodam em cima disso — terminal remoto, arquivos, nomes, correio e Web.</p>
+  <p>Montado a partir dos slides das aulas 1 a 6, dos quatro roteiros de prática em Debian, das quatro listas de exercícios do professor e das suas anotações de aula.</p>
+  <div class="facts">
+    <div><b>10</b>módulos de conteúdo</div>
+    <div><b>30</b>exercícios do professor respondidos</div>
+    <div><b>4</b>práticas em VM Debian</div>
+    <div><b>35%</b>peso da P1 na média</div>
+  </div>
+</div>
+
+<section id="mapa">
+  <h2>Mapa mental geral</h2>
+  <p class="note">Leia de cima para baixo: é a pilha subindo. Os dois primeiros ramos são a camada de transporte; os três seguintes são tudo o que roda em cima dela.</p>
+  <div class="map">
+  <svg viewBox="0 0 1060 580" role="img" aria-label="Mapa mental de Redes de Computadores II, P1">
+    <rect x="16" y="250" width="160" height="76" rx="8" fill="#0E5C76"></rect>
+    <text class="root" x="96" y="278" text-anchor="middle">Redes de</text>
+    <text class="root" x="96" y="297" text-anchor="middle">Computadores II</text>
+    <text x="96" y="316" text-anchor="middle" style="font-size:11px;fill:#9FC6D4">P1</text>
+    <g>
+      <line x1="176" y1="288" x2="252" y2="62"></line>
+      <line x1="176" y1="288" x2="252" y2="176"></line>
+      <line x1="176" y1="288" x2="252" y2="290"></line>
+      <line x1="176" y1="288" x2="252" y2="404"></line>
+      <line x1="176" y1="288" x2="252" y2="518"></line>
+    </g>
+
+    <text class="b1" x="257" y="66">Transporte: o alicerce</text>
+    <line x1="257" y1="72" x2="468" y2="72"></line>
+    <text x="478" y="54">Visão fim-a-fim · TPDU vira pacote, que vira quadro</text>
+    <text x="478" y="72">Primitivas: LISTEN, CONNECT, SEND, RECEIVE, DISCONNECT</text>
+    <text x="478" y="90">Cliente (ativo/mestre) × servidor (passivo/escravo)</text>
+    <text x="478" y="108">Porta de 16 bits · socket = (IP, porta) · multiplexação</text>
+
+    <text class="b1" x="257" y="180">UDP × TCP</text>
+    <line x1="257" y1="186" x2="468" y2="186"></line>
+    <text x="478" y="168">UDP (RFC 768): header de 8 bytes, sem conexão, não confiável</text>
+    <text x="478" y="186">UDP serve RPC, RTP e broadcast local</text>
+    <text x="478" y="204">TCP (RFC 793): stream, orientado à conexão, confiável</text>
+    <text x="478" y="222">Flags: CWR ECE URG ACK PSH RST SYN FIN</text>
+
+    <text class="b1" x="257" y="294">Confiabilidade e controle</text>
+    <line x1="257" y1="300" x2="468" y2="300"></line>
+    <text x="478" y="282">Three-way handshake: SYN · SYN+ACK · ACK</text>
+    <text x="478" y="300">Confirmação positiva com retransmissão · RTT e RTO</text>
+    <text x="478" y="318">Controle de fluxo: janela deslizante · síndrome da janela boba</text>
+    <text x="478" y="336">Controle de congestionamento: janela de congestão · RED</text>
+
+    <text class="b1" x="257" y="408">Aplicação: acesso e nomes</text>
+    <line x1="257" y1="414" x2="468" y2="414"></line>
+    <text x="478" y="396">Telnet (23): NVT em texto plano, vulnerável a sniffers</text>
+    <text x="478" y="414">SSH (22): RSA assimétrico + chave de sessão simétrica</text>
+    <text x="478" y="432">FTP (21 controle / 20 dados): modo ativo × passivo</text>
+    <text x="478" y="450">DNS (53): zonas de autoridade · A, MX, NS, CNAME, PTR, SOA</text>
+
+    <text class="b1" x="257" y="522">Aplicação: conteúdo</text>
+    <line x1="257" y1="528" x2="468" y2="528"></line>
+    <text x="478" y="510">SMTP (25): MTA, registros MX, HELO / MAIL FROM / RCPT TO / DATA</text>
+    <text x="478" y="528">MIME: anexo binário codificado em ASCII (RFCs 2045 a 2049)</text>
+    <text x="478" y="546">POP3 (110) baixa e apaga × IMAP (143) mantém estado no servidor</text>
+    <text x="478" y="564">HTTP (80): URL, GET/PUT/POST · Proxy e cache (Squid, 3128)</text>
+  </svg>
+  </div>
+</section>
+
+<section id="ordem">
+  <h2>Ordem de estudo</h2>
+  <p>Os módulos estão em ordem de dependência: cada um usa o vocabulário do anterior. Se o tempo for curto, os passos 1 a 3 valem mais, porque as questões de aplicação (DNS, SMTP, HTTP) sempre voltam a falar de porta, conexão TCP e papel cliente-servidor.</p>
+  <ol class="steps">
+    <li><b>Módulos 1 e 2 — transporte e portas · ~45 min</b><small>É o vocabulário de toda a prova. Sem "porta", "socket", "multiplexação" e "cliente-servidor" você não consegue nem ler o enunciado das questões de aplicação.</small></li>
+    <li><b>Módulos 3 e 4 — UDP e TCP · ~50 min</b><small>Os dois headers e a tabela comparativa. Metade dos exercícios das aulas 1 e 2 é "escolha TCP ou UDP e justifique"; a justificativa precisa citar campo do header ou característica do serviço.</small></li>
+    <li><b>Módulos 5 e 6 — confiabilidade e congestionamento · ~50 min</b><small>Aqui estão as únicas contas da prova (RTT ponderado e RTO) e a distinção mais cobrada da matéria: controle de fluxo × controle de congestionamento.</small></li>
+    <li><b>Módulo 7 — Telnet, SSH e FTP · ~30 min</b><small>Serviços mais antigos e mais simples. O par "Telnet é inseguro / o SSH resolveu assim" e o par "FTP ativo × passivo" são perguntas quase certas — as duas já apareceram na lista da aula 4.</small></li>
+    <li><b>Módulo 8 — DNS · ~35 min</b><small>O professor deixou um exercício explícito de resolução iterativa com um FQDN de quatro níveis. Treine desenhar essa sequência de setas em papel.</small></li>
+    <li><b>Módulos 9 e 10 — correio e Web · ~45 min</b><small>SMTP/MIME/POP3/IMAP e HTTP/proxy. Muitas siglas, pouca teoria nova: estude pela tabela de portas e pelos diálogos de comando das práticas.</small></li>
+    <li><b>Laboratório e números · ~20 min</b><small>Comandos das quatro práticas e a tabela de portas/RFCs. Barato de decorar e caro de errar.</small></li>
+    <li><b>Flashcards · ~25 min</b><small>Feche o guia e responda em voz alta. Cada cartão tem o rótulo do módulo para você saber onde voltar.</small></li>
+  </ol>
+</section>
+
+<section id="m1">
+  <h2>1 · Camada de transporte: papel e primitivas</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  As três primeiras questões de qualquer prova desta matéria usam o mesmo vocabulário: "fim-a-fim", "TPDU", "orientado à conexão", "confiável", "cliente" e "servidor". Este módulo é o dicionário. Ele também responde sozinho a pergunta clássica "que vantagem o TCP oferece por ser orientado à conexão?".</div>
+
+  <h3>O que a camada de transporte faz</h3>
+  <p>É a <b>visão fim-a-fim da comunicação entre duas aplicações em rede</b>. As camadas abaixo levam bits de máquina a máquina; a de transporte leva dados de <i>aplicação a aplicação</i>. Na arquitetura da Internet ela assume dois papéis:</p>
+  <ul class="tight">
+    <li><b>Identificação precisa e não-ambígua de cada aplicação</b> — a porta, que é o "endereço de transporte" da aplicação dentro do host.</li>
+    <li><b>Entrega de mensagens entre cada par de aplicações</b>, de acordo com alguns parâmetros de qualidade de serviço.</li>
+  </ul>
+  <p>Ela é a <b>quarta camada do modelo ISO/OSI</b> e a <b>terceira camada do modelo TCP/IP</b>. A interface de acesso aos seus serviços é o conjunto de <i>sockets</i> — nas suas anotações: <b>SAP (Service Access Point) = sockets</b>.</p>
+
+  <h3>Encapsulamento: quem envelopa quem</h3>
+  <p>Uma <b>TPDU</b> (Transport Data Unit) é encapsulada em um <b>pacote</b> na camada de rede, que por sua vez é encapsulado em um <b>quadro</b> na camada de enlace. Decore essa cadeia de três nomes na ordem: se a prova pedir "o que acontece com um segmento TCP ao descer a pilha", a resposta é exatamente isso.</p>
+
+  <h3>Os dois eixos que qualificam um serviço de transporte</h3>
+  <table>
+    <thead><tr><th>Eixo</th><th>Opções</th><th>O que significa</th><th>Quem faz na Internet</th></tr></thead>
+    <tbody>
+      <tr><td><b>Confiabilidade</b></td><td>confiável × não confiável</td><td>Confirmação, retransmissão e não duplicação dos dados transmitidos entre as aplicações</td><td>TCP é confiável; UDP não é</td></tr>
+      <tr><td><b>Conexão</b></td><td>orientado à conexão × não orientado</td><td>Estabelecimento de uma conexão que representa um "circuito virtual fim-a-fim", pelo qual os dados são transmitidos ordenadamente, dando a ideia de um fluxo contínuo (<i>stream</i>)</td><td>TCP é orientado à conexão; UDP é <i>connectionless</i></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Os dois eixos são independentes em teoria, mas a Internet só implementa duas das quatro combinações: TCP (conexão + confiável) e UDP (sem conexão + não confiável).</p>
+
+  <h3>As cinco primitivas de serviço</h3>
+  <table>
+    <thead><tr><th>Primitiva</th><th>Quem chama</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><code>LISTEN</code></td><td>servidor</td><td>Coloca a entidade de transporte em estado de atenção, na espera por conexões de outras aplicações</td></tr>
+      <tr><td><code>CONNECT</code></td><td>cliente</td><td>Com uma mensagem de requisição de conexão (CONNECTION REQUEST), solicita o estabelecimento de uma conexão com outra aplicação que esteja em estado LISTENING</td></tr>
+      <tr><td><code>SEND</code></td><td>ambos</td><td>Permite à aplicação enviar dados (DATA) para serem transmitidos pela camada de transporte</td></tr>
+      <tr><td><code>RECEIVE</code></td><td>ambos</td><td>A aplicação realiza uma <b>espera bloqueada</b> até que um pacote de dados chegue</td></tr>
+      <tr><td><code>DISCONNECT</code></td><td>normalmente o cliente</td><td>Solicita o encerramento da conexão (DISCONNECT REQUEST)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido — a sequência que o professor desenhou na lousa</b>
+  <p style="margin:6px 0">Traduzindo o diagrama da aula 3 para a ordem temporal dos eventos:</p>
+  <ol>
+    <li>Servidor: <code>LISTEN(port)</code> — fica passivo, aguardando.</li>
+    <li>Cliente: <code>CONNECT</code> — dispara a requisição de conexão.</li>
+    <li>Servidor decide: <b>ACCEPT</b> (aceita) ou <b>REJECT</b> (rejeita, devolvendo RST).</li>
+    <li>Se aceitou: cliente <code>WRITE</code> → servidor <code>READ</code>, e o servidor devolve um <b>ACK</b>.</li>
+    <li>Depois inverte: servidor <code>WRITE</code> → cliente <code>READ</code>, com <b>ACK</b> de volta. É o full-duplex.</li>
+    <li>Um dos lados chama <code>DISCONNECT</code> (o correto é partir do cliente).</li>
+  </ol>
+  <p style="margin:6px 0 0">Repare que <code>ACCEPT</code> e <code>REJECT</code> não estão na lista de cinco primitivas do slide: são o desdobramento do que a entidade de transporte faz <i>dentro</i> do estado LISTENING.</p>
+  </div>
+
+  <h3>Paradigma cliente-servidor</h3>
+  <p>As aplicações em rede relacionam-se em pares, e <b>cada relação descreve um serviço em rede</b>. Para cada tipo de serviço é descrito um protocolo de aplicação. Exemplos de serviços bem conhecidos citados no slide: transferência de arquivos, correio eletrônico e emulação de terminal remoto.</p>
+  <table>
+    <thead><tr><th></th><th>Aplicação servidora</th><th>Aplicação cliente</th></tr></thead>
+    <tbody>
+      <tr><td><b>Papel</b></td><td>Passivo — aguarda a solicitação de conexões e serviços de outras aplicações</td><td>Ativo — solicita as conexões e serviços</td></tr>
+      <tr><td><b>Outro nome</b></td><td>escrava</td><td>mestre</td></tr>
+      <tr><td><b>Comportamento geral</b></td><td>1. Aguarda a mensagem com requisição (que pode conter dados)<br>2. Executa o serviço solicitado<br>3. Envia a mensagem de resposta (que pode conter dados)</td><td>1. Envia mensagem de requisição ao servidor<br>2. Aguarda o retorno da mensagem com a resposta</td></tr>
+    </tbody>
+  </table>
+
+  <h4>As quatro possibilidades de interação (todas caem em pergunta de cenário)</h4>
+  <ol class="tight">
+    <li><b>Um cliente pode acessar diversos serviços distintos.</b> Ex.: um browser acessa páginas Web (HTTP) e arquivos (FTP).</li>
+    <li><b>Um cliente pode acessar vários servidores de um mesmo serviço.</b> Ex.: um browser obtém elementos de vários servidores Web.</li>
+    <li><b>Servidores podem se tornar clientes de outros servidores.</b> Ex.: MTA (servidor de e-mail) e DNS.</li>
+    <li><b>Um host pode executar várias aplicações clientes e/ou servidoras</b> ao mesmo tempo.</li>
+  </ol>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>"Fim-a-fim" em oposição a quê?</dt>
+      <dd>À visão salto-a-salto das camadas de baixo. Um roteador no meio do caminho lê o cabeçalho IP e decide para onde mandar o pacote — ele não abre o cabeçalho TCP. A conexão TCP só existe, de fato, nas duas pontas; para a rede no meio ela é invisível. É por isso que a camada de transporte é a primeira que "pertence" aos hosts e não à infraestrutura.</dd>
+
+      <dt>Por que TPDU e não "pacote"?</dt>
+      <dd>Porque cada camada tem sua própria PDU (Protocol Data Unit) e trocar os nomes é o erro mais fácil de cometer numa prova: <b>TPDU/segmento</b> no transporte, <b>pacote/datagrama</b> na rede, <b>quadro</b> no enlace. Na prática, o segmento TCP é uma TPDU.</dd>
+
+      <dt>Se a camada de transporte é a 4ª no OSI e a 3ª no TCP/IP, alguma camada sumiu?</dt>
+      <dd>Sim, embaixo. O modelo TCP/IP funde as camadas física e de enlace do OSI em uma só ("interface de rede"). Por isso tudo acima desliza um número para baixo. Acima, o TCP/IP também funde sessão, apresentação e aplicação em uma camada só de aplicação.</dd>
+
+      <dt>Por que <code>RECEIVE</code> é descrito como "espera bloqueada"?</dt>
+      <dd>Porque o processo fica suspenso pelo sistema operacional até que chegue dado. É o comportamento padrão de um socket bloqueante. Isso explica por que um servidor típico precisa de um processo ou thread por conexão: cada um fica parado no seu próprio <code>RECEIVE</code>.</dd>
+
+      <dt>Por que o slide diz que o correto é o <i>cliente</i> pedir o encerramento?</dt>
+      <dd>Porque quem sabe que o serviço acabou é quem pediu o serviço. O servidor não tem como adivinhar se o cliente vai emitir mais uma requisição na mesma conexão. Na prática o TCP permite que qualquer lado envie o FIN, mas o fluxo "bem-comportado" parte do cliente.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Questão direta (lista 1, q.1):</b> "Por ser orientado à conexão, que vantagem o TCP oferece em relação ao UDP?" — Resposta: o estabelecimento prévio de um circuito virtual fim-a-fim permite <b>transmissão ordenada e confiável</b>, com confirmação, retransmissão e não duplicação dos dados; a aplicação enxerga um fluxo contínuo (stream) em vez de mensagens soltas. O UDP não reordena e não garante a chegada.</li>
+    <li><b>Enumerar e explicar as 5 primitivas</b>, dizendo quem (cliente ou servidor) chama cada uma.</li>
+    <li><b>Questão de cenário (lista 1, q.4):</b> "Um navegador acessa uma página que contém imagens em outro servidor" — use a possibilidade 2 da lista acima: o cliente é ativo e abre uma conexão por recurso; nada no paradigma o obriga a falar com um único servidor, porque cada relação cliente-servidor é independente e identificada pelo seu próprio par (IP, porta).</li>
+    <li><b>Explicar o encapsulamento</b> TPDU → pacote → quadro, possivelmente com um desenho de caixas dentro de caixas.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m2">
+  <h2>2 · Portas, multiplexação e identificação de aplicações</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  É o conceito mais reaproveitado da matéria: toda questão sobre DNS, HTTP, FTP ou SMTP acaba em "em que porta isso escuta?". E é aqui que mora a pegadinha favorita do professor — a de que <b>só a porta não identifica uma comunicação</b>. A lista da aula 1 tem quatro questões sobre isso (2, 5, 6 e 7).</div>
+
+  <h3>A função comum a TCP e UDP</h3>
+  <p>UDP e TCP se diferenciam pelo formato dos PDUs e pelo tipo de serviço prestado, mas uma função importante é <b>comum aos dois</b>: identificar cada aplicação distinta em execução no host. Dois conceitos sustentam isso:</p>
+  <table>
+    <thead><tr><th>Conceito</th><th>Definição do slide</th></tr></thead>
+    <tbody>
+      <tr><td><b>Multiplexação</b></td><td>As várias aplicações clientes e/ou servidoras podem <b>compartilhar os serviços de uma mesma entidade de transporte</b>.</td></tr>
+      <tr><td><b>Porta</b></td><td>Identificador único <b>local</b> (na Internet, descrito por um número inteiro de <b>16 bits</b>) que descreve e registra as aplicações em execução atendidas pela pilha TCP/IP.</td></tr>
+    </tbody>
+  </table>
+  <p>O uso é assimétrico: <b>o servidor utiliza a porta para se registrar localmente</b>; <b>o cliente informa a porta como destino desejado (endpoint)</b> à camada de transporte.</p>
+
+  <h3>A identificação completa: o par de pares</h3>
+  <p>O identificador único e <b>global</b> de uma aplicação na Internet é obtido pela associação do <b>endereço IP do host</b> (único na rede) com a <b>porta da aplicação</b> (única no host). E o slide é explícito no passo seguinte:</p>
+  <div class="formula">conexão = (IP, porta) do servidor + (IP, porta) do cliente</div>
+  <p class="note">Ou seja: cada conexão/serviço de transporte possui um único <b>par de identificadores</b>. Quatro números ao todo. Esse quádruplo é o que se chama de <i>socket pair</i>.</p>
+
+  <div class="ex"><b>Exemplo resolvido — duas abas do mesmo browser no mesmo servidor</b>
+  <p style="margin:6px 0">Host cliente 192.168.0.10 abre duas conexões ao mesmo servidor Web 200.1.1.5:80.</p>
+  <table style="margin:8px 0">
+    <thead><tr><th>Conexão</th><th>(IP, porta) cliente</th><th>(IP, porta) servidor</th></tr></thead>
+    <tbody>
+      <tr><td>Aba 1</td><td>(192.168.0.10, <b>49152</b>)</td><td>(200.1.1.5, 80)</td></tr>
+      <tr><td>Aba 2</td><td>(192.168.0.10, <b>49153</b>)</td><td>(200.1.1.5, 80)</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">Três dos quatro números são idênticos. É a <b>porta de origem</b>, escolhida livremente pelo sistema operacional do cliente na faixa alta, que torna os dois quádruplos distintos — e é por isso que "a porta 80" sozinha nunca poderia identificar a comunicação. O servidor devolve cada resposta para a porta de origem de onde veio a requisição.</p>
+  </div>
+
+  <h3>Faixas de portas (IANA, RFC 3232)</h3>
+  <p>Muitos serviços são bem conhecidos na Internet, e para eles foram predefinidas portas padronizadas, registradas e mantidas pela <b>IANA</b>.</p>
+  <table>
+    <thead><tr><th>Faixa</th><th>Nome</th><th>Quem pode usar</th><th>Exemplo do slide</th></tr></thead>
+    <tbody>
+      <tr><td>&lt; 1024</td><td><b>Well Known Ports</b></td><td>Reservadas para uso do sistema — normalmente exigem acesso de administrador/superusuário</td><td>porta 80 → servidor Web (HTTP)</td></tr>
+      <tr><td>&gt; 1023</td><td><b>Registered Port Numbers</b></td><td>Registradas, mas podem ser utilizadas por aplicativos de usuários</td><td>porta 3306 → servidor MySQL</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code"><b>Como se vê isso no Linux (prática da aula 3)</b>
+  <pre><span class="c"># o arquivo que lista as portas bem conhecidas e registradas (IANA)</span>
+cat /etc/services
+
+<span class="c"># todas as portas ativas do sistema, sem resolver nomes</span>
+netstat -na --inet
+
+<span class="c"># quais processos seguram quais sockets (no Unix, socket também é arquivo)</span>
+lsof -i tcp
+lsof -i udp
+
+<span class="c"># varredura de portas TCP abertas em uma máquina</span>
+nmap 192.168.0.1
+<span class="c"># e a varredura UDP (bem mais lenta, porque não há handshake para confirmar)</span>
+nmap -sU 192.168.0.1</pre>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Se a porta tem 16 bits, quantas existem?</dt>
+      <dd>2<sup>16</sup> = <b>65.536</b> valores, de 0 a 65535, <b>para cada protocolo de transporte separadamente</b>. A porta 53/TCP e a porta 53/UDP são entradas diferentes — o DNS, aliás, usa as duas.</dd>
+
+      <dt>Por que portas abaixo de 1024 precisam de root?</dt>
+      <dd>É uma proteção contra falsificação de serviço: se qualquer usuário pudesse subir um processo na porta 80 ou 25, poderia se passar pelo servidor Web ou de e-mail legítimo da máquina. Reservar a faixa baixa ao superusuário significa que quem escuta ali foi autorizado pelo administrador.</dd>
+
+      <dt>Quem escolhe a porta do cliente?</dt>
+      <dd>O sistema operacional, automaticamente, na faixa alta (portas efêmeras). O cliente não precisa nem saber qual foi — ele só precisa informar a porta de <i>destino</i>. A porta de origem viaja no header e é o que permite ao servidor responder no lugar certo.</dd>
+
+      <dt>Multiplexação e demultiplexação são a mesma coisa?</dt>
+      <dd>São os dois sentidos do mesmo mecanismo. Na saída, várias aplicações despejam dados em uma única entidade de transporte (multiplexação); na entrada, a entidade de transporte olha a porta de destino e entrega cada segmento à aplicação certa (demultiplexação). O slide chama o conjunto de "multiplexação".</dd>
+
+      <dt>Mudar a porta de um serviço "esconde" o serviço?</dt>
+      <dd>Não — apenas cria trabalho para o cliente. Um <code>nmap</code> encontra a porta alternativa em segundos. E o cliente legítimo passa a ter de informar a porta explicitamente, porque o padrão do protocolo deixou de valer.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 1, q.2:</b> "Como é feita a identificação não ambígua de aplicações? Qual o tamanho do campo nos protocolos TCP e UDP?" — Pela <b>porta</b>, associada ao IP do host; o campo tem <b>16 bits</b> tanto no TCP quanto no UDP (há dois: porta de origem e porta de destino).</li>
+    <li><b>Lista 1, q.5:</b> explique multiplexação com um host rodando navegador + cliente de e-mail + videoconferência ao mesmo tempo. Cite: uma única entidade de transporte compartilhada, portas distintas por aplicação, demultiplexação pela porta de destino na chegada.</li>
+    <li><b>Lista 1, q.6:</b> servidor HTTP e servidor MySQL na mesma máquina — o SO direciona pela <b>porta de destino</b> do segmento (80 → HTTP, 3306 → MySQL), porque cada servidor registrou localmente a sua.</li>
+    <li><b>Lista 1, q.7 (a mais provável):</b> "Por que só o número da porta não é suficiente?" — Porque a porta é única apenas <b>dentro do host</b>. A identificação global de uma conexão TCP exige os <b>quatro</b> valores: IP de origem, porta de origem, IP de destino, porta de destino.</li>
+    <li><b>Lista 1, q.8:</b> servidor HTTP movido da porta 80 para a 8080 — os clientes precisam informar a porta explicitamente na URL (<code>http://host:8080/</code>), porque 80 é o valor assumido por omissão; quem não souber, não conecta. Em compensação, o processo não precisa mais de privilégio de root para subir.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m3">
+  <h2>3 · UDP (User Datagram Protocol)</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  O UDP é curto — cabe em um slide — e por isso é presa fácil de questão objetiva ("quantos campos tem o header UDP?"). Mas o que o professor realmente cobra é a <b>justificativa de escolha</b>: em todas as quatro questões de cenário das listas, metade da resposta é "aqui vale a pena perder pacote".</div>
+
+  <h3>Definição</h3>
+  <p>O UDP é descrito pela <b>RFC 768</b> e provê um tipo de <b>serviço de datagrama</b>, semelhante ao próprio IP:</p>
+  <ul class="tight">
+    <li><b>Não orientado à conexão</b> (<i>connectionless</i>) e <b>não confiável</b>.</li>
+    <li>Não reordena as mensagens antes da entrega à aplicação.</li>
+    <li>Não garante a chegada de todas as mensagens.</li>
+  </ul>
+  <p>A maior vantagem é ser <b>simples, com poucos campos no header</b> — ou seja, <b>pouco overhead</b>.</p>
+
+  <h3>O header UDP: quatro campos, 8 bytes</h3>
+  <table>
+    <thead><tr><th>Campo</th><th>Tamanho</th><th>O que guarda</th></tr></thead>
+    <tbody>
+      <tr><td>Source port</td><td>16 bits</td><td>Porta de origem</td></tr>
+      <tr><td>Destination port</td><td>16 bits</td><td>Porta de destino</td></tr>
+      <tr><td>UDP length</td><td>16 bits</td><td>Tamanho total em bytes do datagrama — <b>header + data</b></td></tr>
+      <tr><td>UDP checksum</td><td>16 bits</td><td><b>Opcional</b>; se não calculado, inserem-se zeros</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code"><b>Como fica no código — <code>udp.h</code> no Linux</b>
+  <pre><span class="c">//udp.h no Linux — Big Endian Format</span>
+<span class="k">struct</span> udphdr {
+   __be16 source;   <span class="c">// porta de origem</span>
+   __be16 dest;     <span class="c">// porta de destino</span>
+   __be16 len;      <span class="c">// header + data, em bytes</span>
+   __sum16 check;   <span class="c">// checksum opcional</span>
+};</pre>
+  <p class="note" style="margin-top:10px">Quatro campos <code>__be16</code> = 4 × 2 bytes = <b>8 bytes de header</b>. "Big Endian" é a ordem de bytes da rede (<i>network byte order</i>): o byte mais significativo vai primeiro no fio.</p>
+  </div>
+
+  <div class="ex"><b>Exemplo resolvido — lendo o campo <code>len</code></b>
+  <p style="margin:6px 0">Uma aplicação envia uma consulta DNS de <b>29 bytes</b> de dados. Qual o valor do campo UDP length?</p>
+  <div class="formula">UDP length = header + data = 8 + 29 = <b>37 bytes</b></div>
+  <p style="margin:6px 0 0">Se o datagrama fosse TCP, não haveria campo equivalente: o TCP deduz o tamanho do payload pelo <i>total length</i> do IP menos os dois headers. A pegadinha é responder "29": o campo UDP conta o <b>header também</b>.</p>
+  </div>
+
+  <h3>Os dois usos clássicos do UDP cobrados em aula</h3>
+  <table>
+    <thead><tr><th></th><th>RPC (RFC 1057)</th><th>RTP (RFC 1889)</th></tr></thead>
+    <tbody>
+      <tr><td><b>Para que serve</b></td><td>Comunicação em sistemas distribuídos: uma aplicação submete chamadas, que podem conter parâmetros, a procedimentos distribuídos em uma rede</td><td>Transmissão de fluxos multimídia (<i>streams</i>) na Internet</td></tr>
+      <tr><td><b>Ideia central</b></td><td>Fazer com que a chamada remota <b>se pareça com a chamada a um procedimento local</b></td><td>Complementar o UDP com identificação de fluxos, <b>timestamp</b> e dados para sincronização</td></tr>
+      <tr><td><b>Mecanismo</b></td><td>Implementações vazias do procedimento são criadas nos dois lados (<b>client stub</b> e <b>server stub</b>); a chamada local é interceptada pelo RPC, que redireciona a solicitação para a rede, via UDP</td><td>Opera sobre UDP e portanto <b>não é garantido</b> (<i>best-effort</i>)</td></tr>
+      <tr><td><b>Como acha o servidor</b></td><td>Consulta a um serviço de registro de nomes de procedimentos: o <b>portmapper</b></td><td>—</td></tr>
+      <tr><td><b>Por que UDP</b></td><td>Chamada curta, resposta curta, sem necessidade de manter conexão</td><td>A vantagem é justamente <b>poder perder parte das mensagens para não atrasar a entrega da maioria</b></td></tr>
+    </tbody>
+  </table>
+  <p class="note">O exemplo do slide para o RTP vale ouro numa resposta dissertativa: <i>em uma transmissão de vídeo, vale muito mais a pena perder alguns pixels do quadro do que atrasar sua exibição.</i></p>
+
+  <div class="why" style="border-left-color:var(--deep);background:#E4EFF3"><b>Da sua anotação de aula</b>
+  Duas frases que não estão no slide e que o professor enfatizou:
+  <ul class="tight" style="margin-bottom:0">
+    <li>O UDP é o <b>único protocolo de transporte que permite realizar broadcast local</b> — e é exclusivamente usado para isso. (Faz sentido: broadcast é "mandar para todos", e não existe conexão com "todos".)</li>
+    <li>O uso do UDP é exclusivo <b>quando é mais importante "perder" do que parar a aplicação</b>.</li>
+    <li>O TCP "serve para todo o resto".</li>
+  </ul>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Se o checksum é opcional, o UDP pode entregar dado corrompido?</dt>
+      <dd>Pode. Com checksum zerado, o receptor não verifica nada e passa o datagrama para a aplicação como veio. Cabe à aplicação decidir se isso importa — outra vez, o UDP empurra a responsabilidade para cima.</dd>
+
+      <dt>Como uma aplicação UDP "sabe" que perdeu um pacote?</dt>
+      <dd>Pelo protocolo de aplicação, não pelo UDP. É exatamente o que o RTP acrescenta: número de sequência e timestamp dentro do payload. Um player de vídeo percebe o buraco na numeração e decide interpolar ou pular, sem pedir retransmissão.</dd>
+
+      <dt>Por que o RPC não usa TCP, se a resposta precisa chegar?</dt>
+      <dd>Porque em rede local a chance de perda é baixa e o custo de abrir e fechar uma conexão por chamada seria proibitivo para algo que imita uma chamada de função local. A retransmissão, quando necessária, fica com o próprio RPC (que reenvia a chamada se o timeout estourar).</dd>
+
+      <dt>UDP é "pior" que TCP?</dt>
+      <dd>Não: é mais barato. A escolha é de requisitos, não de qualidade. A tabela do módulo 4 resume os critérios, e o professor cobra exatamente essa escolha nas questões de cenário.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 1, q.9:</b> "O UDP não confirma entrega nem retransmite. Por que continua amplamente utilizado?" — Pelo <b>baixo overhead</b> (header de 8 bytes contra 20 do TCP), pela ausência do custo de estabelecer/manter conexão, pela <b>menor latência</b> (não espera ACK nem retransmite) e porque há aplicações em que perder é preferível a atrasar (streaming, voz) ou em que a própria aplicação trata a perda (DNS, RPC). É também o único que permite broadcast local.</li>
+    <li><b>Listar os quatro campos do header UDP</b> e dizer o tamanho de cada um.</li>
+    <li><b>Explicar RPC ou RTP</b>: para que serve, por que roda sobre UDP, e no caso do RPC o papel dos stubs e do portmapper.</li>
+    <li><b>Calcular o campo <code>len</code></b> dado o tamanho do payload (lembre de somar os 8 bytes).</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m4">
+  <h2>4 · TCP: conexão, header e flags</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  O TCP é o assunto mais denso da P1 e o único com um header grande o bastante para render questão de "explique a função destes três campos". Além disso, as oito flags são o vocabulário que as questões de captura de pacotes usam ("foram observadas mensagens com SYN, ACK, FIN e RST — explique cada uma"), e isso já apareceu literalmente na lista da aula 1.</div>
+
+  <h3>Definição</h3>
+  <p>O TCP está descrito na <b>RFC 793</b> e é o principal protocolo de transporte da Internet. Oferece serviço baseado em <b>stream</b> (fluxo): <b>orientado à conexão e confiável</b>. Realiza a transmissão ordenada e confiável através de uma conexão preestabelecida, que é mantida durante o serviço e <b>deve ser encerrada ao final dele</b> — sendo o correto que toda solicitação parta do lado cliente.</p>
+
+  <h3>Duas medidas restringem o tamanho de um PDU TCP</h3>
+  <table>
+    <thead><tr><th>Limite</th><th>Valor</th><th>De onde vem</th><th>Quando pesa</th></tr></thead>
+    <tbody>
+      <tr><td>Payload máximo do IP</td><td><b>65.515 bytes</b></td><td>O IP permite 65.535 no total, e o header mínimo ocupa 20 bytes</td><td>Raramente — é um teto teórico</td></tr>
+      <tr><td><b>MTU</b> da rede local</td><td><b>1.500 bytes</b> de payload no quadro Ethernet</td><td>Limite físico do enlace</td><td>É o que mais ocorre em termos práticos</td></tr>
+    </tbody>
+  </table>
+
+  <h3>O header do TCP</h3>
+  <table>
+    <thead><tr><th>Campo</th><th>Tamanho</th><th>Função (palavras do slide)</th></tr></thead>
+    <tbody>
+      <tr><td>Source Port / Destination Port</td><td>16 + 16 bits</td><td>Portas de origem e de destino</td></tr>
+      <tr><td><b>Sequence number</b></td><td>32 bits</td><td>Número de sequência (por conexão) do TPDU</td></tr>
+      <tr><td><b>Acknowledgement number</b></td><td>32 bits</td><td>Descreve o número de sequência do TPDU <b>confirmado</b></td></tr>
+      <tr><td><b>Data Offset</b></td><td>4 bits</td><td>Tamanho do cabeçalho TCP <b>em palavras de 32 bits</b></td></tr>
+      <tr><td>Reserved</td><td>4 bits</td><td>Reservado (<code>res1</code> no struct do Linux)</td></tr>
+      <tr><td><b>Flags</b></td><td>8 × 1 bit</td><td>CWR, ECE, URG, ACK, PSH, RST, SYN, FIN — detalhadas abaixo</td></tr>
+      <tr><td><b>Window size</b></td><td>16 bits</td><td>Tamanho da janela do controle de fluxo (janela deslizante)</td></tr>
+      <tr><td>Checksum</td><td>16 bits</td><td>Verificação de integridade</td></tr>
+      <tr><td><b>Urgent pointer</b></td><td>16 bits</td><td>Offset para os dados urgentes (em <i>options</i>)</td></tr>
+      <tr><td>Options + Padding</td><td>variável</td><td>Opções da conexão; o padding completa a palavra de 32 bits</td></tr>
+    </tbody>
+  </table>
+
+  <h4>As oito flags, uma a uma</h4>
+  <table>
+    <thead><tr><th>Flag</th><th>Nome</th><th>O que significa</th><th>Quando aparece</th></tr></thead>
+    <tbody>
+      <tr><td><code>CWR</code></td><td>Congestion Window Reduced</td><td>Avisa que o emissor reduziu sua janela de congestionamento</td><td>Resposta a notificação de congestionamento</td></tr>
+      <tr><td><code>ECE</code></td><td>ECN-Echo bit</td><td>Explicit Congestion Notification — ecoa que houve congestionamento no caminho</td><td>Junto com CWR, no controle de congestionamento</td></tr>
+      <tr><td><code>URG</code></td><td>Urgent</td><td>Se 1, o campo Urgent pointer foi usado e <b>existem dados urgentes</b> (interrupção)</td><td>Raro; Ctrl+C em sessão remota é o caso clássico</td></tr>
+      <tr><td><code>ACK</code></td><td>Acknowledgement</td><td>Se 1, indica que o campo Acknowledgement foi usado</td><td>Em praticamente todo segmento depois do primeiro SYN</td></tr>
+      <tr><td><code>PSH</code></td><td>PUSHed data</td><td>Comunica à entidade de transporte no destino para <b>entregar cada mensagem que chega</b>, e não esperar para entregar todas de uma vez</td><td>Aplicações interativas (telnet, ssh)</td></tr>
+      <tr><td><code>RST</code></td><td>Reset</td><td>Pedido de reset (restabelecimento) de uma conexão que apresenta problemas</td><td><b>Porta fechada</b>, conexão abortada, estado inconsistente</td></tr>
+      <tr><td><code>SYN</code></td><td>Synchronize</td><td>Usado para <b>solicitar/aceitar o estabelecimento</b> de uma conexão</td><td>Só nos dois primeiros segmentos da conexão</td></tr>
+      <tr><td><code>FIN</code></td><td>Finish</td><td>Usado para <b>solicitar/aceitar o encerramento</b> de uma conexão</td><td>No fim da conexão, um de cada lado</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code"><b>Como fica no código — <code>tcp.h</code> no Linux</b>
+  <pre><span class="c">//tcp.h no Linux — Big Endian Format</span>
+<span class="k">struct</span> tcphdr {
+   __be16 source;    <span class="c">// porta de origem</span>
+   __be16 dest;      <span class="c">// porta de destino</span>
+   __be32 seq;       <span class="c">// sequence number — 32 bits</span>
+   __be32 ack_seq;   <span class="c">// acknowledgement number — 32 bits</span>
+   __u16  doff:4,    <span class="c">// data offset: header em palavras de 32 bits</span>
+          res1:4,    <span class="c">// reservado</span>
+          cwr:1, ece:1, urg:1, ack:1,   <span class="c">// as 8 flags,</span>
+          psh:1, rst:1, syn:1, fin:1;   <span class="c">// 1 bit cada</span>
+   __be16 window;    <span class="c">// window size — controle de fluxo</span>
+   __sum16 check;    <span class="c">// checksum</span>
+   __be16 urg_ptr;   <span class="c">// urgent pointer</span>
+};</pre>
+  <p class="note" style="margin-top:10px">A sintaxe <code>campo:N</code> é um <i>bit field</i> em C: empacota vários valores dentro de um mesmo inteiro. É assim que 4 + 4 + 8 bits cabem em um único <code>__u16</code>.</p>
+  </div>
+
+  <div class="ex"><b>Exemplo resolvido — quanto mede o header, afinal?</b>
+  <p style="margin:6px 0">O campo Data Offset guarda o tamanho <b>em palavras de 32 bits</b> (4 bytes cada). Então:</p>
+  <div class="formula">tamanho do header em bytes = Data Offset × 4</div>
+  <ul>
+    <li><code>doff = 5</code> → 5 × 4 = <b>20 bytes</b> — header mínimo, sem options.</li>
+    <li><code>doff = 8</code> → 8 × 4 = <b>32 bytes</b> — 12 bytes de options (típico de um SYN com MSS e timestamps).</li>
+    <li><code>doff = 15</code> → 15 × 4 = <b>60 bytes</b> — o máximo possível, porque o campo tem 4 bits (2<sup>4</sup> − 1 = 15).</li>
+  </ul>
+  <p style="margin:6px 0 0">Para descobrir o tamanho dos dados: <i>payload</i> = total length do IP − header IP − (doff × 4).</p>
+  </div>
+
+  <h3>O three-way handshake</h3>
+  <p>O TCP utiliza a técnica <b>three-way handshake</b> para estabelecimento <b>e encerramento</b> de conexões. A sequência exata do slide:</p>
+  <ol class="tight">
+    <li>A princípio, o <b>servidor deve estar em estado de LISTENING</b> e ter executado uma chamada bloqueante de um <code>ACCEPT</code>, aguardando uma conexão.</li>
+    <li>O cliente então solicita uma conexão (<code>CONNECT</code>), que enviará um TCP com os flags <b>SYN=1 e ACK=0</b>.</li>
+    <li>No destino, a entidade TCP <b>checa se a porta escolhida está aceitando conexões</b>; senão, envia uma resposta com o flag <b>RST=1</b>, rejeitando a conexão.</li>
+    <li>Se tudo certo, aceita a conexão através de uma confirmação (<i>acknowledgment</i>) com os flags <b>SYN=1 e ACK=1</b>.</li>
+    <li>O cliente confirma, e a conexão está aberta. O processo de <b>encerramento é semelhante</b> (com FIN no lugar de SYN).</li>
+  </ol>
+
+  <div class="ex"><b>Exemplo resolvido — os três segmentos com números</b>
+  <p style="margin:6px 0">Cliente escolhe o número de sequência inicial <b>x = 1000</b>; servidor escolhe <b>y = 5000</b>.</p>
+  <table style="margin:8px 0">
+    <thead><tr><th>#</th><th>Sentido</th><th>Flags</th><th>Campos</th><th>Leitura</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>cliente → servidor</td><td>SYN=1, ACK=0</td><td>SEQ = 1000</td><td>"Quero abrir; minha numeração começa em 1000"</td></tr>
+      <tr><td>2</td><td>servidor → cliente</td><td>SYN=1, ACK=1</td><td>SEQ = 5000, ACK = 1001</td><td>"Aceito; minha numeração começa em 5000 e já recebi até o seu 1000"</td></tr>
+      <tr><td>3</td><td>cliente → servidor</td><td>ACK=1</td><td>SEQ = 1001, ACK = 5001</td><td>"Confirmado; recebi até o seu 5000"</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">A regra do <b>+1</b>: o ACK aponta sempre para o <b>próximo byte esperado</b>, e o SYN consome um número de sequência mesmo sem carregar dados. Se o servidor não estivesse escutando naquela porta, o segmento 2 seria substituído por um único <b>RST=1</b> e a conexão morreria ali.</p>
+  </div>
+
+  <h3>UDP × TCP: a tabela que resolve toda questão de escolha</h3>
+  <table>
+    <thead><tr><th>Critério</th><th>UDP</th><th>TCP</th></tr></thead>
+    <tbody>
+      <tr><td>RFC</td><td>768</td><td>793</td></tr>
+      <tr><td>Conexão</td><td>Não orientado (connectionless)</td><td>Orientado à conexão (three-way handshake)</td></tr>
+      <tr><td>Confiabilidade</td><td>Não confiável — sem confirmação nem retransmissão</td><td>Confiável — confirmação positiva com retransmissão</td></tr>
+      <tr><td>Ordenação</td><td>Não reordena as mensagens</td><td>Entrega ordenada (stream)</td></tr>
+      <tr><td>Tamanho do header</td><td><b>8 bytes</b>, 4 campos</td><td><b>20 bytes</b> no mínimo (até 60 com options)</td></tr>
+      <tr><td>Overhead / atraso</td><td>Baixíssimo</td><td>Alto: handshake, ACKs, timers, buffers</td></tr>
+      <tr><td>Controle de fluxo</td><td>Nenhum</td><td>Janela deslizante (window size)</td></tr>
+      <tr><td>Controle de congestionamento</td><td>Nenhum</td><td>Janela de congestionamento</td></tr>
+      <tr><td>Broadcast local</td><td><b>Só ele permite</b></td><td>Impossível (exige conexão ponto a ponto)</td></tr>
+      <tr><td>Usos vistos em aula</td><td>RPC, RTP, DNS</td><td>Telnet, SSH, FTP, SMTP, POP3, IMAP, HTTP</td></tr>
+    </tbody>
+  </table>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Por que <b>três</b> vias e não duas?</dt>
+      <dd>Porque a conexão é full-duplex: são dois fluxos independentes, e cada um precisa ter seu número de sequência inicial anunciado <i>e</i> confirmado. Duas vias sincronizariam só um sentido. O segundo segmento economiza uma via ao juntar "aceito o seu" (ACK) com "aqui está o meu" (SYN).</dd>
+
+      <dt>Por que o número de sequência inicial não é sempre zero?</dt>
+      <dd>Para que segmentos atrasados de uma conexão anterior, entre o mesmo par de portas, não sejam confundidos com os da conexão nova. Começar em um valor imprevisível também dificulta que um terceiro forje segmentos na conexão.</dd>
+
+      <dt>O sequence number conta segmentos ou bytes?</dt>
+      <dd><b>Bytes.</b> O TCP é um protocolo de stream: ele numera o fluxo de bytes, não as mensagens. Por isso o campo é de 32 bits — sua anotação registra o valor: 2<sup>32</sup> = <b>4.294.967.296</b>, que é quanto a numeração percorre antes de dar a volta.</dd>
+
+      <dt>Qual a diferença prática entre RST e FIN?</dt>
+      <dd>FIN é o encerramento <b>negociado</b>: "terminei de enviar, confirme". RST é o encerramento <b>abrupto</b>: "essa conexão não existe ou está inconsistente, jogue fora". Um servidor sem aplicação escutando na porta responde RST; um servidor que terminou a resposta responde FIN.</dd>
+
+      <dt>Por que o encerramento também é "three-way"?</dt>
+      <dd>Pelo mesmo motivo do início: são dois sentidos. Cada lado envia seu FIN e recebe o ACK correspondente. Na prática costumam ser quatro segmentos, mas o slide trata como "semelhante" ao estabelecimento porque a lógica FIN/ACK é idêntica à SYN/ACK.</dd>
+
+      <dt>Se o MTU é 1500 bytes, o TCP pode mandar 1500 de dados?</dt>
+      <dd>Não. Desses 1500 saem 20 bytes de header IP e no mínimo 20 de header TCP, sobrando <b>1460 bytes</b> de dados — o MSS típico da Ethernet.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 2, q.1:</b> "Explique como ocorre o estabelecimento de uma conexão pelo TCP." — descreva os cinco passos do slide, nomeando as flags de cada segmento. Vale desenhar o diagrama de setas.</li>
+    <li><b>Lista 1, q.10 e lista 2, q.3:</b> finalidade de SYN, ACK, FIN e RST e em que situação cada um aparece. O cenário de q.3 é "servidor sem aplicação escutando na porta": o cliente manda SYN=1/ACK=0, e recebe de volta <b>RST=1</b> — conexão recusada.</li>
+    <li><b>Lista 2, q.5:</b> função de Sequence Number, Acknowledgement Number e Window Size, e como trabalham juntos. Resposta em três tempos: o SEQ numera os bytes enviados, o ACK confirma até onde chegou e pede o próximo, e o Window Size diz quanto ainda cabe no buffer do receptor.</li>
+    <li><b>Lista 1, q.3 e q.11 (cenários de escolha):</b> sistema bancário e comandos de controle industrial → <b>TCP</b> (integridade e ordem são inegociáveis); vídeo ao vivo e streaming de câmeras → <b>UDP</b> (atraso é pior que perda). Justifique sempre citando confiabilidade, atraso e overhead.</li>
+    <li><b>Explicar o Data Offset</b> e calcular o tamanho do header.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m5">
+  <h2>5 · Confiabilidade, RTT/RTO e controle de fluxo</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  Este é o único módulo da P1 com <b>fórmula e conta</b>. Também é onde vive a distinção que o professor cobrou explicitamente na lista 2 (questão 9): controle de fluxo é problema do <b>receptor</b>, controle de congestionamento é problema da <b>rede</b>. Quem troca os dois perde a questão inteira.</div>
+
+  <h3>Confirmação positiva com retransmissão</h3>
+  <p>O TCP usa <b>Confirmação Positiva com Retransmissão</b> para conseguir entrega de dado confiável:</p>
+  <ul class="tight">
+    <li>O <b>destinatário envia uma mensagem de controle com Confirmação (ACK)</b> para a origem verificar a entrega da mensagem com sucesso.</li>
+    <li>O <b>originador inicializa o relógio</b>; se o tempo expira antes da confirmação, ele reinicia o relógio e <b>retransmite</b>.</li>
+  </ul>
+  <p class="note">"Positiva" quer dizer que só se confirma o que chegou — não existe mensagem "não chegou". A ausência de ACK, detectada pelo timer, é o que sinaliza a perda.</p>
+
+  <h3>O timeout: por que não pode ser fixo</h3>
+  <ul class="tight">
+    <li>Um <b>tempo de expiração elevado causa baixa eficiência</b> (a conexão fica parada esperando para perceber uma perda).</li>
+    <li>Deve ser <b>diferente para cada conexão</b> e <b>inicializado dinamicamente</b>.</li>
+    <li>Hosts na mesma LAN devem ter timeout menor do que hosts separados por 20 saltos (<i>hops</i>).</li>
+    <li>O tempo de entrega na Internet <b>muda dinamicamente</b>, então o tempo de expiração deve se adequar.</li>
+  </ul>
+
+  <h3>O Algoritmo de Retransmissão Adaptativo</h3>
+  <p>O tempo de expiração é baseado no <b>RTT (Round Trip Time)</b>. Como o emissor não pode prever o RTT antes de uma transmissão, ele define o <b>RTO (Retransmission Timeout)</b> a partir de um RTT prévio. As duas fórmulas do slide:</p>
+  <div class="formula">RTT<sub>new</sub> = (alpha × RTT<sub>old</sub>) + ((1 − alpha) × RTT<sub>sample</sub>)</div>
+  <div class="formula">RTO = beta × RTT<sub>new</sub></div>
+  <p class="note">A primeira é uma <b>média ponderada</b>: alpha é o peso da memória (histórico) e (1 − alpha) o peso da medida nova. Alpha alto → estimativa estável, reage devagar. Alpha baixo → reage rápido, oscila muito.</p>
+
+  <div class="ex"><b>Exemplo resolvido — uma rodada de RTT e RTO</b>
+  <p style="margin:6px 0">Dados: alpha = 0,875 &nbsp;·&nbsp; RTT<sub>old</sub> = 100 ms &nbsp;·&nbsp; RTT<sub>sample</sub> medido agora = 140 ms &nbsp;·&nbsp; beta = 2.</p>
+  <ol>
+    <li>RTT<sub>new</sub> = 0,875 × 100 + (1 − 0,875) × 140</li>
+    <li>RTT<sub>new</sub> = 87,5 + 0,125 × 140 = 87,5 + 17,5 = <b>105 ms</b></li>
+    <li>RTO = 2 × 105 = <b>210 ms</b></li>
+  </ol>
+  <p style="margin:6px 0 0">Leitura: a amostra subiu 40 ms, mas a estimativa só subiu 5 ms — a média ponderada <b>amortece</b> o salto. Se na rodada seguinte a amostra voltar a 100 ms, teremos RTT<sub>new</sub> = 0,875 × 105 + 0,125 × 100 = 91,875 + 12,5 = <b>104,4 ms</b>: ela desce devagar também. O beta > 1 existe para dar folga: retransmitir cedo demais duplica dados de graça.</p>
+  </div>
+
+  <h3>Gerenciamento de janela: o controle de fluxo</h3>
+  <p>O TCP usa <b>janela deslizante</b> para controle de fluxo. O <b>destinatário</b> especifica o tamanho da janela — o <i>window advertisement</i>:</p>
+  <ul class="tight">
+    <li>Descreve <b>quais bytes do stream podem ser enviados</b>.</li>
+    <li>É <b>transportado como ACK</b>: o receptor envia uma confirmação para o próximo byte que pode ser enviado do fluxo atual <b>e o número de bytes que pode aceitar</b>.</li>
+  </ul>
+
+  <div class="ex"><b>Exemplo resolvido — o diagrama do slide, passo a passo</b>
+  <p style="margin:6px 0">Buffer do receptor: <b>4 KB</b>. Acompanhe as duas colunas: o que trafega e o que sobra no buffer.</p>
+  <table style="margin:8px 0">
+    <thead><tr><th>#</th><th>Evento</th><th>Segmento</th><th>Buffer do receptor</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Aplicação escreve 2 KB</td><td>2K, SEQ = 0 →</td><td>Vazio → 2 KB ocupados</td></tr>
+      <tr><td>2</td><td>Receptor confirma</td><td>← ACK = 2048, WIN = 2048</td><td>"Recebi até 2048, ainda cabem 2048"</td></tr>
+      <tr><td>3</td><td>Aplicação escreve mais 2 KB</td><td>2K, SEQ = 2048 →</td><td><b>Cheio</b> (4 KB)</td></tr>
+      <tr><td>4</td><td>Receptor confirma, sem espaço</td><td>← ACK = 4096, <b>WIN = 0</b></td><td>Emissor fica <b>bloqueado</b></td></tr>
+      <tr><td>5</td><td>Aplicação do receptor lê 2 KB</td><td>—</td><td>Liberam-se 2 KB</td></tr>
+      <tr><td>6</td><td>Receptor reanuncia janela</td><td>← ACK = 4096, WIN = 2048</td><td>Emissor pode mandar até 2 KB</td></tr>
+      <tr><td>7</td><td>Emissor manda 1 KB</td><td>1K, SEQ = 4096 →</td><td>1 KB ocupado + 2 KB livres</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">Duas lições do passo 4: <b>WIN = 0 não é erro</b>, é o freio funcionando; e o ACK continua sendo enviado (o dado chegou!) — o que mudou foi apenas o anúncio de janela. O passo 6 mostra que é sempre o <b>receptor</b> quem reabre a janela.</p>
+  </div>
+
+  <h3>Síndrome da janela boba (Silly Window Syndrome)</h3>
+  <p>O algoritmo de janela deslizante pode resultar na <b>transmissão de muitos segmentos pequenos</b>. O mecanismo, nas palavras do slide:</p>
+  <ol class="tight">
+    <li>Se a janela do destinatário estiver cheia e a <b>aplicação destino consumir poucos bytes</b>, o destinatário avisará a origem sobre uma <b>janela muito pequena</b>.</li>
+    <li>Se a origem enviar uma quantidade de dados para completá-la <b>a cada vez</b> que a aplicação consumir um pouco dos dados, o uso da banda torna-se <b>ineficiente</b>.</li>
+  </ol>
+  <p><b>As duas soluções possíveis:</b></p>
+  <table>
+    <thead><tr><th>Lado</th><th>Estratégia</th></tr></thead>
+    <tbody>
+      <tr><td>Destinatário</td><td>Pode <b>atrasar a informação de mais janelas livres</b> — só anuncia quando houver espaço que valha a pena</td></tr>
+      <tr><td>Origem</td><td>Pode <b>atrasar o envio até receber um tamanho de janela satisfatório</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido — por que 1 byte por segmento é um desastre</b>
+  <p style="margin:6px 0">Se a aplicação receptora lê 1 byte por vez e o receptor anuncia WIN = 1 a cada leitura, cada byte útil viaja em um segmento com 20 bytes de header TCP + 20 de header IP.</p>
+  <div class="formula">eficiência = 1 / (1 + 40) ≈ <b>2,4%</b></div>
+  <p style="margin:6px 0 0">Ou seja: 97,6% da banda vira cabeçalho. Se o receptor esperar até ter 1460 bytes livres, a eficiência vira 1460/1500 ≈ <b>97%</b>. É a diferença que as duas soluções acima compram.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Se o ACK se perde (e não o dado), o que acontece?</dt>
+      <dd>O emissor não distingue os dois casos: o timer estoura e ele <b>retransmite</b>. O receptor então recebe um segmento duplicado — e é aqui que o <b>número de sequência</b> salva o dia: ele percebe que aquele intervalo de bytes já foi entregue à aplicação, <b>descarta a cópia</b> e apenas reenvia o ACK. Dado nenhum se perde e nenhum se duplica. Essa é exatamente a resposta da questão 4 da lista 2.</dd>
+
+      <dt>O WIN = 0 pode travar a conexão para sempre?</dt>
+      <dd>Se o ACK que reabre a janela se perdesse, sim — os dois lados ficariam esperando. Por isso o emissor mantém um <i>persist timer</i> e manda sondas periódicas perguntando "a janela já abriu?". O slide não entra nesse detalhe, mas é bom saber para não afirmar em prova que o bloqueio é permanente.</dd>
+
+      <dt>Por que o slide diz que o timeout na LAN deve ser menor?</dt>
+      <dd>Porque o RTT na LAN é de frações de milissegundo, enquanto atravessar 20 saltos pode levar centenas. Usar o mesmo RTO nos dois casos significaria ou esperar tempo demais na LAN (perdendo eficiência) ou retransmitir cedo demais na WAN (inundando a rede com duplicatas). Daí a necessidade do algoritmo adaptativo.</dd>
+
+      <dt>Controle de fluxo e janela deslizante são a mesma coisa?</dt>
+      <dd>A janela deslizante é o <b>mecanismo</b>; o controle de fluxo é o <b>objetivo</b>. O TCP usa a mesma ideia de janela para outra finalidade (congestionamento), com outra variável — daí a confusão. Veja o módulo 6.</dd>
+
+      <dt>Quem sofre com a síndrome da janela boba: o emissor ou o receptor?</dt>
+      <dd>A <b>rede</b> — é ela que carrega os cabeçalhos inúteis. A causa está no receptor (aplicação lenta), mas os dois lados podem aplicar a correção, e o melhor resultado vem de aplicar dos dois lados.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 2, q.2:</b> "O que significa o tamanho de janela informado pelo destinatário? Que controle ela exerce?" — significa quantos bytes ainda cabem no <b>buffer de recepção</b>; exerce o <b>controle de fluxo</b>, impedindo que o emissor mande mais do que o receptor consegue armazenar/processar.</li>
+    <li><b>Lista 2, q.4:</b> o ACK se perdeu — explique como o TCP detecta (timer de retransmissão) e o que evita perda e duplicação (retransmissão + número de sequência que identifica a duplicata).</li>
+    <li><b>Lista 2, q.6:</b> transmissor rápido, receptor lento — resposta = janela deslizante com window advertisement, chegando a WIN = 0 quando o buffer enche.</li>
+    <li><b>Lista 2, q.7 (conta possível):</b> conexão A na mesma LAN × conexão B entre continentes. RTT de A é baixo e estável, RTT de B é alto e variável; logo RTO de B é muito maior. Um valor fixo seria ineficiente em A e causaria retransmissões desnecessárias em B — por isso o algoritmo adaptativo com média ponderada.</li>
+    <li><b>Lista 2, q.8:</b> descrever a síndrome da janela boba e as <b>duas</b> estratégias (atrasar o anúncio no receptor; atrasar o envio na origem).</li>
+    <li><b>Aplicar as duas fórmulas</b> com números dados no enunciado — exatamente como no exemplo resolvido acima.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m6">
+  <h2>6 · Controle de congestionamento e RED</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  É o par gêmeo do módulo anterior, e a questão 9 da lista 2 pede literalmente a <b>comparação entre os dois</b>. A questão 10 vai além e pede o papel do RED — um acrônimo curto que é fácil de decorar e caro de esquecer.</div>
+
+  <h3>Como o TCP detecta congestionamento</h3>
+  <p>A camada de transporte pode detectar o congestionamento da rede por dois sinais:</p>
+  <ul class="tight">
+    <li>o <b>RTT das confirmações</b> (se está subindo, há filas se formando nos roteadores);</li>
+    <li>as <b>confirmações não recebidas</b> (timeout = pacote descartado por fila cheia).</li>
+  </ul>
+
+  <h3>A janela de congestionamento</h3>
+  <ol class="tight">
+    <li>Inicialmente tem um <b>tamanho mínimo</b>, que indica o volume total de mensagens que pode ser encaminhado à rede <b>antes de receber uma confirmação</b> (mensagens pendentes).</li>
+    <li>À medida que o <b>RTT médio das confirmações diminui, a janela é aumentada gradativamente</b> — e vice-versa.</li>
+    <li>Quando detectado um congestionamento (por <b>timeout</b> da confirmação), a janela é <b>reduzida drasticamente</b>, mas pode voltar a crescer com o passar do tempo.</li>
+  </ol>
+  <p class="note">A assimetria é o ponto: sobe devagar, cai de vez. É o comportamento prudente de quem não sabe quanta banda existe — sondar aos poucos e recuar depressa ao primeiro sinal de perda.</p>
+
+  <div class="ex"><b>Exemplo resolvido — a serra da janela de congestionamento</b>
+  <p style="margin:6px 0">Janela em segmentos, crescendo a cada RTT sem perda e caindo pela metade ao detectar congestionamento:</p>
+  <table style="margin:8px 0">
+    <thead><tr><th>RTT</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead>
+    <tbody>
+      <tr><td><b>Janela</b></td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td><td><b>8</b></td><td>9</td><td>10</td></tr>
+      <tr><td><b>Evento</b></td><td colspan="4">crescimento rápido enquanto os ACKs voltam</td><td><b>timeout</b></td><td>corte</td><td colspan="2">crescimento cauteloso</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">Compare com o controle de fluxo: lá a janela era <b>ditada pelo receptor</b> em um número explícito no header; aqui ela é <b>inferida pelo emissor</b> e não viaja em campo nenhum. Na prática o emissor envia o menor entre as duas janelas.</p>
+  </div>
+
+  <h3>Controle de fluxo × controle de congestionamento</h3>
+  <table>
+    <thead><tr><th></th><th>Controle de fluxo</th><th>Controle de congestionamento</th></tr></thead>
+    <tbody>
+      <tr><td><b>Problema que resolve</b></td><td>O <b>receptor</b> não dá conta de processar/armazenar</td><td>A <b>rede</b> (roteadores no caminho) não dá conta de encaminhar</td></tr>
+      <tr><td><b>Quem sinaliza</b></td><td>O receptor, explicitamente</td><td>Ninguém avisa — o emissor infere</td></tr>
+      <tr><td><b>Informação usada</b></td><td>Campo <b>Window size</b> do header (window advertisement)</td><td><b>RTT médio</b> das confirmações e <b>timeouts</b> de ACK</td></tr>
+      <tr><td><b>Variável controlada</b></td><td>Janela anunciada pelo receptor</td><td>Janela de congestionamento, interna ao emissor</td></tr>
+      <tr><td><b>Onde aparece no protocolo</b></td><td>Campo de 16 bits no header TCP</td><td>Em nenhum campo — é estado interno (só CWR/ECE dão dicas)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>RED — Random Early Detection / Discard / Drop</h3>
+  <p>O mecanismo de janela de congestionamento é <b>explorado pelo RED</b>, que aplica <b>descarte seletivo</b> (de determinados fluxos) para reduzir o throughput de conexões pela <b>redução das janelas de congestionamento</b>.</p>
+  <p>A lógica: o roteador, ao perceber que suas filas estão crescendo, <b>descarta pacotes de propósito e antes de a fila encher</b>, escolhendo vítimas aleatoriamente entre os fluxos. Cada emissor atingido interpreta a perda como congestionamento e reduz sua janela — o que alivia a rede <b>antes</b> do colapso, em vez de depois.</p>
+  <p class="note">Sem RED, a fila enche e transborda de uma vez, o que derruba pacotes de <b>todos</b> os fluxos simultaneamente; todos recuam juntos e depois voltam a crescer juntos, criando oscilação global (a "sincronização global"). O RED evita isso justamente por ser <b>aleatório</b> e <b>antecipado</b>.</p>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Por que um roteador descartaria pacotes de propósito?</dt>
+      <dd>Porque a perda é o <b>único canal de comunicação</b> que ele tem com o emissor TCP. O roteador não fala TCP e não pode pedir "mande menos"; descartar é a mensagem. (O ECN, sinalizado pelas flags ECE e CWR, é a tentativa moderna de dar esse recado sem jogar dados fora.)</dd>
+
+      <dt>"Como alguns programas fazem para confrontar tais ações?" (parte final da q.10)</dt>
+      <dd>Aplicações que não querem recuar simplesmente <b>não usam TCP</b> ou <b>abrem muitas conexões paralelas</b>. Um cliente com 10 conexões TCP perde, em média, apenas uma delas para o descarte aleatório do RED e continua com 90% do throughput, enquanto um cliente de uma conexão só perde 100%. Já um fluxo UDP puro (streaming, P2P antigo) <b>ignora o sinal por completo</b>, porque não há janela de congestionamento para reduzir. Nos dois casos o programa captura uma fatia maior da banda às custas dos fluxos bem-comportados.</dd>
+
+      <dt>O TCP perde banda por ser "educado"?</dt>
+      <dd>Sim, e é um custo deliberado. A estabilidade da Internet depende de a maioria dos emissores recuar ao primeiro sinal de perda. É o mesmo motivo pelo qual congestionamento é tratado no <b>transporte</b>, nas pontas, e não dentro da rede: só as pontas conseguem diminuir o que injetam.</dd>
+
+      <dt>Existe um campo de "janela de congestionamento" no header TCP?</dt>
+      <dd>Não. Essa é a pegadinha mais comum desta parte: o único campo de janela no header é o <b>Window size</b>, que é do <b>controle de fluxo</b>. A janela de congestionamento vive apenas na memória do emissor.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 2, q.9 (quase certa):</b> compare controle de fluxo e controle de congestionamento — que problema cada um resolve e que informações o TCP usa em cada decisão. Use a tabela acima como roteiro de resposta; ela já está na ordem em que a questão pergunta.</li>
+    <li><b>Lista 2, q.10:</b> servidor com centenas de clientes e queda de desempenho em horários de pico. Estruture em três partes: (a) a janela de congestionamento cresce e encolhe conforme RTT/timeout, evitando o colapso; (b) o RED antecipa o descarte de forma seletiva e aleatória, fazendo alguns fluxos reduzirem a janela antes da fila transbordar; (c) programas "confrontam" abrindo muitas conexões paralelas ou usando UDP, que não recua.</li>
+    <li><b>Explicar o significado de cada letra de RED</b> — Random Early Detection/Discard/Drop — e por que o descarte é aleatório.</li>
+    <li><b>Desenhar ou interpretar o gráfico dente-de-serra</b> da janela ao longo do tempo.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m7">
+  <h2>7 · Camada de aplicação: Telnet, SSH e FTP</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  Aqui começa a segunda metade da prova. São três serviços antigos, simples e com perguntas previsíveis — a lista da aula 4 gastou <b>duas das suas três questões</b> exatamente neles. Também é o módulo em que as portas começam a importar de verdade: 20, 21, 22 e 23 são vizinhas e trocá-las é o erro mais comum.</div>
+
+  <h3>O que define um protocolo de aplicação</h3>
+  <p>Na camada de aplicação são definidos os protocolos para comunicação entre <b>programas aplicativos</b> que atendem usuários e sistemas finais. A relação entre eles, em pares cliente-servidor, define o comportamento geral de algum serviço que usa a rede.</p>
+  <p>Na arquitetura Internet, os serviços tradicionais:</p>
+  <ul class="tight">
+    <li>São especificados por <b>RFCs</b> (Request For Comments), mantidas pela <b>IETF</b>.</li>
+    <li>Têm suas portas servidoras registradas e mantidas pela <b>IANA</b> (veja em <code>/etc/services</code> num sistema Linux).</li>
+  </ul>
+  <p>Para permitir que qualquer pessoa ou organização implemente clientes e servidores de um serviço, o protocolo de aplicação deve especificar <b>duas coisas</b>:</p>
+  <ol class="tight">
+    <li>O <b>formato das mensagens</b> (PDUs).</li>
+    <li>O <b>comportamento das entidades</b> cliente e servidora nas mais diversas situações — eventos vindos de requisição/interação do usuário ou da chegada de uma mensagem específica (a relação entre sintaxe e significado).</li>
+  </ol>
+
+  <h4>Linha do tempo (contexto que o professor deu)</h4>
+  <table>
+    <thead><tr><th>Época</th><th>O que surgiu</th></tr></thead>
+    <tbody>
+      <tr><td>Década de 1960</td><td>Primeiros serviços de rede idealizados; terminais "burros" ligados por conexões seriais RS-232 a computadores de grande porte</td></tr>
+      <tr><td>Décadas de 1970-80</td><td>Difusão de transferência de arquivos, correio eletrônico e emulação remota de terminais; portados para a Internet como <b>FTP, SMTP e Telnet</b> em meados dos anos 80</td></tr>
+      <tr><td>Início dos 1990</td><td><b>World Wide Web</b>: hipertexto, depois hipermídia via extensões <b>MIME</b> (que vieram do correio eletrônico)</td></tr>
+      <tr><td>A partir de 1994</td><td>Entrada dos <b>ISPs</b> no mercado; organizações passam a usar a Web para negociação eletrônica; surgem as <b>Intranets</b> e, depois, as relações <b>P2P</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Telnet (RFC 854, porta 23/TCP)</h3>
+  <p>Define o serviço de <b>emulação de terminal virtual</b> sobre uma conexão TCP. O Telnet implementa VT em rede através de um <b>NVT (Network Virtual Terminal)</b>: uma emulação remota (cliente) se comunica com um processo servidor (<code>telnetd</code>) através da Internet.</p>
+  <p><b>Funcionamento básico:</b></p>
+  <ul class="tight">
+    <li>Transporte <b>full-duplex</b> de fluxos de caracteres entre as duas aplicações.</li>
+    <li>Cada caractere digitado pelo usuário é <b>ecoado localmente</b>, ou seja, encaminhado ao servidor e <b>ecoado de volta ao cliente</b> para ser exibido na tela.</li>
+    <li>A execução de comandos pode ocasionar o envio de um fluxo de caracteres do servidor para o cliente, com o resultado obtido.</li>
+    <li>O terminal virtual permite várias opções de configuração: tipo de linguagem/caractere, formato do terminal, entre outras.</li>
+  </ul>
+  <p><b>O grande problema é a segurança:</b> tanto os caracteres trocados durante a sessão quanto os caracteres que compõem <b>login e senha</b> do usuário são transmitidos de <b>forma plana (sem encriptação)</b>. Isso permitiu o uso de programas espiões (<b>sniffers</b>), comprometendo a utilização segura do Telnet por usuários remotos.</p>
+
+  <h3>SSH (RFCs 4250 a 4254, porta 22/TCP)</h3>
+  <p>O <b>Secure Shell</b> é uma implementação <b>segura</b> da emulação de terminal virtual. Dispõe de mecanismos para:</p>
+  <ul class="tight">
+    <li><b>Autenticação segura</b> de usuários;</li>
+    <li><b>Confirmação de integridade</b> de mensagens;</li>
+    <li><b>Encriptação</b> de conteúdo.</li>
+  </ul>
+  <p><b>Como a criptografia funciona</b> (detalhe que o professor destacou):</p>
+  <table>
+    <thead><tr><th>Etapa</th><th>Algoritmo</th><th>Tipo de chave</th><th>Para quê</th></tr></thead>
+    <tbody>
+      <tr><td>Autenticação e troca de chave</td><td><b>RSA</b></td><td><b>Assimétrica</b> (par pública/privada)</td><td>Provar identidade e combinar a chave de sessão com segurança</td></tr>
+      <tr><td>Transporte dos dados</td><td><b>3DES, AES</b> e outros</td><td><b>Simétrica</b> (chave de sessão, gerada pelo cliente)</td><td>Cifrar o fluxo da sessão com custo baixo</td></tr>
+    </tbody>
+  </table>
+  <p>O SSH também <b>dá suporte à comunicação segura de outros tipos de aplicação</b> (transferência de arquivos, HTTP, SMTP) através de um <b>canal (túnel) seguro</b>.</p>
+
+  <h3>FTP (RFC 959, portas 21 e 20/TCP)</h3>
+  <p>O <b>File Transfer Protocol</b> é o protocolo padrão para transferência de arquivos na Internet e uma das primeiras aplicações desenvolvidas para a ARPANet. Transfere conteúdo <b>ASCII ou binário</b> através do estabelecimento de <b>duas conexões TCP</b>:</p>
+  <table>
+    <thead><tr><th>Porta</th><th>Canal</th><th>O que trafega</th></tr></thead>
+    <tbody>
+      <tr><td><b>21</b></td><td>Canal de <b>controle</b></td><td>Comandos, respostas, autenticação — fica aberto durante toda a sessão</td></tr>
+      <tr><td><b>20</b></td><td>Canal de <b>dados</b></td><td>O conteúdo dos arquivos — aberto e fechado a cada transferência</td></tr>
+    </tbody>
+  </table>
+  <p>Um mecanismo de autenticação permite controle de acesso ao sistema de arquivos e pode também permitir <b>acesso anônimo</b>. Suporta comandos para listagem do sistema de arquivos remoto, execução de comandos de shell, transferência por arquivo (<code>put</code> / <code>get</code>) ou de múltiplos arquivos com <i>wildcards</i> (<code>mget</code> / <code>mput</code>).</p>
+
+  <h4>Modos de operação: ativo × passivo</h4>
+  <table>
+    <thead><tr><th></th><th>Modo ATIVO</th><th>Modo PASSIVO</th></tr></thead>
+    <tbody>
+      <tr><td><b>Passo 1</b></td><td>Cliente conecta na porta 21 do servidor</td><td>Cliente conecta na porta 21 do servidor</td></tr>
+      <tr><td><b>Passo 2</b></td><td>Cliente <b>informa o número da outra porta</b> que usará para <b>receber</b> a conexão de dados</td><td>Cliente <b>informa que o modo será passivo</b></td></tr>
+      <tr><td><b>Passo 3</b></td><td>O <b>servidor</b> abre a conexão de dados <b>em direção ao cliente</b></td><td>O <b>cliente</b> abre a conexão de dados com a porta 20 do servidor</td></tr>
+      <tr><td><b>Quem inicia o canal de dados</b></td><td>Servidor</td><td>Cliente</td></tr>
+      <tr><td><b>Problema</b></td><td><b>Costuma apresentar problemas em operações através de firewalls</b></td><td>Atravessa firewalls sem dificuldade</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido — por que o firewall reclama do modo ativo</b>
+  <p style="margin:6px 0">Cliente 192.168.0.50 atrás de um firewall doméstico; servidor FTP 200.1.1.9.</p>
+  <ul>
+    <li><b>Ativo:</b> o cliente diz "abra a conexão de dados na minha porta 5001". O servidor então tenta <b>conectar de fora para dentro</b>, em 192.168.0.50:5001. O firewall vê uma conexão de entrada não solicitada vinda da Internet e <b>bloqueia</b>. A sessão de controle fica viva, os comandos respondem, mas nenhum arquivo transfere — o sintoma clássico.</li>
+    <li><b>Passivo:</b> as <b>duas</b> conexões saem do cliente para o servidor. Para o firewall são duas saídas normais, e ele libera as respostas correspondentes. Funciona.</li>
+  </ul>
+  <p style="margin:6px 0 0">Regra prática: quem está atrás de NAT/firewall — hoje, quase todo mundo — usa <b>passivo</b>. É por isso que o modo passivo virou o padrão dos clientes modernos.</p>
+  </div>
+
+  <div class="code"><b>Como fica na prática (aula 4) — instalar e testar os três</b>
+  <pre><span class="c"># SSH server</span>
+apt-get install ssh
+
+<span class="c"># Telnet server (roda sob o superserver inetd)</span>
+apt-get install inetutils-telnetd
+nano /etc/inetd.conf      <span class="c"># descomentar a linha do telnet</span>
+<span class="c"># telnet stream tcp nowait root /usr/sbin/tcpd /usr/sbin/telnetd</span>
+service inetutils-inetd stop &amp;&amp; service inetutils-inetd start
+
+<span class="c"># FTP server</span>
+apt-get install inetutils-ftpd ftp
+nano /etc/inetd.conf      <span class="c"># descomentar a linha do ftp</span>
+<span class="c"># ftp stream tcp nowait root /usr/sbin/tcpd /usr/sbin/ftpd --logging --auth=pam</span>
+
+<span class="c"># --- testes a partir da segunda VM ---</span>
+ssh user@IP_SERVIDOR      <span class="c"># aceitar o certificado da chave pública, depois a senha</span>
+telnet IP_SERVIDOR        <span class="c"># só a senha; tudo em texto plano</span>
+
+ftp user@IP_SERVIDOR
+<span class="k">help</span> / <span class="k">ls</span> / <span class="k">get</span> meunome.txt / <span class="k">delete</span> meunome.txt / <span class="k">ls</span> / <span class="k">quit</span></pre>
+  <p class="note" style="margin-top:10px">Repare no detalhe do roteiro: o SSH pede que você <b>aceite o certificado da chave pública</b> na primeira conexão. É o RSA em ação — e é a diferença visível em relação ao Telnet, que entra direto pedindo senha.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Se o Telnet é inseguro, por que ele ainda é ensinado?</dt>
+      <dd>Porque ele é o <b>cliente genérico de protocolos texto</b>. Nas próprias práticas do professor, o telnet é usado para conversar manualmente com o SMTP (porta 25) e com o POP3 (porta 110). Como esses protocolos são linhas de texto puro, o telnet vira uma ferramenta de diagnóstico — não um serviço de terminal.</dd>
+
+      <dt>Por que o SSH não usa só RSA para tudo?</dt>
+      <dd>Porque criptografia assimétrica é ordens de grandeza mais cara que a simétrica. A saída é o modelo híbrido: usa-se o RSA uma vez, para autenticar e transportar com segurança a chave de sessão; a partir daí, o fluxo inteiro anda com AES/3DES, que é rápido.</dd>
+
+      <dt>Por que o FTP separa controle e dados em duas conexões?</dt>
+      <dd>Para poder continuar recebendo comandos <b>durante</b> uma transferência — por exemplo, abortá-la. Com uma conexão só, o canal ficaria ocupado pelo arquivo. É um desenho dos anos 70 que a Web depois abandonou: o HTTP usa uma conexão só e delimita o conteúdo com o campo <code>Content-Length</code>.</dd>
+
+      <dt>Existe FTP seguro?</dt>
+      <dd>Sim, e o slide aponta o caminho: o SSH pode dar suporte à transferência segura de arquivos através de um <b>túnel</b> (é o SFTP/SCP). O FTP puro, como o Telnet, transmite senha em claro.</dd>
+
+      <dt>No modo passivo, o slide diz que o cliente abre conexão com a porta 20. Isso é sempre verdade?</dt>
+      <dd>É o que está no material da disciplina, e é a resposta que vale na prova. Na prática, implementações modernas costumam informar ao cliente uma porta alta para o canal passivo, mas <b>responda pelo slide</b>: modo passivo → cliente abre conexão com a porta 20 do servidor.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 4, q.1 (quase certa):</b> "Por que o FTP define duas portas servidoras distintas? Qual a principal diferença entre os modos passivo e ativo?" — Duas portas porque separa o canal de <b>controle</b> (21, comandos, aberto a sessão toda) do canal de <b>dados</b> (20, conteúdo dos arquivos). A diferença entre os modos é <b>quem abre a conexão de dados</b>: no ativo é o servidor (e por isso o firewall atrapalha); no passivo é o cliente.</li>
+    <li><b>Lista 4, q.2 (quase certa):</b> "Para que serve o telnet? Por que foi considerado vulnerável? Como o SSH resolveu?" — Emulação de terminal virtual (NVT) sobre TCP/23; vulnerável porque transmite tudo, <b>inclusive login e senha</b>, em texto plano, sujeito a sniffers; o SSH resolveu com autenticação segura via RSA, verificação de integridade das mensagens e encriptação do conteúdo com chave de sessão simétrica.</li>
+    <li><b>Dizer a porta e a RFC</b> de cada serviço — Telnet 23/RFC 854, SSH 22/RFCs 4250-4254, FTP 21 e 20/RFC 959.</li>
+    <li><b>Explicar o papel de IETF (RFCs) e IANA (portas)</b> e as duas coisas que um protocolo de aplicação precisa especificar.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m8">
+  <h2>8 · DNS (Domain Name System)</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  O DNS é o tema com o exercício mais específico que o professor deixou: <b>resolver um FQDN de quatro níveis, com o servidor recém-iniciado</b>. Isso significa que ele quer ver a <b>sequência iterativa</b> completa, cache vazio, passo a passo. É também o serviço que reaparece no módulo 9, porque o SMTP depende dos registros MX.</div>
+
+  <h3>O problema que o DNS resolve</h3>
+  <ul class="tight">
+    <li>Endereços IP de hosts (interfaces) possuem <b>32 bits</b>: eficientes para a comunicação TCP/IP, mas <b>inadequados à memorização humana</b>.</li>
+    <li>Outro problema: a divisão de endereços IP <b>não faz referência geográfica</b> (nem de nenhum outro tipo).</li>
+  </ul>
+  <p>O DNS provê tradução entre <b>nomes simbólicos e endereços IP</b>, e é definido pelas <b>RFCs 1034 e 1035</b>. Os nomes completos — <b>FQDN, Fully-Qualified Domain Name</b> — são compostos por sequências de alfanuméricos separados por pontos:</p>
+  <ul class="tight">
+    <li>Parte mais <b>à esquerda</b>: nome do host.</li>
+    <li>Parte da <b>direita</b>: domínio e sua hierarquia.</li>
+  </ul>
+
+  <h3>Hierarquia e zonas</h3>
+  <p>A estrutura hierárquica define <b>TLDs (Top Level Domains)</b> através de uma autoridade global (InterNIC), classificados em duas famílias:</p>
+  <table>
+    <thead><tr><th>Por atividade</th><th>Geográficos</th></tr></thead>
+    <tbody>
+      <tr><td><code>.com</code> — Commercial organization</td><td><code>.br</code> — Brazil</td></tr>
+      <tr><td><code>.edu</code> — Educational institution</td><td><code>.fr</code> — France</td></tr>
+      <tr><td><code>.gov</code> — Government organization</td><td><code>.ca</code> — Canada</td></tr>
+    </tbody>
+  </table>
+  <p>Uma organização registra seu nome de domínio aplicado a um TLD (global ou de um país) — <code>usp.br</code>, <code>terra.com.br</code> — e <b>determina sua própria estrutura interna</b>: cada domínio tem autoridade para criar subdomínios.</p>
+  <ul class="tight">
+    <li>Cada domínio/subdomínio delimita uma <b>zona de autoridade</b>.</li>
+    <li>Domínios são <b>conceitos lógicos</b> e não necessitam corresponder à distribuição física.</li>
+    <li>Exemplo do slide: host <code>idg</code> do subdomínio <code>receita</code> do domínio <code>fazenda.gov.br</code> → <code>idg.receita.fazenda.gov.br</code>.</li>
+  </ul>
+  <p>As zonas de autoridade consistem em regiões da hierarquia sob a autoridade de um servidor. Podem ser um único domínio, um subdomínio ou grupos destes — e <b>podem ser atribuídas a um servidor cujo nome não pertence àquela zona</b>.</p>
+
+  <h3>Os registros (Resource Records)</h3>
+  <p>Cada registro deve ser <b>único</b> e inclui nome de domínio, tipo do registro (RR) e IP. Exemplo do slide:</p>
+  <div class="formula">servidor&nbsp;&nbsp;&nbsp;IN&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;192.168.0.1</div>
+  <table>
+    <thead><tr><th>Tipo</th><th>Nome por extenso</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><b>A</b></td><td>Address</td><td>Mapeia um nome a um endereço IP</td></tr>
+      <tr><td><b>CNAME</b></td><td>Canonical Name</td><td><i>Alias</i> de um nome de domínio</td></tr>
+      <tr><td><b>HINFO</b></td><td>Host Info</td><td>Tipo de CPU e SO do host</td></tr>
+      <tr><td><b>MX</b></td><td>Mail eXchanger</td><td>Mapeia os <b>mail servers</b> de um domínio</td></tr>
+      <tr><td><b>NS</b></td><td>Name Server</td><td>DNS <b>autoritativo</b> para o domínio</td></tr>
+      <tr><td><b>PTR</b></td><td>Pointer</td><td>Ponteiro para a outra parte do domínio (é a <b>resolução reversa</b>: IP → nome)</td></tr>
+      <tr><td><b>SOA</b></td><td>Start of Authority</td><td>Identifica o <b>início da zona de autoridade</b></td></tr>
+    </tbody>
+  </table>
+  <p>Dois detalhes que o slide destaca e costumam virar item de prova:</p>
+  <ul class="tight">
+    <li>A classe <b>IN</b>, em um registro, indica que o sistema é <b>Internet</b>.</li>
+    <li>Um <b>TTL</b> (time-to-live) expressa o tempo de vida de um registro <b>em segundos</b>, através de um inteiro de <b>32 bits</b>.</li>
+  </ul>
+
+  <h3>Cliente-servidor no DNS</h3>
+  <p>Os nomes são gerenciados por uma <b>hierarquia de servidores</b> associada às zonas de autoridade. O servidor <b>Raiz</b>, no topo da árvore, detém os registros que descrevem os servidores do próximo nível, e assim sucessivamente.</p>
+  <table>
+    <thead><tr><th>Mensagem</th><th>Contém</th><th>Quem envia</th></tr></thead>
+    <tbody>
+      <tr><td><b>DNS request</b></td><td>O nome a ser resolvido</td><td>Um <b>resolver</b>, que é o cliente do serviço — pode ser uma função de API, como o <code>gethostbyname</code> dos sockets</td></tr>
+      <tr><td><b>DNS reply</b></td><td>O endereço IP para o nome solicitado</td><td>O servidor DNS <b>autoritativo</b> pela zona do registro</td></tr>
+    </tbody>
+  </table>
+  <p><b>A regra de decisão do servidor:</b></p>
+  <ul class="tight">
+    <li>Se a solicitação contém um nome <b>gerenciado pelo servidor receptor</b>, este responde diretamente.</li>
+    <li>Caso contrário, a solicitação deve ser encaminhada ao servidor autoritativo apropriado, através de uma <b>busca iterativa</b>: primeiro ao nó raiz, que informa quem responde pelo TLD; consultado este, informa quem responde pelo próximo nível, até encontrar a autoridade pelo domínio desejado.</li>
+    <li>Para evitar que todas as requisições sejam feitas diretamente à autoridade, um DNS pode atuar como <b>resolver (cliente)</b> e representar tais solicitações — e pode manter em <b>cache</b> os registros que já resolveu, por um período baseado no TTL anunciado pelo servidor autoritativo.</li>
+  </ul>
+  <p>Note a consequência, sublinhada no slide: <b>um servidor DNS, ao resolver no lugar do cliente de origem, torna-se cliente do servidor autoritativo</b> (e dos anteriores na hierarquia). É o exemplo canônico da possibilidade 3 do módulo 1.</p>
+  <p>A porta padrão do servidor DNS é a <b>53</b>. Uma implementação muito difundida é o <b>BIND</b> (Berkeley Internet Name Domain), mantida pelo <b>ISC</b> (Internet Systems Consortium).</p>
+
+  <div class="ex"><b>Exemplo resolvido — o exercício do professor, passo a passo</b>
+  <p style="margin:6px 0">Resolver <code>vacinapira.piracicaba.sp.gov.br</code> em um servidor <b>recém-iniciado</b> (portanto, <b>cache vazio</b>) e que <b>não tem autoridade</b> sobre o nome. Lê-se da direita para a esquerda:</p>
+  <ol>
+    <li>O <b>resolver</b> do cliente envia a request ao DNS local.</li>
+    <li>O DNS local verifica: o nome não está em sua zona de autoridade e não está no cache. Ele então assume o papel de <b>cliente</b> e inicia a busca iterativa.</li>
+    <li>Pergunta ao servidor <b>Raiz</b> → a raiz não sabe o IP, mas devolve os <b>NS</b> do TLD <code><b>.br</b></code>.</li>
+    <li>Pergunta ao servidor de <code>.br</code> → devolve os NS de <code><b>gov.br</b></code>.</li>
+    <li>Pergunta ao servidor de <code>gov.br</code> → devolve os NS de <code><b>sp.gov.br</b></code>.</li>
+    <li>Pergunta ao servidor de <code>sp.gov.br</code> → devolve os NS de <code><b>piracicaba.sp.gov.br</b></code>.</li>
+    <li>Pergunta ao servidor de <code>piracicaba.sp.gov.br</code>, que é <b>autoritativo</b> → devolve o registro <b>A</b> de <code>vacinapira</code> com o IP.</li>
+    <li>O DNS local <b>guarda em cache</b> o que aprendeu (respeitando cada TTL) e envia a <b>DNS reply</b> ao cliente.</li>
+  </ol>
+  <p style="margin:6px 0 0">São <b>cinco consultas iterativas</b> porque o FQDN tem cinco níveis abaixo da raiz. A frase "considere que o servidor foi iniciado neste momento" existe justamente para <b>proibir</b> a resposta curta "ele busca no cache": com cache quente, a partir do passo 3 ou 4 a busca seria interrompida, e o professor quer o caminho completo.</p>
+  </div>
+
+  <div class="code"><b>Como fica na prática (aula 5) — arquivo de zona do BIND</b>
+  <pre><span class="c"># /etc/bind/named.conf.local — declarar as zonas (N = número da máquina)</span>
+zone <span class="s">"exemplo.com.br"</span>         { type master;
+                                file <span class="s">"/etc/bind/db.exemplo.com.br"</span>; };
+zone <span class="s">"N.168.192.in-addr.arpa"</span> { type master;
+                                file <span class="s">"/etc/bind/db.N.168.192"</span>; };
+
+<span class="c"># /etc/bind/db.exemplo.com.br — a zona direta (nome -&gt; IP)</span>
+$TTL    604800
+@    IN    <span class="k">SOA</span>    servidor.exemplo.com.br. root.servidor.exemplo.com.br.(
+                202609081       <span class="c">; Serial</span>
+                604800          <span class="c">; Refresh</span>
+                86400           <span class="c">; Retry</span>
+                2419200         <span class="c">; Expire</span>
+                604800)         <span class="c">; Negative Cache TTL</span>
+                IN      <span class="k">A</span>       192.168.N.1
+                IN      <span class="k">NS</span>      servidor
+                IN      <span class="k">MX</span>      00      servidor;
+servidor        IN      <span class="k">A</span>       192.168.N.1
+www             IN      <span class="k">CNAME</span>   servidor
+host2           IN      <span class="k">A</span>       192.168.N.2
+
+<span class="c"># /etc/bind/db.N.168.192 — a zona reversa (IP -&gt; nome), com registros PTR</span>
+$ORIGIN N.168.192.in-addr.arpa.
+1               <span class="k">PTR</span>     servidor.exemplo.com.br.
+2               <span class="k">PTR</span>     host2.exemplo.com.br.
+
+<span class="c"># do lado do cliente: /etc/resolv.conf</span>
+domain exemplo.com.br
+search exemplo.com.br
+nameserver 192.168.N.1
+
+<span class="c"># testes</span>
+host host3.exemplo.com.br        <span class="c"># resolução direta</span>
+host 192.168.N.3                 <span class="c"># resolução reversa (usa o PTR)</span>
+host host3.exemplo.com.br 192.168.N.1   <span class="c"># forçando o servidor a consultar</span></pre>
+  <p class="note" style="margin-top:10px">Esse arquivo é a teoria virando texto: o <b>SOA</b> abre a zona, o <b>NS</b> diz quem é autoritativo, o <b>A</b> mapeia nome→IP, o <b>CNAME</b> cria o apelido <code>www</code>, o <b>MX</b> aponta o servidor de e-mail e os <b>PTR</b> fazem o caminho inverso. Se a prova pedir "cite os tipos de registro", basta reler esse bloco.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Qual a diferença entre busca iterativa e recursiva?</dt>
+      <dd>Na <b>iterativa</b> (a descrita no slide), cada servidor consultado responde "eu não sei, pergunte àquele ali" e quem percorre a cadeia é o consultante. Na <b>recursiva</b>, o servidor aceita o encargo e devolve só a resposta final. O DNS local do exemplo faz as duas coisas ao mesmo tempo: atende o cliente <b>recursivamente</b> e resolve o nome <b>iterativamente</b> lá fora.</dd>
+
+      <dt>Zona e domínio são a mesma coisa?</dt>
+      <dd>Não. O <b>domínio</b> é o ramo lógico inteiro da árvore; a <b>zona</b> é a parte desse ramo que um servidor específico administra. Se <code>fazenda.gov.br</code> delega <code>receita.fazenda.gov.br</code> a outro servidor, o domínio continua sendo um só, mas passam a existir duas zonas.</dd>
+
+      <dt>Por que existe zona reversa com <code>in-addr.arpa</code>?</dt>
+      <dd>Porque a árvore do DNS lê da direita para a esquerda, e o IP lê da esquerda para a direita. Para encaixar o IP na mesma hierarquia, os octetos são <b>invertidos</b> e pendurados sob o domínio especial <code>in-addr.arpa</code>: o IP 192.168.5.2 vira <code>2.5.168.192.in-addr.arpa</code>. É por isso que o arquivo da prática se chama <code>db.N.168.192</code>.</dd>
+
+      <dt>Para que serve o número serial no SOA?</dt>
+      <dd>É a versão do arquivo de zona. Servidores secundários comparam o serial que têm com o do primário para decidir se precisam copiar a zona de novo. Daí o formato AAAAMMDD+contador do exemplo (<code>202609081</code>): esquecer de incrementá-lo após editar a zona é o erro clássico de laboratório.</dd>
+
+      <dt>Por que o slide comenta que "o Registro.br demorou a criar o .edu"?</dt>
+      <dd>É a explicação de por que a USP é <code>usp.br</code> e não <code>usp.edu.br</code>. Serve para lembrar que a hierarquia é convenção administrativa, não regra técnica: nada no protocolo obriga uma universidade a ficar sob <code>.edu</code>.</dd>
+
+      <dt>DNS roda sobre TCP ou UDP?</dt>
+      <dd>O slide informa só a porta 53. Na prática, consultas comuns vão por <b>UDP</b> (rápidas, resposta cabe em um datagrama, e a própria aplicação reenvia se não voltar) e transferências de zona entre servidores vão por <b>TCP</b>. Se a prova perguntar, cite a porta 53 e justifique o UDP pela leveza — é coerente com o módulo 3.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 4, q.3 (praticamente certa):</b> resolver <code>vacinapira.piracicaba.sp.gov.br</code> com o servidor recém-iniciado. Entregue os oito passos do exemplo resolvido, deixando explícito que <b>o cache está vazio</b> e que o DNS local <b>vira cliente</b> dos servidores da hierarquia.</li>
+    <li><b>Tabela de tipos de registro:</b> dizer o que faz A, CNAME, MX, NS, PTR, SOA e HINFO. Muito provável em formato "associe as colunas".</li>
+    <li><b>Explicar o que é uma zona de autoridade</b> e por que domínio ≠ zona.</li>
+    <li><b>Dizer o que são FQDN, resolver, TTL e a classe IN</b>, com o tamanho dos campos (TTL = inteiro de 32 bits, em segundos; IP = 32 bits).</li>
+    <li><b>Ler um trecho de arquivo de zona</b> do BIND e dizer o que cada linha declara — o material da prática dá a fonte exata.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m9">
+  <h2>9 · Correio eletrônico: SMTP, MIME, POP3 e IMAP</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  É o módulo com mais siglas e menos teoria nova — o que o torna perfeito para questão de "explique a diferença entre". A lista da aula 5 tem quatro questões e <b>todas</b> são sobre papéis: o que o MTA faz, por que dois servidores, que protocolo trouxe os anexos e quando um servidor vira cliente. Note também que o MX amarra este módulo ao DNS.</div>
+
+  <h3>O serviço e seus papéis</h3>
+  <p>O correio eletrônico é um serviço criado para a transferência de mensagens entre usuários da Internet, com conteúdo <b>exclusivamente texto (ASCII)</b> e formato de carta (remetente, destinatário, assunto...). É definido pela <b>RFC 2821 (SMTP — Simple Mail Transfer Protocol)</b>.</p>
+  <p>O funcionamento básico consiste em <b>enviar mensagens para caixas postais</b> (<i>mail boxes</i>):</p>
+  <table>
+    <thead><tr><th>Sigla</th><th>Nome</th><th>Papel</th></tr></thead>
+    <tbody>
+      <tr><td><b>UA</b></td><td>User Agent</td><td>O cliente. Acessa as caixas postais locais e pode efetuar o encaminhamento das mensagens através do servidor</td></tr>
+      <tr><td><b>MTA</b></td><td>Message Transfer Agent</td><td>O servidor. Encaminha mensagens e armazena, nas caixas postais dos usuários, as mensagens recebidas de outros MTAs</td></tr>
+    </tbody>
+  </table>
+  <p>A identificação de uma caixa postal inclui o <b>nome do usuário (login name)</b> e o <b>nome do host</b> onde ela se localiza — formato <code>login_name@host_name</code>.</p>
+
+  <h3>O encaminhamento por um MTA (o coração da lista 5)</h3>
+  <ol class="tight">
+    <li>O MTA de <b>origem</b> extrai o <b>host de destino</b> da mensagem e busca no <b>serviço DNS</b> a identificação dos mail exchangers — os <b>registros MX</b> — para o endereço em questão.</li>
+    <li>A mensagem é encaminhada para os registros MX <b>por ordem de preferência</b>, do <b>menor valor para o maior</b>.</li>
+    <li>O MTA de destino <b>extrai a informação do usuário</b> e armazena na <b>caixa postal apropriada</b>.</li>
+  </ol>
+
+  <div class="ex"><b>Exemplo resolvido — o caso <code>usuario@gmail.com</code> do slide</b>
+  <p style="margin:6px 0">Consultando os MX (<code>host -t MX gmail.com</code>), o slide obteve:</p>
+  <table style="margin:8px 0">
+    <thead><tr><th>Preferência</th><th>Mail exchanger</th><th>Ordem de tentativa</th></tr></thead>
+    <tbody>
+      <tr><td><b>5</b></td><td>gmail-smtp-in.l.google.com</td><td><b>1ª</b> — menor número, maior preferência</td></tr>
+      <tr><td>10</td><td>alt1.gmail-smtp-in.l.google.com</td><td>2ª</td></tr>
+      <tr><td>20</td><td>alt2.gmail-smtp-in.l.google.com</td><td>3ª</td></tr>
+      <tr><td>30</td><td>alt3.gmail-smtp-in.l.google.com</td><td>4ª</td></tr>
+      <tr><td>40</td><td>alt4.gmail-smtp-in.l.google.com</td><td>5ª</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">A pegadinha está na inversão: <b>menor número = mais preferido</b>. Se o de preferência 5 não estiver disponível, tenta-se o 10, depois o 20, e assim por diante. Repare que a lista chega do DNS fora de ordem — é o MTA que a ordena.</p>
+  </div>
+
+  <h3>Formato da mensagem (RFC 822)</h3>
+  <p>Definido pela <b>RFC 822</b> (<i>Standard for the Format of Arpa Internet Text Messages</i>), suporta diversos campos de cabeçalho além do corpo:</p>
+  <table>
+    <thead><tr><th>Campo</th><th>Conteúdo</th></tr></thead>
+    <tbody>
+      <tr><td><code>From:</code></td><td>Nome do remetente</td></tr>
+      <tr><td><code>To:</code></td><td>Endereço do destinatário</td></tr>
+      <tr><td><code>Cc:</code></td><td>Endereços para cópias carbono</td></tr>
+      <tr><td><code>Bcc:</code></td><td>Destinatários não informados (<i>blind copies</i>)</td></tr>
+      <tr><td><code>Date:</code></td><td>Data de envio</td></tr>
+      <tr><td><code>Sender:</code></td><td>Endereço do remetente (geralmente igual ao From)</td></tr>
+      <tr><td><code>Subject:</code></td><td>Assunto</td></tr>
+      <tr><td><code>Reply-To:</code></td><td>Endereço alternativo para resposta</td></tr>
+      <tr><td><code>X-Charset:</code></td><td>Conjunto de caracteres utilizado (normalmente ASCII)</td></tr>
+      <tr><td><code>X-Mailer:</code></td><td>Software de correio usado para o envio</td></tr>
+      <tr><td><code>X-Sender:</code></td><td>Duplicata do endereço do remetente</td></tr>
+    </tbody>
+  </table>
+
+  <h3>MIME: como os anexos entram numa mensagem de texto puro</h3>
+  <p>O <b>MIME (Multipurpose Internet Mail Extensions)</b> é a extensão ao SMTP que permite a inclusão de outros conteúdos (binários, caracteres especiais) além de texto puro ASCII. Definido pelas <b>RFCs 2045 a 2049</b>.</p>
+  <ul class="tight">
+    <li>O usuário anexa (<i>attach</i>) partes distintas à mensagem e o <b>user agent informa o tipo MIME</b> do conteúdo.</li>
+    <li>O conteúdo é <b>codificado como ASCII puro e inserido no corpo da mensagem</b>, devidamente delimitado e identificado.</li>
+    <li>O MIME define o <b>padrão de metadados</b> que identificará o texto delimitado.</li>
+    <li>Tornou-se a <b>base para interpretação de conteúdos convertidos em ASCII por outras aplicações, como o HTTP</b> — funcionando como <b>um protocolo de apresentação do modelo OSI</b>.</li>
+  </ul>
+  <p>A delimitação é feita por um cabeçalho que <b>estende a RFC 822</b>:</p>
+  <table>
+    <thead><tr><th>Cabeçalho</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td><code>MIME-Version:</code></td><td>Identifica a versão do MIME</td></tr>
+      <tr><td><code>Content-Description:</code></td><td>String que identifica o conteúdo da mensagem</td></tr>
+      <tr><td><code>Content-Id:</code></td><td>Identificador exclusivo</td></tr>
+      <tr><td><code>Content-Transfer-Encoding:</code></td><td>Como o conteúdo foi codificado (ex.: <code>base64</code>)</td></tr>
+      <tr><td><code>Content-Type:</code></td><td>Tipo e formato do conteúdo</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido — anatomia do exemplo do slide</b>
+  <p style="margin:6px 0">Na mensagem de exemplo, um <code>.docx</code> viaja dentro de uma mensagem de texto. Como:</p>
+  <ol>
+    <li><code>MIME-Version: 1.0</code> — avisa que o corpo segue as regras do MIME.</li>
+    <li><code>Content-Type: multipart/mixed; boundary=bcaec5314cc1d7fca704a1c196ee</code> — declara que o corpo tem <b>várias partes</b> e define a string que as separa.</li>
+    <li>Primeira parte, após <code>--bcaec...</code>: <code>Content-Type: text/plain; charset=ISO-8859-1</code> seguida do texto "teste".</li>
+    <li>Segunda parte: <code>Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document; name="teste.docx"</code>, com <code>Content-Disposition: attachment</code> e <code>Content-Transfer-Encoding: <b>base64</b></code>.</li>
+    <li>Segue o arquivo inteiro convertido em letras e números ASCII (<code>UEsDBBQABgAIAAAAIQDd/...</code>) — no exemplo, 172 linhas foram omitidas.</li>
+    <li>O corpo termina com o <i>boundary</i> de fechamento: <code>--bcaec...--</code> (com dois hífens também no fim).</li>
+  </ol>
+  <p style="margin:6px 0 0">Resumo da ideia: o MIME <b>não muda o SMTP</b>. Ele continua transportando só texto ASCII — o binário é que foi convertido em texto (base64) e marcado com metadados para o destinatário saber como desfazer a conversão. O custo é ~33% de inflação no tamanho.</p>
+  </div>
+
+  <h3>Cliente-servidor no SMTP (porta 25)</h3>
+  <table>
+    <thead><tr><th>Clientes SMTP</th><th>Servidores SMTP</th></tr></thead>
+    <tbody>
+      <tr><td>Solicitam o envio de mensagens do usuário através do SMTP server e operam o acesso a caixas postais</td><td><b>Encaminham</b> mensagens: tornam-se <b>clientes do mail server de destino</b>, guardando uma cópia da mensagem até a recepção completa</td></tr>
+      <tr><td><b>Localmente:</b> pine, mutt, elm, webmail</td><td>Enviam <b>apenas uma cópia da mensagem para cada host de destino</b>, mesmo que ela se destine a vários usuários</td></tr>
+      <tr><td><b>Remotamente</b> (via POP3 ou IMAP): Thunderbird, Outlook</td><td><b>Recebem</b> mensagens e as armazenam no mail box do usuário destinatário</td></tr>
+      <tr><td></td><td>Porta servidora: <b>25</b>. Exemplos: sendmail, exim, postfix</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Os cinco comandos SMTP</h4>
+  <table>
+    <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><code>HELO</code></td><td>Pede para o SMTP server contatar o MTA de destino (é a apresentação do cliente)</td></tr>
+      <tr><td><code>MAIL FROM:</code></td><td>Informa a caixa postal de <b>origem</b></td></tr>
+      <tr><td><code>RCPT TO:</code></td><td>Informa a caixa postal de <b>destino</b></td></tr>
+      <tr><td><code>DATA</code></td><td>Indica o início da mensagem (cabeçalho + corpo), que deverá ser encerrada com um caractere <b>"." (ponto final) sozinho em uma linha</b></td></tr>
+      <tr><td><code>QUIT</code></td><td>Encerra a conexão com o servidor</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code"><b>Diálogo real com um SMTP via telnet (prática da aula 6)</b>
+  <pre>user@debian:~$ telnet IP_SERVIDOR 25
+220 debian.meu.so ESMTP Exim 4.98.2 ...
+
+<span class="k">HELO</span> exemplo.com.br
+250 debian.meu.so Hello host2.exemplo.com.br [192.168.200.2]
+
+<span class="k">MAIL FROM</span>: &lt;martins@exemplo.com.br&gt;
+250 OK
+
+<span class="k">RCPT TO</span>: &lt;user@exemplo.com.br&gt;
+250 Accepted
+
+<span class="k">DATA</span>
+354 Enter message, ending with <span class="s">"."</span> on a line by itself
+From: martins@exemplo.com.br
+To: user@exemplo.com.br
+Subject: Teste
+Este é um teste de mensagem.
+<span class="k">.</span>
+250 OK id=1wnMxV-000000002Hu-3Dm3
+
+<span class="k">QUIT</span>
+221 debian.meu.so closing connection
+
+<span class="c"># conferindo a caixa postal no servidor:</span>
+cat /var/mail/user</pre>
+  <p class="note" style="margin-top:10px">Os códigos de três dígitos seguem a lógica de sempre: <b>2xx</b> = ok, <b>3xx</b> = continue enviando, <b>4xx/5xx</b> = erro. O <code>354</code> é o convite para digitar a mensagem.</p>
+  </div>
+
+  <h3>POP3 (RFC 1939, porta 110) e IMAP (RFC 3501, porta 143)</h3>
+  <p>A caixa postal de um usuário pode estar em uma máquina diferente daquela onde roda o cliente. Daí a necessidade de um segundo protocolo, só para <b>acessar</b> a caixa.</p>
+  <table>
+    <thead><tr><th></th><th>POP3</th><th>IMAP (versão 4)</th></tr></thead>
+    <tbody>
+      <tr><td><b>RFC / porta</b></td><td>1939 / <b>110</b></td><td>3501 / <b>143</b></td></tr>
+      <tr><td><b>O que permite</b></td><td>Listagem, <b>transferência (download)</b> e <b>remoção</b> de mensagens de uma caixa postal remota</td><td>Vários serviços a mais, listados abaixo</td></tr>
+      <tr><td><b>Motivação original</b></td><td>Resolver o acesso a caixas remotas via <b>dial-up</b>, dado o custo de manter acesso contínuo</td><td>Uso contínuo e multiplataforma</td></tr>
+      <tr><td><b>Modos de operação</b></td><td>Essencialmente baixar e desconectar</td><td><b>Conectado e desconectado</b></td></tr>
+      <tr><td><b>Clientes simultâneos</b></td><td>Um por vez</td><td><b>Aceita múltiplos clientes simultâneos à mesma caixa postal</b></td></tr>
+      <tr><td><b>Partes MIME</b></td><td>Baixa a mensagem inteira</td><td><b>Permite acesso de partes MIME distintas</b> — remover apenas o anexo, por exemplo</td></tr>
+      <tr><td><b>Estado da mensagem</b></td><td>Fica no cliente</td><td><b>Mantido no servidor</b> (lida, respondida, marcada)</td></tr>
+      <tr><td><b>Pastas</b></td><td>Só a INBOX</td><td><b>Gerencia múltiplas caixas (folders)</b> do usuário num mesmo servidor</td></tr>
+      <tr><td><b>Busca</b></td><td>No cliente, após baixar tudo</td><td><b>Busca por mensagens no lado do servidor</b></td></tr>
+      <tr><td><b>Implementação citada</b></td><td>Qpopper</td><td>(dovecot, na prática da aula 6)</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Os comandos do POP3</h4>
+  <p>Após a conexão procede-se a <b>autenticação</b>: login e senha são apresentados pelos comandos <code>USER</code> e <code>PASS</code>. Em seguida:</p>
+  <table>
+    <thead><tr><th>Comando</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><code>LIST</code></td><td>Solicita a lista de mensagens</td></tr>
+      <tr><td><code>RETR</code> n</td><td>Pede que o servidor envie uma determinada mensagem</td></tr>
+      <tr><td><code>DELE</code> n</td><td>Solicita a remoção de uma mensagem da caixa postal</td></tr>
+      <tr><td><code>QUIT</code></td><td>Encerra o serviço (e efetiva as remoções marcadas)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code"><b>Diálogo real com um POP3 via telnet (prática da aula 6)</b>
+  <pre>user@debian:~$ telnet IP_SERVIDOR 110
++OK Dovecot ready.
+
+<span class="k">USER</span> user
++OK
+<span class="k">PASS</span> user
++OK Logged in.
+
+<span class="k">LIST</span>
++OK 1 messages:
+1 778
+.
+
+<span class="k">RETR</span> 1
++OK 778 octets
+<span class="c">... (a mensagem inteira, cabeçalho e corpo) ...</span>
+.
+
+<span class="k">DELE</span> 1
++OK Marked to be deleted.
+
+<span class="k">LIST</span>
++OK 0 messages:
+.
+
+<span class="k">QUIT</span>
++OK Logging out, messages deleted.</pre>
+  <p class="note" style="margin-top:10px">Diferente do SMTP, o POP3 responde com <code>+OK</code> / <code>-ERR</code> em vez de códigos numéricos. Note o <code>DELE</code>: ele apenas <b>marca</b> ("Marked to be deleted"); a remoção só se efetiva no <code>QUIT</code>.</p>
+  </div>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Por que preciso configurar <b>dois</b> servidores no meu cliente de e-mail?</dt>
+      <dd>Porque são dois serviços distintos e opostos: o <b>SMTP (25)</b> serve para <b>enviar</b> — é o protocolo de <i>empurrar</i> mensagem para o MTA, que a encaminhará; o <b>POP3 (110) ou IMAP (143)</b> serve para <b>acessar a caixa postal</b> — é o protocolo de <i>puxar</i> o que chegou. O SMTP não sabe ler caixa postal e o POP3/IMAP não sabe enviar mensagem. Essa é a resposta da questão 2 da lista 5.</dd>
+
+      <dt>Quando exatamente um servidor SMTP vira cliente?</dt>
+      <dd>Em duas situações, ambas no slide: (a) quando <b>encaminha</b> uma mensagem para o MTA do domínio de destino — ele abre uma conexão na porta 25 do outro servidor e fala SMTP como cliente; (b) quando <b>consulta o DNS</b> pelos registros MX, atuando como resolver. É a questão 4 da lista 5.</dd>
+
+      <dt>Por que o MTA guarda uma cópia até a recepção completa?</dt>
+      <dd>Para não perder a mensagem se a transferência falhar no meio. É o modelo <i>store-and-forward</i>: só depois de o próximo MTA confirmar o recebimento inteiro é que o anterior pode descartar. Foi o que produziu, na prática da aula 6, a mensagem "Message frozen" — o exim não conseguiu entregar e guardou.</dd>
+
+      <dt>Por que "apenas uma cópia por host de destino"?</dt>
+      <dd>Economia de banda. Se dez pessoas do mesmo domínio estão no <code>To:</code>, não faz sentido transmitir a mensagem dez vezes pelo mesmo caminho: envia-se uma vez, com dez comandos <code>RCPT TO:</code>, e o MTA de destino faz as dez cópias localmente.</dd>
+
+      <dt>Por que o slide diz que o MIME poderia ser associado à camada de <b>apresentação</b> do OSI?</dt>
+      <dd>Porque a função da camada de apresentação é justamente cuidar da <b>representação</b> dos dados — codificação, conversão de formatos —, e não do transporte deles. O MIME faz exatamente isso: diz <i>como</i> o conteúdo está codificado, sem interferir em como ele viaja. É a resposta esperada na questão 3 da lista 5.</dd>
+
+      <dt>IMAP é sempre melhor que POP3?</dt>
+      <dd>Para o uso moderno (vários dispositivos, caixas grandes, busca), sim. O POP3 tem uma vantagem: exige quase nada do servidor, porque tudo fica no cliente. Era o que importava na era do dial-up — o contexto que o próprio slide dá.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 5, q.1 (quase certa):</b> descreva passo a passo a intermediação por um MTA. Os três passos: extrair o host de destino e <b>consultar os registros MX no DNS</b>; encaminhar para os MX <b>em ordem de preferência, do menor para o maior</b>; no destino, extrair o usuário e armazenar na caixa postal.</li>
+    <li><b>Lista 5, q.2:</b> por que dois servidores (SMTP × POP3/IMAP) e o que cada um provê — envio/encaminhamento contra acesso à caixa postal.</li>
+    <li><b>Lista 5, q.3:</b> que protocolo atendeu à demanda de anexos e a que camada OSI se associa — <b>MIME</b>, camada de <b>apresentação</b>.</li>
+    <li><b>Lista 5, q.4:</b> quando um SMTP vira cliente de outro — ao encaminhar para o MTA de destino (e, de quebra, ao consultar o DNS).</li>
+    <li><b>Tabela POP3 × IMAP:</b> portas, e pelo menos três diferenças funcionais (múltiplos clientes, partes MIME separadas, estado e pastas no servidor, busca no servidor).</li>
+    <li><b>Escrever ou completar um diálogo SMTP</b> na ordem HELO → MAIL FROM → RCPT TO → DATA → "." → QUIT.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="m10">
+  <h2>10 · Web: HTTP, URL e Proxy</h2>
+  <div class="why"><b>Por que estudar isso</b>
+  É o último módulo e o mais curto em teoria, mas as duas questões da lista 6 são <b>as mais "de projeto" de toda a matéria</b>: uma pergunta por que muitos elementos pequenos sobrecarregam um servidor, e a outra <b>onde colocar o proxy</b>. As duas se respondem com um raciocínio só: cada recurso custa uma conexão TCP.</div>
+
+  <h3>Contexto e padrões</h3>
+  <ul class="tight">
+    <li>Em <b>1990</b>, <b>Tim Berners-Lee</b> criou uma aplicação voltada à exibição de documentos (hipertextos): a ferramenta gráfica <b>WorldWideWeb</b>, destinada inicialmente a organizar e exibir documentos científicos.</li>
+    <li>O "boom" ocorreu quando provedores comerciais (~1994) permitiram o amplo acesso à Internet por pessoas e empresas.</li>
+    <li>Os padrões para a Web são controlados pelo <b>W3 Consortium</b>.</li>
+    <li>Em <b>2000</b>, Berners-Lee anunciou a <b>Web Semântica</b>, com novos padrões: <b>XML</b> (Extensible Markup Language) e <b>RDF</b> (Resource Description Framework), para a representação de dados/conceitos.</li>
+    <li>Duas áreas de estudo citadas: <b>Web Engineering</b> (métodos e modelos para SIs na Web) e <b>E-Business</b>.</li>
+  </ul>
+  <p>O <b>hipertexto</b> associa referências (ou ligações) a outros documentos dentro do próprio conteúdo textual, descrito pela linguagem de marcação <b>HTML</b>. Conteúdos em outras mídias (hipermídia — figuras, streams de vídeo e áudio) são <b>convertidos e referenciados com o uso do MIME</b> — a ponte com o módulo 9.</p>
+
+  <h3>URL (RFC 1738)</h3>
+  <div class="formula">&lt;protocol&gt;://[&lt;usr&gt;:&lt;pass&gt;@]&lt;host&gt;[:&lt;port&gt;]/[&lt;url-path&gt;][?&lt;par&gt;=&lt;value&gt;&amp;...]</div>
+  <table>
+    <thead><tr><th>Parte</th><th>Obrigatória?</th><th>O que é</th></tr></thead>
+    <tbody>
+      <tr><td><code>protocol</code></td><td>sim</td><td>Protocolo a ser utilizado na transferência. O padrão é <b>http</b>; outros: https, ftp</td></tr>
+      <tr><td><code>user</code> : <code>password</code></td><td><b>opcionais</b></td><td>Usuário e sua senha</td></tr>
+      <tr><td><code>host</code></td><td>sim</td><td><b>FQDN</b> de um host (forma literal ou notação decimal)</td></tr>
+      <tr><td><code>port</code></td><td><b>opcional</b></td><td>Número da porta a ser conectada (omitida, assume-se a do protocolo)</td></tr>
+      <tr><td><code>url-path</code></td><td>—</td><td>Detalhes de como o recurso específico pode ser acessado</td></tr>
+      <tr><td><code>var=value</code></td><td>—</td><td>Pares de parâmetro e valor após um <b>?</b>; o símbolo <b>&amp;</b> separa os pares. Encaminha dados de uma request (método <b>GET</b>)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ex"><b>Exemplo resolvido — decompondo a URL do slide</b>
+  <p style="margin:6px 0"><code>http://www.google.com.br/search?hl=pt-BR&amp;q=teste&amp;btnG=Pesquisa+Google&amp;meta=</code></p>
+  <table style="margin:8px 0">
+    <thead><tr><th>Parte</th><th>Valor</th></tr></thead>
+    <tbody>
+      <tr><td>protocol</td><td><code>http</code> → porta 80 assumida, pois não há <code>:port</code></td></tr>
+      <tr><td>user:pass</td><td>ausentes</td></tr>
+      <tr><td>host</td><td><code>www.google.com.br</code> (um FQDN — será resolvido pelo DNS, módulo 8)</td></tr>
+      <tr><td>url-path</td><td><code>/search</code></td></tr>
+      <tr><td>parâmetros</td><td><code>hl=pt-BR</code>, <code>q=teste</code>, <code>btnG=Pesquisa+Google</code>, <code>meta=</code> (vazio)</td></tr>
+    </tbody>
+  </table>
+  <p style="margin:6px 0 0">Quatro pares separados por <b>&amp;</b>, todos após o <b>?</b>. O <code>+</code> em "Pesquisa+Google" é como o espaço é codificado na URL. E como os dados vão <b>na própria URL</b>, este é um <b>GET</b> — motivo pelo qual senha jamais deve ir por GET: ficaria no histórico e nos logs do servidor.</p>
+  </div>
+
+  <h3>HTTP (RFC 2616 para o HTTP/1.1)</h3>
+  <h4>Campos do header citados no slide</h4>
+  <table>
+    <thead><tr><th>Campo</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td><code>Content-Encoding</code></td><td>Tipo de compressão do conteúdo</td></tr>
+      <tr><td><code>Content-Language</code></td><td>Código da linguagem natural do conteúdo</td></tr>
+      <tr><td><code>Content-Length</code></td><td>Tamanho em bytes do conteúdo</td></tr>
+      <tr><td><code>Date</code></td><td>Data e horário de criação da mensagem</td></tr>
+      <tr><td><code>Content-Type</code></td><td>O tipo de conteúdo (<b>MIME — RFC 822</b>) transportado pela mensagem</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Os três métodos</h4>
+  <table>
+    <thead><tr><th>Método</th><th>O que solicita ao servidor</th></tr></thead>
+    <tbody>
+      <tr><td><b>GET</b></td><td>Que o servidor <b>envie a página</b> referenciada pela URL (que pode conter parâmetros extras)</td></tr>
+      <tr><td><b>PUT</b></td><td>Que o servidor <b>receba um documento</b>, em um formato MIME informado no <code>Content-Type</code>, e o <b>armazene na URL informada</b></td></tr>
+      <tr><td><b>POST</b></td><td>Que o servidor <b>receba dados</b> (no conteúdo) para serem informados a um documento — normalmente um programa — especificado pela URL</td></tr>
+    </tbody>
+  </table>
+
+  <h4>A interação: "hits" de requisição/resposta</h4>
+  <table>
+    <thead><tr><th></th><th>request</th><th>response</th></tr></thead>
+    <tbody>
+      <tr><td><b>Quem envia</b></td><td>Cliente</td><td>Servidor</td></tr>
+      <tr><td><b>Formato</b></td><td>Conteúdo <b>ASCII</b> — linhas de texto separadas por <i>blank lines</i></td><td>Conteúdo <b>MIME</b>, especificado no campo <code>Content-Type</code></td></tr>
+      <tr><td><b>Primeira linha</b></td><td>Especifica um <b>método</b> e o <b>caminho (path)</b> para o arquivo/página</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="note"><b>O ponto mais cobrável do módulo:</b> cada requisição HTTP representa a solicitação de <b>um</b> recurso hipermídia, e <b>normalmente gera uma nova conexão TCP para cada recurso</b>, que é encerrada quando da resposta.</p>
+
+  <div class="ex"><b>Exemplo resolvido — a conta da página com 40 elementos</b>
+  <p style="margin:6px 0">Uma página tem 1 HTML + 30 ícones + 8 imagens + 1 folha de estilo = <b>40 recursos</b>. No modelo "uma conexão por recurso":</p>
+  <ul>
+    <li>40 conexões TCP, cada uma com <b>three-way handshake</b> (3 segmentos) e encerramento (≈4 segmentos) = <b>~280 segmentos só de controle</b>, antes de qualquer byte útil.</li>
+    <li>40 × (alocação de socket + buffers + entrada na tabela de conexões do SO) no servidor.</li>
+    <li>Cada conexão espera pelo menos <b>1 RTT</b> antes do primeiro byte de dado.</li>
+  </ul>
+  <p style="margin:6px 0 0">Com 100 usuários simultâneos, são 4.000 conexões. É por isso que <b>o tamanho dos elementos importa menos que a quantidade</b>: o custo é <i>por conexão</i>, não por byte. Trinta ícones de 2 KB machucam mais o servidor do que uma imagem de 60 KB.</p>
+  </div>
+
+  <h3>Clientes e servidores Web</h3>
+  <table>
+    <thead><tr><th>Clientes (browsers)</th><th>Servidores</th></tr></thead>
+    <tbody>
+      <tr><td>Permitem a interação do usuário, interpretando e exibindo o conteúdo e dando suporte à seleção de links dos hipertextos</td><td>Aguardam requisições por recursos. Porta servidora padrão: <b>80</b></td></tr>
+      <tr><td>Para outros tipos de mídia, referenciados com o MIME, dispõem de <b>plugins</b> ou módulos específicos</td><td>Mantêm módulos para execução de programas <b>server-side</b> (CGI, Perl, PHP), que criam <b>conteúdo dinâmico</b></td></tr>
+      <tr><td>Citados: Mozilla, Chrome e Internet Explorer</td><td>Esse recurso é normalmente referenciado por requisições de <b>formulários HTML</b> — o meio tradicional de input de dados via HTTP</td></tr>
+      <tr><td></td><td>Implementações mais conhecidas: <b>Apache</b> e <b>IIS</b></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Caching: no cliente e no proxy</h3>
+  <p>Para evitar a demanda por muitas conexões, existem duas estratégias:</p>
+  <table>
+    <thead><tr><th></th><th>Cache local (no navegador)</th><th>Servidor Proxy</th></tr></thead>
+    <tbody>
+      <tr><td><b>Onde fica</b></td><td>Na máquina do cliente</td><td>Atua normalmente como <b>cache para uma rede local</b></td></tr>
+      <tr><td><b>Quem se beneficia</b></td><td>Só aquele usuário</td><td><b>Todos os clientes da rede</b></td></tr>
+      <tr><td><b>Funcionamento</b></td><td>Mantém cópias das páginas acessadas recentemente; se o usuário reacessar a mesma página pouco tempo depois, o navegador a carrega da cópia em disco</td><td>Os clientes solicitam todos os objetos hipermídia (por suas URLs) ao proxy; ele intermedia a comunicação com o servidor Web, obtém o recurso, <b>armazena uma cópia associando URL e timestamp</b>, e envia ao cliente. Na próxima solicitação do mesmo recurso por <b>qualquer cliente da rede</b>, pode devolver a cópia em cache — <b>caso não tenha expirado seu tempo de vida</b> — evitando novo contato com o servidor Web</td></tr>
+    </tbody>
+  </table>
+  <p><b>O proxy não é só cache.</b> Ele permite estabelecer regras e restrições de acesso — <b>ACL (Access Control Lists)</b> — com permissões e negações baseadas em <b>protocolos, endereços de origem e destino e nome de usuário (autenticação)</b>. No <b>Squid</b>, são descritas em <code>/etc/squid/squid.conf</code>. A implementação mais famosa é o <b>Squid</b>, e sua porta servidora padrão (sugerida na instalação) é a <b>3128</b>.</p>
+  <p>A associação de um <b>servidor proxy com um firewall de rede</b> permite implementar e aplicar <b>políticas de acesso à Internet</b> para os clientes de uma rede local.</p>
+
+  <div class="faq">
+    <h4>Perguntas que surgem ao ler</h4>
+    <dl>
+      <dt>Qual a diferença entre PUT e POST, se os dois enviam dados?</dt>
+      <dd>Pelo slide: o <b>PUT</b> manda um <b>documento</b> para ser <b>armazenado na URL informada</b> — a URL é o destino do arquivo. O <b>POST</b> manda <b>dados</b> para serem <b>informados a um documento</b> (normalmente um programa) especificado pela URL — a URL é quem <i>processa</i> os dados. PUT deposita; POST alimenta um processamento.</dd>
+
+      <dt>Se GET também manda parâmetros, por que existe POST?</dt>
+      <dd>Porque no GET os dados vão na própria URL: ficam visíveis, entram no histórico e nos logs, e o comprimento é limitado. No POST vão no corpo da mensagem, sem esses limites. Formulários HTML — o "meio tradicional de input de dados via HTTP" — usam POST por isso.</dd>
+
+      <dt>Por que o proxy guarda um <b>timestamp</b> junto com a URL?</dt>
+      <dd>Para saber quando a cópia expira. Sem a marca de tempo, ele não teria como decidir entre servir do cache ou reconsultar o servidor de origem — e serviria conteúdo velho indefinidamente. É o mesmo papel do TTL no DNS.</dd>
+
+      <dt>O que o proxy resolve que o cache do navegador não resolve?</dt>
+      <dd><b>Compartilhamento e controle.</b> O cache local só ajuda o mesmo usuário reabrindo a mesma página. O proxy aproveita o acesso de um usuário para beneficiar todos os outros da rede, e ainda permite aplicar ACLs — o cache do navegador não controla nada.</dd>
+
+      <dt>O slide diz que o <code>Content-Type</code> segue a "RFC 822". Isso não é a RFC do e-mail?</dt>
+      <dd>Sim, e é proposital: é exatamente a observação do módulo 9 de que o MIME, nascido para o correio, <b>virou a base de interpretação de conteúdo de outras aplicações, como o HTTP</b>. O HTTP herdou do e-mail o formato "linhas de cabeçalho, linha em branco, corpo".</dd>
+
+      <dt>Por que o HTTP abre uma conexão TCP por recurso?</dt>
+      <dd>Porque foi desenhado para documentos que se buscavam um por vez. O HTTP/1.1 já permite reaproveitar a conexão (<i>keep-alive</i>), mas o comportamento que o slide descreve — "normalmente gera uma nova conexão TCP para cada recurso, encerrada quando da resposta" — é o que a prova cobra, e é o que explica a sobrecarga da questão 1 da lista 6.</dd>
+    </dl>
+  </div>
+
+  <div class="prova"><b>Provável na prova</b>
+  <ul class="tight" style="margin-bottom:0">
+    <li><b>Lista 6, q.1 (quase certa):</b> "Por que muitos elementos multimídia, mesmo pequenos, sobrecarregam um servidor?" — Porque <b>cada recurso referenciado gera uma requisição HTTP e, normalmente, uma nova conexão TCP</b>, com handshake, buffers, socket e entrada na tabela de conexões do SO, encerrada logo em seguida. O custo é por <b>conexão</b>, não por byte; N elementos pequenos custam mais que 1 elemento grande de mesmo tamanho total. Multiplique por todos os clientes simultâneos.</li>
+    <li><b>Lista 6, q.2 (quase certa):</b> "Para que serve um proxy e onde colocá-lo: próximo aos clientes ou ao servidor Web?" — <b>Próximo aos clientes</b>, na borda da rede local. Dois motivos: (a) o cache só economiza banda se estiver <b>antes</b> do trecho caro do caminho — colocado junto ao servidor Web, o tráfego já teria atravessado a Internet; (b) as <b>ACLs</b> e a política de acesso só fazem sentido onde os clientes estão, e é ali que ele se associa ao firewall.</li>
+    <li><b>Decompor uma URL</b> em protocolo, host, porta, path e parâmetros.</li>
+    <li><b>Explicar GET, PUT e POST</b> — com a distinção "armazena na URL" × "informa dados a um programa".</li>
+    <li><b>Dizer as portas:</b> HTTP 80, Squid 3128. E o arquivo de ACL: <code>/etc/squid/squid.conf</code>.</li>
+  </ul>
+  </div>
+</section>
+
+<section id="lab">
+  <h2>Laboratório: colinha de comandos</h2>
+  <p>As quatro práticas rodaram na mesma VM Debian, e a sequência de configuração se repete. Se a prova pedir "que comando você usaria para...", a resposta está aqui. Os comandos estão agrupados pela prática que os introduziu.</p>
+
+  <h3>O que cada comando responde</h3>
+  <table>
+    <thead><tr><th>Comando</th><th>Responde a pergunta</th><th>Prática</th></tr></thead>
+    <tbody>
+      <tr><td><code>ip -4 a</code> / <code>ifconfig</code></td><td>Qual é o meu IP?</td><td>Aula 3</td></tr>
+      <tr><td><code>route -n</code></td><td>Para onde meus pacotes vão? (tabela de roteamento, sem resolver nomes)</td><td>Aula 3</td></tr>
+      <tr><td><code>nmap &lt;ip&gt;</code></td><td>Que portas <b>TCP</b> estão abertas naquela máquina?</td><td>Aula 3</td></tr>
+      <tr><td><code>nmap -sU &lt;ip&gt;</code></td><td>E as portas <b>UDP</b>?</td><td>Aula 3</td></tr>
+      <tr><td><code>cat /etc/services</code></td><td>Que serviço usa a porta N? (base da IANA)</td><td>Aula 3</td></tr>
+      <tr><td><code>netstat -na --inet</code></td><td>Que portas do <b>meu</b> sistema estão ativas?</td><td>Aula 3</td></tr>
+      <tr><td><code>lsof -i tcp</code> / <code>lsof -i udp</code></td><td>Qual <b>processo</b> segura cada socket? (no Unix, socket é arquivo)</td><td>Aula 3</td></tr>
+      <tr><td><code>tcptraceroute</code></td><td>Que caminho um segmento TCP faz até tal host e porta?</td><td>Aula 3</td></tr>
+      <tr><td><code>wireshark</code></td><td>O que está realmente trafegando no fio? (selecionar interface → start)</td><td>Aula 3</td></tr>
+      <tr><td><code>ssh user@IP</code></td><td>Terminal remoto <b>cifrado</b> (aceita a chave pública na 1ª vez)</td><td>Aula 4</td></tr>
+      <tr><td><code>telnet IP</code> / <code>telnet IP porta</code></td><td>Terminal remoto em claro — ou cliente genérico de protocolo texto</td><td>Aulas 4 e 6</td></tr>
+      <tr><td><code>ftp user@IP</code></td><td>Sessão FTP (<code>help</code>, <code>ls</code>, <code>get</code>, <code>delete</code>, <code>quit</code>)</td><td>Aula 4</td></tr>
+      <tr><td><code>host -t MX &lt;domínio&gt;</code></td><td>Quais são os <b>mail exchangers</b> do domínio?</td><td>Aula 5</td></tr>
+      <tr><td><code>host &lt;nome&gt;</code> / <code>host &lt;ip&gt;</code></td><td>Resolução <b>direta</b> (A) e <b>reversa</b> (PTR)</td><td>Aula 5</td></tr>
+      <tr><td><code>cat /var/mail/user</code></td><td>O que chegou na caixa postal local?</td><td>Aula 6</td></tr>
+    </tbody>
+  </table>
+
+  <details class="snip"><summary>Script 1 — preparação da VM (repetido em todas as práticas)</summary>
+  <div class="code"><b>Sempre antes de começar</b>
+  <pre><span class="c"># virar root</span>
+su -
+
+<span class="c"># parar a gerência automática de rede, para configurar na mão</span>
+service NetworkManager stop
+service networking stop
+
+<span class="c"># na VirtualBox: Adaptador 1 em "Placa em modo Bridge", cabo conectado</span>
+apt-get update
+apt-get dist-upgrade
+apt-get install net-tools nmap wireshark
+
+<span class="c"># autorizar usuário comum a usar o wireshark</span>
+dpkg-reconfigure wireshark-common
+usermod -a -G wireshark user
+<span class="c"># encerrar a sessão do LXDE e entrar de novo</span></pre>
+  </div>
+  </details>
+
+  <details class="snip"><summary>Script 2 — endereçamento e rota estática (aulas 4 e 5)</summary>
+  <div class="code"><b>Configurar interface, rota e gateway</b>
+  <pre><span class="c"># N = número da sua máquina</span>
+ifconfig enp0s3 down
+ifconfig enp0s3 192.168.N.1/24 up
+
+<span class="c"># se "route -n" não mostrar nada depois de subir a interface, adicione a rota:</span>
+route add -net 192.168.N.0/24 enp0s3
+route add default gw 192.168.N.1
+
+<span class="c"># DNS do cliente</span>
+echo <span class="s">"nameserver 8.8.8.8"</span> &gt; /etc/resolv.conf
+
+<span class="c"># roteamento + NAT da rede nova para a rede da VM (aula 5)</span>
+echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+iptables -F ; iptables -t nat -F ; iptables -t mangle -F
+iptables -t nat -A POSTROUTING -o enp0s8 -j SNAT --to 172.16.X.Y</pre>
+  <p class="note" style="margin-top:10px">Da sua anotação da aula 4: rodando <code>ifconfig enp0s3 172.16.1.114/16 up</code> e em seguida <code>route -n</code>, se não aparecer nada, é preciso adicionar a rota com <code>route add -net ip/16 enp0s3</code>.</p>
+  </div>
+  </details>
+
+  <details class="snip"><summary>Script 3 — servidores SSH, Telnet e FTP (aula 4)</summary>
+  <div class="code"><b>Instalação via inetd</b>
+  <pre>apt-get install ssh
+apt-get install inetutils-telnetd
+apt-get install inetutils-ftpd ftp
+
+<span class="c"># descomentar as linhas em /etc/inetd.conf:</span>
+telnet  stream  tcp  nowait  root  /usr/sbin/tcpd  /usr/sbin/telnetd
+ftp     stream  tcp  nowait  root  /usr/sbin/tcpd  /usr/sbin/ftpd --logging --auth=pam
+
+<span class="c"># reiniciar o superserver</span>
+service inetutils-inetd stop
+service inetutils-inetd start</pre>
+  <p class="note" style="margin-top:10px">O <b>inetd</b> é o "superservidor": em vez de cada serviço escutar sua porta o tempo todo, ele escuta por todos e dispara o processo certo quando chega uma conexão. Por isso telnet e ftp são configurados no mesmo arquivo.</p>
+  </div>
+  </details>
+
+  <details class="snip"><summary>Script 4 — servidor DNS BIND (aula 5)</summary>
+  <div class="code"><b>Instalar, declarar zonas, testar</b>
+  <pre>apt-get install bind9
+
+<span class="c"># 1) declarar as zonas em /etc/bind/named.conf.local (direta e reversa)</span>
+<span class="c"># 2) criar /etc/bind/db.exemplo.com.br     (SOA, NS, MX, A, CNAME)</span>
+<span class="c"># 3) criar /etc/bind/db.N.168.192          (SOA, NS, PTR)</span>
+<span class="c">#    (conteúdo completo no módulo 8)</span>
+
+service named stop
+service named start
+
+<span class="c"># no cliente: /etc/resolv.conf</span>
+domain exemplo.com.br
+search exemplo.com.br
+nameserver 192.168.N.1
+
+<span class="c"># testes</span>
+host host3.exemplo.com.br
+host host3
+host 192.168.N.3
+host host3.exemplo.com.br 192.168.N.1   <span class="c"># sem resolv.conf configurado</span></pre>
+  </div>
+  </details>
+
+  <details class="snip"><summary>Script 5 — servidores SMTP (exim4) e POP3 (dovecot) (aula 6)</summary>
+  <div class="code"><b>Instalar e liberar acesso aos clientes da rede local</b>
+  <pre>apt-get install exim4
+nano /etc/exim4/update-exim4.conf.conf
+<span class="c"># alterar as linhas:</span>
+dc_eximconfig_configtype=<span class="s">'internet'</span>
+dc_local_interfaces=<span class="s">''</span>
+dc_relay_domains=<span class="s">'exemplo.com.br'</span>
+dc_relay_nets=<span class="s">'127.0.0.1 : 192.168.0.0/24'</span>
+
+update-exim4.conf
+service exim4 stop &amp;&amp; service exim4 start
+
+<span class="c"># POP3, no mesmo servidor</span>
+apt-get install dovecot-pop3d
+nano /etc/dovecot/conf.d/10-auth.conf
+<span class="c"># descomentar TEMPORARIAMENTE, só para testar sem criptografia:</span>
+auth_allow_cleartext = yes
+service dovecot stop &amp;&amp; service dovecot start
+
+<span class="c"># ... testar via telnet nas portas 25 e 110 (diálogos no módulo 9) ...</span>
+
+<span class="c"># ao terminar, COMENTAR a linha de volta e reiniciar o dovecot</span></pre>
+  <p class="note" style="margin-top:10px">Esse "habilite, teste, desabilite" do <code>auth_allow_cleartext</code> é didático de propósito: é o mesmo problema do Telnet do módulo 7 — senha em claro no fio. O roteiro faz questão de mandar desligar depois.</p>
+  </div>
+  </details>
+
+  <h3>Erros frequentes de laboratório</h3>
+  <table>
+    <thead><tr><th>Sintoma</th><th>Causa provável</th><th>Correção</th></tr></thead>
+    <tbody>
+      <tr><td><code>ERROR while getting interface flags: Dispositivo inexistente</code></td><td>Nome da interface digitado errado (<code>enps03</code> em vez de <code>enp0s3</code>)</td><td>Conferir com <code>ip -4 a</code>; o padrão é <b>enp0s3</b> / <b>enp0s8</b></td></tr>
+      <tr><td><code>route -n</code> não mostra nada após subir a interface</td><td>A rota da rede não foi criada automaticamente</td><td><code>route add -net 192.168.N.0/24 enp0s3</code></td></tr>
+      <tr><td>IP some depois de configurado</td><td>NetworkManager reassumiu a interface</td><td><code>service NetworkManager stop</code> e <code>service networking stop</code> <b>antes</b></td></tr>
+      <tr><td><code>apt-get update</code> falha</td><td>Sem rota default, sem DNS, ou login da rede pendente</td><td>Checar <code>route -n</code> e <code>/etc/resolv.conf</code>; fazer o login da rede no Firefox</td></tr>
+      <tr><td>Telnet/FTP instalados mas a conexão é recusada</td><td>Linha ainda comentada no <code>/etc/inetd.conf</code>, ou inetd não reiniciado</td><td>Descomentar e <code>service inetutils-inetd stop/start</code></td></tr>
+      <tr><td>Wireshark não deixa capturar como usuário comum</td><td>Usuário fora do grupo wireshark</td><td><code>dpkg-reconfigure wireshark-common</code> + <code>usermod -a -G wireshark user</code> + relogar</td></tr>
+      <tr><td>BIND não responde após editar a zona</td><td>Erro de sintaxe no arquivo, ou serial não incrementado</td><td>Corrigir e <code>service named stop/start</code></td></tr>
+      <tr><td>E-mail fica "frozen" no exim</td><td><code>lowest numbered MX record points to local host</code> — o MX aponta para a própria máquina, que não é destino final</td><td>Ajustar o registro MX da zona / os relay domains</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="numeros">
+  <h2>Números, portas e RFCs que caem</h2>
+  <p>Tudo o que é puro decoreba em uma página. Se você tiver cinco minutos antes da prova, leia só isto.</p>
+
+  <h3>Portas (todas citadas nos slides)</h3>
+  <table>
+    <thead><tr><th>Porta</th><th>Serviço</th><th>Transporte</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td><b>20</b></td><td>FTP — canal de <b>dados</b></td><td>TCP</td><td>Aberta e fechada a cada transferência</td></tr>
+      <tr><td><b>21</b></td><td>FTP — canal de <b>controle</b></td><td>TCP</td><td>Aberta durante toda a sessão</td></tr>
+      <tr><td><b>22</b></td><td>SSH</td><td>TCP</td><td>Também serve de túnel para outros protocolos</td></tr>
+      <tr><td><b>23</b></td><td>Telnet</td><td>TCP</td><td>Texto plano — inclusive a senha</td></tr>
+      <tr><td><b>25</b></td><td>SMTP</td><td>TCP</td><td>Conectada por clientes <b>e por outros servidores</b></td></tr>
+      <tr><td><b>53</b></td><td>DNS</td><td>—</td><td>Porta padrão do servidor de nomes</td></tr>
+      <tr><td><b>80</b></td><td>HTTP</td><td>TCP</td><td>Exemplo de Well Known Port no slide</td></tr>
+      <tr><td><b>110</b></td><td>POP3</td><td>TCP</td><td>Download e remoção de caixa remota</td></tr>
+      <tr><td><b>143</b></td><td>IMAP</td><td>TCP</td><td>Estado e pastas no servidor</td></tr>
+      <tr><td><b>3128</b></td><td>Proxy (Squid)</td><td>TCP</td><td>Sugerida na instalação — está acima de 1023</td></tr>
+      <tr><td><b>3306</b></td><td>MySQL</td><td>TCP</td><td>Exemplo de Registered Port no slide</td></tr>
+    </tbody>
+  </table>
+
+  <h3>RFCs citadas em aula</h3>
+  <table>
+    <thead><tr><th>RFC</th><th>Define</th></tr></thead>
+    <tbody>
+      <tr><td><b>768</b></td><td>UDP</td></tr>
+      <tr><td><b>793</b></td><td>TCP</td></tr>
+      <tr><td><b>822</b></td><td>Formato das mensagens de e-mail (<i>Standard for the Format of Arpa Internet Text Messages</i>) — reaproveitada pelo HTTP</td></tr>
+      <tr><td><b>854</b></td><td>Telnet</td></tr>
+      <tr><td><b>959</b></td><td>FTP (versão atual)</td></tr>
+      <tr><td><b>1034 e 1035</b></td><td>DNS (a 1034 define os tipos de registro)</td></tr>
+      <tr><td><b>1057</b></td><td>RPC</td></tr>
+      <tr><td><b>1738</b></td><td>URL</td></tr>
+      <tr><td><b>1889</b></td><td>RTP</td></tr>
+      <tr><td><b>1939</b></td><td>POP3</td></tr>
+      <tr><td><b>2045 a 2049</b></td><td>MIME</td></tr>
+      <tr><td><b>2616</b></td><td>HTTP/1.1</td></tr>
+      <tr><td><b>2821</b></td><td>SMTP</td></tr>
+      <tr><td><b>3232</b></td><td>Portas registradas pela IANA</td></tr>
+      <tr><td><b>3501</b></td><td>IMAP v4</td></tr>
+      <tr><td><b>4250 a 4254</b></td><td>SSH</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tamanhos e limites</h3>
+  <table>
+    <thead><tr><th>Grandeza</th><th>Valor</th><th>De onde vem</th></tr></thead>
+    <tbody>
+      <tr><td>Campo de porta (TCP e UDP)</td><td><b>16 bits</b> → 65.536 valores</td><td>Slide da aula 1</td></tr>
+      <tr><td>Endereço IP (IPv4)</td><td><b>32 bits</b> → 2<sup>32</sup> = <b>4.294.967.296</b></td><td>Slide do DNS + sua anotação</td></tr>
+      <tr><td>Sequence e Acknowledgement number</td><td><b>32 bits</b> cada</td><td>Header TCP</td></tr>
+      <tr><td>Header UDP</td><td><b>8 bytes</b> (4 campos de 16 bits)</td><td><code>udp.h</code></td></tr>
+      <tr><td>Header TCP</td><td><b>20 bytes</b> mínimo; até 60 com options</td><td>Data Offset × 4, com doff de 4 bits</td></tr>
+      <tr><td>Payload máximo do IP</td><td><b>65.515 bytes</b></td><td>65.535 totais − 20 de header mínimo</td></tr>
+      <tr><td>Datagrama IP</td><td>mínimo <b>20 bytes</b>, máximo <b>64 KB</b></td><td>Sua anotação da aula 2</td></tr>
+      <tr><td>MTU do quadro Ethernet</td><td><b>1.500 bytes</b> de payload</td><td>Slide da aula 1 (limite que mais pesa na prática)</td></tr>
+      <tr><td>TTL de um registro DNS</td><td>inteiro de <b>32 bits</b>, em <b>segundos</b></td><td>Slide do DNS</td></tr>
+      <tr><td>Well Known Ports</td><td><b>&lt; 1024</b></td><td>Exigem privilégio de sistema</td></tr>
+      <tr><td>Registered Port Numbers</td><td><b>&gt; 1023</b></td><td>Podem ser usadas por aplicativos de usuário</td></tr>
+    </tbody>
+  </table>
+
+  <h3>As duas fórmulas</h3>
+  <div class="formula">RTT<sub>new</sub> = (alpha × RTT<sub>old</sub>) + ((1 − alpha) × RTT<sub>sample</sub>)</div>
+  <div class="formula">RTO = beta × RTT<sub>new</sub></div>
+  <div class="ex" style="margin-top:12px"><b>Exemplo numérico de bolso</b>
+  <p style="margin:6px 0">alpha = 0,875 · RTT<sub>old</sub> = 100 ms · RTT<sub>sample</sub> = 140 ms · beta = 2</p>
+  <p style="margin:0">RTT<sub>new</sub> = 0,875·100 + 0,125·140 = 87,5 + 17,5 = <b>105 ms</b> &nbsp;→&nbsp; RTO = 2 × 105 = <b>210 ms</b></p>
+  </div>
+  <p class="note">E dois cálculos auxiliares que aparecem em enunciado: <span class="formula">UDP length = 8 + dados</span> <span class="formula">header TCP = Data Offset × 4</span></p>
+</section>
+
+<section id="quiz">
+  <h2>Auto-teste — flashcards</h2>
+  <p>Responda em voz alta antes de abrir. O rótulo indica o módulo de origem: se errar, volte lá.</p>
+  <div class="btnrow"><button id="fechar">Fechar todas</button></div>
+  <div class="cards">
+
+    <details class="card"><summary><span class="tag">M1</span>Que dois papéis a camada de transporte assume na Internet?</summary><div class="a">Identificação precisa e não-ambígua de cada aplicação (a porta) e entrega de mensagens entre cada par de aplicações, segundo parâmetros de qualidade de serviço.</div></details>
+
+    <details class="card"><summary><span class="tag">M1</span>Em que camada a de transporte fica no OSI e no TCP/IP?</summary><div class="a">Quarta camada no ISO/OSI; terceira no TCP/IP.</div></details>
+
+    <details class="card"><summary><span class="tag">M1</span>Complete a cadeia de encapsulamento.</summary><div class="a">TPDU → encapsulada em <b>pacote</b> na camada de rede → encapsulado em <b>quadro</b> na camada de enlace.</div></details>
+
+    <details class="card"><summary><span class="tag">M1</span>Cite as cinco primitivas de serviço de transporte.</summary><div class="a">LISTEN, CONNECT, SEND, RECEIVE (espera bloqueada) e DISCONNECT.</div></details>
+
+    <details class="card"><summary><span class="tag">M1</span>Qual aplicação é a "escrava" e qual é a "mestre"?</summary><div class="a">A servidora é a escrava (papel passivo, aguarda); a cliente é a mestre (papel ativo, solicita).</div></details>
+
+    <details class="card"><summary><span class="tag">M2</span>O que é multiplexação na camada de transporte?</summary><div class="a">Várias aplicações clientes e/ou servidoras compartilhando os serviços de uma mesma entidade de transporte, distinguidas pela porta.</div></details>
+
+    <details class="card"><summary><span class="tag">M2</span>Quantos valores identificam unicamente uma conexão TCP? Quais?</summary><div class="a">Quatro: IP e porta do servidor, IP e porta do cliente. Só a porta é insuficiente porque ela é única apenas dentro do host.</div></details>
+
+    <details class="card"><summary><span class="tag">M2</span>Qual o limite entre Well Known Ports e Registered Ports? Exemplos?</summary><div class="a">&lt; 1024 são Well Known (reservadas ao sistema/superusuário) — ex.: 80, HTTP. &gt; 1023 são Registered Port Numbers, usáveis por aplicativos de usuário — ex.: 3306, MySQL.</div></details>
+
+    <details class="card"><summary><span class="tag">M3</span>Quais são os quatro campos do header UDP?</summary><div class="a">Source port, Destination port, UDP length (header + data) e UDP checksum (opcional; se não calculado, zeros). Total: 8 bytes.</div></details>
+
+    <details class="card"><summary><span class="tag">M3</span>Por que o RTP roda sobre UDP?</summary><div class="a">Porque em multimídia é preferível perder parte das mensagens a atrasar a entrega da maioria — "vale mais perder alguns pixels do quadro do que atrasar sua exibição". O RTP acrescenta identificação de fluxo, timestamp e dados de sincronização.</div></details>
+
+    <details class="card"><summary><span class="tag">M3</span>O que são client stub e server stub, e o que é o portmapper?</summary><div class="a">No RPC, os stubs são implementações vazias do procedimento criadas nos dois lados, para que a chamada remota pareça local; o RPC intercepta a chamada e a manda pela rede via UDP. O portmapper é o serviço de registro de nomes de procedimentos, usado para descobrir o servidor.</div></details>
+
+    <details class="card"><summary><span class="tag">M3</span>Qual a característica exclusiva do UDP entre os protocolos de transporte?</summary><div class="a">É o único que permite <b>broadcast local</b> — TCP exige conexão ponto a ponto.</div></details>
+
+    <details class="card"><summary><span class="tag">M4</span>Descreva os três segmentos do three-way handshake.</summary><div class="a">1) cliente → servidor: SYN=1, ACK=0, SEQ=x. 2) servidor → cliente: SYN=1, ACK=1, SEQ=y, ACK=x+1. 3) cliente → servidor: ACK=1, SEQ=x+1, ACK=y+1. Se a porta não aceita conexões, o servidor responde RST=1.</div></details>
+
+    <details class="card"><summary><span class="tag">M4</span>O que fazem as flags PSH e URG?</summary><div class="a">PSH (PUSHed data): manda a entidade de transporte no destino entregar cada mensagem que chega, sem esperar para entregar todas de uma vez. URG: se 1, o campo Urgent pointer foi usado e existem dados urgentes (interrupção).</div></details>
+
+    <details class="card"><summary><span class="tag">M4</span>Em que unidade está o Data Offset e como convertê-lo?</summary><div class="a">Em palavras de 32 bits. Tamanho do header em bytes = Data Offset × 4. doff=5 → 20 bytes (mínimo); doff=15 → 60 bytes (máximo).</div></details>
+
+    <details class="card"><summary><span class="tag">M4</span>Quais duas medidas restringem o tamanho de um PDU TCP?</summary><div class="a">O payload máximo do IP (65.515 bytes = 65.535 − 20 de header) e, na prática, o MTU da rede local (1.500 bytes de payload no quadro Ethernet).</div></details>
+
+    <details class="card"><summary><span class="tag">M5</span>O que é confirmação positiva com retransmissão?</summary><div class="a">O destinatário envia um ACK confirmando a entrega; o originador inicializa um relógio e, se o tempo expira antes da confirmação, reinicia o relógio e retransmite. Só se confirma o que chegou — a ausência de ACK é o sinal de perda.</div></details>
+
+    <details class="card"><summary><span class="tag">M5</span>Escreva as fórmulas do RTT e do RTO.</summary><div class="a">RTT<sub>new</sub> = (alpha × RTT<sub>old</sub>) + ((1 − alpha) × RTT<sub>sample</sub>); RTO = beta × RTT<sub>new</sub>. É o Algoritmo de Retransmissão Adaptativo, baseado em média ponderada.</div></details>
+
+    <details class="card"><summary><span class="tag">M5</span>Se o ACK se perde, os dados se duplicam?</summary><div class="a">Não. O emissor retransmite por timeout, mas o receptor identifica pelo <b>número de sequência</b> que aquele intervalo de bytes já foi entregue, descarta a cópia e reenvia o ACK.</div></details>
+
+    <details class="card"><summary><span class="tag">M5</span>O que significa WIN = 0 num ACK?</summary><div class="a">Que o buffer do receptor está cheio: o emissor fica bloqueado até um novo anúncio de janela. Não é erro — é o controle de fluxo funcionando. O ACK continua confirmando o dado recebido.</div></details>
+
+    <details class="card"><summary><span class="tag">M5</span>O que causa a síndrome da janela boba e quais são as duas soluções?</summary><div class="a">Causa: a aplicação destino consome poucos bytes por vez, o receptor anuncia janelas minúsculas e a origem as preenche a cada vez, gerando muitos segmentos pequenos e desperdiçando banda. Soluções: o destinatário atrasa o anúncio de mais janelas livres; a origem atrasa o envio até receber um tamanho de janela satisfatório.</div></details>
+
+    <details class="card"><summary><span class="tag">M6</span>Como o TCP detecta congestionamento?</summary><div class="a">Pelo RTT das confirmações (subindo = filas se formando) e pelas confirmações não recebidas (timeout = descarte).</div></details>
+
+    <details class="card"><summary><span class="tag">M6</span>Controle de fluxo × controle de congestionamento: qual a diferença?</summary><div class="a">Fluxo protege o <b>receptor</b> e usa o campo Window size anunciado por ele. Congestionamento protege a <b>rede</b>, usa RTT médio e timeouts, e a janela é estado interno do emissor — não existe campo para ela no header.</div></details>
+
+    <details class="card"><summary><span class="tag">M6</span>O que significa RED e o que ele faz?</summary><div class="a">Random Early Detection/Discard/Drop. Aplica descarte seletivo e aleatório de determinados fluxos, antes de a fila encher, para reduzir o throughput das conexões pela redução das suas janelas de congestionamento.</div></details>
+
+    <details class="card"><summary><span class="tag">M7</span>Quais são as duas coisas que um protocolo de aplicação deve especificar?</summary><div class="a">O formato das mensagens (PDUs) e o comportamento das entidades cliente e servidora nas diversas situações (relação entre sintaxe e significado).</div></details>
+
+    <details class="card"><summary><span class="tag">M7</span>Por que o Telnet é vulnerável e como o SSH resolveu?</summary><div class="a">O Telnet transmite tudo em texto plano, inclusive login e senha, permitindo sniffers. O SSH acrescenta autenticação segura, verificação de integridade e encriptação: RSA (assimétrico) para autenticar e trocar a chave de sessão, e algoritmos simétricos (3DES, AES) gerados pelo cliente para cifrar a sessão.</div></details>
+
+    <details class="card"><summary><span class="tag">M7</span>Por que o FTP usa duas portas e qual a diferença entre ativo e passivo?</summary><div class="a">21 = canal de controle (comandos), 20 = canal de dados (arquivos). No modo <b>ativo</b> o cliente informa uma porta e o <b>servidor</b> abre a conexão de dados em direção a ele — o que costuma travar em firewalls. No <b>passivo</b>, o cliente avisa que o modo é passivo e ele mesmo abre a conexão com a porta 20 do servidor.</div></details>
+
+    <details class="card"><summary><span class="tag">M8</span>O que é um FQDN e como se lê?</summary><div class="a">Fully-Qualified Domain Name: sequências de alfanuméricos separadas por pontos. A parte mais à esquerda é o nome do host; a da direita é o domínio e sua hierarquia.</div></details>
+
+    <details class="card"><summary><span class="tag">M8</span>Diga o que fazem os registros A, CNAME, MX, NS, PTR e SOA.</summary><div class="a">A: mapeia nome → IP. CNAME: alias de um nome de domínio. MX: mapeia os mail servers do domínio. NS: DNS autoritativo do domínio. PTR: ponteiro para a outra parte do domínio (resolução reversa). SOA: identifica o início da zona de autoridade.</div></details>
+
+    <details class="card"><summary><span class="tag">M8</span>Como um DNS resolve um nome que não está sob sua autoridade?</summary><div class="a">Por busca iterativa: pergunta ao nó raiz, que informa quem responde pelo TLD; consultado este, informa quem responde pelo próximo nível, e assim por diante até a autoridade do domínio desejado. Ao fazer isso, o servidor DNS torna-se <b>cliente</b> dos servidores da hierarquia, e guarda o resultado em cache pelo TTL anunciado.</div></details>
+
+    <details class="card"><summary><span class="tag">M8</span>O que a classe IN indica num registro? E o TTL?</summary><div class="a">IN indica que o sistema é <b>Internet</b>. O TTL expressa o tempo de vida do registro <b>em segundos</b>, num inteiro de 32 bits.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>Descreva os três passos do encaminhamento por um MTA.</summary><div class="a">1) O MTA de origem extrai o host de destino e busca no DNS os registros MX. 2) Encaminha aos MX por ordem de preferência, do <b>menor valor para o maior</b>. 3) O MTA de destino extrai a informação do usuário e armazena na caixa postal apropriada.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>Por que configurar dois servidores no cliente de e-mail?</summary><div class="a">São funções opostas: o SMTP (25) envia/encaminha mensagens; o POP3 (110) ou IMAP (143) acessa a caixa postal remota para listar, baixar e remover.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>Cite os comandos SMTP na ordem de uma sessão.</summary><div class="a">HELO → MAIL FROM: → RCPT TO: → DATA (encerrado por um "." sozinho na linha) → QUIT.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>O que o MIME faz e a que camada OSI se associa?</summary><div class="a">Permite anexar conteúdos não-ASCII codificando-os como ASCII puro no corpo da mensagem, com metadados que identificam o trecho delimitado. Por cuidar da <b>representação</b> dos dados, associa-se à camada de <b>apresentação</b>. Tornou-se base também para o HTTP.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>Três diferenças entre POP3 e IMAP.</summary><div class="a">IMAP aceita múltiplos clientes simultâneos na mesma caixa; permite acessar partes MIME distintas (só o anexo, por exemplo); mantém o estado da mensagem e múltiplas pastas no servidor e oferece busca no lado do servidor. O POP3 basicamente lista, baixa e remove.</div></details>
+
+    <details class="card"><summary><span class="tag">M9</span>Quando um servidor SMTP vira cliente?</summary><div class="a">Ao encaminhar uma mensagem: torna-se cliente do mail server de destino, guardando uma cópia até a recepção completa. Também ao consultar o DNS pelos registros MX.</div></details>
+
+    <details class="card"><summary><span class="tag">M10</span>Escreva a sintaxe geral de uma URL.</summary><div class="a">&lt;protocol&gt;://[&lt;usr&gt;:&lt;pass&gt;@]&lt;host&gt;[:&lt;port&gt;]/[&lt;url-path&gt;][?&lt;par&gt;=&lt;value&gt;&amp;...] — user, password e port são opcionais; os pares após o "?" são separados por "&amp;" e viajam no método GET.</div></details>
+
+    <details class="card"><summary><span class="tag">M10</span>Diferencie GET, PUT e POST.</summary><div class="a">GET: pede que o servidor envie a página referenciada pela URL. PUT: pede que o servidor receba um documento (em formato MIME, informado no Content-Type) e o armazene na URL informada. POST: pede que o servidor receba dados para serem informados a um documento — normalmente um programa — especificado pela URL.</div></details>
+
+    <details class="card"><summary><span class="tag">M10</span>Por que muitos elementos pequenos sobrecarregam um servidor Web?</summary><div class="a">Porque cada recurso gera uma requisição e, normalmente, uma <b>nova conexão TCP</b>, encerrada na resposta. O custo é por conexão (handshake, socket, buffers, tabela do SO), não por byte — então a quantidade pesa mais que o tamanho.</div></details>
+
+    <details class="card"><summary><span class="tag">M10</span>Onde colocar o proxy e por quê?</summary><div class="a">Próximo aos <b>clientes</b>, na borda da rede local: só assim o cache economiza o trecho caro do caminho, e só ali as ACLs e a política de acesso (junto ao firewall) fazem sentido. O Squid usa a porta 3128 e configura ACLs em /etc/squid/squid.conf.</div></details>
+
+    <details class="card"><summary><span class="tag">M10</span>Além de cache, o que um proxy faz?</summary><div class="a">Estabelece regras e restrições de acesso (ACL — Access Control Lists), com permissões e negações baseadas em protocolos, endereços de origem e destino e nome de usuário (autenticação). Associado a um firewall, aplica políticas de acesso à Internet para a rede local.</div></details>
+
+    <details class="card"><summary><span class="tag">Lab</span>Que comando lista as portas ativas do seu sistema? E quais processos as seguram?</summary><div class="a"><code>netstat -na --inet</code> lista as portas ativas; <code>lsof -i tcp</code> (ou <code>-i udp</code>) mostra os processos, porque no Unix o socket também é arquivo. Para varrer outra máquina: <code>nmap</code> (TCP) e <code>nmap -sU</code> (UDP).</div></details>
+
+    <details class="card"><summary><span class="tag">Lab</span>Como descobrir os mail exchangers de um domínio no Linux?</summary><div class="a"><code>host -t MX gmail.com</code> — e a entrega tenta primeiro o de <b>menor</b> número de preferência.</div></details>
+
+  </div>
+</section>
+
+<section id="ementa">
+  <h2>Lacunas e o que NÃO cai</h2>
+
+  <h3>Recorte usado para montar este guia</h3>
+  <p>A ementa registrada na sua anotação da aula 1 tem cinco blocos. Só três foram efetivamente dados até 22/09, e nem todos por inteiro:</p>
+  <table>
+    <thead><tr><th>Item da ementa</th><th>Situação</th><th>Onde está no guia</th></tr></thead>
+    <tbody>
+      <tr><td>Camada de transporte na Internet: protocolos UDP e TCP</td><td><b>Núcleo</b> — slide + prática + exercícios + anotação</td><td>Módulos 1 a 6</td></tr>
+      <tr><td>Interface de <b>Sockets</b> e comunicação entre processos</td><td><b>Lacuna parcial</b> — não houve slide dedicado. O que existe: a menção "SAP = sockets", as cinco primitivas, o diagrama de lousa da aula 3 e o <code>gethostbyname</code> citado no slide de DNS</td><td>Módulo 1 (exemplo resolvido) e módulo 8</td></tr>
+      <tr><td>DNS, Telnet, SSH, FTP, SMTP, POP/IMAP, proxy</td><td><b>Núcleo</b> — slide + prática + exercícios</td><td>Módulos 7 a 10</td></tr>
+      <tr><td>HTTPS</td><td><b>Lacuna</b> — citado só de passagem, como um dos protocolos possíveis em uma URL. Nenhum slide sobre TLS</td><td>Mencionado no módulo 10</td></tr>
+      <tr><td>Samba e CUPS</td><td><b>Fora</b> — nenhum slide, prática ou exercício até a P1</td><td>—</td></tr>
+      <tr><td>Segurança de rede</td><td><b>Fora</b> — tema de P2</td><td>—</td></tr>
+      <tr><td>Criptografia</td><td><b>Fora</b> como tema próprio. O que caiu foi o uso aplicado no SSH (RSA assimétrico + chave de sessão simétrica)</td><td>Módulo 7</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Onde este guia inferiu em vez de citar</h3>
+  <p>Transparência sobre o que é fato do material e o que é dedução — para você não defender em prova algo que o professor não disse:</p>
+  <ul class="tight">
+    <li><b>Fato do material:</b> todas as definições, tabelas de campos, listas de comandos, portas, RFCs e as duas fórmulas. Os diálogos SMTP/POP3 e os arquivos de zona do BIND são transcrições literais dos roteiros de prática.</li>
+    <li><b>Inferência marcada como "provável na prova":</b> os formatos de questão. Eles foram derivados das quatro listas de exercícios do professor — cada bloco vermelho indica de qual lista e qual número veio.</li>
+    <li><b>Explicações complementares nos blocos de perguntas:</b> alguns esclarecimentos (persist timer do WIN=0, diferença entre busca iterativa e recursiva, MSS de 1460 bytes, sincronização global evitada pelo RED, ECN, keep-alive do HTTP/1.1) <b>não estão nos slides</b>. Servem para você entender; se a questão pedir a definição do professor, responda pelo slide.</li>
+    <li><b>Exemplos numéricos:</b> os valores de alpha = 0,875 e beta = 2, os números de sequência x = 1000 / y = 5000 e a conta dos 40 recursos são invenção deste guia para ilustrar. O único exemplo numérico que veio pronto do material é o da <b>janela deslizante</b> (buffer 4K, WIN 2048/0/2048), que está no slide da aula 2.</li>
+    <li><b>Modo passivo do FTP:</b> o guia segue o slide (cliente abre conexão com a porta 20). Implementações reais costumam usar porta alta negociada — não use isso como resposta.</li>
+  </ul>
+
+  <h3>Cobertura dos exercícios do professor</h3>
+  <table>
+    <thead><tr><th>Lista</th><th>Questões</th><th>Respondidas em</th></tr></thead>
+    <tbody>
+      <tr><td>Aula 1</td><td>11</td><td>Módulos 1 (q.1, q.4), 2 (q.2, q.5, q.6, q.7, q.8), 3 (q.9), 4 (q.3, q.10, q.11)</td></tr>
+      <tr><td>Aula 2</td><td>10</td><td>Módulos 4 (q.1, q.3, q.5), 5 (q.2, q.4, q.6, q.7, q.8), 6 (q.9, q.10)</td></tr>
+      <tr><td>Aula 4</td><td>3</td><td>Módulos 7 (q.1, q.2) e 8 (q.3)</td></tr>
+      <tr><td>Aula 5</td><td>4</td><td>Módulo 9 (q.1 a q.4)</td></tr>
+      <tr><td>Aula 6</td><td>2</td><td>Módulo 10 (q.1, q.2)</td></tr>
+      <tr><td><b>Total</b></td><td><b>30</b></td><td>Todas têm resposta em algum bloco "Provável na prova"</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Confirme com o professor, se puder</h3>
+  <ul class="tight">
+    <li>Se a <b>interface de sockets</b> (API: <code>socket</code>, <code>bind</code>, <code>listen</code>, <code>accept</code>, <code>connect</code>) cai na P1 — ela está na ementa, mas não teve slide próprio. Se cair, o diagrama da lousa da aula 3 é o roteiro.</li>
+    <li>Se as <b>práticas em Debian</b> valem questão (que comando faz o quê) ou se a P1 é só teórica.</li>
+    <li>Se HTTPS entra na P1 ou fica para a P2 junto com segurança e criptografia.</li>
+  </ul>
+
+  <p class="note" style="margin-top:22px">Guia montado seguindo o método de <code>METODO_guia_de_estudo.md</code>. Fontes: slides RCII_Aula1 a Aula6, roteiros de prática das aulas 3 a 6, listas de exercícios das aulas 1, 2, 4, 5 e 6, e anotações pessoais das aulas 1 a 5.</p>
+</section>
+
+</main>
+</div>
+<script>
+  var links = document.querySelectorAll('nav a');
+  var obs = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+    });
+  }, {rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section[id]').forEach(function(s){ obs.observe(s); });
+  document.getElementById('fechar').addEventListener('click', function(){
+    document.querySelectorAll('.card[open]').forEach(function(d){ d.open = false; });
+  });
+</script>
+</body>
+</html>
