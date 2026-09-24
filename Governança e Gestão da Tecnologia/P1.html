@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governança de TI — Guia P1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1F4F4;
+    --ink:#15252B;
+    --ink-soft:#43565D;
+    --teal:#0E5C63;
+    --amber:#D19A0B;
+    --coral:#C4473B;
+    --violet:#5E4691;
+    --line:#D3DCDD;
+    --white:#FFFFFF;
+    --mono:'Source Code Pro', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'Source Sans 3', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.55}
+  a{color:var(--teal)}
+  code{font-family:var(--mono);font-size:.86em;background:#E6ECEC;padding:1px 5px;border-radius:3px}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--ink);color:#DCE5E6;padding:28px 22px}
+  nav h1{font-size:16px;font-weight:600;margin:0 0 4px;color:#fff}
+  nav .sub{font-size:13px;color:#97AAAF;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav a{display:block;color:#C8D5D7;text-decoration:none;font-size:14px;padding:7px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.07);color:#fff;outline:none}
+  nav a.on{border-left-color:var(--amber);color:#fff;background:rgba(255,255,255,.06)}
+  nav .grp{font-size:12px;color:#7D9298;margin:16px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12.5px;color:#97AAAF;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  main{padding:0 0 80px;min-width:0}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-size:35px;line-height:1.15;margin:0 0 12px;font-weight:700;max-width:26ch}
+  .hero p{max-width:68ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px}
+  .hero .facts div{font-size:14px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-size:23px;color:var(--ink);font-weight:600}
+  .alert{border:1px solid var(--coral);background:#FBECE9;border-radius:6px;padding:10px 14px;max-width:72ch;margin-top:18px;font-size:15px}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1100px}
+  section h2{font-size:27px;font-weight:700;margin:0 0 6px}
+  section h3{font-size:19px;font-weight:600;margin:28px 0 8px;color:var(--teal)}
+  section h4{font-size:16px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--amber);background:#FBF3DC;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why>b{display:block;margin-bottom:2px}
+  .prova{border-left:4px solid var(--coral);background:#FBEAE7;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova>b{display:block;margin-bottom:2px;color:var(--coral)}
+  .prova ol,.prova ul{margin:6px 0 0;padding-left:20px}
+  .prova li{margin:6px 0}
+  .tool{border-left:4px solid var(--violet);background:#EEEAF6;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .tool>b{display:block;margin-bottom:2px;color:var(--violet)}
+  .note{font-size:14.5px;color:var(--ink-soft);max-width:72ch}
+  .infer{font-size:13px;background:#E6ECEC;border-radius:3px;padding:0 5px;color:var(--ink-soft);white-space:nowrap}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 10px;max-width:820px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--teal)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:12px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15.5px;max-width:72ch}
+  .ex{background:#F7F9F9;border:1px dashed #A9B9BC;border-radius:6px;padding:12px 16px;max-width:820px;margin:12px 0;font-size:15.5px}
+  .ex>b{display:block;margin-bottom:4px}
+  .ex ol{margin:6px 0 0;padding-left:20px}
+
+  .tbl{overflow-x:auto;max-width:820px}
+  table{border-collapse:collapse;width:100%;max-width:820px;margin:10px 0 6px;font-size:15px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:#E3EAEB;font-weight:600}
+  td.n{font-family:var(--mono);text-align:right;white-space:nowrap}
+  tr.hl td{background:#FBF3DC}
+  ul.tight{margin:6px 0 10px;padding-left:20px;max-width:72ch}
+  ul.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 0;font-size:15px}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:820px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:20px;color:var(--amber);font-weight:500;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft);font-size:14.5px}
+
+  .map,.fig{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto;max-width:1000px;margin:12px 0}
+  .map svg{width:100%;height:auto;min-width:780px;display:block}
+  .fig svg{width:100%;height:auto;display:block}
+  .fig.wide svg{min-width:760px}
+  .map text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+  .map .root{font-size:16px;font-weight:700;fill:#fff}
+  .map .b1{font-weight:700;fill:var(--teal)}
+  .map line{stroke:#AFC0C3;stroke-width:1.4}
+  .figcap{font-size:13.5px;color:var(--ink-soft);margin:4px 0 0}
+
+  .cascade{display:flex;flex-direction:column;gap:0;max-width:560px;margin:12px 0}
+  .cascade div{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:15px}
+  .cascade div b{color:var(--teal)}
+  .cascade span{display:block;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.6}
+
+  .sym{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;max-width:900px;margin:12px 0}
+  .sym div{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:14.5px}
+  .sym svg{width:60px;height:40px}
+  .sym b{display:block}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--amber);font-size:18px}
+  .card[open] summary::after{content:"–"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .tag{font-family:var(--mono);font-size:12px;color:var(--teal);margin-right:6px}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:15px;color:var(--ink-soft)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14.5px;background:var(--teal);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 16px}
+    .hero h2{font-size:28px}
+    .two{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- símbolos BPMN reutilizados na colinha e nas figuras -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#15252B"/></marker>
+    <marker id="arrOpen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#fff" stroke="#15252B"/></marker>
+    <marker id="dotStart" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6"><circle cx="5" cy="5" r="4" fill="#fff" stroke="#15252B"/></marker>
+  </defs>
+</svg>
+
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Governança e Gestão de TI</h1>
+  <div class="sub">Guia de estudo · P1 · EEP · 2º sem. 2026</div>
+  <ol>
+    <li><a href="#mapa">Mapa mental geral</a></li>
+    <li><a href="#ordem">Ordem de estudo</a></li>
+    <li class="grp">Módulos</li>
+    <li><a href="#m1">1 · Governança × gestão e o ecossistema</a></li>
+    <li><a href="#m2">2 · COBIT: princípios e cascata</a></li>
+    <li><a href="#m3">3 · COBIT: domínios e processos</a></li>
+    <li><a href="#m4">4 · Arquitetura corporativa e TOGAF</a></li>
+    <li><a href="#m5">5 · TOGAF: entidades gerais e motivação</a></li>
+    <li><a href="#m6">6 · TOGAF: estrutura do negócio</a></li>
+    <li><a href="#m7">7 · Engenharia de processos e BPMN</a></li>
+    <li><a href="#m8">8 · Controle estatístico de processo</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#colinha">Colinha de símbolos e siglas</a></li>
+    <li><a href="#formulas">Fórmulas que caem</a></li>
+    <li><a href="#quiz">Auto-teste (flashcards)</a></li>
+    <li><a href="#ementa">Lacunas e o que não cai</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--amber)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--coral)"></span>Provável na prova</div>
+    <div><span style="background:var(--violet)"></span>Como fica na ferramenta</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero">
+  <h2>Da decisão ao processo medido: como a TI se governa.</h2>
+  <p>Este guia foi montado a partir do plano de ensino, dos slides das aulas 0 a 4 (COBIT, TOGAF, Engenharia de Processos e CEP), da apostila de BPMN e das suas anotações das aulas 1, 2, 3, 4 e 6. O fio condutor é uma descida em quatro degraus: <b>decidir</b> o que a TI deve entregar (COBIT) → <b>estruturar</b> a empresa que entrega (TOGAF) → <b>desenhar</b> como o trabalho flui (BPMN) → <b>medir</b> se o processo está sob controle (CEP). A medição fecha o ciclo e volta para a governança, que avalia, dirige e monitora.</p>
+  <div class="facts">
+    <div><b>8</b>módulos de conteúdo</div>
+    <div><b>40</b>processos COBIT em 5 domínios</div>
+    <div><b>2</b>casos-âncora: Fábrica de Macarrão Marco Polo e Hulk</div>
+    <div><b>1</b>exercício do professor resolvido: Churrasco dos Amigos</div>
+  </div>
+  <div class="alert"><b>P1: 24/09/2026 · peso 50% da média.</b> Pelo cronograma, cai tudo até Engenharia de Processos (aulas de 06/08 a 17/09). ITIL e Gestão de Dados ficam para a P2.</div>
+</div>
+
+<!-- ============================ MAPA ============================ -->
+<section id="mapa">
+  <h2>Mapa mental geral</h2>
+  <p class="note">Leia de cima para baixo: é a ordem em que uma empresa sai da estratégia e chega ao processo medido. Cada ramo é um módulo.</p>
+  <div class="map">
+  <svg viewBox="0 0 1110 640" role="img" aria-label="Mapa mental da disciplina com oito ramos">
+    <rect x="20" y="285" width="160" height="74" rx="8" fill="#0E5C63"/>
+    <text class="root" x="100" y="316" text-anchor="middle">Governança e</text>
+    <text class="root" x="100" y="337" text-anchor="middle">Gestão de TI</text>
+    <g>
+      <line x1="180" y1="322" x2="250" y2="45"/>
+      <line x1="180" y1="322" x2="250" y2="122"/>
+      <line x1="180" y1="322" x2="250" y2="199"/>
+      <line x1="180" y1="322" x2="250" y2="276"/>
+      <line x1="180" y1="322" x2="250" y2="353"/>
+      <line x1="180" y1="322" x2="250" y2="430"/>
+      <line x1="180" y1="322" x2="250" y2="507"/>
+      <line x1="180" y1="322" x2="250" y2="584"/>
+    </g>
+    <text class="b1" x="255" y="49">1 · Governança × gestão</text>
+    <line x1="255" y1="55" x2="465" y2="55"/>
+    <text x="475" y="35">Governança: avalia, dirige, monitora · Gestão: planeja, constrói, executa</text>
+    <text x="475" y="52">ISACA→COBIT · Open Group→TOGAF · AXELOS→ITIL · OMG→UML, BPMN</text>
+    <text x="475" y="69">Linguagens: UML, BPMN, MER, ArchiMate, DMN · Ferramentas: Archi, Bizagi</text>
+
+    <text class="b1" x="255" y="126">2 · COBIT: princípios</text>
+    <line x1="255" y1="132" x2="465" y2="132"/>
+    <text x="475" y="112">5 princípios: partes interessadas, ponta a ponta, modelo único,</text>
+    <text x="475" y="129">holístico, separar governança de gestão</text>
+    <text x="475" y="146">Cascata: direcionadores → necessidades → objetivos → habilitadores</text>
+
+    <text class="b1" x="255" y="203">3 · COBIT: domínios</text>
+    <line x1="255" y1="209" x2="465" y2="209"/>
+    <text x="475" y="189">EDM (governança) · APO, BAI, DSS, MEA (gestão)</text>
+    <text x="475" y="206">40 processos: EDM 5, APO 14, BAI 11, DSS 6, MEA 4</text>
+    <text x="475" y="223">Balanced Scorecard, relação P/S · certificações em 5 níveis</text>
+
+    <text class="b1" x="255" y="280">4 · Arquitetura e TOGAF</text>
+    <line x1="255" y1="286" x2="465" y2="286"/>
+    <text x="475" y="266">Arquitetura corporativa = alinhar ativos e recursos ao modelo de negócio</text>
+    <text x="475" y="283">ADM: Preliminar, A a H, Gestão de Requisitos no centro</text>
+    <text x="475" y="300">Camadas: negócio, dados, aplicação, tecnologia · COBIT APO03 · Zachman 6×6</text>
+
+    <text class="b1" x="255" y="357">5 · Entidades e motivação</text>
+    <line x1="255" y1="363" x2="465" y2="363"/>
+    <text x="475" y="343">Principle, Constraint, Location, Requirement, Capability, Gap, Work Package</text>
+    <text x="475" y="360">Driver (força, oportunidade, risco) → Goal → Objective → Measure → KPI</text>
+    <text x="475" y="377">Course of Action · Value Stream · Business Capability · Value</text>
+
+    <text class="b1" x="255" y="434">6 · Estrutura do negócio</text>
+    <line x1="255" y1="440" x2="465" y2="440"/>
+    <text x="475" y="420">Stakeholder, Product (PBS), Organization Unit, Process, Event, Control</text>
+    <text x="475" y="437">Actor, Role (skills), Function · Service Quality, Contract, Information</text>
+    <text x="475" y="454">Dados: Data Entity → Logical → Physical Data Component</text>
+
+    <text class="b1" x="255" y="511">7 · Processos e BPMN</text>
+    <line x1="255" y1="517" x2="465" y2="517"/>
+    <text x="475" y="497">Processo → subprocesso → tarefa · entradas, saídas, recursos</text>
+    <text x="475" y="514">Piscina e raias · eventos (início, intermediário, fim) · tarefas</text>
+    <text x="475" y="531">Gateways: exclusivo, paralelo, inclusivo, por eventos, complexo</text>
+
+    <text class="b1" x="255" y="588">8 · Controle (CEP)</text>
+    <line x1="255" y1="594" x2="465" y2="594"/>
+    <text x="475" y="574">Shewhart · causa comum × causa especial · carta de controle</text>
+    <text x="475" y="591">LCS e LCI · curva normal (68, 95, 99,73%) · Ishikawa 6M</text>
+    <text x="475" y="608">Seis Sigma: OD, DPO, DPMO, rendimento</text>
+  </svg>
+  </div>
+</section>
+
+<!-- ============================ ORDEM ============================ -->
+<section id="ordem">
+  <h2>Ordem de estudo</h2>
+  <p class="note">Cada passo usa o vocabulário do anterior. Total aproximado: 4 h 20 min. Se só tiver 1 hora, faça a versão expressa no final.</p>
+  <ol class="steps">
+    <li><div><b>Módulo 1: governança × gestão (15 min)</b><small>É a distinção que atravessa a matéria inteira. Sem ela você não entende o 5º princípio do COBIT nem por que EDM é separado dos outros domínios.</small></div></li>
+    <li><div><b>Módulo 2: princípios e cascata de objetivos do COBIT (40 min)</b><small>Decore os 5 princípios e as 7 categorias de habilitadores. Refaça o exemplo "satisfação do cliente", que é o exercício pronto do slide.</small></div></li>
+    <li><div><b>Módulo 3: domínios e processos (25 min)</b><small>Saiba de cor as siglas EDM, APO, BAI, DSS e MEA e o que cada uma faz. Não precisa decorar os 40 processos, só reconhecer alguns (APO03, APO14, BAI09, DSS02).</small></div></li>
+    <li><div><b>Módulo 4: arquitetura corporativa e TOGAF (30 min)</b><small>Liga COBIT a TOGAF pelo processo APO03. Desenhe o ciclo ADM de memória, com as letras.</small></div></li>
+    <li><div><b>Módulo 5: entidades gerais e cadeia de motivação (35 min)</b><small>É onde está o maior volume de definições. Foque na cadeia Driver → Goal → Objective → Measure e nos 5 degraus da medida.</small></div></li>
+    <li><div><b>Módulo 6: estrutura do negócio (30 min)</b><small>Actor × Role × Function é a pergunta de diferença mais provável; use o exemplo do Hulk para fixar.</small></div></li>
+    <li><div><b>Módulo 7: BPMN (45 min)</b><small>Treine desenhando. Faça o Churrasco dos Amigos antes de olhar a solução.</small></div></li>
+    <li><div><b>Módulo 8: CEP (40 min) + fórmulas + flashcards</b><small>DPMO é conta de uma linha, e o professor deixou dois exemplos resolvidos (anel e robô). Termine pelos flashcards.</small></div></li>
+  </ol>
+  <div class="prova"><b>Versão expressa (1 hora)</b>
+    <ol>
+      <li>Os 5 princípios do COBIT e EDM × APO/BAI/DSS/MEA (15 min).</li>
+      <li>O ciclo ADM do TOGAF e a cadeia Driver → Goal → Objective → Measure → KPI (15 min).</li>
+      <li>Os 5 gateways do BPMN com divergência e convergência, mais o exercício do churrasco (15 min).</li>
+      <li>Causa comum × especial e as contas de DPMO do anel e do robô (15 min).</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ M1 ============================ -->
+<section id="m1">
+  <h2>1 · Governança × gestão e o ecossistema de frameworks</h2>
+  <div class="why"><b>Por que estudar</b>Toda a disciplina parte de uma frase: a governança decide a direção e a gestão executa. Os frameworks (COBIT, TOGAF, ITIL) e as linguagens (BPMN, ArchiMate) são as ferramentas de cada lado. Questões de "defina" e "diferencie" costumam começar aqui.</div>
+
+  <h3>A motivação da Aula 0: inércia</h3>
+  <p>O professor abre a matéria com as três leis de Newton para falar de empresas. Uma organização sem governança fica em inércia (1ª lei), com <b>baixa produtividade e alto risco</b>. Só muda de estado quando uma força é aplicada (2ª lei), e toda mudança provoca reação (3ª lei). A "massa" é a resistência que a organização oferece à mudança. Os frameworks são a força organizada.</p>
+
+  <h3>Governança × gestão (definições do slide)</h3>
+  <div class="tbl"><table>
+    <tr><th></th><th>Governança</th><th>Gestão (gerenciamento)</th></tr>
+    <tr><td><b>Definição</b></td><td>Garante que as necessidades, condições e opções das partes interessadas sejam avaliadas para determinar objetivos corporativos acordados e equilibrados; define a direção por meio de priorização e tomada de decisão; monitora o desempenho e a conformidade com a direção e os objetivos.</td><td>Responsável pelo planejamento, desenvolvimento, execução e monitoramento das atividades em consonância com a direção definida pelo órgão de governança, a fim de atingir os objetivos corporativos.</td></tr>
+    <tr><td><b>Pergunta que responde</b></td><td>"Estamos fazendo as coisas certas?"</td><td>"Estamos fazendo as coisas do jeito certo?"</td></tr>
+    <tr><td><b>Quem faz</b></td><td>Conselho de administração</td><td>Corpo diretivo, liderado pelo CEO, e operações</td></tr>
+    <tr><td><b>Verbos no COBIT</b></td><td>Avaliar, Dirigir, Monitorar (EDM)</td><td>Planejar (APO), Construir (BAI), Entregar (DSS), Monitorar (MEA)</td></tr>
+  </table></div>
+  <p class="note">As duas perguntas da segunda linha são uma síntese clássica; não estão escritas no slide. <span class="infer">inferência</span></p>
+
+  <h3>Quem mantém cada framework e cada linguagem</h3>
+  <div class="tbl"><table>
+    <tr><th>Organização</th><th>Tipo</th><th>Produto</th><th>Para quê</th></tr>
+    <tr><td>ISACA (Information Systems Audit and Control Association), fundada em 1969</td><td>Associação profissional sem fins lucrativos</td><td>COBIT (1996; versão atual 2019)</td><td>Governança e gestão de TI; auditoria, controle, segurança</td></tr>
+    <tr><td>The Open Group (consórcio com mais de 900 organizações)</td><td>Consórcio</td><td>TOGAF (Standard, 10ª edição) e ArchiMate</td><td>Arquitetura corporativa</td></tr>
+    <tr><td>AXELOS (Capita + Governo do Reino Unido)</td><td>Empresa</td><td>ITIL (Information Technology Infrastructure Library)</td><td>Gestão de serviços de TI (fica para a P2)</td></tr>
+    <tr><td>OMG (Object Management Group)</td><td>Consórcio de padrões</td><td>UML, BPMN, DMN</td><td>Linguagens de modelagem</td></tr>
+  </table></div>
+
+  <h3>Linguagens de modelagem × engenharias × ferramentas</h3>
+  <div class="tbl"><table>
+    <tr><th>Linguagem</th><th>Engenharia que atende</th><th>Ferramenta citada</th></tr>
+    <tr><td>UML (Unified Modeling Language)</td><td>Engenharia de Software</td><td>ferramentas UML diversas</td></tr>
+    <tr><td>BPMN (Business Process Modeling Notation)</td><td>Engenharia de Processos</td><td><b>Bizagi Modeler</b></td></tr>
+    <tr><td>MER / ER Model (Modelo Entidade-Relacionamento)</td><td>Engenharia de Dados</td><td>ferramentas de modelagem de dados</td></tr>
+    <tr><td>ArchiMate</td><td>Arquitetura Organizacional</td><td><b>Archi</b></td></tr>
+    <tr><td>DMN (Decision Model and Notation)</td><td>Engenharia de Regras de Negócio</td><td>—</td></tr>
+    <tr><td>"?" (sem linguagem padrão)</td><td>Engenharia de Atores</td><td>—</td></tr>
+  </table></div>
+  <p class="note">Das suas notas da aula 1: o ITIL "transforma atividades em serviços" e dá preço a ações; exemplo exagerado do professor: "instalar impressoras tem preço". Isso muda a visão de que a TI "não entrega nada".</p>
+
+  <div class="ex"><b>Exemplo resolvido: governança ou gestão?</b>
+    <ol>
+      <li>"O conselho aprova que 30% do orçamento de TI vá para inovação." → <b>governança</b> (dirigir: prioriza e decide).</li>
+      <li>"A equipe de infraestrutura agenda a troca dos servidores para março." → <b>gestão</b> (planejar e construir).</li>
+      <li>"O conselho recebe o relatório trimestral de incidentes e cobra o CIO." → <b>governança</b> (monitorar).</li>
+      <li>"O service desk atende e registra os chamados." → <b>gestão</b> (entregar, DSS).</li>
+    </ol>
+  </div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Governança e gestão não são a mesma coisa com nomes diferentes?</dt>
+    <dd>Não. O COBIT faz questão de separar (é o 5º princípio). Governança fica no conselho e define direção; gestão fica na diretoria e executa. Os processos são distintos, mas integrados: a gestão reporta e a governança monitora.</dd>
+    <dt>COBIT, TOGAF e ITIL competem entre si?</dt>
+    <dd>Não. Eles se complementam: COBIT diz o que governar e gerenciar; TOGAF diz como desenhar a arquitetura da empresa; ITIL diz como prestar serviços de TI. O próprio COBIT tem um processo (APO03) que chama a arquitetura corporativa.</dd>
+    <dt>Qual a diferença entre framework e linguagem?</dt>
+    <dd>Framework é um conjunto de boas práticas e processos (COBIT, TOGAF). Linguagem é uma notação para desenhar modelos (BPMN, ArchiMate, UML). A ferramenta é o software que implementa a linguagem (Bizagi para BPMN, Archi para ArchiMate).</dd>
+    <dt>Preciso saber a data de fundação da ISACA?</dt>
+    <dd>Vale saber que o COBIT foi criado em 1996 pela ISACA e que a versão estudada é a 2019. O slide também traz a evolução: COBIT 1 (1996, auditoria) → 2 (1998, controle) → 3 (2000, gerenciamento) → 4/4.1 (2005/07, governança de TI) → 5 (2012) → 2019 (governança corporativa de TI).</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Diferencie governança de gestão de TI segundo o COBIT." Resposta com as duas definições e os verbos (EDM × APO/BAI/DSS/MEA).</li>
+      <li>"Relacione a organização ao framework" (ISACA–COBIT, Open Group–TOGAF, AXELOS–ITIL, OMG–BPMN/UML).</li>
+      <li>"Relacione a linguagem à engenharia" (BPMN–processos, ArchiMate–arquitetura, MER–dados, UML–software, DMN–regras de negócio).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M2 ============================ -->
+<section id="m2">
+  <h2>2 · COBIT: princípios e cascata de objetivos</h2>
+  <div class="why"><b>Por que estudar</b>É o bloco com mais slides e mais anotações. Os 5 princípios e a cascata de objetivos são a espinha do COBIT, e o professor deixou um exemplo resolvido (satisfação do cliente) que tem cara de questão.</div>
+
+  <p><b>COBIT</b> (Control Objectives for Information and Related Technology) é um guia de boas práticas de governança de TI empresarial, criado em 1996 pela ISACA, para gerenciar os recursos e ferramentas tecnológicas da empresa. Nas suas notas: "coleção de informações para práticas no trabalho de TI".</p>
+
+  <h3>Os 5 princípios (como estão no slide)</h3>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Princípio</th><th>Ideia central</th></tr>
+    <tr><td>1</td><td><b>Atender às necessidades das partes interessadas</b></td><td>Organizações existem para <b>criar valor</b>. Criar valor = <b>realizar benefícios</b> com ótimo <b>custo</b> e otimizando o <b>risco</b>. Para cada decisão: para quem são os benefícios? Quem assume o risco? Que recursos são necessários?</td></tr>
+    <tr><td>2</td><td><b>Cobrir a organização de ponta a ponta</b></td><td>Todas as funções e processos que regulam a informação, onde quer que ela seja processada: serviços de TI internos e externos, processos de negócio internos e externos.</td></tr>
+    <tr><td>3</td><td><b>Aplicar um modelo único e integrado</b></td><td>Um modelo completo, em linguagem comum, não técnica e agnóstica de tecnologia, que integra outros modelos, padrões e práticas antes dispersos.</td></tr>
+    <tr><td>4</td><td><b>Permitir uma abordagem holística</b></td><td>Objetivos e habilitadores juntos criam uma relação estreita e dinâmica entre a TI e as demais áreas da organização.</td></tr>
+    <tr><td>5</td><td><b>Distinguir governança de gestão</b></td><td>Processos distintos, mas integrados (ver módulo 3).</td></tr>
+  </table></div>
+  <p class="note">Mnemônico: <b>"Para Ponta Única Hoje Separa"</b> → Partes interessadas, Ponta a ponta, Único, Holístico, Separar.</p>
+
+  <h3>O objetivo da governança: criação de valor</h3>
+  <p>As necessidades das partes interessadas direcionam o objetivo da governança, que é a criação de valor, formada por três partes: <b>realização de benefícios</b>, <b>otimização do risco</b> e <b>otimização dos recursos</b>. Essas três colunas reaparecem na tabela de objetivos corporativos.</p>
+
+  <h3>Cascata de objetivos</h3>
+  <div class="cascade">
+    <div><b>Direcionadores</b> das partes interessadas (ambiente, evolução tecnológica…)</div><span>↓ influenciam</span>
+    <div><b>Necessidades das partes interessadas</b>: realização de benefícios · otimização do risco · otimização dos recursos</div><span>↓ desdobram-se em</span>
+    <div><b>Objetivos corporativos</b> (17, organizados pelo BSC)</div><span>↓ desdobram-se em</span>
+    <div><b>Objetivos de TI</b> (17, organizados pelo BSC)</div><span>↓ desdobram-se em</span>
+    <div><b>Objetivos de habilitador</b> (7 categorias)</div>
+  </div>
+
+  <div class="two">
+    <div>
+      <h4>Direcionadores (lista do slide)</h4>
+      <ul class="tight">
+        <li>Cultura interna · influências de opinião</li>
+        <li>Regulamentações · políticas governamentais</li>
+        <li>Mercado econômico · competitividade</li>
+        <li>Preocupação ambiental · preocupação social</li>
+        <li>Relações internacionais</li>
+        <li>Disponibilidade de recursos</li>
+        <li>Evolução tecnológica · evolução da interação humana</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Habilitadores: 7 categorias</h4>
+      <ol class="tight">
+        <li>Princípios, políticas e modelos</li>
+        <li>Processos</li>
+        <li>Estruturas organizacionais</li>
+        <li>Cultura, ética e comportamento</li>
+        <li>Informação</li>
+        <li>Serviços, infraestrutura e aplicativos</li>
+        <li>Pessoas, habilidades e competências</li>
+      </ol>
+    </div>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Habilitador</th><th>O que é (slide)</th></tr>
+    <tr><td>Princípios, políticas e modelos</td><td>Veículos para traduzir o comportamento desejado em orientações práticas para a gestão diária.</td></tr>
+    <tr><td>Processos</td><td>Conjunto organizado de práticas e atividades que produz resultados em apoio aos objetivos de TI.</td></tr>
+    <tr><td>Estruturas organizacionais</td><td>Principais entidades de tomada de decisão.</td></tr>
+    <tr><td>Cultura, ética e comportamento</td><td>Muitas vezes subestimados como fator de sucesso.</td></tr>
+    <tr><td>Informação</td><td>Permeia toda a organização; no nível operacional, muitas vezes é o principal produto.</td></tr>
+    <tr><td>Serviços, infraestrutura e aplicativos</td><td>Fornecem o processamento e os serviços de TI.</td></tr>
+    <tr><td>Pessoas, habilidades e competências</td><td>Necessárias para concluir atividades e tomar decisões corretas.</td></tr>
+  </table></div>
+
+  <h3>Balanced Scorecard (BSC) e a relação P/S</h3>
+  <p>Os objetivos corporativos e os de TI são agrupados nas 4 dimensões do <b>BSC</b>. Nas tabelas de mapeamento, cada cruzamento é marcado com <b>P</b> (relação primária) ou <b>S</b> (relação secundária). Aviso do slide: <i>objetivos e relações devem ser analisados caso a caso</i>.</p>
+  <div class="tbl"><table>
+    <tr><th>Dimensão BSC</th><th>Objetivos corporativos</th><th>Objetivos de TI</th></tr>
+    <tr><td>Financeira</td><td>1 valor dos investimentos · 2 portfólio competitivo · 3 gestão do risco do negócio · 4 conformidade com leis externas · 5 transparência financeira</td><td>01 alinhamento estratégia TI × negócio · 02 conformidade com leis · 03 compromisso da gerência executiva · 04 gestão do risco de TI · 05 benefícios do investimento · 06 transparência de custos, benefícios e riscos</td></tr>
+    <tr><td>Cliente</td><td>6 cultura de serviço orientada ao cliente · 7 continuidade e disponibilidade · 8 respostas rápidas à mudança · 9 decisão estratégica com base em informação · 10 otimização do custo de serviços</td><td>07 serviços de TI conforme requisitos do negócio · 08 uso adequado de aplicativos e soluções</td></tr>
+    <tr><td>Interna</td><td>11 funcionalidade dos processos · 12 custo dos processos · 13 programas de mudança · 14 produtividade · 15 conformidade com políticas internas</td><td>09 agilidade de TI · 10 segurança da informação · 11 otimização de ativos · 12 integração de aplicativos aos processos · 13 entrega de programas no prazo · 14 informação útil e confiável · 15 conformidade com políticas internas</td></tr>
+    <tr><td>Treinamento e crescimento</td><td>16 pessoas qualificadas e motivadas · 17 cultura de inovação</td><td>16 equipes motivadas e qualificadas · 17 conhecimento e inovação</td></tr>
+  </table></div>
+  <p class="note">Depois, os objetivos de TI são mapeados em processos COBIT (Apêndice C, figura 23). Exemplo visível no slide: BAI01 (gerenciar programas e projetos) tem relação P com o objetivo de TI 01.</p>
+
+  <div class="ex"><b>Exemplo resolvido (slide 16): prioridade "satisfação do cliente"</b>
+    <ol>
+      <li><b>Estratégia:</b> a organização elege a melhoria da satisfação do cliente como prioridade.</li>
+      <li><b>Objetivos corporativos elevados</b> (dimensão Cliente): 6 cultura de serviço orientada ao cliente; 7 continuidade e disponibilidade do serviço de negócio; 8 respostas rápidas para um ambiente de negócios em mudança.</li>
+      <li><b>Mapeamento para objetivos de TI</b> (relações P): 01 alinhamento da estratégia de TI e de negócios; 04 gestão do risco organizacional de TI; 07 prestação de serviços de TI em consonância com os requisitos de negócio; 09 agilidade de TI.</li>
+      <li><b>Próximo passo da cascata:</b> mapear esses objetivos de TI em processos COBIT (ex.: BAI01, BAI02) e depois nos habilitadores.</li>
+    </ol>
+  </div>
+
+  <h3>Partes interessadas e as perguntas delas ("dúvidas frequentes")</h3>
+  <div class="two">
+    <div><h4>Internas</h4><p class="note">Conselho, CEO, CFO, CIO, CRO, executivos e proprietários de processos, gerentes de negócio, de risco, de segurança, de serviços, de RH e de TI, auditores internos, diretores de privacidade, usuários de TI.</p><p class="note">Perguntas típicas: como obter valor da TI? Qual minha dependência de fornecedores? Quais os requisitos de controle da informação? Como controlar o custo de TI? Os projetos de TI cumprem o que prometem?</p></div>
+    <div><h4>Externas</h4><p class="note">Parceiros comerciais, fornecedores, acionistas, reguladores e governo, usuários externos, clientes, organizações de normatização, auditores externos, consultores.</p><p class="note">Perguntas típicas: as operações do meu parceiro são seguras? A organização cumpre as regras? Mantém um controle interno eficiente?</p></div>
+  </div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>COBIT 2019 não tem 6 princípios?</dt>
+    <dd>Tem. Os 5 princípios do slide são os do COBIT 5; o COBIT 2019 reorganizou em 6 princípios de sistema de governança (valor para as partes interessadas, abordagem holística, sistema dinâmico, governança distinta da gestão, adaptado às necessidades, ponta a ponta), que aparecem numa figura pequena da aula de TOGAF. Na prova, responda com os 5 do professor e, se couber, cite a versão 2019.</dd>
+    <dt>Qual a diferença entre direcionador e necessidade?</dt>
+    <dd>Direcionador é a força de fora ou de dentro (uma regulamentação nova, a concorrência). Necessidade é o que a parte interessada passa a querer por causa dele (benefício, risco menor ou recurso otimizado).</dd>
+    <dt>O que significam P e S nas tabelas?</dt>
+    <dd>P é relação primária (o objetivo contribui de forma direta e forte); S é secundária (contribui, mas de forma indireta). O professor insiste: não é regra fixa, deve ser analisada caso a caso.</dd>
+    <dt>Por que usar o Balanced Scorecard?</dt>
+    <dd>Para não olhar só o financeiro. O BSC equilibra quatro perspectivas (financeira, cliente, processos internos, aprendizado e crescimento), e o COBIT usa as mesmas quatro para agrupar objetivos.</dd>
+    <dt>Informação é habilitador ou recurso?</dt>
+    <dd>No COBIT (como no slide), informação é uma das 7 categorias de habilitadores. No nível operacional ela pode ser o próprio produto da empresa.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Cite e explique os 5 princípios do COBIT."</li>
+      <li>"Explique a cascata de objetivos do COBIT." Desenhe as 5 caixas com as setas.</li>
+      <li>"Uma empresa prioriza X. Quais objetivos corporativos e de TI seriam elevados?" Siga o modelo do exemplo da satisfação do cliente, usando a dimensão BSC correspondente.</li>
+      <li>"Quais são as 7 categorias de habilitadores?"</li>
+      <li>"O que significa criar valor no COBIT?" Realizar benefícios com ótimo custo e otimizar o risco.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M3 ============================ -->
+<section id="m3">
+  <h2>3 · COBIT: domínios e processos</h2>
+  <div class="why"><b>Por que estudar</b>As siglas EDM, APO, BAI, DSS e MEA aparecem em quase todo slide de COBIT e voltam no TOGAF (APO03, APO14, BAI09). Saber o domínio de um processo pelo prefixo resolve questões de associação na hora.</div>
+
+  <h3>Os domínios</h3>
+  <div class="tbl"><table>
+    <tr><th>Área</th><th>Domínio (inglês)</th><th>Como o professor traduz</th><th>Ciclo</th><th>Nº</th></tr>
+    <tr><td rowspan="1"><b>Governança</b></td><td><b>EDM</b> Evaluate, Direct and Monitor</td><td>Avaliar, Dirigir e Monitorar (ADM)</td><td>—</td><td class="n">5</td></tr>
+    <tr><td rowspan="4"><b>Gestão</b></td><td><b>APO</b> Align, Plan and Organize</td><td>Alinhar, Planejar e Organizar</td><td>Planejar</td><td class="n">14</td></tr>
+    <tr><td><b>BAI</b> Build, Acquire and Implement</td><td>Construir, Adquirir e Implementar (CAI)</td><td>Construir</td><td class="n">11</td></tr>
+    <tr><td><b>DSS</b> Deliver, Service and Support</td><td>Entregar, Servir e Suportar (ESS)</td><td>Executar</td><td class="n">6</td></tr>
+    <tr><td><b>MEA</b> Monitor, Evaluate and Assess</td><td>Monitorar, Avaliar e Analisar (MAA)</td><td>Monitorar</td><td class="n">4</td></tr>
+    <tr><td colspan="4"><b>Total</b></td><td class="n">40</td></tr>
+  </table></div>
+  <p>No diagrama do slide, as necessidades do negócio entram na <b>governança</b> (Avaliar → Dirigir → Monitorar). "Dirigir" desce para a gestão, que segue Planejar (APO) → Construir (BAI) → Entregar (DSS) → Monitorar (MEA). O MEA devolve "feedback da gestão" para o Monitorar da governança.</p>
+
+  <h3>EDM: o que cada verbo faz</h3>
+  <ul class="tight">
+    <li><b>Avaliar:</b> o desempenho da TI, incluindo riscos, oportunidades e alinhamento com as metas de negócio.</li>
+    <li><b>Dirigir:</b> as atividades de TI para que estejam alinhadas com a estratégia e os objetivos.</li>
+    <li><b>Monitorar:</b> a conformidade com políticas, regulamentos e padrões, e o desempenho geral da TI.</li>
+  </ul>
+
+  <h3>Lista dos 40 processos (para reconhecer, não decorar)</h3>
+  <div class="tbl"><table>
+    <tr><th>Domínio</th><th>Processos</th></tr>
+    <tr><td>EDM</td><td>01 garantir a definição e manutenção do modelo de governança · 02 garantir a realização de benefícios · 03 garantir a otimização de riscos · 04 garantir a otimização de recursos · 05 garantir a transparência (engajamento) para as partes interessadas</td></tr>
+    <tr><td>APO</td><td>01 modelo de gestão de TI · 02 estratégia · <b>03 arquitetura da organização</b> · 04 inovação · 05 portfólio · 06 orçamento e custos · 07 recursos humanos · 08 relacionamentos · 09 acordos de serviço · 10 fornecedores · 11 qualidade · 12 riscos · 13 segurança · <b>14 dados</b></td></tr>
+    <tr><td>BAI</td><td>01 programas · 02 definição de requisitos · 03 identificação e construção de soluções · <b>04 disponibilidade e capacidade</b> · 05 mudança organizacional · 06 mudanças de TI · 07 aceitação e transição de mudanças · 08 conhecimento · <b>09 ativos</b> · 10 configuração · 11 projetos</td></tr>
+    <tr><td>DSS</td><td>01 operações · 02 solicitações de serviço e incidentes · 03 problemas · 04 continuidade · 05 serviços de segurança · 06 controles de processo de negócio</td></tr>
+    <tr><td>MEA</td><td>01 monitoramento do desempenho e da conformidade · 02 sistema de controle interno · 03 conformidade com requisitos externos · 04 garantia (assurance)</td></tr>
+  </table></div>
+  <p class="note">Em negrito, os processos que reaparecem nos exemplos de TOGAF da Fábrica de Macarrão Marco Polo.</p>
+
+  <h3>Certificações COBIT 2019 (5 níveis)</h3>
+  <ol class="tight">
+    <li><b>Foundation</b>: nível inicial; conhecimento básico da estrutura COBIT 2019.</li>
+    <li><b>Practitioner</b></li>
+    <li><b>Assessor</b></li>
+    <li><b>Implementation</b></li>
+    <li><b>Auditor</b></li>
+  </ol>
+  <p class="note">A ordem 01–05 está no diagrama do slide.</p>
+
+  <h3>Maturidade e capacidade</h3>
+  <p>Na aula 3 o professor desenhou uma escada de <b>5 níveis</b> ("Modelo de Maturidade das Capacidades ⇒ Qualidade") e comentou: "quem está no caos não sabe que está no caos". No TOGAF, cada prática do APO03 indica a "capacidade envolvida" (ex.: 2, 3, 4). No COBIT 2019 os níveis de capacidade de um processo vão de 0 a 5 (0 incompleto, 1 inicial, 2 gerenciado, 3 definido, 4 quantitativo/medido, 5 otimizado). <span class="infer">inferência: os nomes dos níveis não estão no slide</span></p>
+
+  <div class="ex"><b>Exemplo resolvido: em que domínio está?</b>
+    <ol>
+      <li>"Registrar e tratar chamados de usuários" → DSS02 (entregar).</li>
+      <li>"Definir a estratégia de TI para os próximos 3 anos" → APO02 (planejar).</li>
+      <li>"Implantar o novo ERP" → BAI03 / BAI11 (construir).</li>
+      <li>"Verificar se a empresa atende à LGPD" → MEA03 (monitorar, requisitos externos).</li>
+      <li>"O conselho decide o apetite de risco" → EDM03 (governança).</li>
+    </ol>
+  </div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>EDM e MEA monitoram. Qual a diferença?</dt>
+    <dd>MEA é gestão: mede o desempenho e a conformidade e gera relatórios. EDM é governança: usa esses relatórios para cobrar e redirecionar. O MEA alimenta o EDM ("feedback da gestão").</dd>
+    <dt>Por que o professor escreve ADM, CAI, ESS e MAA?</dt>
+    <dd>São as traduções das siglas nos mapas mentais do slide. Na prova use a sigla oficial em inglês e, se quiser, a tradução entre parênteses.</dd>
+    <dt>Preciso decorar os 40 processos?</dt>
+    <dd>Não há sinal disso no material. Saiba os 5 domínios, a quantidade de processos em cada um e reconheça os citados nos exemplos (APO03, APO14, BAI04, BAI09, BAI11, DSS02).</dd>
+    <dt>Por que APO fica na gestão se "alinhar" parece decisão estratégica?</dt>
+    <dd>Porque ele planeja e organiza o que a governança já decidiu. A decisão de direção é do EDM; o APO transforma a direção em estratégia, arquitetura, orçamento e portfólio.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Quais são os domínios do COBIT? Qual pertence à governança?" EDM é governança; APO, BAI, DSS e MEA são gestão.</li>
+      <li>"Explique Avaliar, Dirigir e Monitorar."</li>
+      <li>"Associe a atividade ao domínio" (como no exemplo acima).</li>
+      <li>"Quais os níveis de certificação COBIT 2019?"</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M4 ============================ -->
+<section id="m4">
+  <h2>4 · Arquitetura corporativa e TOGAF</h2>
+  <div class="why"><b>Por que estudar</b>É a ponte entre COBIT e processos. O COBIT manda gerenciar a arquitetura (APO03) e o TOGAF diz como fazer. O ciclo ADM é o desenho mais reconhecível da matéria e tem cara de questão.</div>
+
+  <h3>Arquitetura corporativa (empresarial, enterprise architecture)</h3>
+  <p>"É a estrutura de interrelação e alinhamento harmonioso entre os ativos organizacionais e os recursos organizacionais, apoiado nos fundamentos e modelo de negócio da organização."</p>
+  <h4>Princípios fundamentais (em cadeia)</h4>
+  <ol class="tight">
+    <li>Toda organização deve definir e entregar <b>produtos/serviços</b> à sociedade.</li>
+    <li>Toda organização deve estabelecer seus <b>valores organizacionais</b>, respeitando o item 1.</li>
+    <li>Toda organização deve se estruturar para um <b>funcionamento sistêmico</b>, respeitando o item 2.</li>
+  </ol>
+  <p><b>Por que atuar no nível amplo?</b> Para ter uma <b>abordagem holística</b>: um sistema complexo não é a soma das partes, e não se melhora com eficiência atuando só em partes isoladas.</p>
+
+  <h3>COBIT APO03: arquitetura empresarial gerenciada</h3>
+  <p><b>Objetivo geral:</b> estabelecer uma arquitetura comum em camadas (processos de negócio, informações, dados, aplicativos e tecnologia); criar modelos que descrevam as arquiteturas de <b>linha de base</b> (atual) e de <b>destino</b> (alvo); melhorar alinhamento, agilidade e qualidade da informação e gerar economias, por exemplo reutilizando blocos de construção.</p>
+  <div class="tbl"><table>
+    <tr><th>Prática</th><th>O que faz</th><th>Capacidade</th><th>Fase ADM parecida</th></tr>
+    <tr><td>APO03.01 Desenvolver a visão da arquitetura</td><td>Descrição de alto nível das arquiteturas de base e de destino; ferramenta do patrocinador para "vender" os benefícios.</td><td>2, 3, 4</td><td>A</td></tr>
+    <tr><td>APO03.02 Definir a arquitetura de referência</td><td>Arquiteturas atual e de destino para negócio, informação, dados, aplicação e tecnologia.</td><td>3</td><td>B, C, D</td></tr>
+    <tr><td>APO03.03 Selecionar oportunidades e soluções</td><td>Racionalizar as lacunas (gaps) entre referência e destino e agrupá-las em pacotes de trabalho.</td><td>3</td><td>E</td></tr>
+    <tr><td>APO03.04 Definir a implementação</td><td>Plano de implementação e migração alinhado ao portfólio de programas e projetos.</td><td>3</td><td>F</td></tr>
+    <tr><td>APO03.05 Fornecer serviços de arquitetura</td><td>Orientar e monitorar projetos, contratos de arquitetura, medir conformidade.</td><td>3, 4, 5</td><td>G, H</td></tr>
+  </table></div>
+  <p class="note">A última coluna é uma correspondência feita para ajudar a memorizar. <span class="infer">inferência</span></p>
+
+  <h3>TOGAF</h3>
+  <p><b>The Open Group Architecture Framework.</b> "Padrão aberto, framework de consenso de mercado que apresenta métodos e ferramentas para auxiliar na aceitação, produção, uso e manutenção de uma Arquitetura Corporativa. É baseado em um modelo de processo <b>iterativo</b> apoiado pelas melhores práticas." Versão nos slides: TOGAF Standard, 10ª edição. Nas notas: "coleção de livros gratuitos".</p>
+  <p><b>Biblioteca TOGAF:</b> <i>Fundamental Content</i> (introdução e conceitos, ADM, técnicas do ADM, aplicação do ADM, conteúdo da arquitetura, capacidade e governança de arquitetura) + <i>Series Guides</i> (arquitetura de negócios, de informação, de segurança, ágil, digital, de tecnologia, MSA/SOA, adaptação do ADM…).</p>
+
+  <h3>O ciclo ADM (Architecture Development Method)</h3>
+  <div class="fig" style="max-width:560px">
+    <svg viewBox="0 0 520 470" role="img" aria-label="Ciclo ADM do TOGAF com fase preliminar, fases A a H e gestão de requisitos no centro">
+      <g font-family="Source Sans 3, sans-serif" font-size="12.5" fill="#15252B" text-anchor="middle">
+        <circle cx="260" cy="260" r="150" fill="none" stroke="#AFC0C3" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <line x1="260" y1="58" x2="260" y2="92" stroke="#15252B" marker-end="url(#arr)"/>
+        <ellipse cx="260" cy="36" rx="62" ry="22" fill="#FBF3DC" stroke="#D19A0B"/><text x="260" y="40" font-weight="600">Preliminar</text>
+        <ellipse cx="260" cy="260" rx="78" ry="34" fill="#0E5C63"/><text x="260" y="256" fill="#fff" font-weight="600">Gestão de</text><text x="260" y="272" fill="#fff" font-weight="600">Requisitos</text>
+        <g>
+          <ellipse cx="260" cy="110" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="260" y="107" font-weight="600">A</text><text x="260" y="121">Visão</text>
+          <ellipse cx="366" cy="154" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="366" y="151" font-weight="600">B</text><text x="366" y="165">Negócios</text>
+          <ellipse cx="410" cy="260" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="410" y="257" font-weight="600">C</text><text x="410" y="271">Sistemas de Inf.</text>
+          <ellipse cx="366" cy="366" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="366" y="363" font-weight="600">D</text><text x="366" y="377">Tecnologia</text>
+          <ellipse cx="260" cy="410" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="260" y="407" font-weight="600">E</text><text x="260" y="421">Oport. e soluções</text>
+          <ellipse cx="154" cy="366" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="154" y="363" font-weight="600">F</text><text x="154" y="377">Plano de migração</text>
+          <ellipse cx="110" cy="260" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="110" y="257" font-weight="600">G</text><text x="110" y="271">Gov. da implem.</text>
+          <ellipse cx="154" cy="154" rx="58" ry="24" fill="#fff" stroke="#0E5C63"/><text x="154" y="151" font-weight="600">H</text><text x="154" y="165">Gestão de mudança</text>
+        </g>
+        <g stroke="#43565D" stroke-width="1">
+          <line x1="260" y1="134" x2="260" y2="226"/><line x1="366" y1="178" x2="316" y2="236"/><line x1="352" y1="260" x2="338" y2="260"/>
+          <line x1="366" y1="342" x2="316" y2="284"/><line x1="260" y1="386" x2="260" y2="294"/><line x1="154" y1="342" x2="204" y2="284"/>
+          <line x1="168" y1="260" x2="182" y2="260"/><line x1="154" y1="178" x2="204" y2="236"/>
+        </g>
+      </g>
+    </svg>
+    <p class="figcap">Sentido horário A → H, volta para A. Cada ciclo pode ser executado como um projeto, com o framework adotado pela organização. A Gestão de Requisitos no centro conversa com todas as fases.</p>
+  </div>
+  <div class="tbl"><table>
+    <tr><th>Fase</th><th>Nome original</th><th>Pergunta que responde</th></tr>
+    <tr><td>Preliminar</td><td>Preliminary</td><td>Como a organização vai fazer arquitetura (princípios, framework)?</td></tr>
+    <tr><td>A</td><td>Architecture Vision</td><td>Qual o escopo e a visão de alto nível?</td></tr>
+    <tr><td>B</td><td>Business Architecture</td><td>Como o negócio funciona (processos, atores, capacidades)?</td></tr>
+    <tr><td>C</td><td>Information Systems Architectures</td><td>Quais dados e aplicações suportam o negócio?</td></tr>
+    <tr><td>D</td><td>Technology Architecture</td><td>Qual infraestrutura suporta as aplicações?</td></tr>
+    <tr><td>E</td><td>Opportunities and Solutions</td><td>Quais pacotes de trabalho fecham os gaps?</td></tr>
+    <tr><td>F</td><td>Migration Planning</td><td>Em que ordem e com que plano migrar?</td></tr>
+    <tr><td>G</td><td>Implementation Governance</td><td>Os projetos seguem a arquitetura?</td></tr>
+    <tr><td>H</td><td>Architecture Change Management</td><td>Quando mudar a arquitetura de novo?</td></tr>
+    <tr><td>Centro</td><td>Requirements Management</td><td>Os requisitos estão sendo tratados em todas as fases?</td></tr>
+  </table></div>
+  <p class="note">A coluna "pergunta" é síntese, não texto do slide. <span class="infer">inferência</span></p>
+
+  <h3>Camadas da arquitetura (Content Framework)</h3>
+  <ul class="tight">
+    <li><b>Princípios, visão e requisitos:</b> Preliminary · Architecture Requirements · Architecture Vision.</li>
+    <li><b>Definição da arquitetura:</b> Motivation; <b>Business Architecture</b> (Strategy, Operational); <b>Information Systems Architectures</b> (Data, Application); <b>Technology Architecture</b>.</li>
+    <li><b>Realização:</b> Opportunities, Solutions and Migration Planning · Implementation Governance.</li>
+    <li>Em volta de tudo: <b>Architecture Change Management</b>.</li>
+  </ul>
+  <p>"Arquitetura é o 1º nível de abstração." Os elementos que se modelam em cada camada são os <b>meta-objetos</b> do metamodelo TOGAF (módulos 5 e 6).</p>
+
+  <h3>Zachman: "um outro framework"</h3>
+  <p>Ontologia em matriz <b>6×6</b>. Colunas = <b>5W1H</b> (O quê? Como? Onde? Quem? Quando? Por quê?). Linhas = níveis de abstração (contextual, conceitual, lógico, físico, implementação…). Cada célula classifica um tipo de elemento da organização.</p>
+
+  <div class="tool"><b>Como fica na ferramenta: Archi</b>O Archi desenha modelos na linguagem <b>ArchiMate</b> (também do Open Group). Muitos meta-objetos do TOGAF têm um elemento ArchiMate "adaptado" (Driver, Goal, Assessment, Capability, Value Stream, Business Actor…). A paleta do Archi separa elementos de <b>motivação</b> (roxo), <b>estratégia</b> (laranja), <b>negócio</b> (amarelo), <b>aplicação</b> (azul), <b>tecnologia</b> (verde) e <b>implementação e migração</b> (rosa: Work Package, Deliverable, Gap, Plateau).</div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Arquitetura corporativa é arquitetura de software?</dt>
+    <dd>Não. É a arquitetura da empresa inteira: negócio, dados, aplicações e tecnologia. A arquitetura de software é só um pedaço da camada de aplicação.</dd>
+    <dt>O que é arquitetura de base e de destino?</dt>
+    <dd>Base (baseline, "como é") é a situação atual; destino (target, "como será") é a situação desejada. A diferença entre as duas é o <b>gap</b>, e os gaps viram <b>pacotes de trabalho</b>.</dd>
+    <dt>Por que o ADM é um ciclo e não uma sequência?</dt>
+    <dd>Porque a empresa muda sempre. A fase H identifica mudanças que disparam um novo ciclo, e o slide destaca que o TOGAF é iterativo.</dd>
+    <dt>Qual a relação entre TOGAF e Zachman?</dt>
+    <dd>Zachman é uma taxonomia (como classificar os artefatos); TOGAF é um método (como produzi-los) mais um metamodelo. O professor apresenta Zachman só como alternativa.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Defina arquitetura corporativa e explique por que ela exige uma abordagem holística."</li>
+      <li>"Desenhe/explique o ciclo ADM do TOGAF." Preliminar, A–H, Gestão de Requisitos no centro.</li>
+      <li>"Qual processo do COBIT trata de arquitetura corporativa? Cite suas práticas." APO03.01 a 03.05.</li>
+      <li>"O que é o Zachman Framework?" Matriz 6×6, colunas 5W1H, linhas de abstração.</li>
+      <li>"Quais as camadas da arquitetura TOGAF?" Negócio, dados, aplicação, tecnologia (mais motivação, visão e realização).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M5 ============================ -->
+<section id="m5">
+  <h2>5 · TOGAF: entidades gerais e a cadeia de motivação</h2>
+  <div class="why"><b>Por que estudar</b>Mais de 20 slides são definições de meta-objetos, cada um com exemplo. É o terreno mais fértil para "defina X e dê um exemplo". A cadeia Driver → Goal → Objective → Measure responde "por que a empresa faz o que faz".</div>
+
+  <h3>Entidades gerais (associadas a todos os objetos)</h3>
+  <div class="tbl"><table>
+    <tr><th>Entidade</th><th>Definição (slide)</th><th>Exemplo do professor</th></tr>
+    <tr><td><b>Location</b></td><td>Local físico ou virtual da organização envolvido na arquitetura.</td><td>Sede São Paulo; Divisão Campinas.</td></tr>
+    <tr><td><b>Constraint</b></td><td>Qualquer restrição geral ou sobre um ou mais objetos da arquitetura.</td><td>Na contratação de terceirizada, deve haver avaliação de compliance pelo jurídico e sua concordância.</td></tr>
+    <tr><td><b>Principle</b></td><td>Regra ou diretriz geral para uso e implantação de recursos e ativos em toda a empresa; reflete consenso e é base para decisões futuras de TI.</td><td>"Maximizar benefícios da TI para a empresa"; "Informação é um ativo".</td></tr>
+    <tr><td><b>Requirement</b></td><td>Qualquer requisito, geral ou específico, sobre objetos da arquitetura; reconhecido pela área de engenharia responsável.</td><td>Os dados (nome, endereço, telefone e e-mail) dos clientes.</td></tr>
+    <tr><td><b>Capability</b></td><td>Capacidade existente ou exigida de uma unidade organizacional ou pessoa para realizar algo.</td><td>É entregue por um pacote de trabalho.</td></tr>
+    <tr><td><b>Gap</b></td><td>Declaração de diferença entre dois estados de um ou mais objetos.</td><td>Entre o app de ponto eletrônico atual e o da arquitetura alvo falta relatório estatístico.</td></tr>
+    <tr><td><b>Work Package</b></td><td>Conjunto de ações para atingir um ou mais objetivos de negócio; pode ser parte de projeto, projeto inteiro ou programa.</td><td>Pacote de trabalho entrega uma capacidade.</td></tr>
+    <tr><td><b>Assumption</b></td><td>Premissa (aparece na figura das entidades gerais, sem slide próprio).</td><td>—</td></tr>
+  </table></div>
+
+  <h3>Como documentar um princípio (Modelo 02)</h3>
+  <div class="tbl"><table>
+    <tr><th>Campo</th><th>O que escrever</th><th>Exemplo: "Mudanças baseadas em requisitos" (camada de tecnologia)</th></tr>
+    <tr><td>Nome</td><td>Título curto</td><td>Mudanças baseadas em requisitos</td></tr>
+    <tr><td>Declaração</td><td>A regra fundamental, de forma sucinta e inequívoca</td><td>Apenas as necessidades de negócio devem justificar mudanças de tecnologia.</td></tr>
+    <tr><td>Justificativa</td><td>Benefícios da adesão, em termos de negócio; relação com outros princípios</td><td>Investimentos em TI são elevados e de risco; toda mudança deve estar apoiada em demanda de negócio.</td></tr>
+    <tr><td>Implicações (requisitos)</td><td>O que o negócio e a TI precisam fazer para obedecer (recursos, custos)</td><td>Processos de mudança devem passar pelo grupo gestor de mudanças.</td></tr>
+  </table></div>
+  <p><b>Categorias de princípios:</b> Negócios, Dados, Sistemas (aplicação), Infra de TI. <b>Qualidades de um bom princípio:</b> compreensível, completo, estável, robusto, consistente.</p>
+  <p class="note">Outros exemplos do slide: negócio "Maximizar benefícios da TI para a empresa" (decisões de TI buscam o maior retorno para a empresa como um todo); dados "Informação é um ativo"; aplicação "Independência de tecnologia".</p>
+
+  <h3>Requisitos entrelaçados: cada engenharia enxerga um pedaço</h3>
+  <p>O requisito liga-se a Business Information, Application Service, Technology Service, Process, Actor e Product. Cada área de engenharia percebe os requisitos do seu lado. Exemplo do professor (cadarços recicláveis):</p>
+  <div class="tbl"><table>
+    <tr><th>Engenharia</th><th>Requisito percebido</th></tr>
+    <tr><td>de Produto</td><td>Produto: cadarços recicláveis</td></tr>
+    <tr><td>de Valor</td><td>Valor: sustentabilidade</td></tr>
+    <tr><td>de Processos</td><td>Compra de matéria-prima reciclada; recolhimento de cadarços usados</td></tr>
+    <tr><td>de Dados (aquisição)</td><td>Postos de recolhimento, responsáveis pelos postos, campanhas</td></tr>
+    <tr><td>de Software (aquisição)</td><td>Sistema de orientação de clientes recicladores</td></tr>
+    <tr><td>"de Atores"</td><td>Habilidades, competências</td></tr>
+    <tr><td>de Infraestrutura</td><td>Infraestruturas (TI e outras)</td></tr>
+  </table></div>
+
+  <h3>A cadeia de motivação: Driver → Goal → Objective → Measure</h3>
+  <div class="tbl"><table>
+    <tr><th>Meta-objeto</th><th>Definição</th><th>Exemplo</th></tr>
+    <tr><td><b>Business Driver</b></td><td>Fator ou força que influencia e determina a direção estratégica; catalisador de mudanças. Tipos: <b>força</b> (externa: mercado, tecnologia, concorrência, regulação, economia; interna: cultura, novos produtos, orçamento, reestruturação), <b>oportunidade</b> (influência positiva) e <b>risco</b> (influência negativa).</td><td>Aumento da concorrência; nova regulamentação; avanço tecnológico; mudança no comportamento do cliente.</td></tr>
+    <tr><td><b>Business Goal</b></td><td>Declaração de intenção ou resultado desejado (estratégico, tático ou operacional). Qualitativo.</td><td>Aumentar a satisfação do cliente; reduzir custos operacionais.</td></tr>
+    <tr><td><b>Business Objective</b></td><td>Objetivo específico, <b>mensurável</b>, alinhado à visão de longo prazo.</td><td>Aumentar a receita em 20% em 3 anos; satisfação em 90% até o fim do ano fiscal; reduzir custos em 15%; expandir para 5 novos países.</td></tr>
+    <tr><td><b>Measure</b></td><td>Ver os 5 degraus abaixo. No ArchiMate vira <i>Assessment</i>; o <i>Value</i> expressa o valor derivado da medida.</td><td>Prazo de atualização de item de configuração: 38 min.</td></tr>
+  </table></div>
+  <p class="note">No diagrama do slide, Objective aparece marcado como "não usado" na adaptação do professor: ele liga Driver → Goal → Measure direto. Saiba os dois.</p>
+
+  <h3>Os 5 degraus da medida</h3>
+  <div class="tbl"><table>
+    <tr><th>#</th><th>Degrau</th><th>O que é</th><th>Exemplo (itens de configuração)</th></tr>
+    <tr><td>1</td><td>Unidade de medida quantitativa</td><td>Modelo para atribuir valor numérico</td><td>Minuto</td></tr>
+    <tr><td>2</td><td>Business Measure (medição)</td><td>Medição quantitativa ou qualitativa que usa uma métrica como parâmetro de qualidade</td><td>Atualização do software Y feita em 38 minutos</td></tr>
+    <tr><td>3</td><td>Métrica</td><td>Cálculo de totalização de medidas</td><td>Total de minutos em atualizações em 2023</td></tr>
+    <tr><td>4</td><td>Indicador</td><td>Significado para o negócio; usado comparativamente</td><td>Média de minutos por ano entre 2020 e 2023</td></tr>
+    <tr><td>5</td><td>KPI (Key Performance Indicator)</td><td>Indicador de uso estratégico ligado às metas</td><td>A mesma média, acompanhada contra a meta da organização</td></tr>
+  </table></div>
+  <p class="note">"Em TOGAF, [Measure] é o Indicador ou KPI, já parametrizado para análise."</p>
+
+  <h3>Estratégia: Course of Action, Value Stream, Capability, Value</h3>
+  <div class="tbl"><table>
+    <tr><th>Meta-objeto</th><th>Definição</th><th>Relações no slide</th></tr>
+    <tr><td><b>Course of Action</b> (curso de ação)</td><td>Direção e foco baseados em metas (goals) para entregar valor no negócio.</td><td>Influencia Function, Product, Business Capability, Business Information, Value Stream; é realizado por Goal.</td></tr>
+    <tr><td><b>Value Stream</b> (cadeia de valor, Porter)</td><td>Coleção de processos coordenados que cria um resultado para um cliente, stakeholder ou usuário final.</td><td>Envolve ou é disparada por Actor; operacionalizada por Process; habilitada por Business Capability; influenciada por Course of Action.</td></tr>
+    <tr><td><b>Business Capability</b></td><td>Capacidade específica que a organização possui ou pretende ter.</td><td>Entrega Function; operacionalizada por Process; facilita Value Stream; influencia Business Information e Course of Action; entrega a Organization Unit.</td></tr>
+    <tr><td><b>Business Value</b> (não TOGAF)</td><td>Utilidade, vantagem, benefício ou desejabilidade de algo, não só o valor monetário.</td><td>Dimensões: econômico, quantitativo, percepção (segurança, qualidade), sensorial, emocional.</td></tr>
+  </table></div>
+  <p class="note">Das suas notas: "Value Stream = cadeia de valor"; "Business Capability = capacidade de negócio". Na BPMN, uma cadeia de valor aparece como processos encadeados, um disparando o próximo.</p>
+
+  <div class="ex"><b>Exemplo resolvido (caso do professor): Fábrica de Macarrão Marco Polo</b>
+    <ol>
+      <li><b>Location:</b> Divisão Campinas, onde fica a <b>UN Tecnologia da Informação</b>, subordinada à <b>UN Diretoria Executiva</b>.</li>
+      <li><b>Driver (risco externo):</b> elevação dos custos de aquisição de equipamentos no mercado.</li>
+      <li><b>Driver (oportunidade interna):</b> necessidade de modernização tecnológica.</li>
+      <li><b>Goal:</b> atualizar a infraestrutura de TI para melhorar a eficiência operacional.</li>
+      <li><b>Course of Action:</b> modernização de infraestrutura, habilitada pelas capacidades COBIT <b>BAI04</b> (capacidade e disponibilidade gerenciadas) e <b>BAI09</b> (ativos gerenciados).</li>
+      <li><b>Assessment (Measure):</b> média semanal de serviços de manutenção realizados no ativo X de TI → <b>Value: 13,8 semanal</b> → <b>Outcome:</b> a média decaiu 2 unidades.</li>
+      <li><b>Value Stream "Entrega de serviços de TI":</b> Monitoramento de demandas → Planejamento de aquisições → Gestão de aquisições → BAI09.01 Identificar e registrar ativos atuais. Medidas: % de ativos inventariados, % com registro preciso, % adequados ao propósito. Stakeholder: Diretor de TI. Valores: melhoria da qualidade dos serviços e redução de custos de manutenção. Constraint: regra de negócio BR 01.</li>
+    </ol>
+  </div>
+
+  <div class="tool"><b>Como fica na ferramenta: Archi</b>No Archi, Driver, Goal, Assessment, Outcome, Value, Principle, Requirement e Constraint ficam no grupo <b>Motivation</b> (roxo). Capability, Course of Action e Value Stream ficam em <b>Strategy</b>. Gap e Work Package ficam em <b>Implementation &amp; Migration</b>. No caso Marco Polo, as setas tracejadas são relações de influência.</div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Goal × Objective: qual a diferença?</dt>
+    <dd>Goal é a intenção ("aumentar a satisfação do cliente"). Objective é a versão mensurável e com prazo ("satisfação em 90% até o fim do ano fiscal"). Se tem número e prazo, é objective.</dd>
+    <dt>Métrica × indicador × KPI?</dt>
+    <dd>Métrica totaliza medidas (total de minutos no ano). Indicador dá significado comparativo (média por ano). KPI é o indicador escolhido para acompanhar uma meta estratégica.</dd>
+    <dt>Capability × Function?</dt>
+    <dd>Capability é o que a organização consegue fazer ("gestão de ativos"); Function é o nome da posição ou área que faz ("Diretor de P&amp;D"). A capacidade entrega a função.</dd>
+    <dt>Constraint × Principle × Control?</dt>
+    <dd>Principle é uma diretriz geral de consenso (orienta decisões). Constraint é uma restrição concreta sobre objetos. Control (módulo 6) é a regra de negócio ou política que guia um processo.</dd>
+    <dt>Driver sempre vem de fora?</dt>
+    <dd>Não. Pode ser externo (mercado, regulação) ou interno (cultura, orçamento). E pode ser positivo (oportunidade) ou negativo (risco).</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Defina Gap, Work Package e Capability e mostre como se relacionam." O gap vira pacote de trabalho, que entrega a capacidade.</li>
+      <li>"Documente um princípio usando o modelo (nome, declaração, justificativa, implicações)."</li>
+      <li>"Classifique: aumento da concorrência / necessidade de modernização" → driver força externa / oportunidade interna.</li>
+      <li>"Diferencie Goal e Objective com exemplo."</li>
+      <li>"Explique a sequência unidade → medida → métrica → indicador → KPI."</li>
+      <li>"Monte a cadeia Driver → Goal → Course of Action → Measure para um caso" (use a Marco Polo como modelo).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M6 ============================ -->
+<section id="m6">
+  <h2>6 · TOGAF: estrutura do negócio (quem, o quê, como)</h2>
+  <div class="why"><b>Por que estudar</b>Aqui estão os meta-objetos da camada de negócios e a ligação com dados e tecnologia. A diferença entre Actor, Role e Function é a mais cobrável do bloco, e o professor montou um exemplo inteiro (Hulk) só para ela.</div>
+
+  <h3>Quem se interessa e o que se entrega</h3>
+  <div class="tbl"><table>
+    <tr><th>Meta-objeto</th><th>Definição</th><th>Relações</th></tr>
+    <tr><td><b>Stakeholder</b></td><td>Indivíduo, grupo, organização ou classe de organizações com interesse na empresa (nas metas do negócio).</td><td>Adaptado; o professor prefere separá-lo de Business Actor, como no ArchiMate.</td></tr>
+    <tr><td><b>Product</b></td><td>Resultado gerado pelo negócio para ser oferecido ao interessado.</td><td>É produzido por Process; influencia Course of Action; é entregue por Organization Unit.</td></tr>
+    <tr><td><b>PBS</b> (Product Breakdown Structure)</td><td>Decomposição do produto em partes.</td><td>Exemplo: tênis de corrida → cabedal, cadarços, palmilha, entressola, solado externo, acabamentos e branding.</td></tr>
+    <tr><td><b>Organization Unit</b></td><td>Agrupamento de objetos que atendem a um produto, processo, serviço ou composição deles.</td><td>Departamentos, setores. É motivada por Driver; cria Goal; especifica Objective; é avaliada por Measure; é influenciada por Course of Action e Value Stream.</td></tr>
+  </table></div>
+
+  <h3>Como o trabalho acontece</h3>
+  <div class="tbl"><table>
+    <tr><th>Meta-objeto</th><th>Definição</th><th>Relações</th></tr>
+    <tr><td><b>Process</b></td><td>Processo de negócio (o mesmo da BPMN).</td><td>Realizado por ou envolve Role; iniciado ou finalizado por Event; operacionaliza Value Stream e Business Capability; é guiado por Control; usa Business Information; entrega Product; orquestra Function e Business Service.</td></tr>
+    <tr><td><b>Event</b></td><td>Evento interno ou externo que pode iniciar ou terminar um processo.</td><td>Resolvido ou gerado por Actor, Process, Business Service. Nas notas: disparador de processo pelo <b>método natural</b> ou <b>por emergência</b>.</td></tr>
+    <tr><td><b>Control</b></td><td>Regras de negócio, políticas e outros objetos que restringem o uso ou comportamento de elementos.</td><td>Guia Process.</td></tr>
+    <tr><td><b>Service Quality</b></td><td>Requisito de qualidade vinculado a objetos.</td><td>Disponibilidade, desempenho, confiabilidade. Aplicado em Business Service e Contract.</td></tr>
+    <tr><td><b>Contract</b></td><td>Acordo formal entre duas ou mais partes com obrigações, responsabilidades e expectativas sobre a entrega de serviços.</td><td>Governa Business Service.</td></tr>
+    <tr><td><b>Business Information</b></td><td>Informação usada ou gerada pelas operações para decidir e executar processos; descrita em nível abstrato.</td><td>Relatório mensal de vendas; legislação estadual de taxação. Influencia Course of Action; usada por Capability e Process.</td></tr>
+  </table></div>
+
+  <h3>Actor × Role × Function</h3>
+  <div class="tbl"><table>
+    <tr><th>Meta-objeto</th><th>Definição</th><th>Relações</th></tr>
+    <tr><td><b>Actor</b></td><td>Pessoa, organização ou sistema, interno ou externo.</td><td>Fornece ou consome Data Entity; desempenha Role; gera ou resolve Event; interage com ou desempenha Function; dispara ou participa de Value Stream; consome Business Service.</td></tr>
+    <tr><td><b>Role</b> (papel)</td><td>Conjunto de habilidades humanas (hard e soft skills).</td><td>Desempenhado por Actor; executa ou participa de Process.</td></tr>
+    <tr><td><b>Function</b> (função)</td><td>Denominação usada pela organização na atribuição de uma posição.</td><td>Suportada ou executada por Actor; suportada ou realizada por Process.</td></tr>
+  </table></div>
+  <p>No TOGAF os quatro (Actor, Role, Function, Process) têm uma "relação ampla" entre si: cada um se liga aos outros três.</p>
+
+  <div class="ex"><b>Exemplo resolvido (caso do professor): Hulk</b>
+    <div class="tbl"><table>
+      <tr><th>Pessoa</th><th>Actor</th><th>Role (skills)</th><th>Function</th><th>Process</th></tr>
+      <tr><td rowspan="2">Mark Ruffalo</td><td>Cientista Gênio</td><td><b>Físico</b>: desenvolver software e hardware; suportar duas personalidades e os colegas</td><td>"Diretor de P&amp;D"</td><td>Desenvolvimento de Armadura</td></tr>
+      <tr><td>Super humano</td><td><b>Monstro</b>: assimilar radioatividade, grandes saltos, grande destruição material, "suportar" os colegas, sentir-se bem mesmo sendo verde</td><td>"Promotor de destruição"</td><td>Impedir invasão da Terra</td></tr>
+    </table></div>
+    <p style="margin:8px 0 0">Leitura: a mesma pessoa pode ser dois <b>atores</b>; cada ator <b>desempenha</b> um papel (conjunto de skills) e uma função (nome da posição); o papel <b>executa</b> o processo.</p>
+  </div>
+
+  <h4>Skills de um papel (exemplos do slide)</h4>
+  <div class="tbl"><table>
+    <tr><th>Papel</th><th>Soft skills</th><th>Hard skills</th></tr>
+    <tr><td>Engenheiro de processos</td><td>Resolução de problemas, comunicação, trabalho em equipe, adaptabilidade, liderança, atenção a detalhes, gestão de tempo, criatividade, melhoria contínua, inteligência emocional</td><td>Simulação e modelagem de processos, <b>CEP</b>, manufatura enxuta, otimização de processos, gestão da qualidade, conformidade ambiental e de segurança</td></tr>
+    <tr><td>Gestão de segurança</td><td>Liderança de equipes, tomada de decisão, visão estratégica</td><td>Criptografia, redes/firewalls/VPN, padrões internacionais de segurança, planos de segurança</td></tr>
+  </table></div>
+
+  <h3>Camada de serviços de TI e dados (notas da aula 4)</h3>
+  <ul class="tight">
+    <li><b>Data Entity:</b> informação gerada e acessada por atores em processo de negócio.</li>
+    <li><b>Logical Data Component:</b> estrutura lógica dessa informação (ex.: tabela Cliente).</li>
+    <li><b>Physical Data Component:</b> estrutura física (ex.: Database ABC).</li>
+  </ul>
+
+  <div class="ex"><b>Exemplo resolvido: visão de integração (aquisição de novos clientes)</b>
+    <ol>
+      <li><b>Negócio:</b> Business Information "Código de Defesa do Consumidor, Lei 8.078" influencia o Course of Action "Expansão do portfólio de clientes", que orienta a cadeia de valor "Aquisição de novos clientes".</li>
+      <li><b>Processos:</b> Prospecção de clientes → Qualificação de leads → Proposta e negociação → Formalização de contrato e registro. Disparados pelo Business Event "Contato de interesse do cliente", com o Business Actor "Cliente". Produto: Contrato.</li>
+      <li><b>Serviço:</b> Business Service "Gerenciamento de cliente", com requisitos de qualidade <i>completude</i> e <i>atualizada</i>.</li>
+      <li><b>Dados:</b> Data Entity Cliente → Logical Data Component "Tabela Cliente" → Physical Data Component "Database ABC".</li>
+      <li><b>Aplicação:</b> Application Service "Gestão de Cliente" → Logical Application Component "Gerenciar Cliente" → Physical Application Component "Sistema CRM".</li>
+      <li><b>Tecnologia:</b> Technology Service "Armazenamento e recuperação de clientes" → Logical Technology Component "SGBD Microsoft SQL Server" → Physical Technology Component "Server".</li>
+    </ol>
+  </div>
+
+  <div class="tool"><b>Como fica na ferramenta: Archi</b>Na estrutura organizacional da Marco Polo, cada unidade (Jurídico, Financeiro, Vendas e Marketing, Produção, P&amp;D, TI, Logística, Compras e Suprimentos, RH) é um <i>Business Actor</i> ligado à Diretoria Executiva, e cada uma entrega capacidades como "Qualidade gerenciada", "COBIT BAI11 projetos de TI gerenciados", "COBIT APO14 dados gerenciados". Papéis como "Diretor de Segurança da Informação (CISO)" e "Diretor de Dados (CDO)" executam processos como Gestão de Mudanças, Gestão de Segurança de Dados e Gestão de Qualidade de Dados.</div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Actor × Role × Function, em uma frase cada?</dt>
+    <dd>Actor é <b>quem</b> (pessoa, organização ou sistema). Role é <b>o que ele sabe fazer</b> (conjunto de skills). Function é <b>o nome do cargo</b> que a organização atribui.</dd>
+    <dt>Stakeholder e Actor não são a mesma coisa?</dt>
+    <dd>No TOGAF o ator pode ser Business Actor ou Stakeholder. O professor considera melhor separar, como no ArchiMate: stakeholder tem interesse nas metas; ator participa das operações.</dd>
+    <dt>Control × Constraint?</dt>
+    <dd>Control é uma regra ou política que guia um processo em execução. Constraint é qualquer restrição sobre objetos da arquitetura, inclusive na hora de desenhá-la.</dd>
+    <dt>Service Quality × Contract?</dt>
+    <dd>Service Quality é o requisito ("disponibilidade de 99%"). Contract é o acordo formal que obriga as partes a cumpri-lo e governa o serviço.</dd>
+    <dt>Por que três níveis de dados (entity, logical, physical)?</dt>
+    <dd>São níveis de abstração: a informação de negócio (Cliente), o desenho lógico (tabela) e a implementação física (banco X num servidor Y). Mudar o banco não deveria mudar a entidade.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Diferencie Actor, Role e Function com um exemplo." Use o Hulk ou um exemplo próprio (ex.: "Ana" é ator; papel "analista de dados"; função "Coordenadora de BI").</li>
+      <li>"O que é PBS? Decomponha um produto." Faça como o tênis: produto → componentes → subcomponentes.</li>
+      <li>"Defina Event, Control, Service Quality e Contract."</li>
+      <li>"Diferencie Data Entity, Logical Data Component e Physical Data Component."</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M7 ============================ -->
+<section id="m7">
+  <h2>7 · Engenharia de processos e BPMN</h2>
+  <div class="why"><b>Por que estudar</b>O cronograma dá 3 aulas a Engenharia de Processos, mais que a qualquer outro tema. O professor deixou um exercício de desenho (Churrasco dos Amigos) e passou as ferramentas (Bizagi e a apostila de BPMN). Espere pelo menos uma questão de desenhar ou interpretar um diagrama.</div>
+
+  <h3>As visões da arquitetura organizacional</h3>
+  <div class="tbl"><table>
+    <tr><th>Visão</th><th>Linguagem/diagrama no slide</th></tr>
+    <tr><td>Dados</td><td>Modelo entidade-relacionamento (Customer, Room, Reservation, Travel Agent…)</td></tr>
+    <tr><td>Aplicações</td><td>Diagrama de casos de uso UML (máquina de café)</td></tr>
+    <tr><td>Processos</td><td>BPMN</td></tr>
+    <tr><td>Infraestrutura</td><td>Diagrama de rede (firewalls, core switch, DMZ, ISPs)</td></tr>
+    <tr><td>Integração</td><td>ArchiMate: liga dados, aplicação e infraestrutura aos processos</td></tr>
+  </table></div>
+
+  <h3>Processo, subprocesso e tarefa</h3>
+  <p><b>Processo</b> (BPM CBOK, ABPMP): "conjunto de atividades/tarefas interdependentes ordenadas pelas dimensões tempo e espaço, tendo um objetivo bem definido para a geração de um resultado final." <b>Atividade</b> é qualquer tarefa ou subprocesso que gera um resultado mensurável ou entregável, parte do resultado final.</p>
+  <p><b>Tarefa:</b> conjunto de ações ordenadas que gera um resultado definível. Processos complexos se decompõem em subprocessos, que se decompõem de novo, até chegar a grupos de atividades com viabilidade de gestão.</p>
+  <p class="formula">P1 → P1.SP1 → P1.SP1.SSP1 → P1.SP1.SSP1.T1</p>
+  <p><b>Processo de negócio:</b> descrição de um conjunto de atividades que envolve pessoas, tarefas, máquinas, softwares e outros elementos coordenados para atingir objetivos de negócio.</p>
+  <div class="tbl"><table>
+    <tr><th>Elemento</th><th>Exemplos</th></tr>
+    <tr><td>Entradas</td><td>Materiais, energia, informação</td></tr>
+    <tr><td>Saídas</td><td>Produtos com valor agregado, recursos com valor público, informação</td></tr>
+    <tr><td>Recursos de transformação</td><td>Equipamentos, humanos, software</td></tr>
+  </table></div>
+  <p><b>"Como é" → "Como será":</b> mapeia-se o processo atual, levantam-se desconexões e sugestões (<b>desaprender</b>) e desenha-se o processo futuro (<b>recriar</b>).</p>
+
+  <h3>Linguagens e profissionais</h3>
+  <ul class="tight">
+    <li><b>Fluxograma:</b> representação gráfica da relação entre atividades e processos.</li>
+    <li><b>UML:</b> notação visual orientada a objetos, mantida pela OMG, também usada para conceitos de negócio.</li>
+    <li><b>BPMN:</b> projetada para ser extensível e simples, usada por quem especifica e por quem gerencia processos. Também é da OMG.</li>
+  </ul>
+  <p>A meta da modelagem é uma notação compreensível por todos: <b>analistas de negócio</b> e <b>profissionais de TI</b>. "A linguagem BPMN é um facilitador na comunicação de todos os envolvidos do negócio e da TI."</p>
+
+  <h3>Categorias de elementos BPMN</h3>
+  <p>O slide diz "quatro categorias básicas" e lista cinco: <b>objetos de fluxo</b>, <b>objetos de conexão</b>, <b>swimlanes</b>, <b>artefatos</b> e <b>gateways</b>. Na apostila, gateways ficam dentro de objetos de fluxo (atividades, eventos, gateways), por isso são quatro categorias.</p>
+
+  <h3>Piscina e raias</h3>
+  <p><b>Piscina (pool):</b> espaço que contém todos os passos de um único processo; todo diagrama tem pelo menos uma; o nome da piscina é o nome do processo. <b>Raias (lanes):</b> divisões da piscina que representam setores, áreas ou atores envolvidos.</p>
+
+  <h3>Eventos</h3>
+  <p>Representam algo que acontece ou pode acontecer durante o processo e afeta seu fluxo. Três tipos: <b>início</b> (círculo fino), <b>intermediário</b> (círculo duplo) e <b>fim</b> (círculo grosso).</p>
+  <div class="tbl"><table>
+    <tr><th>Tipo específico</th><th>Ícone</th><th>Exemplo</th></tr>
+    <tr><td>Baseado em mensagem</td><td>envelope</td><td>Processo começa quando chega o pedido do cliente.</td></tr>
+    <tr><td>Baseado em tempo (timer)</td><td>relógio</td><td>Todo último dia do mês; esperar 2 dias.</td></tr>
+    <tr><td>Baseado em condição de negócio</td><td>folha com linhas</td><td>Estoque abaixo do mínimo.</td></tr>
+    <tr><td>Baseado em sinal de processo</td><td>triângulo</td><td>Aviso transmitido para vários processos.</td></tr>
+    <tr><td>Ligação entre diagramas (link)</td><td>seta</td><td>Conecta "páginas" de um diagrama grande.</td></tr>
+  </table></div>
+  <p class="note">Regras da apostila: se há evento de início, é obrigatório haver evento de fim; o evento de fim não tem fluxo saindo; mensagem com ícone escuro = enviar, claro = receber.</p>
+
+  <h3>Tarefas</h3>
+  <div class="tbl"><table>
+    <tr><th>Marcador</th><th>Significado</th></tr>
+    <tr><td>sem marcador</td><td>Tarefa simples, sem repetição</td></tr>
+    <tr><td>seta circular</td><td>Em <b>loop</b> (repete até cumprir uma condição)</td></tr>
+    <tr><td>três barras</td><td><b>Múltiplas instâncias</b> (várias cópias da mesma tarefa)</td></tr>
+    <tr><td>engrenagem</td><td>Requer serviço (automática, sem humano)</td></tr>
+    <tr><td>pessoa</td><td>Requer humano com apoio de tecnologia (usuário)</td></tr>
+    <tr><td>mão</td><td>Não requer apoio de tecnologia (manual)</td></tr>
+    <tr><td>tabela</td><td>Requer atendimento de regra de negócio</td></tr>
+    <tr><td>envelope escuro / claro</td><td>Enviar / receber mensagem de uma tarefa</td></tr>
+    <tr><td>papel com linhas</td><td>Executa um script de ações</td></tr>
+    <tr><td>"+" na base</td><td>Subprocesso: parte desenhada em outro diagrama, quando o modelo é muito complexo</td></tr>
+  </table></div>
+
+  <h3>Gateways (losangos): divergência e convergência</h3>
+  <div class="tbl"><table>
+    <tr><th>Gateway</th><th>Símbolo</th><th>Divergência</th><th>Convergência</th></tr>
+    <tr><td><b>Exclusivo baseado em dados</b></td><td>vazio ou X</td><td>Apenas uma rota é tomada, após avaliar uma condição.</td><td>Caminhos diferentes viram um só.</td></tr>
+    <tr><td><b>Paralelo</b></td><td>+</td><td>Tarefas executadas simultaneamente ou em qualquer ordem (todas).</td><td>Junta as rotas paralelas em uma, esperando todas.</td></tr>
+    <tr><td><b>Inclusivo</b></td><td>O (círculo)</td><td>Várias rotas podem ocorrer ao mesmo tempo, mas não necessariamente todas (baseado em dados).</td><td>Sincroniza as rotas que foram ativadas pelo inclusivo de divergência.</td></tr>
+    <tr><td><b>Exclusivo baseado em eventos</b></td><td>pentágono em círculo duplo</td><td>Rotas "armadas" em paralelo; o primeiro evento que ocorrer decide, as outras ficam inativas.</td><td>—</td></tr>
+    <tr><td><b>Complexo</b></td><td>* (asterisco)</td><td>Decisão complexa.</td><td>Controla quantas rotas precisam concluir (ex.: 2 de 3) para seguir.</td></tr>
+  </table></div>
+  <p><b>Fluxo controlado × não controlado:</b> quando o fluxo diverge e converge por gateways, ele é <b>controlado</b>. Quando setas saem direto de uma tarefa ou chegam direto em outra, sem gateway, ele é <b>não controlado</b>. O slide mostra os dois para paralelo, exclusivo e inclusivo.</p>
+
+  <h3>Fluxos (objetos de conexão)</h3>
+  <ul class="tight">
+    <li><b>Fluxo de sequência (básico):</b> linha cheia com seta; ordem das atividades dentro de uma piscina.</li>
+    <li><b>Fluxo de mensagem:</b> linha tracejada com círculo na origem e seta vazada; troca de mensagens entre <b>dois processos diferentes</b> (piscinas diferentes).</li>
+    <li><b>Associação</b> (apostila): linha pontilhada que liga artefatos (anotação, objeto de dados) aos elementos.</li>
+  </ul>
+
+  <div class="ex"><b>Exemplo resolvido: exercício do professor "Churrasco dos Amigos"</b>
+    <p style="margin:0 0 6px">Enunciado: desenhe um processo em que, no grupo de amigos, cada um recebe e desempenha uma função na organização, execução e finalização. Tente antes de olhar. Uma solução possível:</p>
+    <div class="fig wide">
+    <svg viewBox="0 0 1060 470" role="img" aria-label="Diagrama BPMN do churrasco dos amigos com quatro raias">
+      <g font-family="Source Sans 3, sans-serif" font-size="11.5" fill="#15252B">
+        <!-- piscina e raias -->
+        <rect x="5" y="10" width="1050" height="450" fill="#fff" stroke="#15252B"/>
+        <line x1="35" y1="10" x2="35" y2="460" stroke="#15252B"/>
+        <line x1="62" y1="10" x2="62" y2="460" stroke="#15252B"/>
+        <line x1="35" y1="122" x2="1055" y2="122" stroke="#15252B"/>
+        <line x1="35" y1="235" x2="1055" y2="235" stroke="#15252B"/>
+        <line x1="35" y1="348" x2="1055" y2="348" stroke="#15252B"/>
+        <text transform="translate(24,235) rotate(-90)" text-anchor="middle" font-weight="700" font-size="13">Churrasco dos Amigos</text>
+        <text transform="translate(52,66) rotate(-90)" text-anchor="middle" font-weight="600">Organizador</text>
+        <text transform="translate(52,179) rotate(-90)" text-anchor="middle" font-weight="600">Comprador</text>
+        <text transform="translate(52,292) rotate(-90)" text-anchor="middle" font-weight="600">Churrasqueiro</text>
+        <text transform="translate(52,404) rotate(-90)" text-anchor="middle" font-weight="600">Todos os amigos</text>
+
+        <!-- início timer -->
+        <circle cx="92" cy="66" r="14" fill="#fff" stroke="#15252B" stroke-width="1.5"/>
+        <circle cx="92" cy="66" r="8" fill="none" stroke="#15252B"/><line x1="92" y1="66" x2="92" y2="61" stroke="#15252B"/><line x1="92" y1="66" x2="96" y2="66" stroke="#15252B"/>
+        <text x="68" y="104">Sábado marcado</text>
+        <line x1="106" y1="66" x2="124" y2="66" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- T1 -->
+        <rect x="126" y="44" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="174" y="62" text-anchor="middle">Definir funções</text><text x="174" y="76" text-anchor="middle">e convidar</text>
+        <line x1="222" y1="66" x2="240" y2="66" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- G1 paralelo -->
+        <path d="M260,48 L278,66 L260,84 L242,66 Z" fill="#FBF3DC" stroke="#15252B"/>
+        <path d="M260,56 V76 M250,66 H270" stroke="#15252B" stroke-width="2.5"/>
+        <path d="M278,66 H345 V155" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+        <path d="M260,84 V292 H298" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- T2 comprar -->
+        <rect x="298" y="157" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="346" y="175" text-anchor="middle">Comprar carne,</text><text x="346" y="189" text-anchor="middle">carvão e bebidas</text>
+        <!-- T3 acender -->
+        <rect x="300" y="270" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="348" y="288" text-anchor="middle">Acender a</text><text x="348" y="302" text-anchor="middle">churrasqueira</text>
+
+        <!-- G2 junção paralela -->
+        <path d="M394,179 H440 V272" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+        <line x1="396" y1="292" x2="420" y2="292" stroke="#15252B" marker-end="url(#arr)"/>
+        <path d="M440,274 L458,292 L440,310 L422,292 Z" fill="#FBF3DC" stroke="#15252B"/>
+        <path d="M440,282 V302 M430,292 H450" stroke="#15252B" stroke-width="2.5"/>
+        <line x1="458" y1="292" x2="478" y2="292" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- T4 assar (loop) -->
+        <rect x="480" y="270" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="528" y="292" text-anchor="middle">Assar as carnes</text>
+        <path d="M523,309 a5,5 0 1,1 8,0" fill="none" stroke="#15252B"/><path d="M531,309 l2,-4 l-5,1 z" fill="#15252B"/>
+        <path d="M576,292 H640 V380" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- T5 comer -->
+        <rect x="592" y="382" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="640" y="400" text-anchor="middle">Comer e</text><text x="640" y="414" text-anchor="middle">confraternizar</text>
+        <path d="M688,404 H740 V90" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- T6 dividir conta -->
+        <rect x="692" y="44" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="740" y="62" text-anchor="middle">Dividir a conta</text><text x="740" y="76" text-anchor="middle">e cobrar</text>
+        <line x1="788" y1="66" x2="818" y2="66" stroke="#15252B" marker-end="url(#arr)"/>
+
+        <!-- G3 exclusivo -->
+        <path d="M838,48 L856,66 L838,84 L820,66 Z" fill="#FBF3DC" stroke="#15252B"/>
+        <path d="M831,59 L845,73 M845,59 L831,73" stroke="#15252B" stroke-width="2.2"/>
+        <text x="838" y="40" text-anchor="middle">Todos pagaram?</text>
+        <!-- não: espera 1 dia e volta -->
+        <line x1="838" y1="84" x2="838" y2="99" stroke="#15252B" marker-end="url(#arr)"/>
+        <text x="844" y="96">Não</text>
+        <circle cx="838" cy="111" r="11" fill="#fff" stroke="#15252B"/><circle cx="838" cy="111" r="8" fill="#fff" stroke="#15252B"/>
+        <line x1="838" y1="111" x2="838" y2="106" stroke="#15252B"/><line x1="838" y1="111" x2="842" y2="111" stroke="#15252B"/>
+        <path d="M827,111 H770 V90" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+        <text x="853" y="116">aguardar 1 dia</text>
+        <!-- sim -->
+        <path d="M856,66 H960 V378" fill="none" stroke="#15252B" marker-end="url(#arr)"/>
+        <text x="870" y="60">Sim</text>
+
+        <!-- T7 limpar -->
+        <rect x="912" y="380" width="96" height="44" rx="8" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/>
+        <text x="960" y="398" text-anchor="middle">Limpar e</text><text x="960" y="412" text-anchor="middle">guardar tudo</text>
+        <line x1="1008" y1="402" x2="1020" y2="402" stroke="#15252B" marker-end="url(#arr)"/>
+        <circle cx="1034" cy="402" r="12" fill="#fff" stroke="#15252B" stroke-width="3.5"/>
+        <text x="1034" y="440" text-anchor="middle">Fim</text>
+      </g>
+    </svg>
+    </div>
+    <ol>
+      <li><b>Piscina</b> com o nome do processo; <b>4 raias</b> = as funções de cada amigo (organizar, comprar, assar, e todos juntos).</li>
+      <li><b>Evento de início do tipo timer</b> (data marcada) na raia de quem organiza.</li>
+      <li><b>Gateway paralelo</b> divide: comprar e acender a churrasqueira acontecem ao mesmo tempo. Outro paralelo junta, porque só dá para assar quando as duas coisas terminaram.</li>
+      <li><b>Tarefa em loop</b> "assar as carnes" (repete até todos comerem).</li>
+      <li><b>Gateway exclusivo</b> "todos pagaram?": se não, <b>evento intermediário timer</b> (aguardar 1 dia) e volta a cobrar; se sim, segue para a limpeza.</li>
+      <li><b>Evento de fim</b> (círculo grosso). Todo início tem um fim.</li>
+    </ol>
+    <p style="margin:6px 0 0" class="note">Variações aceitáveis: um evento de início de mensagem ("convite recebido"), um gateway inclusivo na compra (carne sim, bebida só se ninguém trouxer) ou o convite como fluxo de mensagem para uma segunda piscina "Convidados".</p>
+  </div>
+
+  <div class="tool"><b>Como fica na ferramenta: Bizagi Modeler</b>O Bizagi é a ferramenta de modelagem de processos indicada (usa BPMN). Você arrasta piscina e raias, eventos, tarefas e gateways da paleta; o tipo do evento ou da tarefa (timer, mensagem, usuário, serviço) é escolhido clicando com o botão direito no elemento. Os slides de APO03 do COBIT foram desenhados no Bizagi (marca "Powered by Bizagi Modeler").</div>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Qual a diferença entre gateway exclusivo e inclusivo?</dt>
+    <dd>Exclusivo: exatamente um caminho (um OU outro). Inclusivo: um ou mais caminhos, conforme as condições (um E/OU outro). Paralelo: todos os caminhos, sem condição.</dd>
+    <dt>E o exclusivo baseado em eventos?</dt>
+    <dd>A decisão não vem de um dado, e sim de qual evento acontece primeiro (chegou mensagem? passou o prazo?). O primeiro que ocorrer define a rota; as outras são canceladas.</dd>
+    <dt>Posso ligar duas raias com fluxo de mensagem?</dt>
+    <dd>Não. Raias são do mesmo processo, então usam fluxo de sequência. Fluxo de mensagem é só entre piscinas (processos ou participantes) diferentes.</dd>
+    <dt>Tarefa em loop × múltiplas instâncias?</dt>
+    <dd>Loop repete a mesma tarefa em sequência até cumprir uma condição (avaliar candidatos até ter 3 aprovados). Múltiplas instâncias executa várias cópias, uma para cada item (enviar convite para cada amigo).</dd>
+    <dt>Quando usar subprocesso?</dt>
+    <dd>Quando o modelo fica complexo demais. A parte vira uma tarefa com "+" e é detalhada em outro diagrama, com seu próprio início e fim.</dd>
+    <dt>Evento × tarefa?</dt>
+    <dd>Tarefa é trabalho feito (consome tempo e recursos). Evento é algo que acontece e afeta o fluxo (chegou mensagem, passou o prazo).</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Desenhe em BPMN o processo X" (churrasco, compra, atendimento), com piscina, raias, pelo menos um gateway e eventos de início e fim.</li>
+      <li>"Explique os gateways paralelo, inclusivo, exclusivo, baseado em eventos e complexo, na divergência e na convergência."</li>
+      <li>"Diferencie piscina de raia" e "fluxo de sequência de fluxo de mensagem".</li>
+      <li>"Defina processo segundo o BPM CBOK" e "decomponha processo → subprocesso → tarefa".</li>
+      <li>"Interprete o diagrama": dado um BPMN, diga quem faz o quê e que caminhos são possíveis.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M8 ============================ -->
+<section id="m8">
+  <h2>8 · Controle estatístico de processo (CEP)</h2>
+  <div class="why"><b>Por que estudar</b>Fecha o ciclo: depois de desenhar o processo é preciso medir se ele está sob controle. É a única parte com conta (DPMO, média, desvio padrão), e contas são pontos fáceis de garantir. Suas notas da aula 6 destacam LCS/LCI, DPMO e OD.</div>
+
+  <p>"Se você não pode medir, você não pode gerenciar" (Peter Drucker). Gerenciar processos exige saber <b>o que medir</b> e <b>como medir</b>.</p>
+  <div class="two">
+    <div><h4>O que medir em TI</h4><ul class="tight"><li>Tempo de entrega de serviço de TI</li><li>Tempo de entrega de software</li><li>Falhas do que foi entregue</li></ul><p class="note">Critério para escolher entre as muitas opções: <b>o que é crítico</b> e <b>o que compensa investir</b> em controle e medição.</p></div>
+    <div><h4>Como medir em TI</h4><ul class="tight"><li>Registrar em ferramentas</li><li>Questionar usuários e clientes</li></ul></div>
+  </div>
+
+  <h3>Definição e origem</h3>
+  <p>O <b>CEP</b> é "um processo baseado em estatística aplicada que permite a redução sistemática da variabilidade nas características da qualidade de interesse, contribuindo para a melhoria da qualidade e produtividade". Opera ao longo do processo ou depois dele, para verificar a presença de <b>causas especiais</b>. Em TI ainda é pouco usado, por desconhecimento.</p>
+  <p><b>Walter A. Shewhart</b>, anos 1920, Bell Telephone Labs, criou as <b>cartas de controle</b> para diferenciar causas comuns de especiais e trocar a detecção e correção de defeitos pela <b>prevenção</b>.</p>
+
+  <h3>Causa comum × causa especial</h3>
+  <div class="tbl"><table>
+    <tr><th></th><th>Causa comum</th><th>Causa especial</th></tr>
+    <tr><td>O que é</td><td>Variação natural ou esperada do processo</td><td>Variação inesperada, de acontecimentos pouco comuns</td></tr>
+    <tr><td>Na carta</td><td>Pontos dentro dos limites, sem padrão</td><td>Pontos fora dos limites ou padrões não aleatórios</td></tr>
+    <tr><td>O que fazer</td><td>Aceitar; para reduzir, mude o processo</td><td>Identificar e eliminar (Ishikawa)</td></tr>
+    <tr><td>Estado do processo</td><td>Sob controle (estável)</td><td>Fora de controle (instável)</td></tr>
+  </table></div>
+  <p class="note">"A variabilidade está sempre presente em qualquer processo." Causas humanas são bem comuns e podem ser controladas… ou não.</p>
+
+  <h3>Carta de controle</h3>
+  <p>Gráfico no tempo com a linha da <b>média</b> e dois limites: <b>LCS</b> (limite de controle superior, Lmax) e <b>LCI</b> (limite de controle inferior, Lmin). Exemplo do slide: horas para concluir a instalação de um software, 2016–2020, com média perto de 7,00 h. Os limites são parametrizados por um <b>Programa Seis Sigma</b>: a empresa ou equipe decide que % das ocorrências deve ficar entre LCI e LCS e quais são esses limites.</p>
+  <p><b>Distribuição normal (curva de Gauss):</b> o histograma das horas de suporte tem forma de sino. Proporção dos dados dentro de ±1σ = <b>68,26%</b>; ±2σ = <b>95,44%</b>; ±3σ = <b>99,73%</b>. Processo <b>sob controle</b>: só causas comuns, a curva se mantém. <b>Fora de controle</b>: surgem causas especiais e a curva se desloca ou alarga.</p>
+
+  <div class="ex"><b>Exemplo resolvido 1: limites de uma carta de controle</b>
+    Tempos de instalação (h): 6,98 · 7,00 · 7,02 · 6,99 · 7,01
+    <ol>
+      <li>Média: μ = (6,98 + 7,00 + 7,02 + 6,99 + 7,01) / 5 = 35,00 / 5 = <b>7,00 h</b></li>
+      <li>Desvios ao quadrado: 0,0004 + 0 + 0,0004 + 0,0001 + 0,0001 = 0,0010</li>
+      <li>Variância amostral: s = 0,0010 / (5 − 1) = <b>0,00025</b></li>
+      <li>Desvio padrão: σ = √0,00025 ≈ <b>0,0158 h</b></li>
+      <li>Limites a ±3σ: LCS = 7,00 + 3 × 0,0158 ≈ <b>7,047 h</b>; LCI = 7,00 − 0,047 ≈ <b>6,953 h</b></li>
+      <li>Uma nova instalação levou 7,06 h: está acima do LCS, então é <b>causa especial</b> a investigar.</li>
+    </ol>
+  </div>
+
+  <h3>Diagrama de Ishikawa (causa e efeito, espinha de peixe)</h3>
+  <p>Ferramenta de <b>Kaoru Ishikawa</b> usada para estudar causas especiais. As espinhas são os <b>6M</b>:</p>
+  <div class="tbl"><table>
+    <tr><th>M</th><th>Exemplos do slide</th></tr>
+    <tr><td>Método</td><td>Informação, instrução, procedimentos</td></tr>
+    <tr><td>Máquina</td><td>Manutenção, deterioração</td></tr>
+    <tr><td>Medida</td><td>Instrumento, inspeção</td></tr>
+    <tr><td>Meio ambiente</td><td>Condições locais, iluminação, clima</td></tr>
+    <tr><td>Material</td><td>Fornecedores, fornecimento próprio</td></tr>
+    <tr><td>Mão de obra</td><td>Físico, mental</td></tr>
+  </table></div>
+
+  <h3>Seis Sigma: OD, DPO, DPMO</h3>
+  <ul class="tight">
+    <li><b>Unidade produzida:</b> em gestão de informações, pode ser um formulário com informação inserida ou atualizada.</li>
+    <li><b>Oportunidade de defeito (OD):</b> todo ponto do processo, produto ou serviço em que é possível cometer um defeito. Selecione os pontos críticos.</li>
+    <li><b>DPMO:</b> defeitos por milhão de oportunidades.</li>
+  </ul>
+  <p class="formula">DPO = defeitos / (unidades × OD)   ·   DPMO = DPO × 1.000.000   ·   Rendimento ≈ 1 − DPO</p>
+  <div class="tbl"><table>
+    <tr><th>Nível sigma (6σ)</th><th>Normal reduzida</th><th>DPMO (aprox.)</th><th>Rendimento</th></tr>
+    <tr><td>6,0</td><td>4,5</td><td class="n">3,4</td><td class="n">99,9996599%</td></tr>
+    <tr><td>5,0 a &lt;5,1</td><td>3,5 a &lt;3,6</td><td class="n">163 – 237</td><td class="n">99,9767327%</td></tr>
+    <tr><td>4,0 a &lt;4,1</td><td>2,5 a &lt;2,6</td><td class="n">4.730 – 6.297</td><td class="n">99,3790320%</td></tr>
+    <tr><td>3,0 a &lt;3,1</td><td>1,5 a &lt;1,6</td><td class="n">55.357 – 67.457</td><td class="n">93,3192771%</td></tr>
+    <tr><td>2,0 a &lt;2,1</td><td>0,5 a &lt;0,6</td><td class="n">275.922 – 310.300</td><td class="n">69,1462467%</td></tr>
+    <tr><td>1,5 a &lt;1,6</td><td>0,0 a &lt;0,1</td><td class="n">462.158 – 500.000</td><td class="n">50%</td></tr>
+  </table></div>
+  <p class="note">A coluna "normal reduzida" é o nível sigma menos 1,5 (o deslocamento de 1,5σ que o Seis Sigma assume no longo prazo).</p>
+
+  <div class="ex"><b>Exemplo resolvido 2 (slide 20): anel × robô</b>
+    <div class="tbl"><table>
+      <tr><th></th><th>Anel</th><th>Robô</th></tr>
+      <tr><td>Oportunidades de defeito por unidade</td><td class="n">3</td><td class="n">2.000</td></tr>
+      <tr><td>Produtos produzidos</td><td class="n">300</td><td class="n">800</td></tr>
+      <tr><td>Defeitos encontrados</td><td class="n">60</td><td class="n">1.400</td></tr>
+      <tr><td>DPO</td><td class="n">60 / (300 × 3) = 60 / 900 ≈ 0,0667</td><td class="n">1.400 / (800 × 2.000) = 0,000875</td></tr>
+      <tr class="hl"><td>DPMO</td><td class="n">≈ 66.667</td><td class="n">875</td></tr>
+      <tr><td>Nível sigma (tabela)</td><td>≈ 3σ (na faixa 55.357–67.457)</td><td>entre 4σ e 5σ</td></tr>
+    </table></div>
+    <p style="margin:6px 0 0">Lição: o robô tem 23 vezes mais defeitos absolutos (1.400 × 60), mas é <b>muito mais</b> confiável, porque tem muito mais oportunidades de errar. O slide arredonda o anel para 0,066 e 66.000 DPMO; a conta exata dá 66.667.</p>
+  </div>
+
+  <div class="ex"><b>Exemplo resolvido 3 (slides 22–23): Processo A, engenharia de software</b>
+    <p style="margin:0 0 6px">Para cada ano: A1 = projetos, A2 = casos de uso, A3 = defeitos pós-produção. O indicador é A3/A2 (defeitos por caso de uso).</p>
+    <div class="tbl"><table>
+      <tr><th>Ano</th><th>A2</th><th>A3</th><th>A3/A2</th></tr>
+      <tr><td>2015</td><td class="n">30</td><td class="n">30</td><td class="n">1,00</td></tr>
+      <tr><td>2016</td><td class="n">24</td><td class="n">50</td><td class="n">2,08</td></tr>
+      <tr><td>2018</td><td class="n">18</td><td class="n">78</td><td class="n">4,33</td></tr>
+      <tr><td>2009</td><td class="n">12</td><td class="n">80</td><td class="n">6,67</td></tr>
+      <tr><td>2019</td><td class="n">6</td><td class="n">102</td><td class="n">17,00</td></tr>
+      <tr><td>2012</td><td class="n">3</td><td class="n">100</td><td class="n">33,33</td></tr>
+      <tr><td>2010</td><td class="n">6</td><td class="n">115</td><td class="n">19,17</td></tr>
+      <tr><td>2014</td><td class="n">12</td><td class="n">120</td><td class="n">10,00</td></tr>
+      <tr><td>2011</td><td class="n">18</td><td class="n">130</td><td class="n">7,22</td></tr>
+      <tr><td>2017</td><td class="n">24</td><td class="n">140</td><td class="n">5,83</td></tr>
+      <tr><td>2013</td><td class="n">30</td><td class="n">32</td><td class="n">1,07</td></tr>
+    </table></div>
+    <ol>
+      <li>Soma de A3/A2 = 107,70; média = 107,70 / 11 ≈ <b>9,79</b> (o slide chama de "média A3", mas a conta é sobre A3/A2).</li>
+      <li>Variância amostral (divide por n − 1 = 10) ≈ <b>96,88</b>; desvio padrão ≈ <b>9,84</b>. Batem com o slide.</li>
+      <li>O slide fixa <b>limite mínimo 7</b> e <b>limite máximo 11</b>. São limites escolhidos pela organização (como no Seis Sigma), não μ ± 3σ: com σ ≈ 9,84, o limite inferior pela fórmula seria negativo.</li>
+      <li>Leitura: só 2011 (7,22) e 2014 (10,00) ficam dentro de [7; 11]. O processo tem variação muito grande, com pico em 2012 (33,33), e precisa de investigação de causas especiais.</li>
+    </ol>
+    <p class="note" style="margin:6px 0 0">O slide não explica como chegou a 7 e 11, e o gráfico também plota uma "dist. normal" para cada ano. A interpretação do item 3 é minha. <span class="infer">inferência</span></p>
+  </div>
+
+  <h3>A TI apoiando outros setores</h3>
+  <p>Também é papel da TI gerar soluções e suporte para o controle e monitoramento dos processos de <b>outros setores</b> da organização (dashboards de processo, por exemplo).</p>
+
+  <div class="faq"><h4>Perguntas que você faria</h4><dl>
+    <dt>Limite de controle (LCS/LCI) é o mesmo que limite de especificação (LIE/LSE)?</dt>
+    <dd>Não. O de controle vem do próprio processo (média ± kσ) e diz se ele é estável. O de especificação vem do cliente ou do requisito e diz se o resultado é aceitável. O slide "ajustes dos limites" mostra LIE e LSE: reduzir σ faz a curva caber entre eles.</dd>
+    <dt>Por que dividir a variância por n − 1?</dt>
+    <dd>Porque é uma amostra, não a população inteira. Dividir por n − 1 corrige a tendência de subestimar a variação. É a fórmula do slide (equação 3).</dd>
+    <dt>Um ponto dentro dos limites garante que está tudo bem?</dt>
+    <dd>Não sempre. Padrões não aleatórios (vários pontos seguidos subindo ou do mesmo lado da média) também indicam causa especial, mesmo sem ultrapassar os limites.</dd>
+    <dt>Qual a diferença entre OD e defeito?</dt>
+    <dd>OD é onde o erro <i>pode</i> acontecer (potencial, por unidade). Defeito é o erro que <i>aconteceu</i>. O DPMO divide os defeitos reais pelo total de oportunidades.</dd>
+    <dt>Quanto é "Seis Sigma"?</dt>
+    <dd>3,4 defeitos por milhão de oportunidades, ou 99,99966% de rendimento.</dd>
+  </dl></div>
+
+  <div class="prova"><b>Provável na prova</b>
+    <ul>
+      <li>"Calcule o DPMO" com a tabela de OD, produtos e defeitos (igual ao anel e robô) e diga o nível sigma pela tabela.</li>
+      <li>"Diferencie causa comum de causa especial e explique como a carta de controle as identifica."</li>
+      <li>"O que são LCS e LCI e como são definidos?" Pelo programa Seis Sigma, que define a % desejada dentro dos limites.</li>
+      <li>"Quais os 6M do diagrama de Ishikawa?"</li>
+      <li>"O que medir em TI e como medir?"</li>
+      <li>Dada uma série, calcular média, desvio padrão e dizer se um ponto está fora dos limites.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ COLINHA ============================ -->
+<section id="colinha">
+  <h2>Colinha de símbolos e siglas</h2>
+  <p class="note">Esta matéria não tem código. A colinha equivalente é a dos símbolos BPMN, das siglas COBIT e das relações do metamodelo TOGAF.</p>
+
+  <h3>Símbolos BPMN</h3>
+  <div class="sym">
+    <div><svg viewBox="0 0 60 40"><circle cx="30" cy="20" r="14" fill="#fff" stroke="#15252B" stroke-width="1.5"/></svg><span><b>Evento de início</b>círculo fino</span></div>
+    <div><svg viewBox="0 0 60 40"><circle cx="30" cy="20" r="14" fill="#fff" stroke="#15252B"/><circle cx="30" cy="20" r="10.5" fill="none" stroke="#15252B"/></svg><span><b>Evento intermediário</b>círculo duplo</span></div>
+    <div><svg viewBox="0 0 60 40"><circle cx="30" cy="20" r="14" fill="#fff" stroke="#15252B" stroke-width="4"/></svg><span><b>Evento de fim</b>círculo grosso</span></div>
+    <div><svg viewBox="0 0 60 40"><circle cx="30" cy="20" r="14" fill="#fff" stroke="#15252B" stroke-width="1.5"/><circle cx="30" cy="20" r="8" fill="none" stroke="#15252B"/><line x1="30" y1="20" x2="30" y2="14" stroke="#15252B"/><line x1="30" y1="20" x2="34" y2="20" stroke="#15252B"/></svg><span><b>Timer</b>baseado em tempo</span></div>
+    <div><svg viewBox="0 0 60 40"><circle cx="30" cy="20" r="14" fill="#fff" stroke="#15252B" stroke-width="1.5"/><rect x="22" y="15" width="16" height="11" fill="#fff" stroke="#15252B"/><path d="M22,15 L30,21 L38,15" fill="none" stroke="#15252B"/></svg><span><b>Mensagem</b>baseado em mensagem</span></div>
+    <div><svg viewBox="0 0 60 40"><rect x="8" y="6" width="44" height="28" rx="6" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/></svg><span><b>Tarefa</b>retângulo arredondado</span></div>
+    <div><svg viewBox="0 0 60 40"><rect x="8" y="6" width="44" height="28" rx="6" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/><rect x="25" y="24" width="10" height="9" fill="#fff" stroke="#15252B"/><path d="M30,26 V31 M27.5,28.5 H32.5" stroke="#15252B"/></svg><span><b>Subprocesso</b>tarefa com "+"</span></div>
+    <div><svg viewBox="0 0 60 40"><rect x="8" y="6" width="44" height="28" rx="6" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/><path d="M26,31 a4,4 0 1,1 8,0" fill="none" stroke="#15252B"/></svg><span><b>Tarefa em loop</b>seta circular</span></div>
+    <div><svg viewBox="0 0 60 40"><rect x="8" y="6" width="44" height="28" rx="6" fill="#fff" stroke="#0E5C63" stroke-width="1.5"/><path d="M27,25 V32 M30,25 V32 M33,25 V32" stroke="#15252B" stroke-width="1.5"/></svg><span><b>Múltiplas instâncias</b>três barras</span></div>
+    <div><svg viewBox="0 0 60 40"><path d="M30,4 L46,20 L30,36 L14,20 Z" fill="#FBF3DC" stroke="#15252B"/><path d="M25,15 L35,25 M35,15 L25,25" stroke="#15252B" stroke-width="2"/></svg><span><b>Exclusivo (dados)</b>X ou vazio: só um caminho</span></div>
+    <div><svg viewBox="0 0 60 40"><path d="M30,4 L46,20 L30,36 L14,20 Z" fill="#FBF3DC" stroke="#15252B"/><path d="M30,13 V27 M23,20 H37" stroke="#15252B" stroke-width="2.5"/></svg><span><b>Paralelo</b>+: todos os caminhos</span></div>
+    <div><svg viewBox="0 0 60 40"><path d="M30,4 L46,20 L30,36 L14,20 Z" fill="#FBF3DC" stroke="#15252B"/><circle cx="30" cy="20" r="6.5" fill="none" stroke="#15252B" stroke-width="2"/></svg><span><b>Inclusivo</b>O: um ou mais caminhos</span></div>
+    <div><svg viewBox="0 0 60 40"><path d="M30,4 L46,20 L30,36 L14,20 Z" fill="#FBF3DC" stroke="#15252B"/><circle cx="30" cy="20" r="8" fill="none" stroke="#15252B"/><circle cx="30" cy="20" r="6.5" fill="none" stroke="#15252B"/><path d="M30,16 L33.5,18.8 L32.2,23 L27.8,23 L26.5,18.8 Z" fill="none" stroke="#15252B"/></svg><span><b>Baseado em eventos</b>o primeiro evento decide</span></div>
+    <div><svg viewBox="0 0 60 40"><path d="M30,4 L46,20 L30,36 L14,20 Z" fill="#FBF3DC" stroke="#15252B"/><path d="M30,13 V27 M23,20 H37 M25,15 L35,25 M35,15 L25,25" stroke="#15252B" stroke-width="2"/></svg><span><b>Complexo</b>*: regra customizada (ex.: 2 de 3)</span></div>
+    <div><svg viewBox="0 0 60 40"><line x1="6" y1="20" x2="52" y2="20" stroke="#15252B" marker-end="url(#arr)"/></svg><span><b>Fluxo de sequência</b>dentro da piscina</span></div>
+    <div><svg viewBox="0 0 60 40"><line x1="8" y1="20" x2="50" y2="20" stroke="#15252B" stroke-dasharray="4 3" marker-start="url(#dotStart)" marker-end="url(#arrOpen)"/></svg><span><b>Fluxo de mensagem</b>entre piscinas</span></div>
+  </div>
+
+  <h3>Siglas COBIT e TOGAF</h3>
+  <div class="tbl"><table>
+    <tr><th>Sigla</th><th>Significado</th></tr>
+    <tr><td>COBIT</td><td>Control Objectives for Information and Related Technology</td></tr>
+    <tr><td>ISACA</td><td>Information Systems Audit and Control Association</td></tr>
+    <tr><td>EDM · APO · BAI · DSS · MEA</td><td>Evaluate, Direct and Monitor · Align, Plan and Organize · Build, Acquire and Implement · Deliver, Service and Support · Monitor, Evaluate and Assess</td></tr>
+    <tr><td>BSC</td><td>Balanced Scorecard (financeira, cliente, interna, treinamento e crescimento)</td></tr>
+    <tr><td>P / S</td><td>Relação primária / secundária</td></tr>
+    <tr><td>TOGAF · ADM</td><td>The Open Group Architecture Framework · Architecture Development Method</td></tr>
+    <tr><td>ITIL</td><td>Information Technology Infrastructure Library (AXELOS)</td></tr>
+    <tr><td>OMG · BPMN · UML · DMN</td><td>Object Management Group · Business Process Model and Notation · Unified Modeling Language · Decision Model and Notation</td></tr>
+    <tr><td>BPM CBOK · ABPMP</td><td>Business Process Management Common Body of Knowledge · associação que o publica</td></tr>
+    <tr><td>PBS</td><td>Product Breakdown Structure</td></tr>
+    <tr><td>KPI</td><td>Key Performance Indicator</td></tr>
+    <tr><td>CEP · LCS · LCI</td><td>Controle Estatístico de Processo · Limite de Controle Superior · Limite de Controle Inferior</td></tr>
+    <tr><td>OD · DPO · DPMO</td><td>Oportunidade de Defeito · Defeitos por Oportunidade · Defeitos por Milhão de Oportunidades</td></tr>
+    <tr><td>CISO · CDO</td><td>Diretor de Segurança da Informação · Diretor de Dados</td></tr>
+  </table></div>
+
+  <h3>Relações do metamodelo (verbo que liga os objetos)</h3>
+  <div class="tbl"><table>
+    <tr><th>De</th><th>Verbo</th><th>Para</th></tr>
+    <tr><td>Driver</td><td>motiva</td><td>Organization Unit</td></tr>
+    <tr><td>Organization Unit</td><td>cria / especifica / é avaliada por</td><td>Goal / Objective / Measure</td></tr>
+    <tr><td>Goal</td><td>realiza</td><td>Course of Action</td></tr>
+    <tr><td>Course of Action</td><td>influencia</td><td>Function, Product, Capability, Information, Value Stream</td></tr>
+    <tr><td>Process</td><td>operacionaliza</td><td>Value Stream, Business Capability</td></tr>
+    <tr><td>Process</td><td>é guiado por</td><td>Control</td></tr>
+    <tr><td>Process</td><td>é iniciado ou finalizado por</td><td>Event</td></tr>
+    <tr><td>Process</td><td>entrega</td><td>Product</td></tr>
+    <tr><td>Actor</td><td>desempenha</td><td>Role, Function</td></tr>
+    <tr><td>Role</td><td>executa ou participa de</td><td>Process</td></tr>
+    <tr><td>Contract</td><td>governa</td><td>Business Service</td></tr>
+    <tr><td>Service Quality</td><td>é aplicada em</td><td>Business Service, Contract</td></tr>
+    <tr><td>Work Package</td><td>entrega</td><td>Capability</td></tr>
+  </table></div>
+</section>
+
+<!-- ============================ FÓRMULAS ============================ -->
+<section id="formulas">
+  <h2>Fórmulas que caem</h2>
+  <p class="note">Só as que aparecem nos slides do professor (aula de CEP, slides 18–20).</p>
+  <div class="tbl"><table>
+    <tr><th>Grandeza</th><th>Fórmula</th></tr>
+    <tr><td>Média aritmética (eq. 2)</td><td><span class="formula">μ = (Σ xᵢ) / n</span></td></tr>
+    <tr><td>Variância de amostra (eq. 3)</td><td><span class="formula">s = Σ (xᵢ − μ)² / (n − 1)</span></td></tr>
+    <tr><td>Desvio padrão (eq. 4)</td><td><span class="formula">σ = √s</span></td></tr>
+    <tr><td>Limites de controle</td><td><span class="formula">LCS = μ + kσ   LCI = μ − kσ   (k = 3 → 99,73%)</span></td></tr>
+    <tr><td>Faixas da normal</td><td><span class="formula">±1σ = 68,26%   ±2σ = 95,44%   ±3σ = 99,73%</span></td></tr>
+    <tr><td>Defeitos por oportunidade</td><td><span class="formula">DPO = defeitos / (unidades × OD)</span></td></tr>
+    <tr><td>DPMO</td><td><span class="formula">DPMO = DPO × 1.000.000</span></td></tr>
+    <tr><td>Rendimento</td><td><span class="formula">Y ≈ 1 − DPO</span></td></tr>
+    <tr><td>Seis Sigma</td><td><span class="formula">6σ = 3,4 DPMO = 99,99966%</span></td></tr>
+  </table></div>
+  <p class="note">Atenção: o slide usa a letra <i>s</i> para a variância, embora em muitos livros <i>s</i> seja o desvio padrão. Siga a notação do professor.</p>
+
+  <div class="ex"><b>Exemplo resolvido: formulários de cadastro</b>
+    Um processo gerou 1.500 formulários. Cada formulário tem 4 campos críticos (OD = 4). A auditoria achou 45 campos errados.
+    <ol>
+      <li>Oportunidades totais = 1.500 × 4 = 6.000</li>
+      <li>DPO = 45 / 6.000 = 0,0075</li>
+      <li>DPMO = 0,0075 × 1.000.000 = <b>7.500</b></li>
+      <li>Na tabela, 7.500 fica entre 6.297 (≈ 4σ) e 55.357 (≈ 3σ): o processo está <b>entre 3 e 4 sigma</b>, mais perto de 4.</li>
+      <li>Rendimento ≈ 1 − 0,0075 = <b>99,25%</b>.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ QUIZ ============================ -->
+<section id="quiz">
+  <h2>Auto-teste (flashcards)</h2>
+  <p class="note">Responda de cabeça e depois abra. O rótulo [M#] indica o módulo para revisar se errar.</p>
+  <div class="btnrow"><button type="button" id="closeAll">Fechar todas</button></div>
+  <div class="cards">
+    <details class="card"><summary><span class="tag">[M1]</span>Defina governança de TI segundo o COBIT.</summary><div class="a">Garante que necessidades, condições e opções das partes interessadas sejam avaliadas para determinar objetivos acordados e equilibrados; define direção por priorização e decisão; monitora desempenho e conformidade.</div></details>
+    <details class="card"><summary><span class="tag">[M1]</span>Qual organização mantém o TOGAF? E o BPMN?</summary><div class="a">TOGAF: The Open Group. BPMN: OMG (Object Management Group).</div></details>
+    <details class="card"><summary><span class="tag">[M1]</span>Qual ferramenta modela ArchiMate? E BPMN?</summary><div class="a">Archi para ArchiMate; Bizagi Modeler para BPMN.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Quais são os 5 princípios do COBIT?</summary><div class="a">1 atender às partes interessadas; 2 cobrir a organização de ponta a ponta; 3 modelo único e integrado; 4 abordagem holística; 5 distinguir governança de gestão.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>O que é "criar valor" no COBIT?</summary><div class="a">Realizar benefícios com ótimo custo e otimizar o risco (benefícios, risco, recursos).</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Ordem da cascata de objetivos?</summary><div class="a">Direcionadores → necessidades das partes interessadas → objetivos corporativos → objetivos de TI → objetivos de habilitador.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Cite as 7 categorias de habilitadores.</summary><div class="a">Princípios/políticas/modelos; processos; estruturas organizacionais; cultura/ética/comportamento; informação; serviços/infraestrutura/aplicativos; pessoas/habilidades/competências.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Prioridade "satisfação do cliente": quais objetivos de TI o mapeamento sugere?</summary><div class="a">01 alinhamento estratégia TI × negócio; 04 gestão do risco de TI; 07 serviços conforme requisitos; 09 agilidade de TI.</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>Qual domínio COBIT é de governança?</summary><div class="a">EDM (Avaliar, Dirigir, Monitorar). APO, BAI, DSS e MEA são de gestão.</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>Quantos processos tem cada domínio?</summary><div class="a">EDM 5, APO 14, BAI 11, DSS 6, MEA 4 = 40.</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>Tratar incidentes de usuários fica em qual domínio?</summary><div class="a">DSS (DSS02 solicitações de serviço e incidentes).</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>Qual processo COBIT trata de arquitetura empresarial?</summary><div class="a">APO03, com 5 práticas: visão, arquitetura de referência, oportunidades e soluções, implementação, serviços de arquitetura.</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>Quais são as fases do ADM?</summary><div class="a">Preliminar; A visão; B negócios; C sistemas de informação; D tecnologia; E oportunidades e soluções; F planejamento de migração; G governança da implementação; H gestão de mudança; centro: gestão de requisitos.</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>O que é o Zachman Framework?</summary><div class="a">Ontologia em matriz 6×6: colunas 5W1H, linhas = níveis de abstração (contextual, conceitual, lógico, físico, implementação).</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Gap × Work Package × Capability?</summary><div class="a">Gap é a diferença entre dois estados; Work Package é o conjunto de ações que fecha o gap; ele entrega uma Capability.</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Campos do modelo de documentação de princípio?</summary><div class="a">Nome, declaração, justificativa, implicações (requisitos).</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Três tipos de business driver?</summary><div class="a">Força (externa ou interna), oportunidade (influência positiva), risco (influência negativa).</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>"Reduzir custos em 15% até dezembro" é goal ou objective?</summary><div class="a">Objective: é mensurável e tem prazo. O goal seria "reduzir custos operacionais".</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Os 5 degraus da medida?</summary><div class="a">Unidade de medida → business measure → métrica → indicador → KPI.</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>O que é Value Stream?</summary><div class="a">Cadeia de valor (Porter): coleção de processos coordenados que cria um resultado para cliente, stakeholder ou usuário final.</div></details>
+    <details class="card"><summary><span class="tag">[M6]</span>Actor, Role e Function em uma palavra cada?</summary><div class="a">Actor = quem; Role = skills (o que sabe fazer); Function = nome do cargo.</div></details>
+    <details class="card"><summary><span class="tag">[M6]</span>O que é PBS?</summary><div class="a">Product Breakdown Structure: decomposição do produto em componentes (ex.: tênis → cabedal, cadarço, palmilha, entressola, solado, acabamentos).</div></details>
+    <details class="card"><summary><span class="tag">[M6]</span>Data Entity → ? → ?</summary><div class="a">Logical Data Component (estrutura lógica) → Physical Data Component (estrutura física).</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Defina processo pelo BPM CBOK.</summary><div class="a">Conjunto de atividades/tarefas interdependentes ordenadas no tempo e no espaço com objetivo bem definido para gerar um resultado final.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Piscina × raia?</summary><div class="a">Piscina contém um processo inteiro (nome = nome do processo). Raias dividem a piscina por setor, área ou ator.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Gateway inclusivo na divergência?</summary><div class="a">Várias rotas podem ocorrer ao mesmo tempo, mas não necessariamente todas; depende dos dados.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Fluxo de mensagem liga o quê?</summary><div class="a">Dois processos diferentes (piscinas diferentes). Dentro da piscina usa-se fluxo de sequência.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Quatro tipos específicos de evento?</summary><div class="a">Mensagem, tempo, condição de negócio, sinal de processo (mais o link entre diagramas).</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>Causa comum × causa especial?</summary><div class="a">Comum: variação natural, pontos dentro dos limites. Especial: inesperada, pontos fora ou padrões não aleatórios; deve ser eliminada.</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>DPMO: 60 defeitos, 300 unidades, 3 OD por unidade.</summary><div class="a">60 / 900 ≈ 0,0667 → ≈ 66.667 DPMO (≈ 3σ).</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>Os 6M de Ishikawa?</summary><div class="a">Método, máquina, medida, meio ambiente, material, mão de obra.</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>Quem criou as cartas de controle e onde?</summary><div class="a">Walter A. Shewhart, anos 1920, Bell Telephone Labs.</div></details>
+  </div>
+</section>
+
+<!-- ============================ EMENTA ============================ -->
+<section id="ementa">
+  <h2>Lacunas e o que não cai</h2>
+  <h3>Fora da P1 (fica para a P2, pelo cronograma)</h3>
+  <ul class="tight">
+    <li><b>Gestão de serviços de TI, ITIL</b> (01, 08 e 15/10). Suas notas da aula 1 marcam "bom estudar", mas o conteúdo ainda não foi dado.</li>
+    <li><b>Gestão de dados</b> (29/10 a 12/11): ciclos de vida, metadados, qualidade, segurança (DAMA-DMBOK).</li>
+  </ul>
+  <h3>Na ementa, sem material até agora</h3>
+  <ul class="tight">
+    <li><b>Modelos e práticas de gestão de projetos (PMBOK):</b> está na ementa e na bibliografia, mas não aparece em nenhuma aula do cronograma. Mínimo defensável: o COBIT trata projetos em BAI01 (programas) e BAI11 (projetos).</li>
+    <li><b>Medidas de maturidade de processos:</b> só a escada de 5 níveis das suas notas e a "capacidade envolvida" do APO03. Os nomes dos níveis neste guia são inferência.</li>
+  </ul>
+  <h3>Pontos do material que ficaram sem explicação</h3>
+  <ul class="tight">
+    <li>A entidade <b>Assumption</b> aparece na figura do metamodelo, sem slide próprio.</li>
+    <li>O slide do Processo A não explica como os limites 7 e 11 foram escolhidos (ver M8).</li>
+    <li>Não há anotação da aula de 03/09 (a numeração pula da aula 4 para a 6); o conteúdo provável é BPMN/Bizagi na ferramenta ("vamos ver a ferramenta").</li>
+    <li>O slide cita "quatro categorias" de elementos BPMN e lista cinco (ver M7).</li>
+  </ul>
+  <p class="note">Tudo que está marcado com <span class="infer">inferência</span> é interpretação do guia, não texto do professor. Na dúvida, confirme com ele ou com os slides.</p>
+</section>
+</main>
+</div>
+
+<script>
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('nav a'));
+    var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}});},{rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('section[id]').forEach(function(s){io.observe(s);});
+    document.getElementById('closeAll').addEventListener('click',function(){document.querySelectorAll('.card[open]').forEach(function(d){d.removeAttribute('open');});});
+  })();
+</script>
+</body>
+</html>
