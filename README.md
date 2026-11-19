@@ -6,15 +6,13 @@ de estudo disponível, com uma versão expressa no topo. Quando já existe guia 
 o guia novo traz **só o conteúdo novo**.
 
 O guia é gerado pelo prompt [`MODELO_prompt_guia_de_estudo.md`](./MODELO_prompt_guia_de_estudo.md).
-O método original, mais longo, continua em [`METODO_guia_de_estudo.md`](./METODO_guia_de_estudo.md) como referência.
 
 ## Estrutura
 
 ```
 .
 ├── README.md
-├── MODELO_prompt_guia_de_estudo.md     # prompt-modelo atual (preencher e colar na IA)
-├── METODO_guia_de_estudo.md            # método original, versão completa (referência)
+├── MODELO_prompt_guia_de_estudo.md     # prompt-modelo (preencher e colar na IA)
 └── <disciplina>/
     └── <prova>/
         ├── guia_estudo_<sigla>_<prova>.html   # o guia (abrir no navegador)
