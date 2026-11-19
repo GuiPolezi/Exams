@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Governança de TI — Guia P2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1F4F4;
+    --ink:#15252B;
+    --ink-soft:#43565D;
+    --teal:#2B4C9B;
+    --amber:#D19A0B;
+    --coral:#C4473B;
+    --violet:#5E4691;
+    --line:#D3DCDD;
+    --white:#FFFFFF;
+    --mono:'Source Code Pro', ui-monospace, Menlo, Consolas, monospace;
+    --sans:'Source Sans 3', system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.55}
+  a{color:var(--teal)}
+  code{font-family:var(--mono);font-size:.86em;background:#E6ECEC;padding:1px 5px;border-radius:3px}
+
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav{position:sticky;top:0;height:100vh;overflow:auto;background:var(--ink);color:#DCE5E6;padding:28px 22px}
+  nav h1{font-size:16px;font-weight:600;margin:0 0 4px;color:#fff}
+  nav .sub{font-size:13px;color:#97AAAF;margin-bottom:22px}
+  nav ol{list-style:none;padding:0;margin:0}
+  nav a{display:block;color:#C8D5D7;text-decoration:none;font-size:14px;padding:7px 10px;border-left:2px solid transparent;border-radius:0 4px 4px 0}
+  nav a:hover,nav a:focus{background:rgba(255,255,255,.07);color:#fff;outline:none}
+  nav a.on{border-left-color:var(--amber);color:#fff;background:rgba(255,255,255,.06)}
+  nav .grp{font-size:12px;color:#7D9298;margin:16px 0 4px 10px}
+  nav .legend{margin-top:26px;font-size:12.5px;color:#97AAAF;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+  nav .legend span{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+
+  main{padding:0 0 80px;min-width:0}
+  .hero{background:var(--white);border-bottom:1px solid var(--line);padding:48px 56px 36px}
+  .hero h2{font-size:35px;line-height:1.15;margin:0 0 12px;font-weight:700;max-width:26ch}
+  .hero p{max-width:68ch;color:var(--ink-soft);margin:0 0 8px}
+  .hero .facts{display:flex;gap:28px;flex-wrap:wrap;margin-top:22px}
+  .hero .facts div{font-size:14px;color:var(--ink-soft)}
+  .hero .facts b{display:block;font-size:23px;color:var(--ink);font-weight:600}
+  .alert{border:1px solid var(--coral);background:#FBECE9;border-radius:6px;padding:10px 14px;max-width:72ch;margin-top:18px;font-size:15px}
+
+  section{padding:44px 56px;border-bottom:1px solid var(--line);max-width:1100px}
+  section h2{font-size:27px;font-weight:700;margin:0 0 6px}
+  section h3{font-size:19px;font-weight:600;margin:28px 0 8px;color:var(--teal)}
+  section h4{font-size:16px;font-weight:600;margin:18px 0 6px}
+  section p{max-width:72ch}
+  .why{border-left:4px solid var(--amber);background:#FBF3DC;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0 20px}
+  .why>b{display:block;margin-bottom:2px}
+  .prova{border-left:4px solid var(--coral);background:#FBEAE7;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .prova>b{display:block;margin-bottom:2px;color:var(--coral)}
+  .prova ol,.prova ul{margin:6px 0 0;padding-left:20px}
+  .prova li{margin:6px 0}
+  .tool{border-left:4px solid var(--violet);background:#EEEAF6;padding:12px 16px;border-radius:0 6px 6px 0;max-width:72ch;margin:14px 0}
+  .tool>b{display:block;margin-bottom:2px;color:var(--violet)}
+  .note{font-size:14.5px;color:var(--ink-soft);max-width:72ch}
+  .infer{font-size:13px;background:#E6ECEC;border-radius:3px;padding:0 5px;color:var(--ink-soft);white-space:nowrap}
+  .faq{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:6px 18px 10px;max-width:820px;margin:16px 0}
+  .faq h4{margin:14px 0 6px;color:var(--teal)}
+  .faq dl{margin:0}
+  .faq dt{font-weight:600;margin-top:12px}
+  .faq dd{margin:4px 0 0;color:var(--ink-soft);font-size:15.5px;max-width:72ch}
+  .ex{background:#F7F9F9;border:1px dashed #A9B9BC;border-radius:6px;padding:12px 16px;max-width:820px;margin:12px 0;font-size:15.5px}
+  .ex>b{display:block;margin-bottom:4px}
+  .ex ol{margin:6px 0 0;padding-left:20px}
+
+  .tbl{overflow-x:auto;max-width:820px}
+  table{border-collapse:collapse;width:100%;max-width:820px;margin:10px 0 6px;font-size:15px;background:var(--white)}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:#E3EAEB;font-weight:600}
+  td.n{font-family:var(--mono);text-align:right;white-space:nowrap}
+  tr.hl td{background:#FBF3DC}
+  ul.tight{margin:6px 0 10px;padding-left:20px;max-width:72ch}
+  ul.tight li{margin:3px 0}
+  .formula{font-family:var(--mono);background:var(--white);border:1px solid var(--line);padding:8px 12px;border-radius:4px;display:inline-block;margin:4px 0;font-size:15px}
+
+  .steps{counter-reset:s;list-style:none;padding:0;margin:14px 0 0;max-width:820px}
+  .steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:20px;color:var(--amber);font-weight:500;line-height:1.1}
+  .steps li b{display:block}
+  .steps li small{color:var(--ink-soft);font-size:14.5px}
+
+  .map,.fig{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:10px;overflow:auto;max-width:1000px;margin:12px 0}
+  .map svg{width:100%;height:auto;min-width:780px;display:block}
+  .fig svg{width:100%;height:auto;display:block}
+  .fig.wide svg{min-width:760px}
+  .map text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+  .map .root{font-size:16px;font-weight:700;fill:#fff}
+  .map .b1{font-weight:700;fill:var(--teal)}
+  .map line{stroke:#AFC0C3;stroke-width:1.4}
+  .figcap{font-size:13.5px;color:var(--ink-soft);margin:4px 0 0}
+
+  .cascade{display:flex;flex-direction:column;gap:0;max-width:560px;margin:12px 0}
+  .cascade div{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:15px}
+  .cascade div b{color:var(--teal)}
+  .cascade span{display:block;text-align:center;color:var(--ink-soft);font-size:13px;line-height:1.6}
+
+  .sym{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;max-width:900px;margin:12px 0}
+  .sym div{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:14.5px}
+  .sym svg{width:60px;height:40px}
+  .sym b{display:block}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:14px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+  .card summary{cursor:pointer;font-weight:500;list-style:none;position:relative;padding-right:22px}
+  .card summary::after{content:"+";position:absolute;right:0;top:0;font-family:var(--mono);color:var(--amber);font-size:18px}
+  .card[open] summary::after{content:"–"}
+  .card summary::-webkit-details-marker{display:none}
+  .card .tag{font-family:var(--mono);font-size:12px;color:var(--teal);margin-right:6px}
+  .card .a{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:15px;color:var(--ink-soft)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px}
+  .btnrow{margin-top:14px}
+  button{font-family:var(--sans);font-size:14.5px;background:var(--teal);color:#fff;border:0;padding:8px 14px;border-radius:5px;cursor:pointer}
+  button:focus-visible,summary:focus-visible,nav a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav{position:static;height:auto}
+    .hero,section{padding:28px 16px}
+    .hero h2{font-size:28px}
+    .two{grid-template-columns:1fr}
+  }
+  .bridge{border:1px solid var(--teal);background:#EEF2FA;border-radius:6px;padding:10px 16px;max-width:820px;margin:12px 0}
+  .bridge ul{margin:6px 0 0;padding-left:20px}
+  .bridge li{margin:4px 0;font-size:15px}
+  @media print{
+    @page{size:A4;margin:9mm 10mm}
+    body{font-size:8.8pt;line-height:1.26;background:#fff}
+    .layout{display:block}
+    nav{display:none}
+    main{padding:0}
+    .hero,section{padding:4px 0 8px;border:0;max-width:none}
+    .hero{border-bottom:1px solid var(--line)}
+    .hero h2{font-size:15pt;max-width:none}
+    .hero .facts{margin-top:6px;gap:18px}
+    .hero .facts b{font-size:14pt}
+    .alert{margin-top:6px;padding:4px 10px;max-width:none}
+    #m1{break-before:page}
+    section h2{break-after:avoid}
+    .faq{display:none}
+    section[id^="m"]{border-top:1.5px solid var(--teal);margin-top:6px}
+    section h2{font-size:12.5pt;margin:4px 0 3px}
+    section h3{font-size:10pt;margin:6px 0 2px}
+    section p{margin:4px 0}
+    ul.tight{margin:3px 0 5px}
+    ul.tight li{margin:1px 0}
+    .steps li{padding:2px 0}
+    .steps li small{font-size:8.4pt}
+    .two{gap:10px}
+    .prova li{margin:2px 0}
+    .map svg{max-height:115mm}
+    section p,.why,.prova,.faq dd,.ex,.note,ul.tight{max-width:none}
+    .why,.prova,.ex,.bridge{padding:5px 10px;margin:6px 0;break-inside:avoid}
+    .faq{padding:2px 10px 6px;margin:6px 0;max-width:none;break-inside:avoid}
+    .faq dt{margin-top:4px}
+    table{font-size:8.6pt;max-width:none;margin:4px 0}
+    .tbl{max-width:none;overflow:visible}
+    th,td{padding:2px 6px}
+    tr{break-inside:avoid}
+    .steps li{padding:4px 0}
+    .map{padding:0;border:0}
+    .map svg{min-width:0}
+    .btnrow{display:none}
+    .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px}
+    .card{font-size:8pt}
+    .card .a{font-size:8pt}
+    .card{padding:4px 8px;break-inside:avoid}
+    .card .a{margin-top:3px;padding-top:3px}
+    .card summary::after{content:""}
+    .formula{font-size:9pt;padding:2px 6px}
+    a{color:inherit;text-decoration:none}
+    .ex,.bridge li,.faq dd,.note,ul.tight li{font-size:8.6pt}
+    .infer{font-size:7.4pt}
+    .bridge li{margin:1px 0}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+<nav aria-label="Sumário">
+  <h1>Governança e Gestão de TI</h1>
+  <div class="sub">Guia de estudo · P2 · EEP · 2º sem. 2026</div>
+  <ol>
+    <li><a href="#expressa">Versão expressa (30 min)</a></li>
+    <li><a href="#ordem">Ordem de estudo (2 h)</a></li>
+    <li><a href="#mapa">Mapa mental</a></li>
+    <li><a href="#pontes">Pontes com a P1</a></li>
+    <li class="grp">Serviços de TI (ITIL)</li>
+    <li><a href="#m1">1 · ITIL, livros e Central</a></li>
+    <li><a href="#m2">2 · Incidentes × Problemas</a></li>
+    <li><a href="#m3">3 · Mudanças, Liberação, Configuração</a></li>
+    <li><a href="#m4">4 · Entrega de Serviços</a></li>
+    <li class="grp">Gestão de Dados (APO14)</li>
+    <li><a href="#m5">5 · APO14 e DAMA-DMBOK</a></li>
+    <li><a href="#m6">6 · Perfil de dados</a></li>
+    <li><a href="#m7">7 · Qualidade de dados</a></li>
+    <li><a href="#m8">8 · Ciclo de vida</a></li>
+    <li class="grp">Ferramentas</li>
+    <li><a href="#colinha">Siglas e listas de cor</a></li>
+    <li><a href="#formulas">Fórmulas</a></li>
+    <li><a href="#quiz">Flashcards</a></li>
+    <li><a href="#ementa">Lacunas e cortes</a></li>
+  </ol>
+  <div class="legend">
+    <div><span style="background:var(--amber)"></span>Por que estudar isso</div>
+    <div><span style="background:var(--coral)"></span>Provável na prova</div>
+    <div><span style="background:var(--teal)"></span>Ponte com a P1</div>
+  </div>
+</nav>
+
+<main>
+<div class="hero" id="topo">
+  <h2>Da TI que entrega serviços à TI que cuida do dado.</h2>
+  <p>Este guia cobre só o conteúdo novo da P2, a partir da apostila de ITIL anotada (Aula 5) e dos slides das Aulas 6 a 9 (APO14 e DAMA-DMBOK). O fio condutor tem duas metades: a <b>ITIL</b> organiza a TI como prestadora de serviços (suporte no dia a dia, entrega planejada); o <b>APO14</b> trata o dado como ativo: <b>perfilar</b> (14.05) → <b>garantir qualidade</b> (14.04/06) → <b>gerir o ciclo de vida</b> (14.08).</p>
+  <div class="facts">
+    <div><b>8</b>módulos (4 ITIL + 4 dados)</div>
+    <div><b>1 + 10</b>função e processos ITIL</div>
+    <div><b>10</b>práticas APO14</div>
+    <div><b>280</b>grifos seus na apostila de ITIL</div>
+  </div>
+  <div class="alert"><b>P2: 19/11 · peso 50% · só conteúdo novo; a base está no guia da P1.</b> A apostila de ITIL é a versão v2 (OGC); o ITIL 4 aparece só como capa num slide.</div>
+</div>
+
+<!-- ============================ EXPRESSA ============================ -->
+<section id="expressa">
+  <h2>Versão expressa (30 min)</h2>
+  <p class="note">Se só tiver meia hora, leia estes seis pontos nesta ordem.</p>
+  <ol class="steps">
+    <li><div><b>Incidente × problema e a matriz de prioridade (7 min) · M2</b><small>Incidente restaura rápido; problema é a causa desconhecida. Prioridade = impacto × urgência: 1 h, 4 h, 24 h, 48 h.</small></div></li>
+    <li><div><b>Os 10 processos, a Central e os acordos (6 min) · M1 e M4</b><small>Suporte: incidentes, problemas, mudanças, liberação, configuração. Entrega: nível de serviço, disponibilidade, capacidade, financeiro, continuidade. A Central é função. ANS com o cliente, ANO interno, CA externo.</small></div></li>
+    <li><div><b>Disponibilidade (3 min) · M4</b><small>D = (TS − DT) / TS × 100.</small></div></li>
+    <li><div><b>APO14 e DMBOK (4 min) · M5</b><small>14.05 perfil, 14.04/06 qualidade, 14.08 ciclo de vida. Governança de dados coordena; gestão promove valor. Steward × Custodian.</small></div></li>
+    <li><div><b>Perfil de dados (5 min) · M6</b><small>Nulidades: inexistência, latência, ausência. RVolt = 19/24 = 79,1%. Redundância 3/5 = 60%.</small></div></li>
+    <li><div><b>Completude e fases (5 min) · M7 e M8</b><small>Completude individual e de conjunto; estado → fase. Avaliação é o limbo; atualização é o purgatório.</small></div></li>
+  </ol>
+</section>
+
+<!-- ============================ ORDEM ============================ -->
+<section id="ordem">
+  <h2>Ordem de estudo (cerca de 2 h)</h2>
+  <p class="note">Cada módulo usa o vocabulário do anterior. Termine sempre pelos flashcards.</p>
+  <ol class="steps">
+    <li><div><b>M1 · ITIL, livros e Central (12 min)</b><small>Sem a lista dos 10 processos você não sabe onde encaixar o resto.</small></div></li>
+    <li><div><b>M2 · Incidentes × Problemas (18 min)</b><small>É o trecho mais grifado. Faça a matriz de prioridade de memória.</small></div></li>
+    <li><div><b>M3 · Mudanças, Liberação, Configuração (12 min)</b><small>Depende de "problema → erro conhecido → RDM" do M2.</small></div></li>
+    <li><div><b>M4 · Entrega de Serviços (15 min)</b><small>Usa os termos ANS/SLA e MTBF/MTTR que aparecem em Incidentes.</small></div></li>
+    <li><div><b>M5 · APO14 e DMBOK (12 min)</b><small>Dá o nome das práticas que são o título das três aulas seguintes.</small></div></li>
+    <li><div><b>M6 · Perfil de dados (18 min)</b><small>Atores e volatilidade reaparecem na qualidade (atualidade) e no ciclo de vida.</small></div></li>
+    <li><div><b>M7 · Qualidade (18 min)</b><small>A completude e os estados são a entrada do M8.</small></div></li>
+    <li><div><b>M8 · Ciclo de vida (15 min) + flashcards (10 min)</b><small>Fecha o fio: estado de qualidade → fase.</small></div></li>
+  </ol>
+</section>
+
+<!-- ============================ MAPA ============================ -->
+<section id="mapa">
+  <h2>Mapa mental</h2>
+  <p class="note">Ramos 1 a 4: serviços (ITIL). Ramos 5 a 8: dados (APO14).</p>
+  <div class="map">
+  <svg viewBox="0 0 1110 640" role="img" aria-label="Mapa mental da P2 com oito ramos">
+    <rect x="20" y="285" width="160" height="74" rx="8" fill="#2B4C9B"/>
+    <text class="root" x="100" y="316" text-anchor="middle">Governança e</text>
+    <text class="root" x="100" y="337" text-anchor="middle">Gestão de TI · P2</text>
+    <g>
+      <line x1="180" y1="322" x2="250" y2="45"/>
+      <line x1="180" y1="322" x2="250" y2="122"/>
+      <line x1="180" y1="322" x2="250" y2="199"/>
+      <line x1="180" y1="322" x2="250" y2="276"/>
+      <line x1="180" y1="322" x2="250" y2="353"/>
+      <line x1="180" y1="322" x2="250" y2="430"/>
+      <line x1="180" y1="322" x2="250" y2="507"/>
+      <line x1="180" y1="322" x2="250" y2="584"/>
+    </g>
+    <text class="b1" x="255" y="49">1 · ITIL e Central</text>
+    <line x1="255" y1="55" x2="465" y2="55"/>
+    <text x="475" y="35">Melhores práticas (OGC), não metodologia · GSTI = pessoas, processos, ferramentas</text>
+    <text x="475" y="52">Suporte a Serviços × Entrega de Serviços · cliente paga, usuário usa</text>
+    <text x="475" y="69">Central = função, SPOC · Call Center, Help Desk, Service Desk</text>
+
+    <text class="b1" x="255" y="126">2 · Incidentes × Problemas</text>
+    <line x1="255" y1="132" x2="465" y2="132"/>
+    <text x="475" y="112">Incidente: restaurar rápido · Problema: causa desconhecida</text>
+    <text x="475" y="129">Prioridade = impacto × urgência (1 h, 4 h, 24 h, 48 h)</text>
+    <text x="475" y="146">Erro conhecido, workaround · Ishikawa · Kepner-Tregoe</text>
+
+    <text class="b1" x="255" y="203">3 · Mudanças, Liberação, Config.</text>
+    <line x1="255" y1="209" x2="465" y2="209"/>
+    <text x="475" y="189">Mudanças decide e coordena: RDM, CCM, CCM/CE, RPI</text>
+    <text x="475" y="206">Liberação protege a produção: BDS, DHD, teste de aceite</text>
+    <text x="475" y="223">Configuração: IC, BDGC, relacionamentos</text>
+
+    <text class="b1" x="255" y="280">4 · Entrega de Serviços</text>
+    <line x1="255" y1="286" x2="465" y2="286"/>
+    <text x="475" y="266">ANS (cliente) · ANO (interno) · CA (externo) · catálogo</text>
+    <text x="475" y="283">D = (TS − DT) / TS × 100 · MTBF, MTTR</text>
+    <text x="475" y="300">Capacidade · Continuidade (cold, warm, hot) · Financeiro</text>
+
+    <text class="b1" x="255" y="357">5 · APO14 e DMBOK</text>
+    <line x1="255" y1="363" x2="465" y2="363"/>
+    <text x="475" y="343">10 práticas APO14 · 14.04/05/06/08 são as aulas</text>
+    <text x="475" y="360">Governança coordena, gestão promove valor · CDO · 11 áreas</text>
+    <text x="475" y="377">Steward × Custodian · dados mestres × referência</text>
+
+    <text class="b1" x="255" y="434">6 · Perfil (14.05)</text>
+    <line x1="255" y1="440" x2="465" y2="440"/>
+    <text x="475" y="420">Estrutura, conteúdo, qualidade, dependência</text>
+    <text x="475" y="437">Atores G/C/R/U/D/V · quarentena · volatilidade (RVolt)</text>
+    <text x="475" y="454">Nulidades: inexistência, latência, ausência · redundância</text>
+
+    <text class="b1" x="255" y="511">7 · Qualidade (14.04/06)</text>
+    <line x1="255" y1="517" x2="465" y2="517"/>
+    <text x="475" y="497">Roteiro de 5 passos · corretude, acurácia, completude</text>
+    <text x="475" y="514">Diversidade · relevância (Mudge) · metadados de qualidade</text>
+    <text x="475" y="531">Wang: 4 categorias, 19 dimensões, 8 objetivas</text>
+
+    <text class="b1" x="255" y="588">8 · Ciclo de vida (14.08)</text>
+    <line x1="255" y1="594" x2="465" y2="594"/>
+    <text x="475" y="574">Projeto 0 · Produção 1 · Aquisição 2 · Utilização 3</text>
+    <text x="475" y="591">Atualização 4 (purgatório) · Avaliação 5 (limbo) · Destruição 6</text>
+    <text x="475" y="608">Estado de qualidade → fase · Data Lineage (junção, sumarização)</text>
+  </svg>
+  </div>
+</section>
+
+<!-- ============================ PONTES ============================ -->
+<section id="pontes">
+  <h2>Pontes com a P1</h2>
+  <div class="bridge"><b>Lembretes de 1 linha (a explicação está no guia da P1)</b>
+    <ul>
+      <li>APO14 está no domínio <b>APO</b> (Alinhar, Planejar e Organizar), que é de gestão, não de governança. Ver P1, M3.</li>
+      <li>Na lista COBIT da P1: DSS02 incidentes, DSS03 problemas, DSS04 continuidade, BAI06 mudanças, BAI10 configuração. <span class="infer">correspondência com a ITIL é inferência</span> Ver P1, M3.</li>
+      <li>Cada processo ITIL termina em <b>KPIs</b>: é a escada unidade → métrica → indicador → KPI. Ver P1, M5.</li>
+      <li>Ishikawa: na P1 as espinhas são os 6M; aqui são categorias de TI. MTBF/MTTR ligam ao Seis Sigma (sua nota "ver 6 sigma"). Ver P1, M8.</li>
+      <li>Atores do perfil lembram Actor/Role; Data Entity → Logical → Physical e a matriz Data Entities × Processes vêm do TOGAF. Ver P1, M6.</li>
+      <li>O diagrama do APO14 e os processos P1 a P4 da Aula 9 estão em BPMN; a curva normal (68, 95, 99,7%) é a mesma do CEP. Ver P1, M7 e M8.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ M1 ============================ -->
+<section id="m1">
+  <h2>1 · ITIL: o que é, os dois livros e a Central de Serviços</h2>
+  <div class="why"><b>Por que estudar</b>É o vocabulário de todos os outros módulos de ITIL, e "a Central de Serviços é uma função, não um processo" é a pegadinha mais clássica da apostila.</div>
+
+  <h3>ITIL em 5 frases (apostila p7 a p12)</h3>
+  <ul class="tight">
+    <li><b>ITIL</b> (IT Infrastructure Library) é uma biblioteca de melhores práticas para Gerenciamento de Serviços de TI (GSTI). Foi criada pelo governo britânico (<b>CCTA</b>, atual <b>OGC</b>) nos anos 1980 e virou <b>padrão de fato em 1990</b>.</li>
+    <li><b>Não é metodologia</b>: as práticas são flexíveis e devem ser <b>adotadas e adaptadas</b>. "Na ITIL tudo pode, nada deve."</li>
+    <li>Não se "implanta a ITIL": implementa-se o GSTI usando a ITIL como base. Quem certifica <b>organizações</b> é a <b>ISO 20000</b> (substituiu a BS 15000). <b>Pessoas</b> se certificam pelo EXIN/ISEB (Foundation, Practitioner, Manager).</li>
+    <li><b>GSTI</b> = conjunto de <b>pessoas, processos e ferramentas</b> que cooperam para assegurar a qualidade dos serviços, com suporte a níveis de serviço acordados previamente com o cliente.</li>
+    <li><b>8 benefícios</b> do GSTI: melhor qualidade; segurança e confiança na continuidade; visão da capacidade; informação gerencial de desempenho; equipe mais motivada; satisfação de clientes e usuários; redução de custos (em alguns casos); agilidade nas mudanças do negócio.</li>
+    <li>"Processos que não são possíveis de monitorar através de indicadores não são viáveis." Por isso cada capítulo da apostila termina com <b>KPIs</b>.</li>
+  </ul>
+  <p class="note">Versão: a apostila é a <b>ITIL v2</b> (OGC, 7 livros, foco em 2). O slide 10 da Aula 0 mostra a capa do ITIL 4 (AXELOS), mas não há conteúdo de ITIL 4 no material.</p>
+
+  <h3>Conceitos-base (p19 e p20)</h3>
+  <div class="tbl"><table>
+    <tr><th>Termo</th><th>Definição da apostila</th></tr>
+    <tr><td><b>Serviço</b></td><td>Conjunto de componentes relacionados fornecidos para suporte a um ou mais processos de negócio. Dica: <b>serviço é sempre o que o usuário interage diretamente</b> (e-mail é serviço; servidor e link são recursos).</td></tr>
+    <tr><td><b>Processo</b></td><td>Conjunto de atividades inter-relacionadas com um objetivo específico. Tarefas com entradas e saídas, executadas por funções (pessoa ou software), controladas por regras, com um <b>proprietário</b>.</td></tr>
+    <tr><td><b>Cliente</b></td><td>Quem <b>paga</b> pelos serviços de TI (ex.: as unidades de negócio).</td></tr>
+    <tr><td><b>Usuário</b></td><td>Quem <b>usa</b> os serviços de TI no dia a dia.</td></tr>
+  </table></div>
+
+  <h3>Os 2 livros principais: 1 função + 10 processos</h3>
+  <div class="tbl"><table>
+    <tr><th>Suporte a Serviços (Service Support)</th><th>Entrega de Serviços (Service Delivery)</th></tr>
+    <tr><td>Dia a dia: como o cliente consegue acesso aos serviços.</td><td>Planejamento: que serviços o cliente precisa e o que é necessário para fornecê-los.</td></tr>
+    <tr><td><b>Central de Serviços</b> (função) · Incidentes · Problemas · Mudanças · Liberação · Configuração</td><td>Nível de Serviço · Disponibilidade · Capacidade · Financeiro · Continuidade</td></tr>
+  </table></div>
+  <p class="note">Lembrete literal da p63: "Central de Serviços é uma função e o Gerenciamento da Segurança tem uma parte ativa em todos os processos." Os 7 livros: Perspectiva de Negócio, Entrega, Suporte, Segurança, Infraestrutura (ICT), Aplicações, Planejamento da implementação.</p>
+
+  <h3>Central de Serviços (Service Desk)</h3>
+  <p><b>Função</b> dentro da TI que é o <b>ponto único de contato</b> (SPOC, Single Point of Contact) entre usuários/clientes e a TI. É o <b>1º nível de suporte</b>. Separa quem dá suporte de quem resolve problemas e desenvolve, para o especialista não ser interrompido.</p>
+  <div class="tbl"><table>
+    <tr><th>Tipo</th><th>O que faz</th></tr>
+    <tr><td>Central de Atendimento (<b>Call Center</b>)</td><td>Grande volume de chamadas; não atua na transação, só encaminha.</td></tr>
+    <tr><td>Central de Suporte (<b>Help Desk</b>)</td><td>Nenhuma requisição perdida; resolve e coordena incidentes (tradicionalmente hardware e software básico).</td></tr>
+    <tr><td>Central de Serviços (<b>Service Desk</b>)</td><td>Abrangência: todas as solicitações sobre qualquer serviço de TI (incidentes, problemas, dúvidas, requisições de mudança).</td></tr>
+  </table></div>
+  <p><b>Estruturas:</b> <b>Local</b> (uma por unidade; custo maior) · <b>Centralizada</b> (um único local; reduz custo) · <b>Virtual</b> (sem posição física perto do usuário; permite 24 h).</p>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>A Central de Serviços é um processo da ITIL?</dt><dd>Não. É uma <b>função</b>. Os processos são 10.</dd>
+    <dt>Help Desk e Service Desk são a mesma coisa?</dt><dd>Não. O Help Desk atende incidentes de hardware e software básico; o Service Desk assume todas as solicitações sobre qualquer serviço.</dd>
+    <dt>ITIL é metodologia?</dt><dd>Não: é conjunto de melhores práticas ("tudo pode, nada deve"). Metodologia tem regras rígidas.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Liste os processos de Suporte e de Entrega de Serviços.</li>
+    <li>Diferencie cliente × usuário, ou serviço × recurso de TI.</li>
+    <li>Diferencie Call Center, Help Desk e Service Desk; cite as 3 estruturas.</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M2 ============================ -->
+<section id="m2">
+  <h2>2 · Incidentes × Problemas</h2>
+  <div class="why"><b>Por que estudar</b>São os dois capítulos mais grifados da apostila (57 e 58 marcações), com a matriz de prioridade e o Ishikawa marcados à mão.</div>
+
+  <div class="tbl"><table>
+    <tr><th></th><th>Gerenciamento de Incidentes</th><th>Gerenciamento de Problemas</th></tr>
+    <tr><td><b>Missão</b></td><td><b>Restaurar os serviços o mais rápido possível</b> com o mínimo de interrupção, minimizando os impactos negativos no negócio.</td><td>Minimizar a interrupção organizando recursos para solucionar problemas, <b>prevenindo a recorrência</b>.</td></tr>
+    <tr><td><b>Foco</b></td><td>Solução rápida (um dos processos mais <b>reativos</b>).</td><td>Causa raiz; melhorias confiáveis e robustas na infraestrutura.</td></tr>
+    <tr><td><b>Quem faz</b></td><td>Normalmente a Central de Serviços, que é <b>proprietária do incidente</b> até o fechamento.</td><td>Recebe os incidentes de causa desconhecida e devolve soluções de contorno e erros conhecidos.</td></tr>
+    <tr><td><b>Atividades</b></td><td>Detecção e registro → classificação e suporte inicial → investigação e diagnóstico → resolução e restauração → fechamento; + responsabilidade, monitoração e comunicação.</td><td>4 atividades: <b>Controle de Problemas</b> (acha causa raiz e solução definitiva) · <b>Controle de Erros</b> (corrige o erro conhecido via RDM) · <b>Gerenciamento Proativo</b> · <b>Revisão dos Problemas Graves</b>.</td></tr>
+    <tr><td><b>KPIs</b></td><td>Nº de incidentes, <b>MTBF</b> (tempo médio entre falhas), <b>MTTR</b> (tempo médio para reparo), % resolvidos pela base de conhecimento.</td><td>Nº de problemas, % esforço reativo × proativo, nº de RDMs geradas, tempo de solução × estimado.</td></tr>
+  </table></div>
+
+  <h3>Definições de Problemas (p39)</h3>
+  <ul class="tight">
+    <li><b>Problema</b>: a causa desconhecida de um ou mais incidentes.</li>
+    <li><b>Erro Conhecido</b> (Known Error): problema cuja causa foi diagnosticada e para o qual existe uma solução.</li>
+    <li><b>Solução de Contorno</b> (Workaround): solução não definitiva. <b>Solução</b>: definitiva. <b>Causa</b>: erro em um Item de Configuração.</li>
+    <li>Cadeia (p43): erro na infraestrutura → incidentes → problema → erro conhecido → <b>RFC</b> (Request for Change) → solução estruturada.</li>
+  </ul>
+
+  <h3>Prioridade = Impacto × Urgência (p33)</h3>
+  <p><b>Impacto</b> = quantas pessoas ou sistemas são prejudicados (criticidade para o negócio). <b>Urgência</b> = velocidade em que precisa ser resolvido.</p>
+  <div class="two">
+    <div class="tbl"><table>
+      <tr><th>Urgência \ Impacto</th><th>Alto</th><th>Médio</th><th>Baixo</th></tr>
+      <tr><td><b>Alta</b></td><td class="n">1</td><td class="n">2</td><td class="n">3</td></tr>
+      <tr><td><b>Média</b></td><td class="n">2</td><td class="n">3</td><td class="n">4</td></tr>
+      <tr><td><b>Baixa</b></td><td class="n">3</td><td class="n">4</td><td class="n">5</td></tr>
+    </table></div>
+    <div class="tbl"><table>
+      <tr><th>Prioridade</th><th>Tempo</th></tr>
+      <tr><td>1 Crítica</td><td class="n">1 h</td></tr>
+      <tr><td>2 Alta</td><td class="n">4 h</td></tr>
+      <tr><td>3 Média</td><td class="n">24 h</td></tr>
+      <tr><td>4 Baixa</td><td class="n">48 h</td></tr>
+      <tr><td>5 Planejada</td><td class="n">–</td></tr>
+    </table></div>
+  </div>
+  <div class="ex"><b>Exemplo resolvido</b>O sistema de faturamento parou para toda a empresa (impacto alto), mas o fechamento é só na semana que vem (urgência média). Linha "Média" × coluna "Alto" = <b>prioridade 2 (Alta), 4 horas</b>. <span class="infer">caso inventado; a tabela é da apostila</span></div>
+
+  <p><b>Níveis de suporte:</b> 1º nível = Central (registro, classificação, roteamento, resolução, fechamento); 2º e 3º níveis = investigação, diagnóstico e recuperação (3º pode ser o fornecedor). <b>Escalonamento funcional</b> = para grupo com conhecimento mais específico; <b>hierárquico</b> = para chefe ou gerente, quando exige aprovação de custo ou poder de decisão.</p>
+
+  <h3>Ferramentas de Problemas: Ishikawa e Kepner-Tregoe (p45)</h3>
+  <p><b>Ishikawa</b> (causa-efeito, espinha de peixe; Kaoru Ishikawa): o problema vai na cabeça e as áreas de causa nas espinhas. No exemplo da apostila, o efeito é "a página de pagamento não acessa no módulo da Folha de Pagamento" e as espinhas são <b>Erro Humano, Segurança, Redes, Processo Agendado, Banco de Dados e Interface Gráfica</b>, isto é, categorias de TI no lugar dos 6M da P1.</p>
+  <p><b>Kepner-Tregoe</b>, 5 passos: definir o problema → descrevê-lo (identidade, localização, tempo, tamanho) → estabelecer possíveis causas → testar a mais provável → verificar a verdadeira causa.</p>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>Incidente × problema?</dt><dd>Incidente é a interrupção que o usuário sente (restaura rápido). Problema é a causa desconhecida de um ou mais incidentes (elimina a recorrência).</dd>
+    <dt>Problema × erro conhecido?</dt><dd>Ao diagnosticar a causa, o problema vira erro conhecido. O Controle de Erros pede a RDM para corrigi-lo.</dd>
+    <dt>A Gestão de Incidentes acha a causa raiz?</dt><dd>Não. Ela só avalia e informa as possíveis causas; o diagnóstico da causa raiz é de Problemas.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Dado impacto e urgência, dê a prioridade e o prazo.</li>
+    <li>Defina problema, erro conhecido e solução de contorno.</li>
+    <li>Monte um Ishikawa para um caso de TI.</li>
+    <li>Escalonamento funcional × hierárquico.</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M3 ============================ -->
+<section id="m3">
+  <h2>3 · Mudanças, Liberação e Configuração</h2>
+  <div class="why"><b>Por que estudar</b>Os três trabalham juntos e a prova tende a pedir quem decide, quem protege a produção e quem guarda a informação.</div>
+
+  <div class="tbl"><table>
+    <tr><th></th><th>Mudanças</th><th>Liberação</th><th>Configuração</th></tr>
+    <tr><td><b>Em uma frase</b></td><td><b>DECIDE e COORDENA</b> as mudanças; não executa a implementação.</td><td>O processo que <b>"protege" o ambiente de produção</b>, do planejamento da release até a instalação.</td><td>Mantém o <b>"modelo lógico"</b> da infraestrutura: registro de todos os ICs. É o processo <b>pivô</b>.</td></tr>
+    <tr><td><b>Objeto</b></td><td>RDM (Requisição de Mudança; RFC)</td><td>Releases de hardware e software</td><td>IC (Item de Configuração)</td></tr>
+    <tr><td><b>Repositório</b></td><td>PFM (Programação Futura de Mudanças)</td><td><b>BDS</b> (Biblioteca Definitiva de Software) e <b>DHD</b> (Depósito de Hardware Definitivo)</td><td><b>BDGC</b> (Base de Dados do Gerenciamento da Configuração; CMDB)</td></tr>
+    <tr><td><b>Atividades</b></td><td>5: registro e classificação, aprovação, coordenação do desenvolvimento, autorização e implementação, avaliação (RPI)</td><td>6: política de liberação; projeto e configuração; teste e aprovação; plano de implantação (roll out); comunicação e treinamento; distribuição e instalação</td><td>5: planejamento, identificação, controle, acompanhamento do status, verificação e auditoria</td></tr>
+    <tr><td><b>Papéis</b></td><td>Gerente de Mudanças; <b>CCM</b> (Comitê de Controle de Mudanças); <b>CCM/CE</b> (Comitê de Emergência)</td><td>Gerente de Liberação</td><td>Gerente de Configuração; Bibliotecário da Configuração</td></tr>
+  </table></div>
+
+  <h3>Detalhes que viram questão</h3>
+  <ul class="tight">
+    <li><b>CCM</b>: grupo que avalia o impacto e assessora o Gerente de Mudanças (técnicos, clientes, terceiros). <b>CCM/CE</b>: configuração menor para problemas graves, sem tempo de reunir o CCM: Gerente de Mudanças + técnicos da implementação.</li>
+    <li><b>RPI</b> (Revisão Pós-Implementação): avaliação feita depois da mudança.</li>
+    <li>Gerenciamento de projetos não é tratado pela ITIL: para isso a OGC criou o <b>PRINCE2</b> e o PMI, o <b>PMBOK</b>.</li>
+    <li>Nem toda mudança passa pelo processo: <b>trocar senha</b> a Central faz, seguindo procedimento.</li>
+    <li>Mudança urgente é só a que implica indisponibilidade atual ou imediata de um serviço.</li>
+    <li>"<b>A falta de teste adequado é o caso mais comum da falha das liberações</b>." Inclui o <b>Teste de Aceite do Usuário</b>. Todo plano tem <b>back out</b> (retrocesso).</li>
+    <li><b>Ativos × Configuração</b>: a diferença são os <b>relacionamentos</b>. Ativos é uma lista de itens; Configuração registra como os ICs se relacionam ("depende de", "é parte de", "é vinculado a", "tem").</li>
+    <li><b>Atributo × valor</b> do IC: atributo é o que se registra (tamanho do HD); valor é a medida (8 GB).</li>
+  </ul>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>O Gerenciamento de Mudanças implementa a mudança?</dt><dd>Não. Ele decide e coordena; quem implementa é a equipe técnica da área.</dd>
+    <dt>BDS × BDGC?</dt><dd>BDS guarda fisicamente as versões de software autorizadas. BDGC guarda as informações sobre os ICs e os seus relacionamentos.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Diferencie CCM e CCM/CE.</li>
+    <li>Diferencie gerenciamento de ativos e de configuração.</li>
+    <li>Explique por que a Liberação "protege" a produção (BDS/DHD e testes).</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M4 ============================ -->
+<section id="m4">
+  <h2>4 · Entrega de Serviços: nível de serviço, disponibilidade e companhia</h2>
+  <div class="why"><b>Por que estudar</b>Aqui estão a única "dica de prova" explícita da apostila (CA × ANO) e a única fórmula grifada (disponibilidade).</div>
+
+  <h3>Nível de Serviço: os documentos</h3>
+  <p>O processo forma o <b>vínculo entre a TI e os clientes</b> e gerencia a qualidade dos serviços conforme os acordos firmados.</p>
+  <div class="tbl"><table>
+    <tr><th>Documento</th><th>Entre quem</th><th>O que é</th></tr>
+    <tr><td><b>RNS</b> (Requisitos de Nível de Serviço; SLR)</td><td>cliente → TI</td><td>Todos os requisitos do cliente; ponto inicial do ANS.</td></tr>
+    <tr><td><b>ANS</b> (Acordo de Nível de Serviço; <b>SLA</b>)</td><td>TI ↔ cliente</td><td>Níveis acordados, em linguagem do negócio, sem jargão.</td></tr>
+    <tr class="hl"><td><b>ANO</b> (Acordo de Nível Operacional; OLA)</td><td>TI ↔ grupo <b>interno</b> da TI</td><td>Ex.: disponibilidade da rede da qual o sistema depende. <b>Foco para dentro da TI.</b></td></tr>
+    <tr class="hl"><td><b>CA</b> (Contrato de Apoio; UC)</td><td>TI ↔ fornecedor <b>externo</b></td><td>Reflete o ANS. Ex.: ANS promete consertar a impressora em 5 dias; o CA com o terceiro garante 3.</td></tr>
+    <tr><td><b>Catálogo de Serviço</b></td><td>TI → todos</td><td>"Menu" dos serviços: descrição, níveis, custo, cliente, responsável.</td></tr>
+  </table></div>
+  <p><b>Ciclo</b>: Identificação → Definição → Negociação → Monitoração → Relatório → Revisão (com o <b>PAS</b>, Programa de Aperfeiçoamento de Serviço).</p>
+
+  <h3>Disponibilidade</h3>
+  <p><span class="formula">D = (TS − DT) / TS × 100</span> &nbsp; TS = tempo de serviço acordado; DT = downtime.</p>
+  <div class="ex"><b>Exemplo resolvido</b>Serviço acordado 24 h × 30 dias = 720 h; ficou fora 7,2 h. D = (720 − 7,2) / 720 × 100 = <b>99%</b>. <span class="infer">números inventados; a fórmula é da p81</span></div>
+  <div class="tbl"><table>
+    <tr><th>Termo</th><th>Significado</th><th>Medida / ligação</th></tr>
+    <tr><td>Confiabilidade</td><td>Livre de falhas operacionais</td><td>TMEF (MTBF)</td></tr>
+    <tr><td>Resiliência</td><td>Continua operando mesmo com subcomponente falho</td><td>aspecto da confiabilidade</td></tr>
+    <tr><td>Sustentabilidade</td><td>Capacidade de manter ou restaurar o serviço</td><td>TMPR (MTTR); ANO</td></tr>
+    <tr><td>Oficiosidade</td><td>Acordos com terceiros que fornecem à TI</td><td>Contrato de Apoio</td></tr>
+    <tr><td>Segurança</td><td>Confidencialidade, integridade, disponibilidade (CID)</td><td>–</td></tr>
+  </table></div>
+  <p><b>Plano de Disponibilidade</b> (proativo: o negócio não aguenta ficar fora) × <b>Plano de Recuperação</b> (reativo: tolera algum downtime). 99,9% pode custar 5 vezes mais que 98%.</p>
+
+  <h3>Os outros três, em uma linha cada</h3>
+  <ul class="tight">
+    <li><b>Capacidade</b>: alinhar a capacidade da infraestrutura ao negócio a custo aceitável. 3 subprocessos: capacidade de <b>Negócio</b> (longo prazo), de <b>Serviço</b> (performance dentro do ANS) e de <b>Recursos</b> (componentes, foco técnico). Plano de Capacidade de 12 meses.</li>
+    <li><b>Continuidade (GCSTI)</b>: apoia o Gerenciamento da Continuidade de Negócio (GCN) recuperando a TI após desastre. 4 estágios: iniciação, requisitos e estratégia (AIN, análise de impacto no negócio, e avaliação de riscos), implementação, gerenciamento operacional. Opções: nenhuma, procedimentos administrativos, fortificação, arranjos recíprocos, <b>cold</b> (gradual: só espaço com energia e ar), <b>warm</b> (intermediária: local de evacuação pronto) e <b>hot stand-by</b> (imediata: site redundante em paralelo).</li>
+    <li><b>Financeiro</b>: Orçamento e Contabilidade de TI são <b>obrigatórios</b>; Cobrança é <b>opcional</b>. Custos: direto × indireto, capital × operacional, fixo × variável. Orçamento incremental × base zero.</li>
+  </ul>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>CA × ANO? (a apostila manda ter certeza dessa)</dt><dd>Ambos sustentam o ANS. O CA é com fornecedor <b>externo</b>; o ANO é com grupo <b>interno</b> da própria TI.</dd>
+    <dt>ANS × RNS?</dt><dd>RNS é o pedido do cliente (requisitos); ANS é o acordo assinado pelos dois lados.</dd>
+    <dt>Cold × warm × hot stand-by?</dt><dd>Cold: espaço com infraestrutura básica para migrar. Warm: local de evacuação disponível (ex.: caminhão da IBM). Hot: site espelho já funcionando.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Diferencie ANS, ANO e CA, com o exemplo da impressora.</li>
+    <li>Calcule a disponibilidade dados TS e DT.</li>
+    <li>Escolha a estratégia de continuidade: o corretor de ações foca em <b>reduzir o risco</b>; a padaria aceita o <b>tempo de recuperação</b> (p99).</li>
+    <li>Quais subprocessos do Financeiro são obrigatórios?</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M5 ============================ -->
+<section id="m5">
+  <h2>5 · APO14 e DAMA-DMBOK: quem governa o dado</h2>
+  <div class="why"><b>Por que estudar</b>As aulas 7, 8 e 9 têm como título práticas do APO14 (14.05, 14.04/06, 14.08). Esta é a moldura que dá nome a elas.</div>
+
+  <h3>APO14 · Dados gerenciados (Aula 6)</h3>
+  <p>Objetivo: "Alcançar e manter um gerenciamento eficaz dos ativos de dados corporativos em todo o <b>ciclo de vida</b> dos dados, desde a criação até a entrega, manutenção e arquivamento."</p>
+  <div class="tbl"><table>
+    <tr><th>Prática</th><th>Palavra-chave</th><th>Prática</th><th>Palavra-chave</th></tr>
+    <tr><td>APO14.01</td><td>Estratégia de gestão de dados, funções e responsabilidades</td><td>APO14.06</td><td><b>Avaliação da qualidade</b> (Aula 8)</td></tr>
+    <tr><td>APO14.02</td><td>Glossário de negócio</td><td>APO14.07</td><td>Limpeza ("arrumação": validar e corrigir)</td></tr>
+    <tr><td>APO14.03</td><td>Metadados</td><td>APO14.08</td><td><b>Ciclo de vida dos dados</b> (Aula 9)</td></tr>
+    <tr><td>APO14.04</td><td><b>Estratégia de qualidade</b> (Aula 8)</td><td>APO14.09</td><td>Arquivamento e retenção</td></tr>
+    <tr><td>APO14.05</td><td><b>Perfil de dados</b> (Aula 7)</td><td>APO14.10</td><td>Backup e restauração</td></tr>
+  </table></div>
+  <p class="note"><b>BPMN do slide 9:</b> gateway exclusivo inicial → <b>14.08 ou 14.01</b>. Depois da 14.01, outro exclusivo → <b>14.10 ou</b> um gateway <b>paralelo</b>, que roda a sequência 14.02 → 14.03 → 14.04 → 14.05 → 14.06 → 14.07 <b>junto com a 14.09</b>. (X = exclusivo, + = paralelo; ver P1 M7.)</p>
+
+  <h3>DAMA-DMBOK</h3>
+  <p><b>DAMA</b> (Data Management Association) publica o <b>DMBOK</b> (Data Management Body of Knowledge).</p>
+  <div class="tbl"><table>
+    <tr><th>Governança de Dados</th><th>Gestão de Dados</th></tr>
+    <tr><td>Objetivo: <b>coordenar as disciplinas</b> de Gestão de Dados (é o centro da roda DAMA).</td><td>Objetivo: <b>promover e estender o valor</b> dos ativos de dados e informação. Responsável: <b>CDO</b> (Chief Data Officer).</td></tr>
+  </table></div>
+  <p><b>Metas estratégicas</b>: entender a necessidade de informação; coletar, armazenar e proteger; garantir a integridade; melhoria contínua da qualidade; privacidade e confidencialidade; maximizar o uso efetivo. <b>Operacionais</b>: controlar os custos de suporte aos dados e os prazos de implantação/manutenção.</p>
+  <p><b>11 áreas (disciplinas)</b>: Governança de Dados (centro) + Arquitetura; Modelagem e Design; Armazenamento e Operações; Segurança; Integração e Interoperabilidade; Documentos e Conteúdo; Dados Mestre e Referência; Data Warehousing &amp; BI; Metadados; Qualidade. <span class="note">(O slide diz "11" e lista 10: a 11ª é a Governança no centro.)</span></p>
+  <p><b>Equipes</b>: Conselho de Governança de Dados → Comitê de Direção do Programa → Gestão de Dados (DMO, Data Management Office, sob o CDO) → Times Técnicos.</p>
+
+  <div class="tbl"><table>
+    <tr><th>Par</th><th>Diferença (slides)</th></tr>
+    <tr><td><b>Data Steward</b> × <b>Data Custodian</b></td><td>Steward apresenta as <b>demandas da sua área</b> respeitando normas e leis. Custodian cuida da <b>segurança, transporte e armazenamento</b>.</td></tr>
+    <tr><td><b>Master Data</b> × <b>Reference Data</b></td><td>Mestres: entidades-chave do negócio, "única versão da verdade" (clientes, produtos, fornecedores). Referência: <b>categorizam ou dão contexto</b> a outros dados (códigos de país, moedas, unidades de medida).</td></tr>
+  </table></div>
+  <p><b>5W2H do planejamento da Gestão de Dados</b>: What (quais processos: engenharia, arquitetura, administração, monitoramento, análise de (meta)dados) · Why (KPIs de qualidade, segurança e uso só com processos estabelecidos) · Who (produtores, consumidores, engenheiros, gestores, administradores, arquitetos de dados) · How · When (implantação gradual) · Where (processos e setores críticos) · How Much (recursos humanos e tecnológicos).</p>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>Governança de dados = gestão de dados?</dt><dd>Não. A governança coordena as disciplinas; a gestão promove o valor dos dados.</dd>
+    <dt>Lista de países é dado mestre?</dt><dd>Não, é dado de referência (classifica outros dados). Cliente e produto são mestres.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Diferencie Data Steward e Data Custodian, ou dado mestre e de referência.</li>
+    <li>Cite áreas do DMBOK ou práticas do APO14.</li>
+    <li>Aplique o 5W2H ao planejamento da Gestão de Dados.</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M6 ============================ -->
+<section id="m6">
+  <h2>6 · Perfil de dados (APO14.05, Data Profiling)</h2>
+  <div class="why"><b>Por que estudar</b>É a aula com mais exemplos resolvidos (o caso "Correntista" atravessa a aula inteira) e com contas: volatilidade, redundância e dispersão.</div>
+
+  <p><b>Data profiling</b>: conjunto de processos para <b>examinar, analisar e resumir</b> dados de uma fonte para entender sua <b>estrutura, conteúdo e qualidade</b> (padrões de distribuição, inconsistências, nulos, redundâncias).</p>
+  <p class="note">Atividades do APO14.05 (níveis 3 a 5): padronizar métodos e ferramentas de perfil; escolher os conjuntos de dados compartilhados; avaliar a conformidade com metadados; comparar problemas atuais × previstos estatisticamente; armazenar e monitorar os resultados; relatórios automáticos em tempo (quase) real.</p>
+  <p><b>4 análises</b>: Estrutura (tipos, formatos, esquema) · Conteúdo (valores únicos, frequências, máx/mín) · Qualidade (nulos, duplicados, outliers) · Dependência e Relações.</p>
+
+  <h3>Os aspectos do perfil (checklist do professor)</h3>
+  <div class="tbl"><table>
+    <tr><th>Aspecto</th><th>Definição / ideia-chave</th></tr>
+    <tr><td><b>Atores</b></td><td>Produtores (criadores, complementadores) → atualizadores → consumidores → destruidores. Operações: <b>G</b>enerate, <b>C</b>reate, <b>R</b>ead, <b>U</b>pdate, <b>D</b>elete, <b>V</b>alidate. Atores <b>contaminam</b> o dado (as 3 pinturas da mesma princesa).</td></tr>
+    <tr><td><b>Quarentena</b></td><td>Restrição <b>temporária</b> de operação, ligada ao <b>ator</b> em transição de função (ex.: quem sai do Estoque para Compras). × <b>Classificação de segurança</b> (sigilo): mais estável, ligada à <b>informação</b> (LAI 12.527/2011).</td></tr>
+    <tr><td><b>Volatilidade</b></td><td>Prazo para o "consumo" de um dado sem causar prejuízo ao processo. <b>Peso</b> (1 a 5) = grau de prejuízo se usado vencido. "A informação é perecível" (3ª lei de Moody).</td></tr>
+    <tr><td><b>Precisão</b></td><td>Detalhamento suficiente: números ISO 80000, espaço ISO 19111, tempo ISO 8601.</td></tr>
+    <tr><td><b>Originalidade</b></td><td>Original × <b>derivada</b> (combina informações) × <b>redundante</b> (repete outras). Valor da derivada: condensação ou expansão.</td></tr>
+    <tr><td><b>Nulidades</b></td><td><b>Inexistência</b> (atribuição impossível, sem sentido) · <b>Latência</b> (será atribuído depois) · <b>Ausência</b> (falha do ator responsável). Atributo sem nulidade indicada é obrigatório.</td></tr>
+    <tr><td>Compliance · Versionamento · Preservação</td><td>LGPD, PCI DSS, HIPAA, Basileia · versão tipo 1 (muda nº de atributos) e tipo 2 (atualiza dados de referência) · prazos legais (CC, CLT, CTN: 5 anos; CFM: 20 anos).</td></tr>
+    <tr><td>Volume · Distribuição · Entropia</td><td>Volume projetado (padrões A a F) · dispersão dos valores (amplitude, média, variância, desvio) · <b>entropia</b> = desordem; quanto maior, maior o "ganho" com a informação.</td></tr>
+  </table></div>
+
+  <div class="ex"><b>Exemplos resolvidos do professor</b><ol>
+    <li><b>Tabela de atores (Correntista, fintech)</b>: G = 0 Sistema · C original = 1 Pessoa Física (externa) · C complementar = 2 Gerente de Conta · R = 1 a 5 (cliente, gerente, analistas de crédito, investimento e compliance) · U = 1 a 5 · D = ninguém · V = 2 Gerente de Conta.</li>
+    <li><b>Volatilidade (Correntista)</b>: 27 atributos, 24 atualizáveis, 19 voláteis. <span class="formula">RVolt = TAV / TAA × 100 = 19/24 = 79,1%</span> (slide; exato 79,17%). Marcos em 12, 20, 24, 30 e 36 meses. Degradação = <b>peso acumulado / total de pesos (73)</b>: 22/73 = 30,1% → 27/73 = 36,9% → 63/73 = 86,3% → 68/73 = 93,1% → 100%. Marco crítico por consumidor: Pessoa Física, marco 1 (4 atributos, pesos 17); Gerente, marco 5 (7 atributos, pesos 35).</li>
+    <li><b>Grau de redundância</b>: A = [Maria, Feminino, Morena, Solteira, Analista]; B = [Maria, Feminino, 26, Solteira, Paulistana]. 3 de 5 repetidos → B tem <b>60%</b> de redundância em relação a A.</li>
+    <li><b>Nulidades (organograma)</b>: Geraldo não tem chefe porque é o topo → <b>Inexistência</b>. Maria ainda não foi designada → <b>Latência</b>. Lúcia tem chefe, mas ninguém registrou → <b>Ausência</b>.</li>
+    <li><b>Distribuição, Renda (faixa)</b> 2,3,4,3,5,2,9,6,7,4,6,3,3,5: n = 14, soma 62, amplitude 9 − 2 = 7, média 4,42 (slide; 62/14 = 4,43). O slide dá variância 3,82 e desvio 1,95, que são os valores dividindo por <b>n</b>; com a fórmula do slide (n − 1) dá 4,11 e 2,03. <span class="infer">conferido em Python</span></li>
+  </ol></div>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>Latência × ausência?</dt><dd>Na latência o valor ainda não deveria existir (processo pendente); na ausência ele existe na realidade, mas o ator falhou em registrar.</dd>
+    <dt>Quarentena × classificação de sigilo?</dt><dd>Quarentena é dinâmica e presa ao ator; sigilo é estável e preso à informação.</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Classifique nulos de uma tabela em inexistência, latência ou ausência.</li>
+    <li>Calcule RVolt ou o grau de redundância.</li>
+    <li>Monte a tabela de atores (G/C/R/U/D/V) de uma informação.</li>
+    <li>"O que este perfil não esclarece?" (quando vários atores atualizam o mesmo atributo, não diz qual prevalece). <span class="infer">resposta inferida</span></li>
+  </ul></div>
+</section>
+
+<!-- ============================ M7 ============================ -->
+<section id="m7">
+  <h2>7 · Qualidade de dados (APO14.04 e 14.06)</h2>
+  <div class="why"><b>Por que estudar</b>São cerca de 19 dimensões, mas a prova deve cobrar as que têm exercício: corretude, acurácia, diversidade, relevância e completude.</div>
+
+  <p><b>Qualidade</b> (ISO): grau no qual um conjunto de características inerentes satisfaz os requisitos. <b>Juran</b>: características que atendem às necessidades do cliente. <b>Feigenbaum</b>: Qualidade Total, responsabilidade de todos os departamentos.</p>
+  <p><b>Roteiro em 5 passos</b>: 1 definir o que é informação com qualidade · 2 se ela é necessária diante do planejamento estratégico · 3 quais informações precisam de qualidade · 4 quais dimensões · 5 os patamares mínimos.</p>
+
+  <h3>Dimensões com exercício (definições do professor)</h3>
+  <div class="tbl"><table>
+    <tr><th>Dimensão</th><th>Definição</th><th>Exemplo resolvido</th></tr>
+    <tr><td><b>Corretude</b></td><td>Grau <b>binário</b> (1 sim, 0 não): o dado tem valor correto?</td><td>Pessoa 1: 4 de 5 corretos = 0,80; corretude geral = 0 (só vale 1 se tudo estiver correto).</td></tr>
+    <tr><td><b>Acurácia</b></td><td>Quanto o valor tem proximidade (precisão) com o correto.</td><td>Só para dados que exigem precisão e <b>que estão corretos</b>; o peso incorreto do id 2 fica "não se aplica".</td></tr>
+    <tr><td><b>Diversidade</b> (conectividade)</td><td>Quanto o dado tem de relacionamentos atuais e potenciais.</td><td>Pessoa 4 tem 3 de 5 relações = 3/5; atributo "Irmão de" = 4/6 = 0,66.</td></tr>
+    <tr><td><b>Relevância</b></td><td>Quanto é essencial para os consumidores.</td><td>Likert (dispensável → essencial) e <b>Mudge</b> (artigo do professor, SIMPEP 2020): ver exemplo abaixo.</td></tr>
+    <tr><td><b>Atualidade</b></td><td>Se o dado está atualizado para uso.</td><td>Dado não volátil é atualizado por definição; volátil, se correto e dentro do prazo.</td></tr>
+    <tr><td><b>Completude</b></td><td>Se o dado tem valor ou quanto da informação está completa.</td><td>Ver abaixo.</td></tr>
+  </table></div>
+  <p class="note">Também binárias: <b>Objetividade</b> (permite interferência da fonte?), <b>Credibilidade</b> (confiança pontual no último ator) e <b>Reputação</b> (confiança acumulada nas fontes).</p>
+
+  <div class="ex"><b>Exemplo resolvido: completude e metadados (Aula 8)</b>Tabela Pessoa, 4 pessoas × 5 atributos, 16 de 20 preenchidos.
+    <ol>
+      <li><b>Individual, por pessoa</b>: 4/5, 3/5, 4/5, 4/5. <b>Individual, por atributo</b>: Nome 1,0; Endereço 0,75; Peso 0,50; Altura 0,50; Idade 1,0.</li>
+      <li><b>Conjunto</b>: Informação = 0/4 = 0 (nenhuma pessoa completa); Dado = 16/20 = 0,8.</li>
+      <li><b>Plano de parâmetros</b>: mínimos de 70% (conjunto), 80% (individual) e 100% (Endereço); a <b>Altura sai</b> dos participantes (pesos Nome 30, Endereço 40, Peso 10, Idade 20). Recálculo do slide: por pessoa 3/4, 3/4, 3/4, 4/4; conjunto informação 1/4 = 0,25 (<b>reprova</b>, &lt; 70%); dado 13/16 = 0,8. Endereço (0,75) e Peso (0,50) reprovam. O slide declara os pesos, mas não os aplica.</li>
+      <li><b>Estados</b> (Aula 8): ≥ 80% Completa (1) · 50 a 80% Aguardando (3) · &lt; 50% Incompleta (2).</li>
+    </ol>
+    <span class="note">Metadados de qualidade têm dois níveis (conjunto e individual) e duas finalidades: registrar o estado atual de qualidade e permitir a análise contra os parâmetros.</span></div>
+
+  <div class="ex"><b>Exemplo resolvido: relevância por Mudge (Aula 8, ator Solicitante)</b>Compara-se cada par de informações I_01 a I_05; a célula guarda a vencedora e o peso (1, 3 ou 5); 0 = empate. Ex.: I_01×I_02 → I_01/3; I_01×I_04 → I_04/1; I_01×I_05 → I_05/5.
+    <ol><li>Soma dos pesos ganhos: I_01 = 6, I_02 = 1, I_03 = 0, I_04 = 7, I_05 = 11; total 25.</li>
+    <li>% = soma / total: I_05 = 44% (nível 1), I_04 = 28% (2), I_01 = 24% (3), I_02 = 4% (4), I_03 = 0% (5).</li>
+    <li>Para o Gestor Financeiro, I_01 (Centro de Custo) é nível 1 com 58,8%: a relevância depende do consumidor.</li></ol></div>
+
+  <h3>Wang: 4 categorias, 19 dimensões</h3>
+  <p><b>Intrínseca</b> (acurácia, objetividade, reputação, credibilidade, diversidade) · <b>Contextualidade</b> (relevância, atualidade, vantagem, completude, dimensionalidade, rastreabilidade) · <b>Representatividade</b> (interpretabilidade, compreensibilidade, concisão, consistência) · <b>Manuseabilidade</b> (acessibilidade, usabilidade, segurança, flexibilidade). <b>8 objetivas</b>: acurácia, objetividade, atualidade, completude, rastreabilidade, acessibilidade, segurança, flexibilidade; as outras 11 são subjetivas. O COBIT 2019 agrupa em Intrinsic, Contextual e Security/Accessibility.</p>
+  <p><b>Cegueira cognitiva</b>: os usuários muitas vezes não notam a melhoria; é preciso mudar também a percepção deles.</p>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>Corretude × acurácia?</dt><dd>Corretude é binária (certo/errado). Acurácia mede proximidade e só se aplica a dados corretos que exigem precisão.</dd>
+    <dt>Perfilamento × qualidade?</dt><dd>O perfil (14.05) descreve como o dado é (atores, volatilidade, nulos); a qualidade (14.04/06) mede se ele atende os requisitos, com dimensões e patamares.</dd>
+    <dt>Credibilidade × reputação?</dt><dd>Credibilidade é pontual (último ator e processo); reputação é acumulada (composição das fontes).</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Dada uma tabela, calcule completude individual e de conjunto e o estado.</li>
+    <li>Calcule corretude por registro e geral; diga onde acurácia "não se aplica".</li>
+    <li>Monte uma matriz de Mudge e ranqueie a relevância das informações para um ator.</li>
+    <li>Cite os 5 passos do roteiro ou as 4 categorias de Wang.</li>
+  </ul></div>
+</section>
+
+<!-- ============================ M8 ============================ -->
+<section id="m8">
+  <h2>8 · Ciclo de vida da informação (APO14.08)</h2>
+  <div class="why"><b>Por que estudar</b>Fecha o fio: o estado de qualidade (M7) decide em que fase a informação está e quais processos podem usá-la.</div>
+
+  <p><b>Ciclo de vida da informação</b>: o caminho (ou conjunto de caminhos) de uma informação desde a <b>criação</b>, passando por atualização, utilização ou transformação, até a eventual <b>eliminação</b> dentro do universo de domínio (a organização).</p>
+  <p>O COBIT orienta Plan → Design → Build → Operate. Fazer um ciclo por informação é inviável, então se criam <b>Modelos de Ciclo de Vida (MCV)</b>.</p>
+
+  <p><b>Etapas da Gestão de Ciclo de Vida</b>: 1 selecionar as informações-alvo · 2 mapear os ciclos atuais · 3 estabelecer o MCV · 4 estabelecer KPIs · 5 analisar os ciclos atuais · 6 adequar processos, atores e sistemas ao MCV · 7 processos de monitoramento e adequação aos KPIs.</p>
+  <p class="note">Atividades do APO14.08 (níveis 2 a 4): mapear requisitos de produtores e consumidores; mapear os processos que envolvem dados; acordos de colaboração sobre dados compartilhados; fluxos e mapas completos do ciclo; mudanças nos conjuntos compartilhados via governança de dados; métricas para reuso e eliminação de redundância.</p>
+  <div class="tbl"><table>
+    <tr><th>Estado</th><th>Fase</th><th>O que acontece</th></tr>
+    <tr><td class="n">–</td><td>Planejamento</td><td>Viabilidade, requisitos, relevância: quais informações criar ou adquirir.</td></tr>
+    <tr><td class="n">0</td><td>Projeto</td><td>Engenharia de sistemas e de dados define a informação.</td></tr>
+    <tr><td class="n">1 / 2</td><td>Produção / Aquisição</td><td>Criação ou aquisição.</td></tr>
+    <tr><td class="n">3</td><td>Utilização</td><td>Processos de negócio usam ou alteram.</td></tr>
+    <tr class="hl"><td class="n">4</td><td>Atualização = <b>"purgatório"</b></td><td>Preparo do aumento da qualidade.</td></tr>
+    <tr class="hl"><td class="n">5</td><td>Avaliação = <b>"limbo"</b></td><td>Incerteza sobre a utilização; monitora valor, qualidade e segurança.</td></tr>
+    <tr><td class="n">6</td><td>Destruição (descarte, expurgo)</td><td>Eliminação do que não tem mais valor.</td></tr>
+  </table></div>
+  <p><b>Transição de fase</b> é decidida por: processo de negócio e ator · análise de estados de qualidade · análise de estados de segurança · passagem do tempo.</p>
+  <p><b>Características</b>: complexidade (linear × rede) · presença na cadeia de valor (integral × parcial) · limites (fechado: D, origem interna e não exposta; abertos: A externa e não exposta, B externa e exposta, C interna e exposta).</p>
+  <p><b>Componentes</b>: atores, operações, sistemas de informação (casos de uso UML), processos de negócio e encadeamento da colaboração. Exemplo "Funcionário": atores 1 Funcionário (RU), 2 Assistente de RH (CRU, responsável e validador), 3 Assistente Financeiro (R), 4 Gestor da UN (RU), 5 Assistente Jurídico (R), 6 Auditor (R); sistemas ERP e HRIS; processos P1 Atualização Cadastral, P2 Contratação, P3 Consignação, P4 Monitoramento Financeiro. Os KPIs contam quantos atores, processos e sistemas produzem, atualizam ou consomem a informação.</p>
+
+  <div class="ex"><b>Exemplo resolvido: da qualidade à fase (Pessoa, 8 registros)</b>KPIs da Aula 9: estado 1 Completo ≥ 80% · 2 Transitando 50 a 79% · 3 Incompleto &lt; 50%. Mapeamento: estado de qualidade 1 → fase 3 (Utilização); 2 → fase 1, 2 ou 4 (Produção, Aquisição ou Atualização); 3 → fase 5 (Avaliação); qualquer estado → 6 (Destruição).
+    <ol>
+      <li>Luiz tem 4 de 5 = 0,8 → estado 1 → fase <b>3, pode ser usado</b>.</li>
+      <li>Regina tem 3 de 5 = 0,6 → estado 2 → fase 2.</li>
+      <li>Kim só tem o nome: 1 de 5 = 0,2 → estado 3 → fase <b>5, limbo</b>.</li>
+    </ol>
+    <span class="note">Atenção: a numeração dos estados mudou da Aula 8 (2 = Incompleta, 3 = Aguardando) para a Aula 9 (2 = Transitando, 3 = Incompleto). O slide também dá 0,8 para Maria José (id 6), que tem 3 de 5 = 0,6.</span></div>
+
+  <p><b>Data Lineage</b> (linhagem dos dados): mapeamento do ciclo de vida das informações <b>derivadas</b>, resultantes de transformações: <b>junção</b> (Produto × Fornecedor → Produto_Fornecedor), <b>agregação/sumarização</b> (Venda → Venda_Diária, Valor = soma das vendas do mesmo dia), seleção, concatenação/separação.</p>
+
+  <div class="faq"><h4>Pegadinhas</h4><dl>
+    <dt>Limbo × purgatório?</dt><dd>Limbo = Avaliação (não se sabe se vai usar). Purgatório = Atualização (está sendo melhorada para voltar à utilização).</dd>
+    <dt>Dado × metadado aqui?</dt><dd>O metadado é um número que descreve o dado, como o estado de completude ou o estado-fase (0 a 6).</dd>
+  </dl></div>
+  <div class="prova"><b>Provável na prova</b><ul>
+    <li>Dada uma tabela com lacunas, calcule a completude, o estado e a fase de cada registro.</li>
+    <li>Liste as fases do ciclo de vida e explique limbo e purgatório.</li>
+    <li>Desenhe a linhagem de uma junção ou sumarização ("Venda_Diária.Data vem de Venda.Data"). <span class="infer">resposta inferida</span></li>
+  </ul></div>
+</section>
+
+
+<!-- ============================ COLINHA ============================ -->
+<section id="colinha">
+  <h2>Siglas e listas de cor</h2>
+  <div class="two">
+    <div class="tbl"><table>
+      <tr><th>Sigla (PT)</th><th>Inglês / significado</th></tr>
+      <tr><td>GSTI</td><td>Gerenciamento de Serviços de TI (ITSM)</td></tr>
+      <tr><td>SPOC</td><td>Single Point of Contact (a Central)</td></tr>
+      <tr><td>ANS</td><td>SLA, Acordo de Nível de Serviço</td></tr>
+      <tr><td>ANO</td><td>OLA, Acordo de Nível Operacional</td></tr>
+      <tr><td>CA</td><td>UC, Contrato de Apoio</td></tr>
+      <tr><td>RNS</td><td>SLR, Requisitos de Nível de Serviço</td></tr>
+      <tr><td>PAS</td><td>SIP, Programa de Aperfeiçoamento de Serviço</td></tr>
+      <tr><td>RDM</td><td>RFC, Requisição de Mudança</td></tr>
+      <tr><td>PFM</td><td>FSC, Programação Futura de Mudanças</td></tr>
+      <tr><td>CCM · CCM/CE</td><td>CAB · CAB/EC, Comitê de Controle de Mudanças · de Emergência</td></tr>
+      <tr><td>RPI</td><td>PIR, Revisão Pós-Implementação</td></tr>
+      <tr><td>IC · BDGC</td><td>CI · CMDB, Item e Base de Dados de Configuração</td></tr>
+      <tr><td>BDS · DHD</td><td>DSL · DHS, Biblioteca de Software e Depósito de Hardware Definitivos</td></tr>
+      <tr><td>TMEF · TMPR</td><td>MTBF · MTTR (entre falhas · para reparar)</td></tr>
+      <tr><td>GCSTI · GCN · AIN</td><td>Continuidade de TI · de Negócio · Análise de Impacto no Negócio (BIA)</td></tr>
+      <tr><td>DAMA · DMBOK</td><td>Data Management Association · Body of Knowledge</td></tr>
+      <tr><td>CDO · DMO</td><td>Chief Data Officer · Data Management Office</td></tr>
+      <tr><td>MCV</td><td>Modelo de Ciclo de Vida</td></tr>
+      <tr><td>G/C/R/U/D/V</td><td>Generate, Create, Read, Update, Delete, Validate</td></tr>
+    </table></div>
+    <div>
+      <h4>Listas que podem cair de cor</h4>
+      <ul class="tight">
+        <li><b>Suporte a Serviços</b>: Central (função), Incidentes, Problemas, Mudanças, Liberação, Configuração.</li>
+        <li><b>Entrega de Serviços</b>: Nível de Serviço, Disponibilidade, Capacidade, Financeiro, Continuidade.</li>
+        <li><b>Atividades de Problemas</b>: controle de problemas, controle de erros, proativo, revisão de problemas graves.</li>
+        <li><b>Configuração</b>: planejamento, identificação, controle, acompanhamento do status, verificação e auditoria.</li>
+        <li><b>Ciclo do Nível de Serviço</b>: identificação, definição, negociação, monitoração, relatório, revisão.</li>
+        <li><b>Continuidade</b>: iniciação, requisitos e estratégia, implementação, gerenciamento operacional.</li>
+        <li><b>Perfil, 4 análises</b>: estrutura, conteúdo, qualidade, dependência e relações.</li>
+        <li><b>Nulidades</b>: inexistência, latência, ausência.</li>
+        <li><b>Roteiro de qualidade</b>: o que é qualidade, se é necessária, quais informações, quais dimensões, patamares mínimos.</li>
+        <li><b>Wang</b>: intrínseca, contextualidade, representatividade, manuseabilidade.</li>
+        <li><b>Fases e estados</b>: projeto 0, produção 1, aquisição 2, utilização 3, atualização 4, avaliação 5, destruição 6.</li>
+        <li><b>Transição de fase</b>: processo e ator, estado de qualidade, estado de segurança, passagem do tempo.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FÓRMULAS ============================ -->
+<section id="formulas">
+  <h2>Fórmulas</h2>
+  <div class="tbl"><table>
+    <tr><th>O quê</th><th>Fórmula</th><th>Exemplo</th></tr>
+    <tr><td>Disponibilidade [M4]</td><td><span class="formula">D = (TS − DT) / TS × 100</span></td><td>(720 − 7,2) / 720 = 99%</td></tr>
+    <tr><td>Razão de volatilidade [M6]</td><td><span class="formula">RVolt = TAV / TAA × 100</span></td><td>19 / 24 = 79,1%</td></tr>
+    <tr><td>Grau de redundância [M6]</td><td><span class="formula">repetidos / total de dados</span></td><td>3 / 5 = 60%</td></tr>
+    <tr><td>Entropia [M6]</td><td><span class="formula">I(x) = log₂ p(x) · H = − Σ p(x) · I(x)</span></td><td>p = 0,5 → parcial 0,50</td></tr>
+    <tr><td>Corretude, completude [M7]</td><td><span class="formula">dados ok / dados avaliados</span></td><td>4/5 = 0,8; conjunto 16/20 = 0,8</td></tr>
+  </table></div>
+</section>
+
+<!-- ============================ QUIZ ============================ -->
+<section id="quiz">
+  <h2>Flashcards</h2>
+  <p class="note">Responda de cabeça e depois abra. O rótulo [M#] indica o módulo para revisar se errar.</p>
+  <div class="btnrow"><button type="button" id="closeAll">Fechar todas</button></div>
+  <div class="cards">
+    <details class="card"><summary><span class="tag">[M1]</span>A Central de Serviços é processo ou função?</summary><div class="a">Função: ponto único de contato (SPOC) e 1º nível de suporte.</div></details>
+    <details class="card"><summary><span class="tag">[M1]</span>Cite os 5 processos de Suporte e os 5 de Entrega.</summary><div class="a">Suporte: incidentes, problemas, mudanças, liberação, configuração. Entrega: nível de serviço, disponibilidade, capacidade, financeiro, continuidade.</div></details>
+    <details class="card"><summary><span class="tag">[M1]</span>Cliente × usuário?</summary><div class="a">Cliente paga pelos serviços; usuário usa no dia a dia.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Impacto alto, urgência baixa: prioridade e prazo?</summary><div class="a">Prioridade 3 (média), 24 horas.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Defina problema e erro conhecido.</summary><div class="a">Problema: causa desconhecida de um ou mais incidentes. Erro conhecido: problema com causa diagnosticada e solução.</div></details>
+    <details class="card"><summary><span class="tag">[M2]</span>Escalonamento funcional × hierárquico?</summary><div class="a">Funcional: para grupo com conhecimento mais específico. Hierárquico: para chefe ou gerente (custo, decisão).</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>O que o Gerenciamento de Mudanças faz e não faz?</summary><div class="a">Decide e coordena; não executa a implementação.</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>Ativos × configuração?</summary><div class="a">A diferença são os relacionamentos entre os ICs, registrados no BDGC.</div></details>
+    <details class="card"><summary><span class="tag">[M3]</span>Causa mais comum de falha de liberação?</summary><div class="a">Falta de teste adequado (inclui o teste de aceite do usuário).</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>CA × ANO?</summary><div class="a">Ambos sustentam o ANS. CA: com fornecedor externo. ANO: com grupo interno da TI.</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>TS = 500 h, DT = 10 h. Disponibilidade?</summary><div class="a">(500 − 10) / 500 × 100 = 98%.</div></details>
+    <details class="card"><summary><span class="tag">[M4]</span>Hot stand-by?</summary><div class="a">Recuperação imediata: site redundante em paralelo, o link é redirecionado se o sistema cair.</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Governança × gestão de dados (DMBOK)?</summary><div class="a">Governança coordena as disciplinas; gestão promove e estende o valor dos dados (CDO).</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Data Steward × Data Custodian?</summary><div class="a">Steward: demandas da área, respeitando normas. Custodian: segurança, transporte e armazenamento.</div></details>
+    <details class="card"><summary><span class="tag">[M5]</span>Moedas e unidades de medida são dados mestres?</summary><div class="a">Não: dados de referência. Mestres são clientes, produtos, fornecedores.</div></details>
+    <details class="card"><summary><span class="tag">[M6]</span>Gerente ainda não designado: que nulidade?</summary><div class="a">Latência (será atribuído depois). Topo do organograma = inexistência; esquecido = ausência.</div></details>
+    <details class="card"><summary><span class="tag">[M6]</span>Defina volatilidade e peso da volatilidade.</summary><div class="a">Prazo para consumir o dado sem prejuízo; peso (1 a 5) = grau de prejuízo se usado vencido.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Corretude × acurácia?</summary><div class="a">Corretude é binária. Acurácia mede proximidade e só vale para dados corretos que exigem precisão.</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Duas finalidades dos metadados de qualidade?</summary><div class="a">Registrar o estado atual de qualidade e permitir a análise contra os parâmetros.</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>Registro com 2 de 5 dados (Aula 9): completude, estado e fase?</summary><div class="a">0,4 → estado 3 (Incompleto, &lt; 50%) → fase 5 (Avaliação, limbo).</div></details>
+    <details class="card"><summary><span class="tag">[M7]</span>Mudge: o que vai em cada célula da matriz?</summary><div class="a">A informação vencedora do par e o peso (1, 3 ou 5); 0 = empate. Soma por informação → % → nível.</div></details>
+    <details class="card"><summary><span class="tag">[M8]</span>Qual fase é o limbo e qual é o purgatório?</summary><div class="a">Avaliação (5) é o limbo; Atualização (4) é o purgatório.</div></details>
+  </div>
+</section>
+
+<!-- ============================ LACUNAS ============================ -->
+<section id="ementa">
+  <h2>Lacunas e cortado por tempo</h2>
+  <h3>Lacunas do material</h3>
+  <ul class="tight">
+    <li><b>ITIL 4</b> (cadeia de valor, 4 dimensões, 7 princípios, 34 práticas): a bibliografia cita, mas não há material. O guia usa a v2 da apostila.</li>
+    <li>Sem slides das 3 aulas de ITIL; nenhum exercício formal na apostila. Os exemplos de prioridade e disponibilidade são inventados sobre as tabelas da apostila.</li>
+    <li><b>Segurança</b> e <b>metadados</b> (ementa): sem aula própria. O que há está em quarentena, compliance, Custodian e metadados de qualidade.</li>
+    <li>APO14.02, 14.03, 14.07, 14.09 e 14.10: só título e descrição.</li>
+  </ul>
+  <h3>Erros e inconsistências dos slides</h3>
+  <ul class="tight">
+    <li>Aula 6 diz "37 processos" no COBIT; a soma é 40 (37 era o COBIT 5).</li>
+    <li>Variância da Renda: o slide divide por n (3,82), mas a fórmula mostrada é n − 1 (4,11).</li>
+    <li>Estados de completude trocam de número entre a Aula 8 e a Aula 9; o id 6 do exemplo Pessoa deveria ser 0,6.</li>
+    <li>Apostila p38 escreve "Incidentes" onde o contexto é Problemas; siglas oscilam (RDM/RMD, PFM/FPM).</li>
+  </ul>
+  <h3>Cortado por tempo (prioridade C ou B de baixo peso)</h3>
+  <ul class="tight">
+    <li>Histórico ITIL, itSMF, níveis de certificação e números de adoção (Gartner, P&amp;G).</li>
+    <li>Atividades, benefícios e problemas comuns de cada processo ITIL, além dos citados.</li>
+    <li>Qualificações da Central (skilled, unskilled, expert) e níveis de suporte em fluxograma.</li>
+    <li>Gerenciamento Financeiro: depreciação, políticas de cobrança e formação de preço.</li>
+    <li>Capacidade: BDC, gerenciamento da demanda, modelagem.</li>
+    <li>Apêndice de qualidade da apostila (Deming/PDCA, ISO 9000, EFQM): zero grifos.</li>
+    <li>Pontos de dor do COBIT (9 itens).</li>
+    <li>Perfil: matriz R, cenários de conservação × transformação, erro → falha → defeito, versionamento, volume (padrões A a F), normas ISO de precisão.</li>
+    <li>Qualidade: Teoria do Consumidor, escalas, caso Marte, demais dimensões de 1 linha.</li>
+    <li>Ciclo de vida: casos de uso UC1 a UC10 do exemplo "Funcionário" e especialização para artigo jornalístico.</li>
+  </ul>
+  <p class="note">Tudo marcado com <span class="infer">inferência</span> é interpretação do guia, não texto do professor.</p>
+</section>
+</main>
+</div>
+
+<script>
+  (function(){
+    var links=[].slice.call(document.querySelectorAll('nav a'));
+    var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.remove('on');});var a=map[e.target.id];if(a)a.classList.add('on');}});},{rootMargin:'-40% 0px -55% 0px'});
+    document.querySelectorAll('section[id]').forEach(function(s){io.observe(s);});
+    document.getElementById('closeAll').addEventListener('click',function(){document.querySelectorAll('.card[open]').forEach(function(d){d.removeAttribute('open');});});
+    var opened=[];
+    window.addEventListener('beforeprint',function(){opened=[];document.querySelectorAll('.card').forEach(function(d){if(!d.open){d.open=true;opened.push(d);}});});
+    window.addEventListener('afterprint',function(){opened.forEach(function(d){d.open=false;});});
+  })();
+</script>
+</body>
+</html>
