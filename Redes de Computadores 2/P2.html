@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resumo P2 · Redes de Computadores II</title>
+<style>
+  :root{
+    --ink:#1c1b19; --soft:#5d5a55; --line:#e4e0d9; --paper:#fdfcfa; --tint:#f6f1ec;
+    --accent:#a8431f;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.55 "Helvetica Neue",Helvetica,Arial,"Segoe UI",Roboto,sans-serif;
+  }
+  main{max-width:820px; margin:0 auto; padding:56px 24px 96px}
+  header.top{margin-bottom:40px}
+  .kicker{font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700; margin:0 0 10px}
+  h1{font-size:2.3rem; line-height:1.1; letter-spacing:-.02em; margin:0 0 10px; font-weight:800}
+  .sub{color:var(--soft); margin:0; font-size:.95rem}
+  .legend{margin-top:18px; font-size:.85rem; color:var(--soft)}
+  nav.toc{border-top:2px solid var(--ink); border-bottom:1px solid var(--line); padding:14px 0; margin:28px 0 0}
+  nav.toc ol{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,1fr); gap:4px 28px}
+  nav.toc a{color:var(--ink); text-decoration:none; display:flex; gap:10px; padding:4px 0; font-size:.95rem}
+  nav.toc a:hover{color:var(--accent)}
+  nav.toc b{color:var(--accent); font-variant-numeric:tabular-nums; min-width:4.4em; font-weight:700}
+  section{margin-top:64px}
+  h2{font-size:1.55rem; letter-spacing:-.015em; line-height:1.2; margin:0 0 6px; font-weight:800; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+  h2 small{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700}
+  h2 + .lede{color:var(--soft); margin:0 0 8px; font-size:.95rem}
+  h3{font-size:1.02rem; margin:30px 0 8px; font-weight:700; padding-top:10px; border-top:1px solid var(--line)}
+  p{margin:8px 0}
+  ul{margin:6px 0 10px; padding-left:1.15em}
+  li{margin:3px 0}
+  li::marker{color:var(--accent)}
+  strong{font-weight:700}
+  code,pre{font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace; font-size:.86em}
+  code{background:var(--tint); padding:.08em .32em; border-radius:3px}
+  pre{background:var(--tint); padding:10px 12px; border-radius:4px; margin:8px 0 12px; white-space:pre-wrap; word-break:break-word; line-height:1.45}
+  pre code{background:none; padding:0; font-size:1em}
+  .tw{overflow-x:auto; margin:10px 0 14px}
+  table{border-collapse:collapse; width:100%; font-size:.9rem}
+  th,td{text-align:left; vertical-align:top; padding:6px 10px 6px 0; border-bottom:1px solid var(--line)}
+  th{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--soft); font-weight:700; border-bottom:1.5px solid var(--ink); white-space:nowrap}
+  td:first-child{font-weight:700; white-space:nowrap}
+  td.w{white-space:normal}
+  .ext{display:inline-block; font-size:.66em; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:var(--accent); border:1px dashed var(--accent); border-radius:3px; padding:0 .35em; vertical-align:.12em; white-space:nowrap}
+  .prova{background:var(--tint); border-left:3px solid var(--accent); padding:14px 18px; margin:26px 0 0; border-radius:0 4px 4px 0}
+  .prova h4{margin:0 0 6px; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+  .prova ul{margin:4px 0 10px}
+  .prova dl{margin:0}
+  .prova dt{font-weight:700; margin-top:6px}
+  .prova dd{margin:0; color:#3a3835}
+  .cola h2{margin-bottom:14px}
+  .cola .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 30px}
+  .cola .card h3{margin:0 0 4px; border-top:2px solid var(--accent); padding-top:6px; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase}
+  .cola ul{margin:0; padding-left:1.05em; font-size:.88rem; line-height:1.42}
+  .cola li{margin:2px 0}
+  footer{margin-top:56px; padding-top:14px; border-top:1px solid var(--line); color:var(--soft); font-size:.8rem}
+
+  @media (max-width:640px){
+    main{padding:32px 18px 64px}
+    h1{font-size:1.75rem}
+    nav.toc ol,.cola .grid{grid-template-columns:1fr}
+    td:first-child{white-space:normal}
+    table{min-width:520px}
+    section{margin-top:48px}
+  }
+
+  @page{size:A4; margin:11mm 13mm 11mm}
+  @media print{
+    html{scroll-behavior:auto}
+    body{background:#fff; font-size:8.2pt; line-height:1.33; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+    main{max-width:none; padding:0}
+    header.top{margin-bottom:10pt}
+    h1{font-size:19pt; margin-bottom:4pt}
+    .sub{font-size:8.5pt}
+    .legend{margin-top:6pt; font-size:8pt}
+    nav.toc{margin-top:9pt; padding:6pt 0}
+    nav.toc ol{grid-template-columns:repeat(3,1fr); gap:1pt 16pt}
+    nav.toc a{font-size:8.5pt; padding:1pt 0}
+    section{margin-top:13pt}
+    h2{font-size:13.5pt; margin-bottom:2pt; break-after:avoid}
+    h2 + .lede{font-size:8.5pt; margin-bottom:2pt}
+    h3{font-size:9.6pt; margin:9pt 0 3pt; padding-top:4pt; break-after:avoid}
+    p{margin:3pt 0}
+    ul{margin:2pt 0 4pt}
+    li{margin:1pt 0}
+    pre{padding:4pt 7pt; margin:3pt 0 5pt; break-inside:avoid; line-height:1.32}
+    .tw{overflow:visible; margin:4pt 0 6pt; break-inside:avoid}
+    table{font-size:7.9pt; break-inside:avoid}
+    tr{break-inside:avoid}
+    th,td{padding:2.4pt 7pt 2.4pt 0}
+    th{font-size:6.6pt}
+    .prova{padding:6pt 10pt; margin-top:7pt; break-inside:avoid}
+    .prova h4{font-size:6.8pt; margin-bottom:2pt}
+    .prova ul{margin:2pt 0 4pt}
+    .prova dt{margin-top:2.5pt}
+    .cola{break-before:page; margin-top:0}
+    .cola h2{margin-bottom:7pt}
+    .cola .grid{gap:7pt 18pt}
+    .cola .card{break-inside:avoid}
+    .cola .card h3{font-size:7.4pt; margin-bottom:2pt; padding-top:3pt}
+    .cola ul{font-size:8.1pt; line-height:1.32}
+    .cola li{margin:.6pt 0}
+    footer{margin-top:10pt; padding-top:5pt; font-size:7pt}
+    a{color:inherit; text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header class="top">
+  <p class="kicker">Resumo de estudo · P2</p>
+  <h1>Redes de Computadores II</h1>
+  <p class="sub">Prof. José Martins Junior · Escola de Engenharia de Piracicaba · escopo conforme “Tópicos P2.txt”</p>
+  <p class="legend">Conteúdo dos slides das aulas. O selo <span class="ext">ext</span> marca <strong>complemento externo</strong>: não está nos materiais anexados.</p>
+  <nav class="toc" aria-label="Sumário">
+    <ol>
+      <li><a href="#a7"><b>Aula 7</b> Samba e CUPS</a></li>
+      <li><a href="#a9"><b>Aula 9</b> Segurança</a></li>
+      <li><a href="#a10"><b>Aula 10</b> QoS</a></li>
+      <li><a href="#a12"><b>Aula 12</b> VPN</a></li>
+      <li><a href="#a13"><b>Aula 13</b> Gerenciamento e SNMP</a></li>
+      <li><a href="#cola"><b>Final</b> Cola de 1 página</a></li>
+    </ol>
+  </nav>
+</header>
+
+<!-- ============================ AULA 7 ============================ -->
+<section id="a7">
+  <h2><small>Aula 7</small> Samba e CUPS</h2>
+  <p class="lede">Serviços de arquivos (Samba) e de impressão (CUPS): aplicabilidade em redes e funcionalidades.</p>
+
+  <h3>Base: SMB, CIFS e NetBIOS</h3>
+  <ul>
+    <li><strong>SMB</strong> (Server Message Block): protocolo cliente-servidor de mensagens para acessar recursos do servidor. É o “coração” do CIFS.</li>
+    <li><strong>CIFS</strong>: núcleo de uma rede Microsoft. “Esconde” a rede: discos e impressoras remotos aparecem como locais, com autenticação de usuários.</li>
+    <li><strong>NetBIOS</strong> provê 3 serviços: <strong>nomes</strong> (análogo ao DNS), <strong>sessões</strong> (full-duplex, confiável, porta 139) e <strong>datagrama</strong> (não confiável, pouco usado).</li>
+    <li>Resolução de nomes: por <strong>broadcast</strong> (aceitável em LAN) ou por servidor <strong>WINS</strong> (NBNS), que guarda nomes e números em um banco.</li>
+    <li><strong>Workgroup</strong>: cada máquina define sua segurança (descentralizada). <strong>Domain</strong>: segurança centralizada nos controladores de domínio; login único.</li>
+  </ul>
+
+  <h3>Samba: aplicabilidade e funcionalidades</h3>
+  <ul>
+    <li><strong>O que é:</strong> conjunto de ferramentas de código aberto que provê acesso a arquivos e impressoras em rede para clientes SMB.</li>
+    <li><strong>Para que serve:</strong> fazer uma máquina Unix/Linux atuar como um nó SMB, servindo clientes Windows.</li>
+    <li><strong>Funcionalidades:</strong> serviços de arquivos e impressão; autenticação e autorização; resolução de nomes; browsing (anúncio da lista de serviços compartilhados).</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th>Programa</th><th>Responsável por</th></tr></thead>
+    <tbody>
+      <tr><td>smbd</td><td class="w">Serviços de diretórios (arquivos) e impressão; autenticação em <em>share mode</em> (senha por diretório/impressora) ou <em>user mode</em> (senha por usuário).</td></tr>
+      <tr><td>nmbd</td><td class="w">Resolução de nomes NetBIOS e browsing (Network Neighbourhood; nada a ver com navegação na Internet).</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>Portas:</strong> 137 (nomes), 138 (datagrama), 139 (sessão), 445 (SMB do Win2k+). <strong>Configuração:</strong> arquivo único <code>/etc/samba/smb.conf</code>.</li>
+    <li><strong>Utilitários:</strong> <code>smbclient</code> (cliente, parecido com FTP), <code>smbpasswd</code> (senhas), <code>nmblookup</code> (pesquisa de nomes), <code>smbmount</code> (montagem).</li>
+  </ul>
+<pre><code>[arquivos]                     # compartilhamento no smb.conf
+   path = /home/arquivos
+   write list = maria, joao    # quem pode escrever
+smbpasswd -a joao              # cria a senha Samba do usuário
+smbclient -L localhost -U joao # lista os compartilhamentos</code></pre>
+
+  <h3>CUPS: aplicabilidade e funcionalidades</h3>
+  <ul>
+    <li><strong>O que é:</strong> Common UNIX Printing System, meio de impressão portátil e padronizado para sistemas baseados em Unix.</li>
+    <li><strong>Protocolo:</strong> IPP (Internet Printing Protocol), <strong>porta 631</strong>.</li>
+    <li><strong>Para que serve:</strong> gestão de trabalhos e filas de impressão; integra LPD (Unix), SMB (Windows) e AppSocket (Macintosh).</li>
+    <li><strong>Funcionalidades:</strong> interface web de administração (<code>http://localhost:631/</code>), localização de impressoras na rede, impressoras PDF, quotas de trabalhos e páginas, filtros e backends extensíveis, encriptação.</li>
+  </ul>
+
+  <div class="prova">
+    <h4>Cai na prova</h4>
+    <ul>
+      <li>Samba = serviços SMB (arquivos e impressoras) em Unix/Linux para clientes Windows.</li>
+      <li>smbd cuida de arquivos, impressão e autenticação; nmbd cuida de nomes e browsing.</li>
+      <li>Portas do Samba: 137, 138, 139 e 445. CUPS: IPP na 631.</li>
+      <li>CUPS integra LPD, SMB e AppSocket e é administrado pela interface web.</li>
+    </ul>
+    <dl>
+      <dt>Qual a diferença entre share mode e user mode?</dt>
+      <dd>Share: uma senha por recurso compartilhado. User: cada usuário tem a sua senha.</dd>
+      <dt>Como um cliente NetBIOS descobre o endereço de outra máquina?</dt>
+      <dd>Por broadcast na LAN ou consultando o servidor WINS.</dd>
+      <dt>Que protocolo e porta o CUPS usa?</dt>
+      <dd>IPP, porta 631.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ AULA 9 ============================ -->
+<section id="a9">
+  <h2><small>Aula 9</small> Segurança</h2>
+  <p class="lede">Requisitos, vulnerabilidades, ataques, proteção, criptografia, firewall e IDS.</p>
+
+  <h3>Requisitos e vulnerabilidades</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Requisito</th><th>Definição</th><th>Vulnerabilidade que o compromete</th></tr></thead>
+    <tbody>
+      <tr><td>Disponibilidade</td><td class="w">O sistema funciona sem degradação de acesso e fornece recursos aos usuários autorizados.</td><td class="w"><strong>Interrupção</strong>: a informação fica inacessível (serviço indisponível ou dados destruídos).</td></tr>
+      <tr><td>Integridade</td><td class="w">A informação permanece intacta, sem alteração por acidentes ou ataques.</td><td class="w"><strong>Modificação</strong>: alteração não autorizada de dados ou serviços. Em redes, costuma ser precedida de interceptação.</td></tr>
+      <tr><td>Confidência</td><td class="w">A informação é acessada somente por pessoas autorizadas.</td><td class="w"><strong>Interceptação</strong>: acesso não autorizado à informação ou cópia ilegal.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Quarta ameaça: <strong>fabricação/falsificação</strong>, criação de dados ou eventos que não deveriam existir (os slides não a ligam a um requisito).</p>
+
+  <h3>Tipos principais de ataques</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Ataque</th><th>O que faz</th><th>Detalhe-chave</th></tr></thead>
+    <tbody>
+      <tr><td>Sniffer</td><td class="w">Monitor promíscuo que intercepta pacotes.</td><td class="w">Atua em redes de difusão; captura senhas sem encriptação.</td></tr>
+      <tr><td>Scanner</td><td class="w">Pesquisa hosts para descobrir portas servidoras operantes.</td><td class="w">Primeiro passo de um ataque (reconhecimento); precede o probe.</td></tr>
+      <tr><td>Probe</td><td class="w">Tentativas sucessivas de acesso às aplicações servidoras.</td><td class="w">Senhas óbvias, vulnerabilidades conhecidas, exploits prontos.</td></tr>
+      <tr><td>SYN Attack</td><td class="w">Envia inúmeros SYN e não devolve o ACK.</td><td class="w">Explora deficiência do TCP: o alto custo de uma conexão. Servidor satura de conexões pendentes.</td></tr>
+      <tr><td>DoS</td><td class="w">Satura a rede (flood) ou as conexões; normalmente usa SYN attack.</td><td class="w">Compromete a <strong>disponibilidade</strong>. Difícil de rastrear: origem falsificada (IP spoofing).</td></tr>
+      <tr><td>DDoS</td><td class="w">DoS amplificado por muitos hosts comprometidos.</td><td class="w">Scan, invasão e instalação de daemons de ataque; hosts e redes inteiras ficam inacessíveis.</td></tr>
+      <tr><td>Smurf</td><td class="w">ICMP echo para o endereço de broadcast de uma sub-rede.</td><td class="w">IP de origem forjado com o endereço do alvo.</td></tr>
+      <tr><td>Trojan / código malicioso</td><td class="w">Explora o ambiente do usuário (antivírus desatualizado, aplicativos vulneráveis).</td><td class="w">Propaga em larga escala (SPAM), cria backdoors, danifica arquivos, sobrecarrega a rede.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Evolução: backdoors abriam portas servidoras; com NAT, firewall e proxy, os malwares viraram clientes e passaram a comunicar por HTTP.</p>
+
+  <h3>Técnicas para proteção</h3>
+  <ul>
+    <li><strong>Encriptação:</strong> para confidência (mensagens cifradas) e para integridade (assinaturas digitais).</li>
+    <li><strong>Autenticação:</strong> checa a identidade de um usuário ou sistema, normalmente por senha.</li>
+    <li><strong>Autorização:</strong> define as regras de acesso (permissões); perfis distintos por tipo de usuário.</li>
+    <li>Avaliação: <strong>auditoria</strong> (verifica os efeitos da proteção pelos logs) e <strong>forense</strong> (analisa danos de um ataque; recuperação de dados e responsabilização legal).</li>
+  </ul>
+
+  <h3>Criptografia</h3>
+  <p>Esconder o objeto de uma comunicação de uma audiência não pretendida. Texto plano P vira cifrado C: <code>C = E<sub>Ke</sub>(P)</code> e <code>P = D<sub>Kd</sub>(C)</code>. A qualidade depende muito da chave; os algoritmos são conhecidos.</p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Simétrica</th><th>Assimétrica (pública)</th><th>Hashing</th></tr></thead>
+    <tbody>
+      <tr><td>Chaves</td><td class="w">Uma mesma chave K cifra e decifra.</td><td class="w">Par gerado junto; o que uma cifra, só a outra decifra. Não se infere uma da outra.</td><td class="w">Sem chave: função H, <code>h = H(m)</code>.</td></tr>
+      <tr><td>Recupera a mensagem?</td><td class="w">Sim.</td><td class="w">Sim.</td><td class="w">Não: caminho único (digestor).</td></tr>
+      <tr><td>Algoritmos</td><td class="w">DES, 3DES, AES, IDEA.</td><td class="w">RSA, Diffie-Hellman, Elgamal.</td><td class="w">MD5 (128 bits), SHA (160 bits).</td></tr>
+      <tr><td>Vantagem</td><td class="w">Simples, baixo custo computacional.</td><td class="w">Chave pública distribuída livremente.</td><td class="w">Saída de tamanho fixo para qualquer m.</td></tr>
+      <tr><td>Desvantagem</td><td class="w">Como enviar a chave única?</td><td class="w">Muito custosa; canal bilateral exige um par de cada lado.</td><td class="w">Não serve para transmitir o conteúdo.</td></tr>
+      <tr><td>Uso</td><td class="w">Cifrar os dados da sessão.</td><td class="w">Confidência, assinatura digital, troca de chave.</td><td class="w">Reduzir o tamanho da assinatura digital.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>Para confidência:</strong> cifra com a chave <strong>pública</strong> do destino; só a <strong>privada</strong> dele decifra.</li>
+    <li><strong>Assinatura digital</strong> (autenticidade/integridade): cifra com a chave <strong>privada</strong>; qualquer um confere com a <strong>pública</strong>.</li>
+    <li><strong>Certificado digital:</strong> acompanha a chave pública e garante quem é o dono do par; autenticado por autoridade certificadora.</li>
+    <li><strong>Uso conjunto (SSL):</strong> o cliente autentica a chave pública, cria uma chave simétrica de sessão, cifra-a com a pública e envia ao servidor. Usado por HTTPS e SSH.</li>
+  </ul>
+
+  <h3>Firewall</h3>
+  <ul>
+    <li><strong>O que é:</strong> equipamento ou sistema que controla a segurança na comunicação entre duas ou mais redes.</li>
+    <li><strong>Como atua:</strong> filtro que deixa ou não os pacotes passarem, de acordo com regras. Exemplos: iptables, IPFilter (Linux).</li>
+    <li><strong>Abordagens:</strong> (a) o que não é expressamente proibido é permitido; (b) o que não é expressamente permitido é proibido.</li>
+    <li>Firewall: abordagem (b), como na prática (padrão DROP e liberações pontuais). Proxy: abordagem (a), bloqueando o que está listado <span class="ext">ext</span>.</li>
+  </ul>
+  <p><strong>iptables:</strong> <code>iptables [-t tabela] [comando] [parâmetros]</code></p>
+  <ul>
+    <li><strong>Comandos:</strong> <code>-A</code> acrescenta regra, <code>-I</code> insere, <code>-D</code> exclui, <code>-P</code> define a regra padrão, <code>-L</code> lista, <code>-F</code> zera.</li>
+    <li><strong>Parâmetros:</strong> <code>-p</code> protocolo, <code>-s</code>/<code>-d</code> origem/destino, <code>--sport</code>/<code>--dport</code> portas, <code>-i</code> interface, <code>-j</code> ação (ACCEPT, REJECT, DROP, LOG).</li>
+    <li><strong>Tabelas:</strong> <code>filter</code> (padrão; INPUT, OUTPUT, FORWARD), <code>nat</code> (PREROUTING, POSTROUTING, OUTPUT), <code>mangle</code> (marcação de pacotes para QoS).</li>
+  </ul>
+<pre><code>iptables -P FORWARD DROP                 # padrão: descarta tudo
+iptables -A FORWARD -p icmp -j ACCEPT    # libera ICMP
+iptables -A FORWARD -p tcp -s 192.168.M.0/24 -d 192.168.N.3 --dport 22 -j ACCEPT   # ida ao SSH
+iptables -A FORWARD -p tcp -s 192.168.N.3 --sport 22 -d 192.168.M.0/24 -j ACCEPT   # volta
+iptables -t nat -A POSTROUTING -o enp0s3 -j SNAT --to A.B.C.N                      # NAT de saída</code></pre>
+
+  <p><strong>Well Known Ports.</strong> Portas servidoras padronizadas, de 0 a 1023 <span class="ext">ext</span>. A coluna “Transporte” e as linhas com selo são complemento externo.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Porta</th><th>Serviço</th><th>Transporte <span class="ext">ext</span></th><th>Porta</th><th>Serviço</th><th>Transporte <span class="ext">ext</span></th></tr></thead>
+    <tbody>
+      <tr><td>20 / 21</td><td>FTP (dados / controle) <span class="ext">ext</span></td><td>TCP</td><td style="font-weight:700">110</td><td>POP3 <span class="ext">ext</span></td><td>TCP</td></tr>
+      <tr><td>22</td><td>SSH</td><td>TCP</td><td style="font-weight:700">137 / 138</td><td>NetBIOS nomes / datagrama</td><td>UDP</td></tr>
+      <tr><td>23</td><td>Telnet <span class="ext">ext</span></td><td>TCP</td><td style="font-weight:700">139</td><td>NetBIOS sessão</td><td>TCP</td></tr>
+      <tr><td>25</td><td>SMTP <span class="ext">ext</span></td><td>TCP</td><td style="font-weight:700">143</td><td>IMAP <span class="ext">ext</span></td><td>TCP</td></tr>
+      <tr><td>53</td><td>DNS <span class="ext">ext</span></td><td>UDP e TCP</td><td style="font-weight:700">161 / 162</td><td>SNMP / SNMP trap <span class="ext">ext</span></td><td>UDP</td></tr>
+      <tr><td>67 / 68</td><td>DHCP (servidor / cliente) <span class="ext">ext</span></td><td>UDP</td><td style="font-weight:700">443</td><td>HTTPS <span class="ext">ext</span></td><td>TCP</td></tr>
+      <tr><td>80</td><td>HTTP (Web)</td><td>TCP</td><td style="font-weight:700">445</td><td>SMB (microsoft-ds)</td><td>TCP</td></tr>
+      <tr><td></td><td></td><td></td><td style="font-weight:700">631</td><td>IPP (CUPS)</td><td>TCP</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>IDS (Sistema Detector de Intrusão)</h3>
+  <ul>
+    <li><strong>O que é:</strong> sistema que reconhece atividades suspeitas e não previstas.</li>
+    <li><strong>Ações reativas automáticas:</strong> reconfigurar o firewall, enviar alerta, gravar log do ataque, terminar a conexão.</li>
+    <li><strong>Exemplo:</strong> Snort (gratuito).</li>
+  </ul>
+
+  <div class="prova">
+    <h4>Cai na prova</h4>
+    <ul>
+      <li>Pares: interceptação fere confidência; interrupção fere disponibilidade; modificação fere integridade.</li>
+      <li>DoS explora o alto custo da conexão TCP (SYN sem ACK) e derruba a disponibilidade.</li>
+      <li>Confidência: cifra com a pública. Assinatura: cifra com a privada.</li>
+      <li>Simétrica é barata mas tem o problema de enviar a chave; assimétrica resolve a distribuição mas é custosa. O SSL combina as duas.</li>
+      <li>Firewall filtra por regras; IDS detecta e reage.</li>
+    </ul>
+    <dl>
+      <dt>A criptografia atende quais requisitos?</dt>
+      <dd>Confidência (mensagens cifradas) e integridade (assinatura digital). Os slides não a associam à disponibilidade.</dd>
+      <dt>O que é um DoS e quais os efeitos?</dt>
+      <dd>Saturação da rede ou das conexões; interrompe serviços e impede o acesso dos usuários.</dd>
+      <dt>Qual abordagem de regras para um firewall?</dt>
+      <dd>“O que não é expressamente permitido é proibido”: padrão DROP e liberações explícitas.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ AULA 10 ============================ -->
+<section id="a10">
+  <h2><small>Aula 10</small> QoS</h2>
+  <p class="lede">Qualidade de serviço: parâmetros, buffers, moldagem, baldes e as etapas do controle de tráfego.</p>
+
+  <h3>Definição e parâmetros</h3>
+  <p><strong>QoS</strong> define um conjunto de medidas para caracterizar os diferentes fluxos de dados que atenderão serviços distintos.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Parâmetro</th><th>Definição</th></tr></thead>
+    <tbody>
+      <tr><td>Confiabilidade (reliability)</td><td class="w">Entrega garantida das mensagens.</td></tr>
+      <tr><td>Atraso (delay)</td><td class="w">Tempo entre a remessa e a entrega de cada pacote.</td></tr>
+      <tr><td>Variação do atraso (jitter)</td><td class="w">Alteração no tempo de remessa percebida entre mensagens de um mesmo fluxo.</td></tr>
+      <tr><td>Largura de banda (bandwidth)</td><td class="w">Capacidade de escoamento de pacotes de um canal.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Exigência por aplicação (tabela do slide):</p>
+  <div class="tw"><table>
+    <thead><tr><th>Aplicação</th><th>Confiab.</th><th>Atraso</th><th>Jitter</th><th>Banda</th></tr></thead>
+    <tbody>
+      <tr><td>E-mail</td><td>Alta</td><td>Baixa</td><td>Baixa</td><td>Baixa</td></tr>
+      <tr><td>Transferência de arquivos</td><td>Alta</td><td>Baixa</td><td>Baixa</td><td>Média</td></tr>
+      <tr><td>Acesso Web</td><td>Alta</td><td>Média</td><td>Baixa</td><td>Média</td></tr>
+      <tr><td>Login remoto</td><td>Alta</td><td>Média</td><td>Média</td><td>Baixa</td></tr>
+      <tr><td>Áudio / vídeo sob demanda</td><td>Baixa</td><td>Baixa</td><td>Alta</td><td>Média / Alta</td></tr>
+      <tr><td>Telefonia / videoconferência</td><td>Baixa</td><td>Alta</td><td>Alta</td><td>Baixa / Alta</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Buferização, moldagem e baldes</h3>
+  <ul>
+    <li><strong>Buffering:</strong> pacotes que chegam ao receptor ficam em memória antes da entrega à aplicação. Serve para <strong>reduzir o jitter</strong>. Exemplo: reprodução de áudio e vídeo em tempo real.</li>
+    <li><strong>Por que moldar:</strong> a demanda é não determinística (rajadas), mas os backbones são síncronos. É preciso regular o tráfego de entrada.</li>
+    <li><strong>Moldagem (traffic shaping):</strong> “atrasar” o envio de pacotes para manter o tráfego dentro de um limite de velocidade, regularizando as rajadas.</li>
+    <li><strong>Controle de admissão:</strong> com o tráfego moldado e caminho e recursos conhecidos, os roteadores aceitam ou não novos fluxos. Os dois baldes são algoritmos usados nesse controle.</li>
+    <li><strong>Memória contra rajadas:</strong> o balde é um buffer que absorve a rajada e libera os pacotes em ritmo regulado.</li>
+  </ul>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Leaky Bucket (balde furado)</th><th>Token Bucket (balde de tokens)</th></tr></thead>
+    <tbody>
+      <tr><td>O balde guarda</td><td class="w">Pacotes: é um buffer de tamanho conhecido.</td><td class="w">Tokens, adicionados a uma taxa constante.</td></tr>
+      <tr><td>Saída</td><td class="w">Em intervalos regulares, sincronizados com um relógio (o “furo”): contínua e regulada.</td><td class="w">Pacotes saem quando há tokens suficientes; a vazão pode ser bem maior após ociosidade.</td></tr>
+      <tr><td>Rajadas</td><td class="w">Não passam: a saída é sempre constante.</td><td class="w">Permitidas: tokens acumulados com a rede desocupada são gastos na rajada.</td></tr>
+      <tr><td>Transbordo</td><td class="w">Pacotes são descartados.</td><td class="w">Suporta mais entrada sem transbordar (menos perda).</td></tr>
+      <tr><td>Rigidez</td><td class="w">Mais rígido.</td><td class="w">Menos rígido: é a evolução em relação ao Leaky.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Estratégia combinada: um leaky bucket colocado atrás de um token bucket.</p>
+
+  <h3>Escalonamento, classificação e policiamento</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Etapa</th><th>O que faz</th><th>Mecanismos</th><th>No Linux</th></tr></thead>
+    <tbody>
+      <tr><td>Moldagem</td><td class="w">Atrasa pacotes para manter o tráfego dentro de um limite.</td><td class="w">Balde de tokens (o mais comum).</td><td><code>class</code></td></tr>
+      <tr><td>Escalonamento</td><td class="w">Ordena ou reordena os pacotes para envio.</td><td class="w">FIFO (o mais comum), SFQ, RED.</td><td><code>qdisc</code></td></tr>
+      <tr><td>Classificação</td><td class="w">Separa pacotes que terão tratamentos diferentes; coloca-os em filas de saída distintas.</td><td class="w">Classificadores u32 (campos do cabeçalho IP) e fw (marcações do netfilter).</td><td><code>filter</code> + classifier</td></tr>
+      <tr><td>Policiamento</td><td class="w">Limita o tráfego: um tipo de tráfego não consome mais banda que a destinada a ele.</td><td class="w">Taxa-limite; se superada, descarta pacotes (dropping).</td><td>parte do <code>filter</code></td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>SFQ:</strong> dá a cada fluxo uma chance de transmitir (várias FIFO, hash, round-robin). <strong>RED:</strong> descarta aleatoriamente para evitar saturar o backbone.</li>
+    <li><strong>pfifo_fast</strong> (padrão do Linux): 3 bandas; a banda 0 é sempre atendida primeiro. <strong>TBF:</strong> balde de tokens para limitar a velocidade de uma interface.</li>
+    <li><strong>HTB</strong> (qdisc classful): compartilha um link entre classes. <code>rate</code> é o mínimo garantido, <code>ceil</code> é o teto; a sobra de banda é emprestada entre classes irmãs.</li>
+    <li>Atenção no <code>tc</code>: <code>kbps</code> = kilo<strong>bytes</strong> por segundo; <code>kbit</code> = kilo<strong>bits</strong> por segundo.</li>
+  </ul>
+<pre><code>tc qdisc add dev enp0s3 root handle 1: htb default 11                           # escalonador; classe padrão 1:11
+tc class add dev enp0s3 parent 1: classid 1:1 htb rate 500kbps ceil 500kbps     # classe pai (moldagem)
+tc class add dev enp0s3 parent 1:1 classid 1:12 htb rate 5kbps ceil 10kbps      # classe filha
+tc filter add dev enp0s3 protocol ip parent 1:0 prio 1 u32 match ip src A.B.C.0/D match ip dport 80 0xffff flowid 1:12   # classificação
+tc qdisc add dev enp0s3 parent 1:12 handle 40: sfq perturb 10                   # fila da classe folha</code></pre>
+
+  <div class="prova">
+    <h4>Cai na prova</h4>
+    <ul>
+      <li>Os 4 parâmetros: confiabilidade, atraso, jitter e largura de banda.</li>
+      <li>Buffer no receptor reduz jitter; balde (buffer) na entrada controla rajadas.</li>
+      <li>Leaky: saída constante, descarta no transbordo. Token: acumula tokens e aceita rajadas.</li>
+      <li>Moldar atrasa; escalonar ordena; classificar separa; policiar limita e descarta.</li>
+    </ul>
+    <dl>
+      <dt>Qual a principal evolução do Token Bucket sobre o Leaky Bucket?</dt>
+      <dd>Entrada menos rígida: tokens acumulados na ociosidade permitem vazão maior em uma rajada, sem perda.</dd>
+      <dt>Como a memória ajuda a controlar rajadas?</dt>
+      <dd>O buffer guarda os pacotes da rajada e os encaminha em intervalos regulares.</dd>
+      <dt>Diferença entre moldagem e policiamento?</dt>
+      <dd>A moldagem atrasa pacotes para regularizar; o policiamento descarta o que passa da taxa-limite.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ AULA 12 ============================ -->
+<section id="a12">
+  <h2><small>Aula 12</small> VPN</h2>
+  <p class="lede">Redes privadas virtuais: túneis, tipos, GRE, SSH e tunelamentos compulsório e voluntário.</p>
+
+  <h3>Definição, túneis e aplicações</h3>
+  <ul>
+    <li><strong>VPN:</strong> forma de comunicação privada através de canais públicos (Internet ou outras redes), entre redes corporativas ou usuários remotos.</li>
+    <li><strong>Segurança:</strong> a criptografia garante confidência e integridade.</li>
+    <li><strong>Tunelamento:</strong> os pacotes trafegam na rede pública em um túnel privado que simula uma conexão ponto a ponto.</li>
+    <li><strong>Protocolo de tunelamento:</strong> encapsula o protocolo transportado; seu cabeçalho informa o destino (a outra extremidade do túnel).</li>
+  </ul>
+  <p><strong>Aplicações:</strong></p>
+  <ul>
+    <li><strong>Acesso remoto via Internet:</strong> o usuário conecta-se ao provedor e o software de VPN cria o túnel até o servidor de VPN corporativo.</li>
+    <li><strong>Conexão de LANs via Internet:</strong> substitui circuitos dedicados de longa distância; forma a WAN corporativa.</li>
+    <li><strong>Dentro de uma intranet:</strong> túneis internos para dados confidenciais restritos a um pequeno grupo.</li>
+  </ul>
+
+  <h3>Tipos de VPN</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Tipo</th><th>O que emula</th><th>Detalhe</th></tr></thead>
+    <tbody>
+      <tr><td>VLL (Virtual Leased Line)</td><td class="w">Circuito físico dedicado ou linha privada entre dois usuários.</td><td class="w">Túnel IP; o backbone IP atua como “enlace”, transparente aos roteadores.</td></tr>
+      <tr><td>VPRN (Virtual Private Routed Network)</td><td class="w">Uma WAN com vários nós, usando IP.</td><td class="w">Topologia mesh entre roteadores do provedor; permite controle de tráfego.</td></tr>
+      <tr><td>VPDN (Virtual Private Dial Network)</td><td class="w">Acesso remoto discado dos usuários, via PPP.</td><td class="w">Autenticação via RADIUS; permite IPSec ou L2TP.</td></tr>
+      <tr><td>VPLS (Virtual Private LAN Segment)</td><td class="w">Um segmento de rede local sobre o backbone IP.</td><td class="w">LAN transparente, multiprotocolo, com broadcast e multicast.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tw"><table>
+    <thead><tr><th>Nível</th><th>Ideia</th><th>Protocolos</th><th>Exemplo de uso</th></tr></thead>
+    <tbody>
+      <tr><td>2 (enlace)</td><td class="w">PPP sobre IP: protocolos de camada 3 (IP, IPX) vão em quadros PPP, e o canal ponto a ponto é encapsulado pelo IP.</td><td class="w">PPTP (Microsoft), L2TP (IETF), L2F (Cisco, VPNs discadas).</td><td class="w">Usuário remoto acessando a rede da empresa.</td></tr>
+      <tr><td>3 (rede)</td><td class="w">IP sobre IP: pacotes IP criptografados e encapsulados com cabeçalhos IP adicionais.</td><td class="w">IPSec modo túnel (IETF): gerencia chaves; feito para IPv6 e adaptado ao IPv4.</td><td class="w">Interligação de redes IP (LANs) pela Internet.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>L2TP:</strong> túneis estáticos iniciados pelo servidor de acesso; controle nas mãos do provedor.</li>
+    <li><strong>PPTP:</strong> túneis iniciados pelo usuário, sob demanda; controle nas mãos do usuário.</li>
+  </ul>
+
+  <h3>GRE e SSH</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>GRE (Generic Routing Encapsulation)</th><th>SSH</th></tr></thead>
+    <tbody>
+      <tr><td>Entre o quê</td><td class="w">Roteadores de origem e destino (ponto a ponto); liga redes.</td><td class="w">Duas aplicações (end-points, portas).</td></tr>
+      <tr><td>Como funciona</td><td class="w">Na entrada, inclui o cabeçalho GRE e o endereço passa a ser o do fim do túnel; na saída, retira e volta o endereço original.</td><td class="w">Túnel criptografado (SSL) que encapsula protocolos de aplicação.</td></tr>
+      <tr><td>Tunelamento</td><td class="w"><strong>Compulsório</strong>.</td><td class="w"><strong>Voluntário</strong>.</td></tr>
+      <tr><td>Criptografia</td><td class="w">Não cifra por si só <span class="ext">ext</span>.</td><td class="w">Sim: SSL, com chaves pública e simétrica.</td></tr>
+      <tr><td>Observação</td><td class="w">Exige rota apontando para o túnel.</td><td class="w">Pode levar uma pilha inteira (SSH + PPP), com overhead extra.</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>SSL</strong> não é um protocolo de VPN: é uma camada segura de transporte usada por HTTPS e SSH, que comunica duas aplicações.</p>
+<pre><code># GRE entre VM1 e VM2 (repetir na VM2 com remote/local invertidos)
+iptunnel add vpn1 mode gre remote 192.168.M.2 local 192.168.M.1 key 123456
+ifconfig vpn1 10.0.M.1/30 pointopoint 10.0.M.2     # interface virtual do enlace ponto a ponto
+route add -net 192.168.N.0/24 gw 10.0.M.2          # rota da rede interna pela VPN
+# SSH: porta 8080 local leva à porta 80 da VM3, passando pelo SSH da VM2
+ssh -L 8080:192.168.N.3:80 user@192.168.M.2</code></pre>
+
+  <h3>Tunelamentos compulsório e voluntário</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Voluntário</th><th>Compulsório</th></tr></thead>
+    <tbody>
+      <tr><td>VPN entre</td><td class="w">Duas máquinas.</td><td class="w">Duas redes.</td></tr>
+      <tr><td>Computador do usuário</td><td class="w">É extremidade e cliente do túnel.</td><td class="w">Não é extremidade do túnel.</td></tr>
+      <tr><td>Sabe do túnel?</td><td class="w">Sim: os pontos finais sabem que ele existe.</td><td class="w">Não: é transparente.</td></tr>
+      <tr><td>Quem encaminha</td><td class="w">O próprio usuário; túnel disponível ou criado sob demanda.</td><td class="w">O roteador da rede (de um provedor, p.e.) identifica que o destino é via VPN.</td></tr>
+      <tr><td>Exemplo</td><td class="w">Túnel entre portas com SSH; PPTP.</td><td class="w">Túnel GRE entre roteadores de duas redes; L2TP.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prova">
+    <h4>Cai na prova</h4>
+    <ul>
+      <li>VPN = comunicação privada por canal público, por túnel, com criptografia (confidência e integridade).</li>
+      <li>Voluntário: o usuário é a ponta e sabe do túnel. Compulsório: o roteador faz, o usuário desconhece.</li>
+      <li>SSH entre end-points é voluntário; GRE entre duas redes é compulsório.</li>
+      <li>Nível 2: PPP sobre IP (PPTP, L2TP, L2F). Nível 3: IP sobre IP (IPSec).</li>
+      <li>Quatro tipos: VLL (linha dedicada), VPRN (WAN), VPDN (discado), VPLS (LAN).</li>
+    </ul>
+    <dl>
+      <dt>O que o protocolo de tunelamento faz?</dt>
+      <dd>Encapsula o protocolo transportado e indica, no seu cabeçalho, a outra extremidade do túnel.</dd>
+      <dt>Tunelamento entre duas extranets com GRE é de que tipo?</dt>
+      <dd>Compulsório: os roteadores encaminham pelo túnel de forma transparente às estações.</dd>
+      <dt>O SSL é um protocolo de VPN?</dt>
+      <dd>Não. É uma camada segura de transporte; o SSH a usa para criar túneis voluntários entre aplicações.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ AULA 13 ============================ -->
+<section id="a13">
+  <h2><small>Aula 13</small> Gerenciamento e SNMP</h2>
+  <p class="lede">Definição, arquitetura de gerenciamento com seus papéis e tipos de mensagens.</p>
+
+  <h3>Definição</h3>
+  <ul>
+    <li><strong>Gerenciamento de redes:</strong> processo de controlar uma rede de computadores complexa com o objetivo de <strong>maximizar sua eficiência e produtividade</strong>.</li>
+    <li><strong>Por que importa:</strong> as organizações investem muito tempo e dinheiro em redes; quanto mais complexa a rede, mais necessário o controle.</li>
+    <li><strong>SNMP</strong> (Simple Network Management Protocol): protocolo de gerenciamento da arquitetura TCP/IP; padrão <em>de facto</em> da Internet.</li>
+    <li><strong>Vantagens:</strong> simplicidade e facilidade de implementação; público e não proprietário; presente na maioria dos equipamentos de conectividade.</li>
+    <li>O termo SNMP abrange: o protocolo em si, a definição de uma base de dados e os conceitos associados.</li>
+  </ul>
+
+  <h3>Arquitetura de gerenciamento e papéis</h3>
+  <p>Baseada no paradigma <strong>gerente-agente</strong>. O SNMP roda sobre <strong>UDP/IP</strong>.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Componente</th><th>Papel</th></tr></thead>
+    <tbody>
+      <tr><td>Estação de gerenciamento (gerente)</td><td class="w">Requisita e analisa as informações gerenciais. Computador de uso geral que executa as aplicações de gerenciamento, envia requisições aos agentes e recebe respostas; costuma ter interface gráfica.</td></tr>
+      <tr><td>Agente de gerenciamento</td><td class="w">Hardware e/ou software no objeto gerenciado (roteador, hub, ponte, software). Responde às solicitações do gerente (informação ou ação) e envia informações não solicitadas (trap).</td></tr>
+      <tr><td>MIB</td><td class="w">Base de dados com as informações de gerenciamento do dispositivo. Estrutura hierárquica em árvore; objetos definidos em ASN.1.</td></tr>
+      <tr><td>Protocolo de gerenciamento</td><td class="w">Meio de comunicação entre a estação e os agentes. Define as primitivas que gerente e agente podem invocar.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>MIB em árvore:</strong> cada objeto tem um identificador único pelo caminho na árvore. Ex.: <code>1.3.6.1.2.1.7.1</code> = UDPInDatagrams (iso.org.dod.internet.mgmt.mib…).</li>
+    <li>Todo dispositivo deve usar o formato definido pela MIB, o que padroniza o que o gerente pode consultar.</li>
+    <li>Exemplos de objetos: <code>SysName</code> (nome), <code>SysLocation</code> (localização), <code>SysContact</code> (responsável), contadores de tráfego.</li>
+    <li><strong>Agente por procuração (proxy agent):</strong> atua em nome de dispositivos que não suportam UDP/IP (ex.: modems), mapeando o SNMP para o protocolo do dispositivo.</li>
+  </ul>
+
+  <h3>Tipos de mensagens</h3>
+  <p>Dois modos: <strong>requisição/resposta</strong> (o gerente pergunta, o agente responde) e <strong>trap</strong> (o agente avisa sem ser perguntado).</p>
+  <div class="tw"><table>
+    <thead><tr><th>Mensagem</th><th>Quem envia</th><th>Para quem</th><th>Para quê</th></tr></thead>
+    <tbody>
+      <tr><td>GetRequest</td><td>Gerente</td><td>Agente</td><td class="w">Obter o valor de um objeto da MIB.</td></tr>
+      <tr><td>GetNextRequest</td><td>Gerente</td><td>Agente</td><td class="w">Obter o próximo dado da lista (percorrer a MIB).</td></tr>
+      <tr><td>GetBulkRequest</td><td>Gerente</td><td>Agente</td><td class="w">Obter um bloco de dados de uma vez.</td></tr>
+      <tr><td>SetRequest</td><td>Gerente</td><td>Agente</td><td class="w">Definir (alterar) um valor da MIB.</td></tr>
+      <tr><td>Response (GetResponse)</td><td>Agente</td><td>Gerente</td><td class="w">Devolver o valor ou a resposta a uma requisição.</td></tr>
+      <tr><td>Trap</td><td>Agente</td><td>Gerente</td><td class="w">Informar um evento excepcional, sem solicitação.</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prova">
+    <h4>Cai na prova</h4>
+    <ul>
+      <li>Quatro componentes: estação de gerenciamento, agente, MIB e protocolo de gerenciamento.</li>
+      <li>Gerente requisita e analisa; agente responde e envia traps.</li>
+      <li>Get, GetNext, GetBulk e Set partem do gerente; Response e Trap partem do agente.</li>
+      <li>MIB: base em árvore, definida em ASN.1; SNMP sobre UDP.</li>
+    </ul>
+    <dl>
+      <dt>Como o agente informa um evento inesperado à estação de gerência?</dt>
+      <dd>Enviando uma mensagem Trap, sem esperar requisição.</dd>
+      <dt>Como obter nome, local e contato de um roteador?</dt>
+      <dd>O gerente envia GetRequest (SysName, SysLocation, SysContact); o agente lê a MIB e devolve um Response.</dd>
+      <dt>Por que a MIB é uma árvore?</dt>
+      <dd>A hierarquia dá a cada objeto uma identificação precisa e padronizada em qualquer dispositivo.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ COLA ============================ -->
+<section id="cola" class="cola">
+  <h2><small>Final</small> Cola de 1 página</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Aula 7 · Samba e CUPS</h3>
+      <ul>
+        <li>SMB/CIFS: compartilha discos e impressoras como se fossem locais, com autenticação.</li>
+        <li>NetBIOS: nomes, sessões (139) e datagrama. Nomes por broadcast ou WINS.</li>
+        <li>Samba: serviços SMB em Unix/Linux para clientes Windows.</li>
+        <li>Funções: arquivos e impressão, autenticação e autorização, nomes, browsing.</li>
+        <li>smbd = arquivos, impressão, autenticação (share ou user mode). nmbd = nomes e browsing.</li>
+        <li>Portas 137, 138, 139, 445. Configuração em smb.conf.</li>
+        <li>CUPS: impressão padronizada no Unix; IPP, porta 631; interface web; filas, quotas, PDF; integra LPD, SMB e AppSocket.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Aula 10 · QoS</h3>
+      <ul>
+        <li>QoS: medidas que caracterizam fluxos de serviços distintos.</li>
+        <li>Parâmetros: confiabilidade, atraso, jitter, largura de banda.</li>
+        <li>Buffering no receptor reduz jitter (áudio e vídeo).</li>
+        <li>Moldagem: atrasa pacotes para regularizar rajadas.</li>
+        <li>Leaky Bucket: buffer com saída constante; transbordou, descarta.</li>
+        <li>Token Bucket: tokens a taxa constante; acumula e permite rajadas. Menos rígido.</li>
+        <li>Escalonamento: ordena pacotes (FIFO, SFQ, RED); qdisc.</li>
+        <li>Classificação: separa em filas (u32, fw); filter.</li>
+        <li>Policiamento: limita a taxa e descarta o excesso.</li>
+        <li>HTB: rate = garantido, ceil = teto; sobra é emprestada.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Aula 9 · Segurança</h3>
+      <ul>
+        <li>Requisitos: disponibilidade, integridade, confidência.</li>
+        <li>Interrupção → disponibilidade. Modificação → integridade. Interceptação → confidência. Mais: fabricação.</li>
+        <li>Ataques: sniffer (escuta), scanner (portas), probe (tentativas), SYN attack, DoS, DDoS, smurf, trojans.</li>
+        <li>DoS: flood de SYN sem ACK; explora o custo da conexão TCP; fere a disponibilidade; IP spoofing.</li>
+        <li>Proteção: encriptação, autenticação, autorização. Avaliação: auditoria e forense.</li>
+        <li>Simétrica: 1 chave; rápida; problema de enviar a chave (DES, 3DES, AES, IDEA).</li>
+        <li>Assimétrica: par pública/privada; custosa (RSA, Diffie-Hellman, Elgamal).</li>
+        <li>Hash: caminho único, tamanho fixo (MD5 128, SHA 160).</li>
+        <li>Confidência: cifra com a pública. Assinatura: cifra com a privada, confere com a pública.</li>
+        <li>SSL: chave simétrica de sessão enviada cifrada com a pública.</li>
+        <li>Firewall: filtro por regras entre redes; “o que não é permitido é proibido”. iptables: -A -I -D -P -L -F; filter, nat, mangle.</li>
+        <li>Portas: 22 SSH, 80 HTTP, 137–139 NetBIOS, 445 SMB, 631 IPP. <span class="ext">ext</span> 20/21 FTP, 23 Telnet, 25 SMTP, 53 DNS, 110 POP3, 143 IMAP, 161/162 SNMP, 443 HTTPS.</li>
+        <li>IDS: detecta atividade suspeita e reage (alerta, log, firewall, encerra conexão). Ex.: Snort.</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card">
+        <h3>Aula 12 · VPN</h3>
+        <ul>
+          <li>VPN: comunicação privada por canal público, via túnel; criptografia dá confidência e integridade.</li>
+          <li>Túnel simula ponto a ponto; o protocolo de tunelamento encapsula e indica a outra ponta.</li>
+          <li>Aplicações: acesso remoto, conexão de LANs, túnel dentro da intranet.</li>
+          <li>Tipos: VLL (linha dedicada), VPRN (WAN roteada), VPDN (discado, PPP), VPLS (segmento de LAN).</li>
+          <li>Nível 2: PPP sobre IP (PPTP, L2TP, L2F). Nível 3: IP sobre IP (IPSec).</li>
+          <li>GRE: entre roteadores, cabeçalho GRE, liga redes; compulsório.</li>
+          <li>SSH: túnel cifrado entre aplicações (ssh -L); voluntário.</li>
+          <li>Voluntário: usuário é a ponta e sabe do túnel. Compulsório: roteador encaminha, usuário não sabe.</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>Aula 13 · Gerenciamento e SNMP</h3>
+        <ul>
+          <li>Gerenciar: controlar uma rede complexa para maximizar eficiência e produtividade.</li>
+          <li>SNMP: padrão de facto do TCP/IP; simples; sobre UDP.</li>
+          <li>Componentes: estação de gerenciamento, agente, MIB, protocolo.</li>
+          <li>Gerente requisita e analisa. Agente responde e envia trap. MIB: base em árvore (ASN.1).</li>
+          <li>Proxy agent: fala SNMP em nome de quem não suporta UDP/IP.</li>
+          <li>Gerente → agente: GetRequest, GetNextRequest, GetBulkRequest, SetRequest.</li>
+          <li>Agente → gerente: Response (resposta) e Trap (evento excepcional).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <footer>Fontes: slides RCII_Aula 7, 9, 10, 12 e 13; listas de exercícios das Aulas 9, 10, 12 e 13; práticas de Samba/CUPS, firewall, HTB e VPN. Escopo: “Tópicos P2.txt”.</footer>
+</section>
+
+</main>
+</body>
+</html>
