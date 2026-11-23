@@ -77,5 +77,6 @@ quebra página entre módulos e abre todos os flashcards.
 |---|---|---|---|---|
 | Aprendizado de Máquina | P1 | completo | `Aprendizado Máquina/P1.html` | KDD, dados, exploração, pré-processamento, PCA, KNN, associação |
 | Redes de Computadores II | P1 | completo | `Redes de Computadores 2/P1.html` | Camada de transporte, portas, UDP, TCP, controle de fluxo e congestionamento, Telnet/SSH/FTP, DNS, SMTP/MIME/POP3/IMAP, HTTP e Proxy |
+| Redes de Computadores II | P2 | Completo | `Redes de Computadores 2/P2.html` | Aplicabilidade em redes e funcionalidades, Requisitos, Vulnerabilidades, Tipos principais de ataques, Técnicas para proteção, Criptografia (chaves assimétricas, simétrica e hashing), Firewall (revisem também as Well Known Ports), IDS e MAIS |
 | Governança e Gestão de TI | P1 | completo | `Governança e Gestão de TI/P1.html` | Governança × gestão, COBIT (princípios, cascata, domínios), arquitetura corporativa e TOGAF, BPMN, CEP e Seis Sigma |
 | Governança e Gestão de TI | P2 | incremental | `Governança e Gestão de TI/P2.html` | ITIL (gestão de serviços de TI), gestão de dados: COBIT APO14 e DMBOK (perfilamento, qualidade, ciclo de vida) |
