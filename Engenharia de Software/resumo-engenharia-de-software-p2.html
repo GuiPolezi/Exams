@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Engenharia de Software · Resumo P2</title>
+<style>
+:root{
+  --ink:#1c1b19; --soft:#5d5a54; --line:#e4dfd6; --paper:#fbfaf7; --card:#ffffff;
+  --accent:#1f5f4a; --tint:#eef4f1;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 var(--sans);-webkit-text-size-adjust:100%}
+.wrap{max-width:860px;margin:0 auto;padding:56px 24px 80px}
+header.top{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:28px}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1{font:400 42px/1.1 var(--serif);margin:10px 0 10px;letter-spacing:-.01em}
+.lede{color:var(--soft);margin:0;max-width:60ch}
+nav.toc{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 44px}
+nav.toc a{display:block;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.3}
+nav.toc a b{display:block;font:400 20px var(--serif);color:var(--accent)}
+nav.toc a:hover{border-color:var(--accent)}
+section{margin:0 0 52px}
+h2{font:400 30px/1.15 var(--serif);margin:0 0 4px;padding-top:8px}
+h2 .n{color:var(--accent);margin-right:.35em}
+.sub{color:var(--soft);font-size:14px;margin:0 0 18px}
+h3{font:600 13px/1.3 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:26px 0 8px;padding-top:12px;border-top:1px solid var(--line)}
+h4{font:600 15px/1.3 var(--sans);margin:16px 0 4px}
+p{margin:6px 0}
+ul,ol{margin:6px 0;padding-left:20px}
+li{margin:2px 0}
+b,strong{font-weight:600}
+.def{border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin:8px 0}
+.cols{columns:2;column-gap:28px}
+.cols li,.cols p{break-inside:avoid}
+.g{break-inside:avoid;margin-bottom:8px}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.4;background:var(--card)}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--line)}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);font-weight:600;border-bottom:1.5px solid var(--ink)}
+td:first-child{font-weight:600;white-space:nowrap}
+td.w{white-space:normal}
+figure{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--card);break-inside:avoid}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:13px;color:var(--soft);margin-top:8px}
+svg text{font-family:var(--sans);fill:var(--ink)}
+.s{stroke:var(--ink);stroke-width:1.2;fill:none}
+.f{fill:var(--card);stroke:var(--ink);stroke-width:1.2}
+.k{fill:var(--ink);stroke:var(--ink);stroke-width:1.2}
+.d{stroke-dasharray:5 4}
+.a{stroke:var(--accent)} .at{fill:var(--accent) !important}
+.prova{background:var(--tint);border-radius:10px;padding:14px 18px;margin:22px 0 0;break-inside:avoid}
+.prova h4{margin:0 0 6px;font:400 19px var(--serif);color:var(--accent)}
+.prova .q{margin-top:8px;padding-top:8px;border-top:1px solid #d5e3dc;font-size:14.5px}
+.prova .q p{margin:3px 0}
+.ext{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 4px;white-space:nowrap}
+.crc{border:1.5px solid var(--ink);border-radius:6px;background:var(--card);max-width:520px;font-size:14px;break-inside:avoid;margin:10px 0}
+.crc .hd{padding:6px 10px;border-bottom:1.5px solid var(--ink);font-weight:600}
+.crc .hd span{font-weight:400;color:var(--soft)}
+.crc .bd{display:grid;grid-template-columns:1.5fr 1fr}
+.crc .bd div{padding:6px 10px}
+.crc .bd div:first-child{border-right:1px solid var(--ink)}
+.crc .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);display:block;margin-bottom:2px}
+.cola{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.cola .cols{columns:3;column-gap:22px;font-size:13.5px;line-height:1.42}
+.cola h4{margin:0 0 2px;color:var(--accent);font-size:12px;letter-spacing:.08em;text-transform:uppercase;break-after:avoid}
+.cola p{margin:0 0 9px}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--soft)}
+@media (max-width:700px){
+  .wrap{padding:32px 16px 56px} h1{font-size:32px} h2{font-size:25px}
+  nav.toc{grid-template-columns:1fr 1fr} .cols,.cola .cols{columns:1}
+  td:first-child{white-space:normal}
+  table{min-width:520px} .ext{white-space:normal}
+  figure{overflow-x:auto} figure svg{min-width:600px}
+}
+@page{size:A4;margin:11mm 12mm 12mm}
+@media print{
+  body{background:#fff;font-size:8.6pt;line-height:1.36}
+  .wrap{max-width:none;padding:0}
+  header.top{padding-bottom:8px;margin-bottom:8px}
+  h1{font-size:22pt;margin:3px 0 3px}
+  nav.toc{margin-bottom:12px;gap:6px} nav.toc a{padding:5px 8px;font-size:8pt} nav.toc a b{font-size:11pt}
+  section{margin-bottom:14px}
+  h2{font-size:16pt;break-after:avoid} .sub{font-size:8pt;margin-bottom:6px}
+  h3{font-size:7.4pt;margin:9px 0 3px;padding-top:5px;break-after:avoid}
+  h4{font-size:8.8pt;margin:6px 0 1px;break-after:avoid}
+  p{margin:2px 0} ul,ol{margin:2px 0;padding-left:14px} li{margin:0}
+  table{font-size:7.9pt;line-height:1.3} th{font-size:6.6pt} th,td{padding:3px 6px}
+  tr,figure,.prova,.crc,.def{break-inside:avoid}
+  figure{padding:6px;margin:6px 0} figcaption{font-size:7.4pt;margin-top:3px}
+  .prova{padding:7px 10px;margin-top:8px} .prova h4{font-size:11pt;margin-bottom:2px}
+  .prova .q{font-size:8.2pt;margin-top:4px;padding-top:4px}
+  .crc{font-size:8pt;max-width:120mm}
+  .cola{padding:9px 11px;break-inside:avoid} .cola .cols{font-size:7.7pt;line-height:1.32;column-gap:14px}
+  .cola h4{font-size:6.8pt} .cola p{margin-bottom:4px}
+  .pb{break-before:page}
+  .g{margin-bottom:3px}
+  .fig-uc{max-width:150mm;margin-left:auto;margin-right:auto}
+  .fig-at{max-width:112mm;margin-left:auto;margin-right:auto}
+  .fig-cl{max-width:160mm;margin-left:auto;margin-right:auto}
+  footer{margin-top:8px;padding-top:5px;font-size:7.4pt}
+  a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">Resumo de estudo · P2</div>
+  <h1>Engenharia de Software</h1>
+  <p class="lede">Requisitos, modelos de domínio e engenharia de interface, na terminologia dos slides das aulas. Leitura completa em 30 a 40 minutos; a cola da última seção cabe em uma página.</p>
+</header>
+
+<nav class="toc" aria-label="Sumário">
+  <a href="#u5"><b>5</b>Engenharia de Requisitos</a>
+  <a href="#u6"><b>6</b>Modelos de Domínio</a>
+  <a href="#u7"><b>7</b>Engenharia de Interface</a>
+  <a href="#cola"><b>★</b>Cola de 1 página</a>
+</nav>
+
+<!-- ============================ UNIDADE 5 ============================ -->
+<section id="u5">
+<h2><span class="n">5</span>Engenharia de Requisitos</h2>
+<p class="sub">Do estudo de viabilidade à especificação; nove técnicas de elicitação.</p>
+
+<h3>Requisito e classificação</h3>
+<p class="def"><b>Requisito</b> é uma necessidade de uma solução, mesmo que o problema ou a demanda não seja conhecido. É uma <b>unidade de necessidade</b>.</p>
+<div class="tw"><table>
+<tr><th>Eixo</th><th>Classes</th><th>Em uma linha</th></tr>
+<tr><td>Nível</td><td class="w">Usuário · Sistema</td><td>O mesmo requisito em dois níveis de detalhe: para o cliente e para quem constrói. <span class="ext">complemento externo</span></td></tr>
+<tr><td>Tipo</td><td class="w">Funcionais · Não funcionais · Domínio</td><td>O que o sistema faz · restrições e qualidades · regras vindas da área de aplicação. <span class="ext">complemento externo</span></td></tr>
+<tr><td>Não funcionais</td><td class="w">Produto · Organização · Externo</td><td>Subdivisão dos não funcionais mostrada no slide.</td></tr>
+</table></div>
+
+<h3>Processo de engenharia de requisitos</h3>
+<div class="tw"><table>
+<tr><th>Atividade</th><th>Produto gerado</th></tr>
+<tr><td>1. Estudo de viabilidade</td><td>Relatório de viabilidade</td></tr>
+<tr><td>2. Extração e análise</td><td>Modelos de sistema</td></tr>
+<tr><td>3. Especificação</td><td>Requisitos de usuário e de sistema</td></tr>
+<tr><td>4. Validação</td><td>Especificação de requisitos de software (documento final)</td></tr>
+</table></div>
+<p><b>Modelo em espiral:</b> elicitação → análise e negociação → especificação → validação, repetidas em voltas. A cada volta há um <b>ponto de decisão</b>: aceitar o documento ou reentrar na espiral. Entradas: necessidades dos usuários, informação de domínio e padrões.</p>
+
+<h3>Estudo de viabilidade</h3>
+<div class="cols">
+<div class="g"><p><b>Passo a passo</b></p>
+<ol>
+<li>Contextualização do sistema</li>
+<li>Descrição do problema</li>
+<li>Soluções possíveis (sistemas semelhantes, ideias novas)</li>
+<li>Viabilidade <b>operacional</b></li>
+<li>Viabilidade <b>técnica</b></li>
+<li>Viabilidade <b>econômica</b> (investimentos)</li>
+<li>Viabilidade de <b>cronograma</b></li>
+</ol></div>
+<div class="g"><p><b>Três questionamentos</b></p>
+<ul>
+<li>Contribui para os objetivos gerais da organização?</li>
+<li>Pode ser implementado com tecnologia atual, dentro de custo e prazo?</li>
+<li>Pode ser integrado a sistemas já em operação?</li>
+</ul></div>
+<p><b>Verificação:</b> o que aconteceria sem o sistema; problemas dos processos atuais; contribuições diretas; troca de informações com outros sistemas; tecnologia inédita na organização; compatibilidades necessárias.</p>
+</div>
+
+<h3>Elicitação</h3>
+<p><b>Sinônimos:</b> elicitação, descoberta, identificação, captura, aquisição, levantamento de requisitos.</p>
+<div class="cols">
+<div class="g"><p><b>Dimensões (compreender…)</b></p>
+<ul><li>o domínio de aplicação</li><li>o problema a ser resolvido</li><li>o contexto de negócio</li><li>as necessidades e restrições dos interessados</li></ul></div>
+<div class="g"><p><b>Estágios do processo</b></p>
+<ol><li>Estabelecimento de objetivos</li><li>Aquisição de conhecimento de background</li><li>Organização do conhecimento</li><li>Recolher requisitos dos stakeholders</li></ol></div>
+<div class="g"><p><b>Fontes de requisitos</b></p>
+<ul><li>Objetivos gerais de alto nível</li><li>Conhecimento do domínio (inclui o conhecimento tácito)</li><li>Stakeholders</li><li>Ambiente operacional, organizacional e externo (leis, normas)</li><li>Produtos de mercado e sistemas internos existentes</li></ul></div>
+<div class="g"><p><b>Etapas básicas de toda técnica</b></p>
+<ul><li>Perguntar</li><li>Observar e inferir</li><li>Discutir e formular</li><li>Negociar</li><li>Estudar e identificar problemas</li><li>Descobrir (processos criativos)</li></ul></div>
+</div>
+
+<h3>Técnicas de elicitação</h3>
+<div class="tw"><table>
+<tr><th>Técnica</th><th>O que é</th><th>Para lembrar</th></tr>
+<tr><td>Análise de documentação</td><td>Estudo de documentos sobre domínio, dados essenciais, organização, legislação e sistemas existentes.</td><td>Ponto de partida; não depende de pessoas.</td></tr>
+<tr><td>Análise de sistemas existentes</td><td>Exame da interface, dados de entrada e resultados de sistemas em uso.</td><td>Sistemas existentes sempre são fonte de requisitos.</td></tr>
+<tr><td>Entrevistas</td><td>Conversa com futuros usuários e stakeholders. A técnica mais básica e simples.</td><td>Simples, mas difícil: enviesamento do entrevistador, predisposição do entrevistado, relação pessoal.</td></tr>
+<tr><td>Brainstorming</td><td>Geração de novas ideias por um grupo de 4 a 10 pessoas.</td><td>Sem críticas nem debates; quantidade; mudar e combinar ideias.</td></tr>
+<tr><td>Workshops</td><td>Técnica de grupo para debate e <b>acordo</b> sobre os requisitos, com representantes dos stakeholders e um facilitador.</td><td>Preparação → condução → consolidação (resumir, relatar, validar).</td></tr>
+<tr><td>Prototipagem</td><td>Versão inicial do sistema para apoiar identificação, análise e validação.</td><td>Contato cedo com algo realista; única forma efetiva de desenvolver IHC. Decidir por custo-benefício.</td></tr>
+<tr><td>Pontos de vista</td><td>Organiza requisitos por perspectiva: de <b>interação</b>, <b>indiretos</b> e de <b>domínio</b>.</td><td>Identificação → estruturação → documentação → mapeamento.</td></tr>
+<tr><td>Questionários</td><td>Perguntas focadas para domínios específicos.</td><td>Útil para pessoas distantes ou grupos numerosos. Questões abertas (qualitativas) ou fechadas (quantitativas).</td></tr>
+<tr><td>Cenários</td><td>Histórias que colocam o interessado diante de uma situação realista de uso.</td><td>Identificam, clarificam e validam requisitos.</td></tr>
+<tr><td>Reutilização</td><td>Usar em um sistema requisitos desenvolvidos para outro.</td><td>Poupa tempo: já foram analisados e validados. Pode chegar a 50%.</td></tr>
+</table></div>
+
+<h4>Entrevistas</h4>
+<p><b>Fases:</b> identificação dos candidatos → preparação → condução → conclusão.</p>
+<div class="tw"><table>
+<tr><th></th><th>Não estruturada</th><th>Estruturada</th></tr>
+<tr><td>Ordem</td><td>Sem ordem pré-estabelecida</td><td>Ordem pré-estabelecida</td></tr>
+<tr><td>Perguntas</td><td>Genéricas, da área de negócio (ramo, nº de pessoas, departamentos)</td><td>As mesmas para vários usuários, para confrontar respostas</td></tr>
+<tr><td>Entrevistador</td><td>Mais ouvinte</td><td>Conduz; pode usar <b>5WH</b>: o quê, quando, onde, por quê, quem, como</td></tr>
+</table></div>
+<ul>
+<li><b>Candidatos:</b> começa pelo financiador, gerente ou executivo; cada candidato indica novos ("com quem mais devo conversar?").</li>
+<li><b>Papéis:</b> líder (pergunta), comprador, usuários, engenheiros, escrivão (anota), secretário (agenda).</li>
+<li><b>Preparação:</b> agendar com antecedência, esclarecer objetivo e duração, relembrar um dia antes; lista de questões em ordem lógica, entregue ao candidato.</li>
+<li><b>Condução:</b> apresentar participantes, revisar objetivos, explicar notações, resumir e refrasear, finalizar (sumarizar, próximas ações, agradecer).</li>
+<li><b>Depois:</b> agradecimento por escrito, resumo escrito, confirmar informações, revisar o procedimento.</li>
+</ul>
+
+<h4>Brainstorming</h4>
+<ul>
+<li><b>Regras:</b> não permitir críticas ou debates; deixar a imaginação voar; gerar tantas ideias quanto possível; mudar e combinar ideias.</li>
+<li><b>Papéis:</b> líder (facilitador), compradores, usuários, engenheiros, escrivão, secretário.</li>
+<li><b>Preparação:</b> identificar participantes, designar o líder, agendar, relembrar um dia antes, preparar a sala.</li>
+<li><b>Sessão:</b> líder explica regras e objetivos; escrivão documenta; ideias ficam visíveis.</li>
+<li><b>Consolidação:</b> cortar irrelevantes, agrupar, refrasear, caracterizar, <b>priorizar</b> (essenciais, boas, não essenciais, más), especificar as restantes.</li>
+</ul>
+
+<h4>Prototipagem, cenários e questionários</h4>
+<ul>
+<li><b>Tipos de protótipo:</b> "remendado"; escalar não operante (testa aspectos específicos, como E/S); escalar completo (sistema piloto); características essenciais (algumas opções do menu).</li>
+<li><b>Características:</b> desenvolvimento rápido, funcionalidades limitadas, requisitos não funcionais pouco considerados. <b>Custos:</b> formação, desenvolvimento, prazos maiores, protótipos incompletos.</li>
+<li><b>Estrutura de um cenário:</b> estado do sistema antes → fluxo normal de eventos → exceções ao fluxo normal → atividades que ocorrem ao mesmo tempo → estado do sistema depois.</li>
+<li><b>Elaborar questionário:</b> identificar quem inquirir, agrupar assuntos, estudar objetivos, entender os inquiridos, definir tipos de pergunta e a tabulação.</li>
+<li><b>O que se reutiliza:</b> requisitos do domínio de aplicação, de estilo de apresentação e de políticas da organização (ex.: cifrar dados pessoais).</li>
+</ul>
+
+<h3>Especificação de requisitos</h3>
+<p class="def">É o <b>acordo entre o cliente e o desenvolvedor</b>. Propósito: criar uma ponte de comunicação entre os tipos de pessoas envolvidas no desenvolvimento.</p>
+<p><b>Quanto à formalidade:</b> informais, semi-formais, formais. <b>Quanto à representação:</b> operacionais, descritivas.</p>
+
+<div class="prova">
+<h4>Cai na prova</h4>
+<ul>
+<li>As quatro atividades do processo e o produto de cada uma.</li>
+<li>As quatro viabilidades: operacional, técnica, econômica e de cronograma.</li>
+<li>Entrevista estruturada x não estruturada, e o 5WH.</li>
+<li>Regras do brainstorming e a priorização na consolidação.</li>
+<li>Três tipos de pontos de vista: interação, indiretos, domínio.</li>
+</ul>
+<div class="q">
+<p><b>Qual a diferença entre workshop e brainstorming?</b> Brainstorming gera ideias sem crítica; workshop busca debate e acordo, e pode usar brainstorming na condução.</p>
+<p><b>Qual o benefício principal da prototipagem?</b> Clientes e usuários têm contato cedo com um sistema realista e compreendem melhor os requisitos.</p>
+<p><b>Quando usar questionário?</b> Com pessoas fisicamente distantes ou grupos numerosos.</p>
+</div>
+</div>
+</section>
+
+<!-- ============================ UNIDADE 6 ============================ -->
+<section id="u6">
+<h2><span class="n">6</span>Modelos de Domínio</h2>
+<p class="sub">Casos de uso, atividades, classes e cartão CRC.</p>
+
+<h3>6.1 · Modelo de casos de uso</h3>
+<p class="def">Representa as <b>funcionalidades externamente observáveis</b> do sistema e os elementos externos que interagem com ele. Modela os <b>requisitos funcionais</b>. Idealizado por Ivar Jacobson.</p>
+<p><b>Componentes:</b> casos de uso, atores e relacionamentos.</p>
+<ul>
+<li><b>Caso de uso:</b> especificação de uma sequência de interações entre o sistema e agentes externos. Mostra quem faz o quê, <b>sem revelar o comportamento interno</b>.</li>
+<li><b>Ator:</b> elemento <b>externo</b> que <b>interage</b> com o sistema. É um <b>papel</b>, não uma pessoa: o nome lembra o papel.</li>
+<li><b>Categorias de atores:</b> pessoas, organizações, outros sistemas, equipamentos.</li>
+<li><b>Ator primário:</b> inicia a sequência de interações. <b>Secundário:</b> supervisiona, opera, mantém ou auxilia (ex.: Usuário é primário, Servidor Web é secundário).</li>
+<li><b>Cenário:</b> uma das maneiras de realizar o caso de uso; é uma <b>instância</b> do caso de uso.</li>
+</ul>
+
+<div class="tw"><table>
+<tr><th>Descrição</th><th>Variações</th></tr>
+<tr><td>Formato</td><td><b>Contínua</b> (texto corrido) · <b>numerada</b> (passos 1, 2, 3…) · <b>particionada</b> (colunas Ator e Sistema)</td></tr>
+<tr><td>Detalhamento</td><td><b>Sucinto</b> (sem muitos detalhes) · <b>expandido</b> (em detalhes)</td></tr>
+<tr><td>Abstração</td><td><b>Essencial</b> (não menciona tecnologia) · <b>real</b> (detalha a tecnologia de implementação)</td></tr>
+</table></div>
+
+<h4>Relacionamentos</h4>
+<div class="tw"><table>
+<tr><th>Tipo</th><th>Entre</th><th>Significado</th><th>Notação</th></tr>
+<tr><td>Comunicação</td><td>Ator e caso de uso</td><td>O ator troca informações com o sistema. O mais comum.</td><td>Linha sólida</td></tr>
+<tr><td>Inclusão</td><td>Casos de uso</td><td>Sequência comum a vários casos, extraída como uma "rotina". <b>Sempre</b> executada.</td><td>Seta tracejada «inclui», do caso base para o incluído</td></tr>
+<tr><td>Extensão</td><td>Casos de uso</td><td>Comportamento <b>opcional</b>, sob condição ou escolha do ator. B estende A: B é o extensor, A o estendido.</td><td>Seta tracejada «estende», do extensor para o estendido</td></tr>
+<tr><td>Generalização</td><td>Casos de uso ou atores</td><td>O herdeiro reutiliza e pode redefinir o comportamento do mais genérico.</td><td>Seta sólida com triângulo vazado, sem estereótipo</td></tr>
+</table></div>
+
+<figure class="fig-uc">
+<svg viewBox="0 0 760 300" role="img" aria-label="Diagrama de casos de uso com comunicação, inclusão, extensão e generalização">
+<defs>
+<marker id="open" markerWidth="12" markerHeight="10" refX="10" refY="5" orient="auto"><path d="M1 1 L10 5 L1 9" class="s"/></marker>
+<marker id="tri" markerWidth="14" markerHeight="12" refX="12" refY="6" orient="auto"><path d="M1 1 L12 6 L1 11 Z" class="f"/></marker>
+</defs>
+<rect x="140" y="12" width="335" height="276" class="f"/>
+<text x="307" y="30" text-anchor="middle" font-size="12" font-weight="600">Caixa eletrônico</text>
+<circle cx="60" cy="118" r="9" class="f"/><path d="M60 127 V160 M44 140 H76 M60 160 L48 182 M60 160 L72 182" class="s"/>
+<text x="60" y="200" text-anchor="middle" font-size="12">Cliente</text>
+<ellipse cx="245" cy="85" rx="72" ry="24" class="f"/><text x="245" y="89" text-anchor="middle" font-size="12">Realizar Saque</text>
+<ellipse cx="245" cy="225" rx="72" ry="24" class="f"/><text x="245" y="229" text-anchor="middle" font-size="12">Obter Extrato</text>
+<ellipse cx="385" cy="155" rx="78" ry="24" class="f"/><text x="385" y="159" text-anchor="middle" font-size="12">Fornecer Identificação</text>
+<path d="M78 138 L176 95 M78 150 L176 215" class="s"/>
+<path d="M290 104 L340 134" class="s d" marker-end="url(#open)"/><text x="330" y="108" font-size="11">«inclui»</text>
+<path d="M290 206 L340 176" class="s d" marker-end="url(#open)"/><text x="330" y="208" font-size="11">«inclui»</text>
+<text x="72" y="100" font-size="10" class="at">comunicação</text>
+<ellipse cx="565" cy="42" rx="68" ry="20" class="f"/><text x="565" y="46" text-anchor="middle" font-size="12">Editar Documento</text>
+<ellipse cx="672" cy="118" rx="66" ry="20" class="f"/><text x="672" y="122" text-anchor="middle" font-size="12">Substituir Texto</text>
+<path d="M650 99 L605 60" class="s d" marker-end="url(#open)"/><text x="640" y="76" font-size="11">«estende»</text>
+<text x="500" y="92" font-size="10" class="at">extensão: opcional</text>
+<ellipse cx="620" cy="190" rx="74" ry="20" class="f"/><text x="620" y="194" text-anchor="middle" font-size="12">Realizar Pagamento</text>
+<ellipse cx="620" cy="268" rx="84" ry="20" class="f"/><text x="620" y="272" text-anchor="middle" font-size="12">Pagamento com Cartão</text>
+<path d="M620 248 V211" class="s" marker-end="url(#tri)"/>
+<text x="632" y="234" font-size="10" class="at">generalização</text>
+</svg>
+<figcaption>Exemplos dos slides. Ator: boneco com o nome abaixo. Caso de uso: elipse. Retângulo: fronteira do sistema. O diagrama de casos de uso funciona como um "diagrama de contexto".</figcaption>
+</figure>
+
+<h4>Identificação e documentação</h4>
+<ul>
+<li><b>Atores:</b> fontes e destinos das informações são atores em potencial. Perguntar: quem vai usar? Que sistemas vão se comunicar? Quem deve ser informado?</li>
+<li><b>Caso de uso primário:</b> representa os objetivos dos atores. <b>Secundário:</b> não traz benefício direto, mas é necessário (manutenção de cadastros, de usuários, de informações de outros sistemas).</li>
+<li><b>Documentação expandida</b> (a UML não define formato): nome, identificador, importância, sumário, ator primário, atores secundários, pré-condições, <b>fluxo principal</b>, <b>fluxos alternativos</b>, <b>fluxos de exceção</b>, pós-condições, regras do negócio.</li>
+<li><b>Regras do negócio:</b> políticas, condições ou restrições da organização (ex.: "um aluno não pode se inscrever em mais de seis disciplinas por semestre"). Seus identificadores (RN01…) entram na descrição do caso de uso.</li>
+<li>O modelo cobre só requisitos funcionais; desempenho, interface e segurança ficam em outras partes do documento de requisitos.</li>
+</ul>
+
+<h4>No processo de desenvolvimento</h4>
+<ul>
+<li><b>Concepção:</b> identifica a maioria dos atores e casos de uso; termina com 10% a 20% do modelo.</li>
+<li><b>Elaboração:</b> 80% do modelo construído, em nível essencial; lista ordenada por prioridade e risco.</li>
+<li><b>Construção:</b> um grupo de casos de uso por iteração, detalhado em nível real e implementado. É o <b>desenvolvimento dirigido a casos de uso</b>.</li>
+<li><b>Ordem:</b> risco alto e prioridade alta primeiro; atacar o maior risco mais cedo.</li>
+<li>Casos de uso também servem para planejamento, <b>casos de teste</b> e documentação do usuário.</li>
+</ul>
+
+<h3>6.2 · Diagrama de atividades</h3>
+<p class="def">Esclarece <b>fluxos de controle</b> em operações complexas e em casos de uso. Destaca a lógica de realização de uma tarefa.</p>
+<ul>
+<li>Caso especial do diagrama de estados; semelhante aos antigos fluxogramas; muito usado para <b>atividades concorrentes</b>.</li>
+<li>A transição é gerada pelo <b>término da atividade</b>, não por eventos externos.</li>
+</ul>
+<div class="tw"><table>
+<tr><th>Elemento</th><th>Função</th><th>Notação</th></tr>
+<tr><td>Estado inicial</td><td>Início do fluxo. Sempre existe um.</td><td>Círculo preenchido</td></tr>
+<tr><td>Estado final</td><td>Término. Podem existir vários.</td><td>Círculo preenchido com borda</td></tr>
+<tr><td>Atividade</td><td>Ação que, ao terminar, passa o controle adiante.</td><td>Retângulo de cantos arredondados</td></tr>
+<tr><td>Decisão</td><td>Desvio por condições booleanas.</td><td>Losango, com condições de guarda [ ]</td></tr>
+<tr><td>Transição</td><td>Caminho a ser seguido.</td><td>Seta</td></tr>
+<tr><td>Barra de sincronização</td><td><b>Fork</b>: divide em fluxos concorrentes. <b>Join</b>: sincroniza; só segue quando todos chegam.</td><td>Barra grossa</td></tr>
+<tr><td>Partição (swimlane)</td><td>Organiza atividades por responsável (objeto, unidade, processo).</td><td>Raias com nome no topo</td></tr>
+</table></div>
+
+<figure class="fig-at">
+<svg viewBox="0 0 530 322" role="img" aria-label="Diagrama de atividades com raias, decisão, fork e join">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L9 5 L1 9 Z" class="k"/></marker></defs>
+<rect x="1" y="1" width="528" height="320" class="f"/>
+<path d="M170 1 V321 M1 24 H529" class="s"/>
+<text x="85" y="17" text-anchor="middle" font-size="12" font-weight="600">Interessado</text>
+<text x="350" y="17" text-anchor="middle" font-size="12" font-weight="600">Sistema</text>
+<circle cx="85" cy="44" r="7" class="k"/>
+<path d="M85 51 V70" class="s" marker-end="url(#arr)"/>
+<rect x="28" y="72" width="114" height="30" rx="12" class="f"/><text x="85" y="91" text-anchor="middle" font-size="11.5">Selecionar curso</text>
+<path d="M142 87 H228" class="s" marker-end="url(#arr)"/>
+<rect x="230" y="72" width="120" height="30" rx="12" class="f"/><text x="290" y="91" text-anchor="middle" font-size="11.5">Verificar vaga</text>
+<path d="M290 102 V124" class="s" marker-end="url(#arr)"/>
+<path d="M290 126 L308 142 L290 158 L272 142 Z" class="f"/>
+<path d="M308 142 H388" class="s" marker-end="url(#arr)"/><text x="316" y="136" font-size="10.5">[sem vaga]</text>
+<rect x="390" y="127" width="128" height="30" rx="12" class="f"/><text x="454" y="146" text-anchor="middle" font-size="11.5">Informar falta de vaga</text>
+<path d="M454 157 V286" class="s" marker-end="url(#arr)"/>
+<circle cx="454" cy="298" r="9" class="f"/><circle cx="454" cy="298" r="5" class="k"/>
+<path d="M290 158 V182" class="s" marker-end="url(#arr)"/><text x="296" y="174" font-size="10.5">[há vaga]</text>
+<rect x="196" y="184" width="188" height="5" class="k"/>
+<text x="150" y="191" font-size="10" class="at" text-anchor="end">fork</text>
+<path d="M240 189 V206" class="s" marker-end="url(#arr)"/><path d="M340 189 V206" class="s" marker-end="url(#arr)"/>
+<rect x="184" y="208" width="112" height="30" rx="12" class="f"/><text x="240" y="227" text-anchor="middle" font-size="11.5">Registrar matrícula</text>
+<rect x="302" y="208" width="116" height="30" rx="12" class="f"/><text x="360" y="227" text-anchor="middle" font-size="11.5">Enviar confirmação</text>
+<path d="M240 238 V256" class="s" marker-end="url(#arr)"/><path d="M340 238 V256" class="s" marker-end="url(#arr)"/>
+<rect x="196" y="258" width="188" height="5" class="k"/>
+<text x="150" y="265" font-size="10" class="at" text-anchor="end">join</text>
+<path d="M290 263 V286" class="s" marker-end="url(#arr)"/>
+<circle cx="290" cy="298" r="9" class="f"/><circle cx="290" cy="298" r="5" class="k"/>
+</svg>
+<figcaption>Exemplo ilustrativo, montado sobre o caso de uso "Matricular em Curso" do exercício da aula de CRC.</figcaption>
+</figure>
+
+<h3>6.3 · Diagrama de classes</h3>
+<p class="def">Mostra as classes do sistema com atributos e métodos, e como elas se relacionam. É a <b>visão estática</b> (estrutura lógica).</p>
+<ul>
+<li><b>Atributos</b> armazenam os dados dos objetos; <b>métodos</b> são as funções que uma instância pode executar.</li>
+<li><b>Visibilidade:</b> <b>+</b> pública (qualquer classe) · <b>#</b> protegida (a classe e suas subclasses) · <b>−</b> privada (só a própria classe).</li>
+<li><b>Persistência:</b> preservar os objetos de forma permanente ("gravar em disco"). Nem toda classe é persistente; indica-se com estereótipo ou restrição. O diagrama de classes leva ao esquema lógico do banco de dados.</li>
+<li><b>Multiplicidade:</b> 0..1 (zero ou um) · 1..1 (um e somente um) · 0..* (nenhum ou muitos) · * (muitos) · 1..* (um ou muitos) · 3..5 (de três a cinco).</li>
+<li><b>Tipos de relacionamento:</b> associações, especialização/generalização, dependência e realização.</li>
+</ul>
+
+<div class="tw"><table>
+<tr><th>Relacionamento</th><th>Significado</th><th>Notação</th></tr>
+<tr><td>Associação</td><td>Vínculo entre instâncias: <b>unária</b> (classe com ela mesma), <b>binária</b> (duas classes, a mais comum), <b>ternária/n-ária</b> (mais de duas; evitar, difícil de interpretar).</td><td>Reta; seta indica navegabilidade; n-ária usa losango central</td></tr>
+<tr><td>Agregação</td><td>Relação <b>todo-parte</b>: o objeto-todo é complementado por objetos-parte.</td><td>Losango <b>vazado</b> no lado do todo</td></tr>
+<tr><td>Composição</td><td>Agregação com vínculo <b>mais forte</b>: a parte pertence <b>exclusivamente</b> a um todo.</td><td>Losango <b>pintado</b> no lado do todo</td></tr>
+<tr><td>Generalização</td><td>Classes-mãe (gerais) e classes-filha (especializadas). Permite métodos polimórficos.</td><td>Seta com triângulo vazado para a classe-mãe</td></tr>
+<tr><td>Dependência</td><td>Mudança em uma classe reflete na outra.</td><td>Seta <b>tracejada</b></td></tr>
+<tr><td>Classe associativa</td><td>Guarda os atributos da associação quando há <b>muitos (*) nas duas pontas</b>.</td><td>Classe ligada à associação por linha tracejada</td></tr>
+<tr><td>Restrição</td><td>Condição imposta ao relacionamento.</td><td>Texto entre chaves { }</td></tr>
+</table></div>
+
+<figure class="fig-cl">
+<svg viewBox="0 0 760 300" role="img" aria-label="Notação dos relacionamentos do diagrama de classes">
+<defs>
+<g id="c"><rect width="66" height="40" class="f"/><path d="M0 16 H66 M0 28 H66" class="s"/></g>
+</defs>
+<!-- 1 binária -->
+<g transform="translate(0,0)">
+<use href="#c" x="8" y="40"/><text x="41" y="52" text-anchor="middle" font-size="10" font-weight="600">Sócio</text>
+<use href="#c" x="116" y="40"/><text x="149" y="52" text-anchor="middle" font-size="10" font-weight="600">Dependente</text>
+<path d="M74 60 H116" class="s"/><text x="95" y="54" text-anchor="middle" font-size="9">Possui ▸</text>
+<text x="78" y="72" font-size="9">1</text><text x="98" y="72" font-size="9">0..*</text>
+<text x="95" y="118" text-anchor="middle" font-size="11" class="at">Associação binária</text>
+</g>
+<!-- 2 unária -->
+<g transform="translate(190,0)">
+<use href="#c" x="40" y="46"/><text x="73" y="58" text-anchor="middle" font-size="10" font-weight="600">Funcionário</text>
+<path d="M106 62 H140 V24 H80 V46" class="s"/><text x="146" y="42" font-size="9">Chefia</text><text x="110" y="76" font-size="9">0..*</text>
+<text x="95" y="118" text-anchor="middle" font-size="11" class="at">Associação unária</text>
+</g>
+<!-- 3 agregação -->
+<g transform="translate(380,0)">
+<use href="#c" x="8" y="40"/><text x="41" y="52" text-anchor="middle" font-size="10" font-weight="600">Carro</text>
+<use href="#c" x="116" y="40"/><text x="149" y="52" text-anchor="middle" font-size="10" font-weight="600">Pneu</text>
+<path d="M74 60 L83 55 L92 60 L83 65 Z" class="f"/><path d="M92 60 H116" class="s"/>
+<text x="95" y="118" text-anchor="middle" font-size="11" class="at">Agregação (todo ◇ parte)</text>
+</g>
+<!-- 4 composição -->
+<g transform="translate(570,0)">
+<use href="#c" x="8" y="40"/><text x="41" y="52" text-anchor="middle" font-size="10" font-weight="600">Revista</text>
+<use href="#c" x="116" y="40"/><text x="149" y="52" text-anchor="middle" font-size="10" font-weight="600">Edição</text>
+<path d="M74 60 L83 55 L92 60 L83 65 Z" class="k"/><path d="M92 60 H116" class="s"/><text x="98" y="72" font-size="9">1..*</text>
+<text x="95" y="118" text-anchor="middle" font-size="11" class="at">Composição (todo ◆ parte)</text>
+</g>
+<!-- 5 generalização -->
+<g transform="translate(0,150)">
+<use href="#c" x="62" y="2"/><text x="95" y="14" text-anchor="middle" font-size="10" font-weight="600">Conta</text>
+<path d="M95 42 L88 54 L102 54 Z" class="f"/><path d="M95 54 V64 M41 64 H149 M41 64 V74 M149 64 V74" class="s"/>
+<use href="#c" x="8" y="74"/><text x="41" y="86" text-anchor="middle" font-size="10" font-weight="600">Especial</text>
+<use href="#c" x="116" y="74"/><text x="149" y="86" text-anchor="middle" font-size="10" font-weight="600">Poupança</text>
+<text x="95" y="134" text-anchor="middle" font-size="11" class="at">Generalização</text>
+</g>
+<!-- 6 dependência -->
+<g transform="translate(190,150)">
+<use href="#c" x="8" y="30"/><text x="41" y="42" text-anchor="middle" font-size="10" font-weight="600">Item</text>
+<use href="#c" x="116" y="30"/><text x="149" y="42" text-anchor="middle" font-size="10" font-weight="600">Carrinho</text>
+<path d="M74 50 H114" class="s d" marker-end="url(#open)"/>
+<text x="95" y="134" text-anchor="middle" font-size="11" class="at">Dependência</text>
+</g>
+<!-- 7 classe associativa -->
+<g transform="translate(380,150)">
+<use href="#c" x="8" y="6"/><text x="41" y="18" text-anchor="middle" font-size="10" font-weight="600">Artigo</text>
+<use href="#c" x="116" y="6"/><text x="149" y="18" text-anchor="middle" font-size="10" font-weight="600">Autor</text>
+<path d="M74 26 H116" class="s"/><path d="M95 26 V72" class="s d"/>
+<text x="78" y="38" font-size="9">*</text><text x="108" y="38" font-size="9">*</text>
+<use href="#c" x="62" y="72"/><text x="95" y="84" text-anchor="middle" font-size="10" font-weight="600">Escreve</text>
+<text x="95" y="134" text-anchor="middle" font-size="11" class="at">Classe associativa</text>
+</g>
+<!-- 8 restrição -->
+<g transform="translate(570,150)">
+<use href="#c" x="8" y="20"/><text x="41" y="32" text-anchor="middle" font-size="10" font-weight="600">Artigo</text>
+<use href="#c" x="116" y="20"/><text x="149" y="32" text-anchor="middle" font-size="10" font-weight="600">Autor</text>
+<path d="M74 40 H116" class="s"/><text x="95" y="34" text-anchor="middle" font-size="9">Escreve ▸</text>
+<text x="95" y="84" text-anchor="middle" font-size="9.5">{ O autor deve ser brasileiro }</text>
+<text x="95" y="134" text-anchor="middle" font-size="11" class="at">Restrição</text>
+</g>
+</svg>
+<figcaption>Exemplos dos slides. Cada classe tem três compartimentos: nome, atributos e métodos.</figcaption>
+</figure>
+
+<p><b>Níveis de detalhamento:</b> <b>inicial ou de domínio</b> (só nomes das classes e relacionamentos) → <b>análise</b> (acrescenta atributos) → <b>projeto</b> (visibilidade de atributos e métodos, parâmetros e tipos).</p>
+
+<h3>6.4 · Cartão CRC</h3>
+<p class="def"><b>Classe-Responsabilidade-Colaboração.</b> Objetivo: representar a atuação de cada classe no sistema. A classe <b>tem</b> responsabilidades e <b>necessita de</b> colaborações. Autores: Ward Cunningham e Kent Beck (1986).</p>
+<div class="tw"><table>
+<tr><th>Tipo de classe</th><th>Papel</th><th>MVC</th></tr>
+<tr><td>Entidade</td><td>Objetos do problema (modelo, classes de negócio).</td><td>Model</td></tr>
+<tr><td>Fronteira</td><td>Interface que o usuário vê e com que interage (telas, relatórios).</td><td>View</td></tr>
+<tr><td>Controle</td><td>Gerencia uma "unidade de trabalho" do início ao fim: cria e atualiza entidades, instancia fronteiras, coordena comunicação e valida dados.</td><td>Controller</td></tr>
+</table></div>
+<ul>
+<li><b>Responsabilidade:</b> o "papel" da classe; uma ação (método) que ela sabe fazer, sozinha ou com outras.</li>
+<li><b>Boas práticas:</b> distribuir tarefas de maneira uniforme; declarar responsabilidades genericamente; a classe executa as operações sobre as informações que mantém; cada informação em um único lugar.</li>
+<li><b>Colaboração:</b> as "parcerias" da classe. Surge quando a classe <b>não consegue cumprir sozinha</b> uma responsabilidade. Identifica relacionamentos entre classes.</li>
+<li><b>Estrutura do cartão:</b> nome da classe; superclasse, subclasse e atributos (opcionais); coluna de responsabilidades e coluna de colaboradores.</li>
+</ul>
+<div class="crc">
+  <div class="hd">Classe: Matrícula <span>· entidade</span></div>
+  <div class="bd">
+    <div><span class="lbl">Responsabilidades</span>Registrar dados da matrícula<br>Verificar disponibilidade de vaga<br>Confirmar matrícula<br>Enviar confirmação ao interessado</div>
+    <div><span class="lbl">Colaboradores</span>—<br>Curso<br>Coordenador<br>Interessado/Aluno</div>
+  </div>
+</div>
+<p style="font-size:.9em;color:var(--soft)">Exemplo ilustrativo sobre o exercício "Matricular em Curso" (classes: Interessado/Aluno, Coordenador, Curso, Matrícula).</p>
+<ul>
+<li><b>Elaboração (técnica simplificada):</b> cada participante representa uma classe; na análise dos cenários, cada classe diz o que executa; as responsabilidades são atribuídas na discussão; ao final, cada um documenta a sua classe.</li>
+<li><b>Revisão:</b> cartões que colaboram ficam com revisores diferentes; o líder lê o caso de uso; ao citar um objeto, passa um <b>token</b> a quem segura o cartão, que descreve as responsabilidades; o grupo verifica se atendem ao caso de uso; se não, alteram-se os cartões ou criam-se novas classes.</li>
+<li><b>Vale a pena quando:</b> há dúvidas sobre o modelo de classes; a equipe precisa se aprofundar no assunto; as responsabilidades (métodos) ainda não estão claras.</li>
+</ul>
+
+<div class="prova">
+<h4>Cai na prova</h4>
+<ul>
+<li>Inclusão x extensão x generalização: significado e direção da seta.</li>
+<li>Ator é papel externo; primário inicia, secundário auxilia.</li>
+<li>Fork divide, join sincroniza; transição ocorre pelo término da atividade.</li>
+<li>Agregação (losango vazado) x composição (losango pintado, parte exclusiva).</li>
+<li>CRC: entidade, fronteira e controle correspondem a Model, View e Controller.</li>
+</ul>
+<div class="q">
+<p><b>Caso de uso essencial ou real?</b> Essencial não menciona tecnologia; real detalha a tecnologia de implementação.</p>
+<p><b>Quando criar uma classe associativa?</b> Quando a associação tem multiplicidade muitos (*) nas duas pontas e possui atributos próprios.</p>
+<p><b>Como nasce uma colaboração no CRC?</b> Quando a classe não cumpre sozinha uma responsabilidade e precisa de outra.</p>
+</div>
+</div>
+</section>
+
+<!-- ============================ UNIDADE 7 ============================ -->
+<section id="u7">
+<h2><span class="n">7</span>Engenharia de Interface</h2>
+<p class="sub">Envolvimento do usuário, conhecimentos de base e o ciclo em três níveis.</p>
+
+<h3>Conceito e conhecimentos de base</h3>
+<p class="def">A engenharia de interface propõe o <b>envolvimento ativo dos usuários</b> e um claro entendimento dos requisitos dos usuários e da tarefa.</p>
+<ul>
+<li><b>Quatro pilares:</b> envolvimento ativo do usuário; <b>medidas quantificáveis</b> de desempenho, documentadas em uma especificação de usabilidade e usadas para avaliar o produto; <b>abordagem iterativa</b>; <b>projeto multidisciplinar</b>.</li>
+<li><b>Conhecimentos de base:</b> ergonomia, semiótica, psicologia cognitiva, sociologia, engenharia de software.</li>
+<li><b>Semiótica:</b> estudo da construção de significado, do processo de signo (semiose) e da comunicação. Na interface: ícones e símbolos precisam ser interpretados como o projetista pretendeu. <span class="ext">complemento externo</span></li>
+<li><b>Percepção e desatenção:</b> as ilusões de ótica dos slides mostram que a percepção engana e que a atenção é seletiva (no teste do IIHS, muitos não notaram um urso rosa preso a um carro na estrada). Daí a importância das <b>interfaces de alerta</b>.</li>
+<li><b>Ergonomia</b> (Wisner, 1972): aplicação de conhecimentos científicos sobre o homem para criar instrumentos usados com o máximo de <b>conforto, segurança e eficácia</b>.</li>
+<li><b>Poka-yoke</b> (Shigeo Shingo): <i>poka</i> = erro ou desatenção; <i>yokeru</i> = evitar. Recurso que torna o produto "à prova de erros" humanos simples.</li>
+<li><b>UX (User Experience):</b> disciplina que estuda a experiência do usuário com um produto ou serviço para estimular melhorias. O profissional se coloca na posição do usuário e estuda comportamento com pesquisas, entrevistas e testes de uso.</li>
+</ul>
+
+<h3>Ciclo com o usuário e abordagem iterativa</h3>
+<ul>
+<li>Sucessivos ciclos de <b>análise, concepção e testes</b>, com feedback de um ciclo ao outro. Cada ciclo gera uma versão intermediária.</li>
+<li>A iteração <b>minimiza o risco</b> de o sistema não atender às expectativas: apresentam-se soluções intermediárias, o usuário realiza tarefas com elas e o projeto é alterado conforme as observações.</li>
+<li><b>Paradoxo da antecipação estática:</b> o projetista tenta adivinhar todas as intenções futuras em um conjunto finito de telas; o usuário molda seu comportamento ao que foi pré-programado. O resultado é atrito e "gambiarras".</li>
+</ul>
+
+<h3>Envolvimento ativo do usuário</h3>
+<p>O usuário é quem melhor realiza seu trabalho. <b>Justificativa:</b> melhor qualidade e maior aceitação. <b>Quem:</b> usuários do sistema atual e usuários representativos da população-alvo.</p>
+<div class="tw"><table>
+<tr><th>Forma</th><th>Como o usuário participa</th></tr>
+<tr><td>Informativo</td><td>Fornece informação em entrevistas e questionários</td></tr>
+<tr><td>Consultivo</td><td>Valida versões</td></tr>
+<tr><td>Participativo</td><td>Coautor de decisões de projeto</td></tr>
+<tr><td>Autoria</td><td>Autor do projeto</td></tr>
+</table></div>
+<p><b>Organização:</b> representantes dos usuários (com domínio da tarefa, da plataforma e do sistema), grupos de usuários, projetistas e especialistas no domínio.</p>
+<p><b>Equipe multidisciplinar:</b> representantes de usuários finais, gerentes/compradores, especialistas no domínio, engenheiro de software, designers gráficos, marketing, especialistas em IHC e em ergonomia, suporte/treinamento.</p>
+
+<h3>Ciclo da engenharia de interface (usabilidade)</h3>
+<p><b>Três fases:</b> análise de requisitos → projeto/testes/implementação → instalação.</p>
+<h4>Fase 1 · Análise de requisitos</h4>
+<ul>
+<li><b>Perfil do usuário:</b> atributos pessoais (faixa etária, limitações, motivação) e habilidades (na tarefa, na organização, com sistemas).</li>
+<li><b>Contexto da tarefa:</b> objetivos, resultados, estrutura, duração, dependências, custos, carga mental, interrupções, incidentes.</li>
+<li><b>Capacidades e restrições da plataforma:</b> equipamentos, sistemas operacionais, ambientes de janelas, rede.</li>
+<li><b>Princípios gerais de projeto:</b> conhecimento ergonômico disponível para aquele contexto de uso.</li>
+<li><b>Objetivos de usabilidade:</b> exigências <b>qualitativas</b> (funções e características da interface) e <b>quantitativas</b> (valores mínimos de <b>eficácia, eficiência e satisfação</b>).</li>
+<li><b>Guia de estilo:</b> documento oficial que registra as decisões desta e das demais fases.</li>
+</ul>
+<h4>Fase 2 · Projeto, testes e implementação</h4>
+<div class="tw"><table>
+<tr><th>Nível</th><th>O que se projeta</th><th>Como se materializa</th><th>Teste</th></tr>
+<tr><td>1 · Projeto essencial</td><td><b>Reengenharia do trabalho</b> (nova repartição de tarefas homem-máquina) e <b>modelo conceitual</b> (telas e componentes essenciais, navegação).</td><td><b>Maquete</b> em lápis e papel, sem detalhes.</td><td><b>Simulação dupla</b>: usuários simulam as tarefas; projetistas simulam o sistema trocando telas de papel.</td></tr>
+<tr><td>2 · Padrões de telas</td><td>Regras para controles, formato, localização, terminologia, cores e fontes. Adaptação do guia de estilo do ambiente de janelas.</td><td><b>Protótipo de baixa fidelidade</b>: dialoga com o usuário, mas não está ligado a base de dados.</td><td>Simulações mais realistas; medidas objetivas de eficácia, facilidade de aprendizado e taxa de erros.</td></tr>
+<tr><td>3 · Projeto detalhado</td><td>Aspectos <b>não essenciais</b>: janelas e mensagens ainda não previstas, caminhos entre elas, conteúdo e opções de menu secundários.</td><td>Sistema final.</td><td>Integração das interfaces; medir tempos de tarefa contra os valores admissíveis.</td></tr>
+</table></div>
+<ul>
+<li>Cada nível termina com uma decisão: N1 "eliminaram-se as maiores falhas?"; N2 e N3 "obtêm-se os objetivos de usabilidade?". Se não, repete-se o nível.</li>
+<li>Os três níveis são repetidos, nessa sequência, <b>para cada grupo de funcionalidades essenciais</b>.</li>
+<li>O guia de estilo é atualizado ao final de cada nível.</li>
+</ul>
+<h4>Fase 3 · Instalação</h4>
+<ul>
+<li>Após algum tempo de uso o usuário é <b>especialista</b>, e seu feedback sobre a usabilidade é mais fidedigno.</li>
+<li>O feedback serve para: eliminar problemas de última hora (novo <i>release</i>); eliminar problemas maiores (nova versão); detectar melhorias e requisitos para produtos similares.</li>
+<li>O ciclo se encerra quando todos os requisitos estão atendidos.</li>
+</ul>
+
+<div class="prova">
+<h4>Cai na prova</h4>
+<ul>
+<li>Quatro formas de envolvimento: informativo, consultivo, participativo, autoria.</li>
+<li>Três níveis de projeto e o artefato de cada um: maquete, protótipo de baixa fidelidade, sistema final.</li>
+<li>Fatores básicos de usabilidade: eficácia, eficiência e satisfação.</li>
+<li>Definições de ergonomia, semiótica, poka-yoke e UX.</li>
+</ul>
+<div class="q">
+<p><b>O que é simulação dupla?</b> No nível 1, usuários simulam as tarefas sobre maquetes de papel enquanto projetistas simulam as respostas do sistema.</p>
+<p><b>Por que a maquete não é detalhada?</b> Para não gastar tempo de projeto com definições precoces.</p>
+<p><b>Por que iterar?</b> Para reduzir o risco de o sistema não atender às expectativas dos usuários.</p>
+</div>
+</div>
+</section>
+
+<!-- ============================ COLA ============================ -->
+<section id="cola" class="pb">
+<h2><span class="n">★</span>Cola de 1 página</h2>
+<p class="sub">O essencial das três unidades.</p>
+<div class="cola"><div class="cols">
+<h4>Requisitos</h4>
+<p><b>Requisito:</b> unidade de necessidade de uma solução.</p>
+<p><b>Classificação:</b> usuário/sistema; funcionais, não funcionais (produto, organização, externo), domínio.</p>
+<p><b>Processo:</b> viabilidade (relatório) → extração e análise (modelos) → especificação (requisitos de usuário e sistema) → validação (documento).</p>
+<p><b>Espiral:</b> elicitação → análise e negociação → especificação → validação; decisão: aceitar ou reentrar.</p>
+<p><b>Viabilidades:</b> operacional, técnica, econômica, cronograma.</p>
+<p><b>Dimensões da elicitação:</b> domínio, problema, contexto de negócio, necessidades dos interessados.</p>
+<p><b>Técnicas:</b> documentação, sistemas existentes, entrevistas, brainstorming, workshops, prototipagem, pontos de vista, questionários, cenários, reutilização.</p>
+<p><b>Entrevista:</b> não estruturada (genérica, sem ordem) x estruturada (ordem fixa, 5WH). Fases: candidatos, preparação, condução, conclusão.</p>
+<p><b>Brainstorming:</b> 4 a 10 pessoas; sem crítica; quantidade; combinar; priorizar na consolidação.</p>
+<p><b>Workshop:</b> debate e acordo, com facilitador.</p>
+<p><b>Protótipo:</b> contato cedo com sistema realista; custo-benefício.</p>
+<p><b>Pontos de vista:</b> interação, indiretos, domínio.</p>
+<p><b>Questionário:</b> grupos numerosos ou distantes; abertas x fechadas.</p>
+<p><b>Cenário:</b> estado antes, fluxo normal, exceções, atividades paralelas, estado depois.</p>
+<p><b>Especificação:</b> acordo cliente-desenvolvedor; informal, semi-formal, formal; operacional, descritiva.</p>
+
+<h4>Casos de uso</h4>
+<p>Funcionalidades observáveis + atores; só requisitos <b>funcionais</b>.</p>
+<p><b>Ator:</b> papel externo; primário inicia; secundário auxilia. Pessoas, organizações, sistemas, equipamentos.</p>
+<p><b>Descrição:</b> contínua, numerada, particionada; sucinta/expandida; essencial/real.</p>
+<p><b>«inclui»:</b> sempre, rotina comum; seta tracejada base → incluído.</p>
+<p><b>«estende»:</b> opcional; seta tracejada extensor → estendido.</p>
+<p><b>Generalização:</b> herança; seta sólida, triângulo vazado.</p>
+<p><b>Fluxos:</b> principal, alternativos, exceção; pré e pós-condições.</p>
+<p><b>Regras do negócio:</b> políticas e restrições (RN01…).</p>
+<p><b>Processo:</b> concepção 10–20% · elaboração 80% · construção por iterações; maior risco primeiro.</p>
+
+<h4>Atividades</h4>
+<p>Fluxo de controle; transição pelo término da atividade.</p>
+<p>● inicial (um) · ◉ final (vários) · retângulo arredondado = atividade · losango = decisão com [guarda] · barra = fork/join · raias = responsáveis.</p>
+
+<h4>Classes</h4>
+<p>Visão estática. <b>+</b> pública, <b>#</b> protegida, <b>−</b> privada.</p>
+<p><b>Associação:</b> unária, binária, n-ária (losango, evitar).</p>
+<p><b>Agregação:</b> todo-parte, losango vazado. <b>Composição:</b> parte exclusiva, losango pintado.</p>
+<p><b>Dependência:</b> seta tracejada. <b>Classe associativa:</b> * nas duas pontas. <b>Restrição:</b> { }.</p>
+<p><b>Níveis:</b> domínio (nomes) → análise (atributos) → projeto (visibilidade, tipos, parâmetros).</p>
+
+<h4>CRC</h4>
+<p>Classe <b>tem</b> responsabilidades e <b>necessita de</b> colaborações.</p>
+<p>Entidade = Model · Fronteira = View · Controle = Controller.</p>
+<p>Revisão com token; útil quando o modelo de classes gera dúvidas.</p>
+
+<h4>Interface</h4>
+<p><b>Pilares:</b> envolvimento do usuário, medidas quantificáveis, iteração, multidisciplinaridade.</p>
+<p><b>Base:</b> ergonomia, semiótica, psicologia cognitiva, sociologia, engenharia de software.</p>
+<p><b>Ergonomia:</b> conforto, segurança, eficácia. <b>Semiótica:</b> construção de significado. <b>Poka-yoke:</b> à prova de erros. <b>UX:</b> experiência do usuário.</p>
+<p><b>Envolvimento:</b> informativo, consultivo, participativo, autoria.</p>
+<p><b>Análise de requisitos:</b> perfil do usuário, contexto da tarefa, plataforma, princípios gerais → objetivos de usabilidade → guia de estilo.</p>
+<p><b>Usabilidade:</b> eficácia, eficiência, satisfação.</p>
+<p><b>N1 essencial:</b> reengenharia do trabalho + modelo conceitual; maquete de papel; simulação dupla.</p>
+<p><b>N2 padrões de telas:</b> guia de estilo adaptado; protótipo de baixa fidelidade; medidas objetivas.</p>
+<p><b>N3 detalhado:</b> aspectos não essenciais; sistema final; tempos de tarefa.</p>
+<p><b>Instalação:</b> feedback do usuário especialista; novo release, nova versão, novos requisitos.</p>
+</div></div>
+</section>
+
+<footer>
+Fonte: slides das aulas das unidades 5, 6 e 7. Trechos marcados como <span class="ext">complemento externo</span> não estão nos slides. Os diagramas de atividades e o cartão CRC são exemplos ilustrativos.
+</footer>
+
+</div>
+</body>
+</html>
